@@ -1,0 +1,237 @@
+openapi: "3.0.3"
+info:
+  title: Digital Waste Tracking Receipt API
+  version: "1.0"
+  description: <h1>This API specification is currently draft and subject to change.</h1>
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /movements/receive:
+    post:
+      description: Endpoint to be used when waste is received but the carrier has not already recorded the waste movement so has no id.
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "200":
+          description: The waste movement has been stored.  If we have any async processing to do upon receipt (such as verifying permits etc) this should change to a 202.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wasteTrackingId:
+                    type: string
+                    description: Globally unique identifier of the movement. This id should be stored and used for any subsequent updates of the movement.
+        "400":
+          $ref: "#/components/responses/400"
+  /movements/{wasteTrackingId}/receive:
+    put:
+      description: Endpoint to be used when waste is recieved and the carrier has a waste tracking id.
+      parameters:
+        - name: wasteTrackingId
+          in: path
+          description: The globally unique id of the movement.
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "200":
+          description: The waste movement receipt has been processed. If we have any async processing to do upon receipt (such as verifying permits etc) this should change to a 202.
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Movement not found.
+            The details will still be stored in the Waste Tracking Service, the response is to inform the receiver that the carrier has provided incorrect details.
+
+  /movements/{wasteTrackingId}/receive/hazardous:
+    put:
+      description: Endpoint used to provide hazardous waste details for a waste movement
+      parameters:
+        - name: wasteTrackingId
+          in: path
+          description: The globally unique id of the movement.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isHazerdousWaste:
+                  type: boolean
+                components:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      component:
+                        type: string
+                      concentration:
+                        type: number
+                      hazCode:
+                        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Movement not found. The details will not be stored in the Waste Tracking Service.
+
+  /movements/{wasteTrackingId}/receive/pops:
+    put:
+      description: Endpoint used to provide pops details for a waste movement
+      parameters:
+        - name: wasteTrackingId
+          in: path
+          description: The globally unique id of the movement.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hasPops:
+                  type: boolean
+                concentrationValue:
+                  type: number
+      responses:
+        "200":
+          description: OK
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Movement not found. The details will not be stored in the Waste Tracking Service.
+
+components:
+  requestBodies:
+    "receiveMovementRequest":
+      description: Details of the waste movement to be created
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - receivingSiteId
+            properties:
+              receivingSiteId:
+                type: string
+                format: uuid
+                description: This is the unique identifier of the receiving site, found within the Waste Companies service. This might be best as a header?
+              receiverReference:
+                type: string
+                description: This could be a unique weighbridge ticket number, waste transfer note number etc.
+              specialHandlingRequirements:
+                type: string
+                description: Required only for abnormal hazardous waste that might contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm.
+              waste:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - ewcCode
+                    - form
+                  properties:
+                    ewcCode:
+                      type: string
+                      description: An EWC code is a 6 digit code listed in the European Waste Catalogue (EWC). The EWC is a list of waste types which categorises waste based on a combination of what they are, and the process or activity that produces them.
+                    description:
+                      type: string
+                      description: A detailed description of a specific waste material, including its physical characteristics, composition, and any potential hazards associated with it. It's essentially a classification of the waste that helps determine how it should be managed and disposed of safely.
+                    form:
+                      type: string
+                      enum: [Gas, Liquid, Solid, Powder, Sludge, Mixed]
+                      description: This is the form of the waste. This could be a gas, liquid, solid, powder, sludge or mixed etc.
+                    containers:
+                      type: string
+                      description: Containers are receptacles used for storing, transporting, and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips.
+                    quantity:
+                      $ref: "#/components/schemas/quantity"
+              carrier:
+                type: object
+                properties:
+                  registrationNumber:
+                    type: string
+                  organisationName:
+                    type: string
+                  address:
+                    type: string
+                  emailAddress:
+                    type: string
+                  companiesHouseNumber:
+                    type: string
+                  phoneNumber:
+                    type: string
+                  vehicleRegistration:
+                    type: string
+                  meansOfTransport:
+                    type: string
+                    enum: [Road, Rail, Air, Sea, Waterway, Other]
+              acceptance:
+                type: object
+                properties:
+                  acceptingAll:
+                    type: boolean
+                  quantityNotAccepted:
+                    $ref: "#/components/schemas/quantity"
+                  rejectionReason:
+                    type: string
+              receiver:
+                type: object
+                properties:
+                  authorisationType:
+                    type: string
+                    enum: [TBD]
+                  authorisationNumber:
+                    type: string
+                  regulatoryPositionStatement:
+                    type: string
+              receipt:
+                type: object
+                properties:
+                  estimateOrActual:
+                    type: string
+                    enum: [Estimate, Actual]
+                  dateTimeReceived:
+                    type: string
+                    format: date-time
+                  disposalOrRecoveryCodes:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/disposalOrRecoveryCode"
+  schemas:
+    disposalOrRecoveryCode:
+      type: object
+      properties:
+        code:
+          type: string
+        quantity:
+          $ref: "#/components/schemas/quantity"
+    quantity:
+      type: object
+      required:
+        - metric
+        - amount
+        - isEstimate
+      properties:
+        metric:
+          type: string
+          enum: [Tonnes]
+        amount:
+          type: number
+          description: Total weight of the waste (typically in kilograms or tonnes).
+        isEstimate:
+          type: boolean
+          description: Specifies whether the quantity of waste is estimated or actual.
+  responses:
+    "400":
+      description: Input was not in the correct format.
