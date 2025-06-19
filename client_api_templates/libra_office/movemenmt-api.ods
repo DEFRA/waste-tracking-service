@@ -1,0 +1,110 @@
+import json
+import urllib.request
+import re
+
+def sendMovementData(event=None):
+    # Get the current document and sheet
+    doc = XSCRIPTCONTEXT.getDocument()
+    sheet = doc.CurrentController.ActiveSheet
+    cell = doc.CurrentSelection
+    row = cell.getCellAddress().Row
+
+
+    # Read values from the row (adjust the number of columns as needed)
+    data = [sheet.getCellByPosition(col, row).getString() for col in range(25)]
+
+    if not len(data) > 23:
+        msgbox("Not enough columns in the selected row.")
+        return
+
+
+    # Build the JSON structure
+    movement = {
+        "receivingSiteId": data[1],
+        "receiverReference": data[2],
+        "specialHandlingRequirements": data[3],
+        "waste": [
+            {
+                "ewcCode": data[4],
+                "description": data[5],
+                "form": data[6],
+                "containers": data[7],
+                "quantity": {
+                    "value": float(data[8]) if data[8] else 0,
+                    "unit": data[9],
+                    "isEstimate": data[10].strip().lower() == "true"
+                }
+            }
+        ],
+        "carrier": {
+            "registrationNumber": data[11],
+            "organisationName": data[12],
+            "address": data[13],
+            "emailAddress": data[14],
+            "companiesHouseNumber": data[15],
+            "phoneNumber": data[16],
+            "vehicleRegistration": data[17],
+            "meansOfTransport": data[18]
+        },
+        "acceptance": {
+            "acceptingAll": data[19].strip().lower() == "true"
+        },
+        "receiver": {
+            "authorisationType": data[20],
+            "authorisationNumber": data[21],
+            "regulatoryPositionStatement": data[22]
+        },
+        "receipt": {
+            "estimateOrActual": data[23],
+            "dateTimeReceived": data[24]
+        }
+    }
+
+    # Prepare the JSON payload
+    json_data = json.dumps({"movement": movement}).encode("utf-8")
+
+    # Set your API endpoint here
+     # Check first column for pattern (e.g., 2578ZCY0)
+    first_col_value = data[0]
+    pattern = r'^[A-Z0-9]+$'
+    if re.match(pattern, first_col_value):
+        http_method = 'PUT'
+        url = f"https://your-api-url.example.com/movements/{first_col_value}receive"
+    else:
+        http_method = 'POST'
+        url = "https://your-api-url.example.com/movements/receive"
+    headers = {'Content-Type': 'application/json'}
+
+#     msgbox("JSON Data:\n" + str(movement))
+
+    # Send the POST request
+    try:
+        req = urllib.request.Request(url, data=json_data, headers=headers, method=http_method)
+        with urllib.request.urlopen(req) as response:
+            result = response.read().decode()
+            result_json = json.loads(result)
+            if result_json.get("statusCode") in (200, 201):
+                global_id = result_json.get("globalMovementId")
+                # Update first cell and color green
+                cell_to_update = sheet.getCellByPosition(0, row)
+                cell_to_update.setString(global_id)
+                cell_to_update.CellBackColor = 0xC6EFCE  # light green
+            else:
+                # Unexpected status, treat as error
+                cell_to_update = sheet.getCellByPosition(0, row)
+                cell_to_update.setString("Error: " + str(result_json))
+                cell_to_update.CellBackColor = 0xFFC7CE  # light red
+    except Exception as e:
+           # On error, update first cell and color red
+           cell_to_update = sheet.getCellByPosition(0, row)
+           cell_to_update.setString("Error: " + str(e))
+           cell_to_update.CellBackColor = 0xFFC7CE  # light red
+
+
+import datetime
+
+def calc_serial_to_iso(serial):
+    base = datetime.datetime(1899, 12, 30)
+    dt = base + datetime.timedelta(days=float(serial))
+    return dt.strftime('%Y-%m-%dT%H:%M:%S')
+
