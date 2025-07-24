@@ -1,0 +1,312 @@
+openapi: "3.0.3"
+info:
+  title: Digital Waste Tracking Receipt API
+  version: "1.0"
+  description: <h1>This API specification is currently draft and subject to change.</h1>
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /movements/receive:
+    post:
+      description: Endpoint to be used when waste is received but the carrier has not already recorded the waste movement so has no id.
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "201":
+          description: The waste movement has been stored.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wasteTrackingId:
+                    type: string
+                    description: Globally unique identifier of the movement. This id should be stored and used for any subsequent updates of the movement.
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+  /movements/{wasteTrackingId}/receive:
+    put:
+      description: Endpoint to be used when waste is recieved and the carrier has a waste tracking id.
+      parameters:
+        - name: wasteTrackingId
+          in: path
+          description: The globally unique id of the movement.
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "200":
+          description: The waste movement receipt has been updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wasteTrackingId:
+                    type: string
+                    description: Globally unique identifier of the movement. This id should be stored and used for any subsequent updates of the movement.
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Movement not found.
+            The details will still be stored in the Waste Tracking Service, the response is to inform the receiver that the carrier has provided incorrect details.
+
+components:
+  requestBodies:
+    receiveMovementRequest:
+      description: Details of the waste movement to be created
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - receivingSiteId
+            properties:
+              receivingSiteId:
+                type: string
+                format: uuid
+                description: This is the unique identifier of the receiving site, found within the Waste Companies service. This might be best as a header?
+              hazardousWasteConsignmentNumber:
+                type: string
+                description: Hazardous waste consignment number (If EWC is Haz, then mandatory)
+              reasonForNoConsignmentNumber:
+                type: string
+                enum:
+                  [
+                    "Non-Haz Waste Transfer",
+                    "Carrier did not provide documentation",
+                    "Local Authority Receipt",
+                  ]
+                description: Reasons provided for not having a consignment number
+              yourUniqueReference:
+                type: string
+                description: This could be a unique weighbridge ticket number, waste transfer note number etc.
+              otherReferencesForMovement:
+                type: string
+                description: Other references for this movement
+              specialHandlingRequirements:
+                type: string
+                description: Usually required only for abnormal hazardous waste that might contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm.
+              waste:
+                type: array
+                items:
+                  $ref: "#/components/schemas/waste"
+              carrier:
+                $ref: "#/components/schemas/carrier"
+              brokerOrDealer:
+                $ref: "#/components/schemas/brokerOrDealer"
+              acceptance:
+                $ref: "#/components/schemas/acceptance"
+              receiver:
+                $ref: "#/components/schemas/receiver"
+              receipt:
+                $ref: "#/components/schemas/receipt"
+  schemas:
+    waste:
+      type: object
+      required:
+        - ewcCode
+        - wasteDescription
+        - form
+      properties:
+        ewcCode:
+          type: string
+          description: An EWC code is a 6 digit code listed in the European Waste Catalogue (EWC). The EWC is a list of waste types which categorises waste based on a combination of what they are, and the process or activity that produces them.
+        wasteDescription:
+          type: string
+          description: A detailed description of a specific waste material, including its physical characteristics, composition, and any potential hazards associated with it. It's essentially a classification of the waste that helps determine how it should be managed and disposed of safely.
+        form:
+          type: string
+          enum: [Gas, Liquid, Solid, Powder, Sludge, Mixed]
+          description: This is the form of the waste. This could be a gas, liquid, solid, powder, sludge or mixed etc.
+        numberOfContainers:
+          type: number
+          description: Number of containers for storing, transporting and disposing of waste materials
+        typeOfContainers:
+          type: string
+          description: Containers are receptacles used for storing, transporting, and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips.
+        quantity:
+          $ref: "#/components/schemas/quantity"
+        pops:
+          type: object
+          properties:
+            containsPops:
+              type: boolean
+              description: Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste.
+            pops:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: E.g. Aldrin, Chlordane, Dieldrin etc.
+                  concentration:
+                    type: number
+                    description: E.g. 50mg per kg of Chlordane.
+        hazardous:
+          type: object
+          properties:
+            components:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: E.g. Mercury.
+                  concentration:
+                    type: number
+                    description: E.g. 30mg per kg.
+    carrier:
+      type: object
+      properties:
+        registrationNumber:
+          type: string
+          description: A waste carrier registration number is a legal requirement for businesses that transport, buy, sell, or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.
+        reasonForNoRegistrationNumber:
+          type: string
+          description: Provide reasons for not having the carrier registration number
+        organisationName:
+          type: string
+          description: The business name of the carrier.
+        address:
+          type: string
+          description: The business location address of the carrier.
+        emailAddress:
+          type: string
+          description: The email address of the carrier.
+        phoneNumber:
+          type: string
+          description: This describes how the waste is transported (road, rail, air, sea, inland waterway, others)
+        vehicleRegistration:
+          type: string
+          description: This is the vehicle registration number
+        meansOfTransport:
+          type: string
+          enum: [Road, Rail, Air, Sea, Waterway, Pipe, Other]
+          description: This describes how the waste is transported (road, rail, air, sea, inland waterway, others)
+        otherMeansOfTransport:
+          type: string
+          description: State any other means of transport
+    brokerOrDealer:
+      type: object
+      properties:
+        organisationName:
+          type: string
+          description: The broker or dealer organisation name who arranged this transfer.
+        address:
+          type: string
+          description: The business location address of the broker or dealer.
+        registrationNumber:
+          type: string
+          description: The Registration number of the broker or dealer.
+    acceptance:
+      type: object
+      properties:
+        acceptingAll:
+          type: boolean
+          description: Is any of the waste rejected?
+        quantityNotAccepted:
+          $ref: "#/components/schemas/quantity"
+        rejectionReason:
+          type: string
+          description: What are the reasons why all or part of the waste is rejected?
+    receiver:
+      type: object
+      properties:
+        authorisations:
+          type: array
+          items:
+            type: object
+            properties:
+              authorisationType:
+                type: string
+                enum: [TBD]
+                description: Waste sites have permits or licenses for certain types of waste. E.g. it could be a landfill site.
+              authorisationNumber:
+                type: string
+                description: This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation.
+        regulatoryPositionStatement:
+          type: string
+          description: A regulatory position statement (RPS) is issued when the Environment Agency don’t require you to have a permit to carry out certain activities that they regulate. The statement will state which activities you do not require a permit for.
+    receipt:
+      type: object
+      properties:
+        dateTimeReceived:
+          type: string
+          format: date-time
+          description: This is the date and exact time waste was received at the site.
+        disposalOrRecoveryCodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/disposalOrRecoveryCode"
+    disposalOrRecoveryCode:
+      type: object
+      properties:
+        code:
+          type: string
+        quantity:
+          $ref: "#/components/schemas/quantity"
+    quantity:
+      type: object
+      required:
+        - metric
+        - amount
+        - isEstimate
+      properties:
+        metric:
+          type: string
+          enum: [Tonnes]
+          description: Unit of measurement the waste is being accepted
+        amount:
+          type: number
+          description: Total weight of the waste being accepted
+        isEstimate:
+          type: boolean
+          description: Specifies whether the quantity of waste is estimated or actual.
+    validationResult:
+      type: object
+      properties:
+        key:
+          type: string
+        errorType:
+          type: string
+          enum:
+            - NotProvided
+            - TBC
+        message:
+          type: string
+  responses:
+    "400":
+      description: Input was not in the correct format.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              validation:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/validationResult"
