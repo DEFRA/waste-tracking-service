@@ -49,6 +49,7 @@ nav:
   - api-specification.md
   - api-authentication-guide.md
   - faq.md
+  - api-testing-and-examples.md
   - roadmap.md
   - private-beta-comms-sign-up.md
 extra_css:
