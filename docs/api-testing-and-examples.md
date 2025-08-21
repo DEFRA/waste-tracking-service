@@ -37,6 +37,4 @@ We provide a comprehensive Bruno collection that includes:
     The Bruno collection is now available in the repository at [docs/bruno/digitalWasteTrackingExternalAPI](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI). 
     See the [README](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI/EXPORT-README.md) for detailed setup instructions.
 
----
-
 Page last updated on 21 August 2025.
