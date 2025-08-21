@@ -1,0 +1,44 @@
+meta {
+  name: Receive Movement - Only Required Fields
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/movements/receive
+  body: json
+  auth: inherit
+}
+
+headers {
+  ~Authorization: {{ManuallyObtainedAccessToken}}
+}
+
+body:json {
+  {
+    "receivingSiteId": "{{receivingSiteId}}",
+    "receipt": {
+      "disposalOrRecoveryCodes": [
+        {
+          "code": "R1",
+          "quantity": {
+            "metric": "Tonnes",
+            "amount": 2.5,
+            "isEstimate": false
+          }
+        }
+      ]
+    }
+  }
+}
+
+vars:post-response {
+  globalMovementId: res.body.globalMovementId
+}
+
+script:pre-request {
+  const now = new Date();
+  // now.setFullYear(now.getFullYear() + 1); // Adds one year to the current date
+  // now.setFullYear(now.getFullYear() - 1); // Removes one year from the current date
+  bru.setVar('timestamp', now.toISOString());
+}
