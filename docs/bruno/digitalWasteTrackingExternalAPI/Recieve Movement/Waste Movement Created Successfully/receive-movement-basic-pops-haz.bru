@@ -1,0 +1,101 @@
+meta {
+  name: Receive Movement - Basic + POPs + Hazardous
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/movements/receive
+  body: json
+  auth: inherit
+}
+
+headers {
+  ~Authorization: {{ManuallyObtainedAccessToken}}
+}
+
+body:json {
+  {
+    "receivingSiteId": "{{receivingSiteId}}",
+    "hazardousWasteConsignmentNumber": "HWCN345678",
+    "waste": [
+      {
+        "ewcCodes": ["020101"],
+        "wasteDescription": "Complex waste with POPs and hazardous components from contaminated industrial site",
+        "form": "Mixed",
+        "numberOfContainers": 15,
+        "typeOfContainers": "Specialist hazardous waste containers",
+        "quantity": {
+          "metric": "Tonnes",
+          "amount": 1.2,
+          "isEstimate": true
+        },
+        "pops": {
+          "containsPops": true,
+          "pops": [
+            {
+              "name": "Aldrin",
+              "concentration": 0.18
+            },
+            {
+              "name": "Dieldrin",
+              "concentration": 0.22
+            },
+            {
+              "name": "Endrin",
+              "concentration": 0.05
+            }
+          ]
+        },
+        "hazardous": {
+          "components": [
+            {
+              "name": "Mercury",
+              "concentration": 0.35
+            },
+            {
+              "name": "Arsenic",
+              "concentration": 0.28
+            },
+            {
+              "name": "Chromium",
+              "concentration": 0.42
+            }
+          ]
+        }
+      }
+    ],
+    "carrier": {
+      "organisationName": "Complex Carrier Ltd",
+      "address": "123 Complex Street, Complex City, CC1 2AB",
+      "emailAddress": "complex@carrier.com",
+      "phoneNumber": "01234567890",
+      "meansOfTransport": "Road"
+    },
+    "acceptance": {
+      "acceptingAll": true
+    },
+    "receipt": {
+      "dateTimeReceived": "{{timestamp}}",
+      "disposalOrRecoveryCodes": [
+        {
+          "code": "R1",
+          "quantity": {
+            "metric": "Tonnes",
+            "amount": 1.2,
+            "isEstimate": true
+          }
+        }
+      ]
+    }
+  }
+}
+
+vars:post-response {
+  globalMovementId: res.body.globalMovementId
+}
+
+script:pre-request {
+  const now = new Date().toISOString();
+  bru.setVar('timestamp', now);
+}
