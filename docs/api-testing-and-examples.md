@@ -1,6 +1,6 @@
 # API Testing and Examples
 
-Bruno has been selected as our preferred API testing and documentation tool, following [GOV.UK API technical and data standards](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#test-your-assumptions-with-users) for providing test services and living documentation.
+Bruno has been selected as our preferred API testing documentation tool, following [GOV.UK API technical and data standards](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#test-your-assumptions-with-users) for providing test services and living documentation.
 
 ## What is Bruno?
 
