@@ -39,7 +39,7 @@ We provide a comprehensive Bruno collection that includes:
 
 ### Getting Started with Bruno
 
-1. **Install Bruno**: Download from [bruno.com](https://www.usebruno.com/)
+1. **Install Bruno**: Download the free open source software from [their site](https://www.usebruno.com/) or from [Github](https://github.com/usebruno/bruno/releases)
 2. **Import our collection**: The Bruno collection is located in the repository at `docs/bruno/digitalWasteTrackingExternalAPI/`
 3. **Configure environment**: Set up your environment variables and OAuth2 credentials
 4. **Set up authentication**: Configure OAuth2 client credentials flow
@@ -52,8 +52,8 @@ We provide a comprehensive Bruno collection that includes:
 - **Share with team**: Export and share test results with your development team
 - **OAuth2 Integration**: Automatic token management and refresh
 
-!!! Success "Bruno Collection Available"
-    The Bruno collection is now available in the repository at `docs/bruno/digitalWasteTrackingExternalAPI/`. 
-    See the [EXPORT-README.md](bruno/digitalWasteTrackingExternalAPI/EXPORT-README.md) for detailed setup instructions.
+!!! Note "Bruno Collection Available"
+    The Bruno collection is now available in the repository at [docs/bruno/digitalWasteTrackingExternalAPI](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI). 
+    See the [README](bruno/digitalWasteTrackingExternalAPI/EXPORT-README.md) for detailed setup instructions.
 
 <br/>Page last updated on 15 August 2025.
