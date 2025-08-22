@@ -10,12 +10,16 @@ info:
       <p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. </p> <p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p>
     <b>Note-</b> This API specification is currently a draft and is subject to change.
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: 'https://virtserver.swaggerhub.com/kbirchorganization/waste_management_tracking/1.0.0'
   - url: 'https://api.server.test/v1'
 paths:
   /movements/receive:
     post:
       description: |
         Endpoint used when waste is received but the receiver has not yet recorded the waste movement. Generally at this stage, the receiver does not have or use the waste tracking ID. The waste tracking ID will be returned in the 201 response if the movement is successfully stored.
+
 
         <p>Example of a POST request using cURL:</p>
 
@@ -25,7 +29,7 @@ paths:
              -d '{</b>
              
               
-                  "receivingSiteId": "12345678-1234-1234-1234-123456789012",
+                  "receivingSiteId": "EPR/AB1234CD",
                   "waste": [
                   {
                    "ewcCodes": ["020101"],
@@ -409,10 +413,30 @@ components:
         typeOfContainers:
           type: string
           description: |
-            Containers are receptacles used for storing, transporting, and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. <p>Ongoing Development Note:</p>
-            There is a new GET method endpoint in development which will return a list of container types. <p> Possible types are:</p> 
-              Bag / Sack (e.g. rubble bag, refuse sack)BaleBox / Carton / CrateCan / JerrycanCarrier (e.g. pallet cage)CaskContainer (unspecified)Drum (typically 205 L)Fibre drumIntermediate Bulk Container (e.g. 1000 L)Loose (no container)Pallet (e.g. shrink‑wrapped items)Roll‑on Roll‑off container (RoRo)SkipTanker / TankWheelie Bin (any size).
-          example: rubble bag, pallet
+            Containers are receptacles used for storing, transporting, and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. 
+            <font color="red"><b><p>Ongoing Development Note:</p>There is a new GET method endpoint in development which will return a list of container types.</b></font> <p> Possible types are:</p> 
+            <ul>
+              <li>Bag / Sack e.g.(rubble bag, refuse sack</li>
+              <li>Carton</li>
+              <li>Crate Can</li>
+              <li>Jerrycan</li>
+              <li>Carrier (e.g. pallet cage)</li>
+              <li>Cask</li>
+              <li<Container (unspecified)</li>
+              <li>Drum (typically 205L)</li>
+              <li>Fibre drum/li>
+              <li>Intermediate drum</li>
+              <li>Bulk Container (e.g. 1000L)</li>
+              <li>Loose (no container)</li>
+              <li>Pallet (e.g. shrink‑wrapped items)</li>
+              <li>Roll‑on Roll‑off container (RoRo)</li>
+              <li>Skip</li>
+              <li>Tanker</li>
+              <li>Tank (any size)</li>
+              <li>Wheelie Bin </li>
+            </ul>
+              
+          example: rubble bag, refuse sack, pallet
         weight:
           $ref: '#/components/schemas/weight'
         pops:
@@ -433,11 +457,12 @@ components:
                     type: string
                     description: |-
                       The name of the waste type, e.g. Aldrin, Chlordane, Dieldrin etc.
-                      <!DOCTYPE html> <html> <style> table, th, td { border:1px solid red; } </style> <body> <h4> List of Hazardous POPs</h4>
-                      <tr> <td>Aldrin,</td> <td>Chlordane,</td> <td>Chlordecone,</td> <td>Dicofol,</td> <td>Dieldrin,</td> <td>Endrin,</td> <td>Heptachlor,</td> <td>Hexabromobiphenyl,</td> <td>Hexabromocyclododecane (HBCDD),</td> <td>Hexabromodiphenyl ether and heptabromodiphenyl ether,</td> <td>Hexachlorobenzene (HCB),</td> <td>Hexachlorobutadiene,</td> <td>Alpha hexachlorocyclohexane,</td> <td>Beta hexachlorocyclohexane, </td> <td>Lindane,</td> <td>Mirex,</td> <td>Pentachlorobenzene,</td> <td>Polychlorinated biphenyls (PCB),</td> <td>Toxaphene,</td> <td>DDT,</td> <td>Perfluorooctane sulfonic acid (PFOS), its salts and perfluorooctane sulfonyl fluorid,</td> <td>Chlordane,</td> <td>Polychlorinated dibenzo-p-dioxins (PCDD),</td> <td>Polychlorinated dibenzofurans (PCDF),</td> <td>UV-328</td> </tr>
-                      </table> </body> </html>
+                      
+                      <ul>
+                        <li>Aldrin,</li> <li>Chlordane,</li> <li>Chlordecone,</li> <li>Dicofol,</li> <li>Dieldrin,</li> <li>Endrin,</li> <li>Heptachlor,</li> <li>Hexabromobiphenyl,</li> <li>Hexabromocyclododecane (HBCDD),</li> <li>Hexabromodiphenyl ether and heptabromodiphenyl ether,</li> <li>Hexachlorobenzene (HCB),</li> <li>Hexachlorobutadiene,</li> <li>Alpha hexachlorocyclohexane,</li> <li>Beta hexachlorocyclohexane, </li> <li>Lindane,</li> <li>Mirex,</li> <li>Pentachlorobenzene,</li> <li>Polychlorinated biphenyls (PCB),</li> <li>Toxaphene,</li> <li>DDT,</li> <li>Perfluorooctane sulfonic acid (PFOS) its salts and perfluorooctane sulfonyl fluorid,</li> <li>Chlordane,</li> <li>Polychlorinated dibenzo-p-dioxins (PCDD),</li> <li>Polychlorinated dibenzofurans (PCDF),</li> <li>UV-328</li></ul>
+                     
                       <p>A listing of POPS in the Stockholme convention can be found here:</p>
-                      https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx
+                      <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
                       
                       <p>Business Rule:</p>
                       If waste.pops.containsPops is True then waste.pops.pops.name must be a valid name. 
@@ -595,15 +620,23 @@ components:
         address:
           type: string
           description: |
-             The business location address of the carrier. A valid postcode must be included. The postcode should follow the same structure as DEFRA’s existing register of Waste Carriers, Brokers and Dealers. More information here: 
+            The business location address of the carrier. A valid postcode must be included. The postcode should follow the same structure as DEFRA’s existing register of Waste Carriers, Brokers and Dealers. More information here: 
             
-             <a>https://environment.data.gov.uk/public-register/view/search-waste-carriers-brokers</a>
+            <a>https://environment.data.gov.uk/public-register/view/search-waste-carriers-brokers</a>
             
             
-             <p>Business Rules:</p> 
-             Must be in specified address.postcode format, see example. 
-             <p>Address and post code are optional for Carriers and Brokers/Dealers. However, if they enter either of these, then they must enter both.</p>
-          example: 26a Oil Drum Lane, W12 7ZL
+            <p>Business Rules:</p> 
+            Must be in specified address.postcode format, see example. 
+            <p>Address and post code are optional for Carriers and Brokers/Dealers. However, if they enter either of these, then they must enter both.</p>
+          example: '26a Oil Drum Lane, W12 7ZL'
+        emailAddress:
+          type: string
+          description: The email address of the carrier.
+          example: info@wastecarrierselite.co.uk
+        phoneNumber:
+          type: string
+          description: The UK or internationl phone number of the carrier.
+          example: 020 4756 3232
         registrationNumber:
           type: string
           description: |
@@ -664,9 +697,9 @@ components:
               authorisationNumber:
                 type: string
                 description: |
-                  This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation. Possible values:
+                  This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation. <p>Possible values:</p>
                     England - EPR/AB1234CD, NRW - AB309NRW, AB3190ZZ
-                example: 'PPC/A/1234567, WML/L/1234567'
+                example: PPC/A/1234567, WML/L/1234567
         regulatoryPositionStatement:
           type: integer
           description: A regulatory position statement (RPS) is issued when the Environment Agency doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. This must be a positive integer.
@@ -786,5 +819,6 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/validationResult'
+
 
 
