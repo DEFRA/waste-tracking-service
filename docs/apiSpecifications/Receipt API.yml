@@ -47,9 +47,7 @@ paths:
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
-        Endpoint to be used when waste is received and the waste record is to be updated. The carrier has a waste tracking ID and this parameter must be used in the URL path.
-
-        
+        Endpoint to be used when waste is received and the waste record is to be updated. The carrier has a waste tracking ID and this parameter must be used in the URL path.   
       parameters:
         - name: wasteTrackingId
           in: path
@@ -58,8 +56,7 @@ paths:
           example: 25HRA0B2
           schema:
             type: string
-            example: 
-              
+            example:       
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
@@ -110,14 +107,8 @@ components:
                 format: uuid
                 description: 
                   This is the unique identifier of the receiving organisation found within the Waste Companies service. More commonly, it’s known as Site Permit Number or EPR number (Environmental Permit Reference).
-
-
-                  Permit number format- England EPR/AB1234CD, NRW AB309NRW, SEPA PPC/A/1234567, WML/L/1234567 example- EPR/AB1234CD
-
-
-
+                  Permit number format- England EPR/AB1234CD, NRW AB309NRW, SEPA PPC/A/1234567, WML/L/1234567 example- EPR/AB1234CD.
                   Each permit also has a corresponding Waste Management Licence Number (WML) in the format EAWML123456. Some older sites may only have a WML number, though this is rare.
-
 
                   Mobile plant permits follow the same format as above, but if they have a deployment authorisation, they are also allocated a “D number” in the format D + 4 digits. This is suffixed to their permit number.
                   
@@ -185,15 +176,15 @@ components:
                 type: array
                 minItems: 1
                 items:
-                  $ref: '#/components/schemas/wasteItem'
+                  $ref: "#/components/schemas/wasteItem"
               carrier:
-                $ref: '#/components/schemas/carrier'
+                $ref: "#/components/schemas/carrier"
               brokerOrDealer:
                 $ref: "#/components/schemas/brokerOrDealer"
               receiver:
-                $ref: '#/components/schemas/receiver'
+                $ref: "#/components/schemas/receiver"
               receipt:
-                $ref: '#/components/schemas/receipt'
+                $ref: "#/components/schemas/receipt"
             example: |
               
   schemas:
@@ -276,7 +267,7 @@ components:
               
           example: rubble bag, refuse sack, pallet
         weight:
-          $ref: '#/components/schemas/weight'
+          $ref: "#/components/schemas/weight"
         pops:
           type: object
           required:
@@ -559,7 +550,7 @@ components:
           example: |
             "code": "R1"
         weight:
-          $ref: '#/components/schemas/weight'
+          $ref: "#/components/schemas/weight"
     weight: 
       type: object
       required:
@@ -674,3 +665,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
