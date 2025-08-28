@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: "3.0.3"
 info:
   title: Digital Waste Tracking Receipt API
-  version: 1.0.0
+  version: "1.0.0"
   description: |
     <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking is available here:
     <p><a>https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.</a></p>
@@ -20,13 +20,11 @@ paths:
     post:
       description: |
         Endpoint used when waste is received but the receiver has not yet recorded the waste movement. Generally at this stage, the receiver does not have or use the waste tracking ID. The waste tracking ID will be returned in the 201 response if the movement is successfully stored.
-
-        
       requestBody:
-        $ref: '#/components/requestBodies/receiveMovementRequest'
+        $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
       responses:
-        '201':
+        "201":
           description: Success- The waste movement has been stored.
           content:
             application/json:
@@ -46,9 +44,9 @@ paths:
                       warnings:
                         type: array
                         items:
-                          $ref: '#/components/schemas/validationResult'
-        '400':
-          $ref: '#/components/responses/400'
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
@@ -66,10 +64,10 @@ paths:
             example: 
               
       requestBody:
-        $ref: '#/components/requestBodies/receiveMovementRequest'
+        $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
       responses:
-        '200':
+        "200":
           description: The waste movement receipt has been updated.
           content:
             application/json:
@@ -89,10 +87,10 @@ paths:
                       warnings:
                         type: array
                         items:
-                          $ref: '#/components/schemas/validationResult'
-        '400':
-          $ref: '#/components/responses/400'
-        '404':
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
           description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
 components:
   requestBodies:
@@ -343,7 +341,6 @@ components:
                  If waste.hazardous.containsHazardous is True then waste.hazardous.hazCodes must be a vailid code. 
 
               example: '5, 10, 12'
-              
             components:
               type: array
               items:
@@ -355,14 +352,14 @@ components:
                     example: lead, mercury
                   concentration:
                     type: number
-                    description: The concentration of the hazardous material in mg per Kilo, e.g. 30mg per kg.
+                    description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
                       <p>Business Rule:</p>
                       Must be a numeric value.  
                     example: 50
         disposalOrRecoveryCodes:
           type: array
           items:
-            $ref: '#/components/schemas/disposalOrRecoveryCode'
+            $ref: "#/components/schemas/disposalOrRecoveryCode"
     carrier:
       type: object
       required:
@@ -371,6 +368,7 @@ components:
       properties:
         registrationNumber:
           type: string
+          nullable: true
           description: |
             <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
             
@@ -383,7 +381,7 @@ components:
             U = Upper tier
             This is then followed by 6 digits.' </p>
             
-            <p><font color="green"><b>Scotland</b></font></p> Typically starts with WCR
+            <p><font color="green"><b>Scotland (SEPA)</b></font></p> Typically starts with WCR
             followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
             
             Current format – WCR/R/1234567
@@ -400,7 +398,7 @@ components:
             ROC UT ####
             
             ROC LT ####
-          example: England - 'CBDL123456, CBDU123456, Scotland - WCR/R/522048, Northern Ireland - ROCUT979195'
+          example: England - 'CBDL123456, CBDU123456, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432'
         reasonForNoRegistrationNumber:
           type: string
           description: |
@@ -425,9 +423,10 @@ components:
         phoneNumber:
           type: string
           description: The UK or internationl phone number of the carrier.
-          example: 020 4756 3232
+          example: 020 4756 XXXX
         vehicleRegistration:
           type: string
+          maxLength: 10
           description: This is the carrier's vehicle registration number.
             <p>Business Rule:</p>
             If carrier.meansOfTransport is “Road” then carrier.vehicleRegistration is required.  
@@ -448,7 +447,7 @@ components:
             This describes how the waste is transported (road, rail, air, sea, inland waterway, other)
             
             <p>Business Rule:</p>
-            Must be either “Road”, “Rail”, “Air”, “Sea”, “Inland Waterway”, “Piped” or "other".
+            Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or other.
                
           example: Rail
     brokerOrDealer:
@@ -462,6 +461,7 @@ components:
           $ref: "#/components/schemas/address"
         emailAddress:
           type: string
+          format: email
           description: The email address of the carrier.
           example: info@wastecarrierselite.co.uk
         phoneNumber:
@@ -471,7 +471,7 @@ components:
         registrationNumber:
           type: string
           description: |
-            <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell, or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
+            <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
             
             <p><font color="green"><b>England & Wales</b></font></p> Waste Carrier Registration: A common format is CBDUXXXXXX (Upper Tier) or CBDLXXXXXX (Lower Tier), where "CBD" likely
             stands for "Carrier, Broker, Dealer" and the "U" or "L" indicates upper or lower tier registration.
@@ -482,7 +482,7 @@ components:
             U = Upper tier
             This is then followed by 6 digits.' </p>
             
-            <p><font color="green"><b>Scotland</b></p> Typically starts with WCR
+            <p><font color="green"><b>Scotland (SEPA)</b></font></p> Typically starts with WCR
             followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
             
             Current format – WCR/R/1234567
@@ -493,23 +493,32 @@ components:
             
             
             
-            <p><font color="green"><b>Northern Ireland</b></p> May
+            <p><font color="green"><b>Northern Ireland</b></font></p> May
             include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers.<p></p>
             
             ROC UT ####
-
+            
             ROC LT ####
-
-          example: 'CBDL123456, CBDU123456'
+          example: England - 'CBDL123456, CBDU123456, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432'
     receiver:
       type: object
       required:
-        - address
+        - organisationName
       properties:
-        address:
-          $ref: "#/components/schemas/receiverAddress"
+        organisationName:
+          type: string
+          description: The name of the organisation receiving the waste.
+        emailAddress:
+          type: string
+          description: The email address of the organisation receiving the waste.
+          example: info@wastecarrierselite.co.uk
+        phoneNumber:
+          type: string
+          description: The UK or Irish phone number of the organisation receiving the waste.
+          example: 020 4756 XXXX  
         authorisations:
           type: array
+          minItems: 1
           items:
             type: object
             properties:
@@ -518,27 +527,38 @@ components:
                 description: 
                   This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation. <p>Possible values:</p>
                     England - EPR/AB1234CD, NRW - AB309NRW, AB3190ZZ
+                    <p>Current format – PPC/A/1234567, WML/L/1234567</p>
+                    <p>Previous formats – PPC/A/SEPA2021-1234, PPC/W/1234567, PPC/N/1234567, PPC/E/1234567, WML/L/SEPA2021-1234, WML/W/1234567, WML/E/1234567, WML/N/1234567</p>
+                    <p>Proposed format under new regulations - EAS/P/xxxxxx (xxxxxx being actual numbers). Please note that part of the regulations came in force in June 25 and the remaining activities will come in force in Nov 25.
+                      </p>
                 example: PPC/A/1234567, WML/L/1234567
               regulatoryPositionStatement:
                 type: array
                 items:
                   type: integer
-                description: A regulatory position statement (RPS) is issued when the Regulator, e.g the Environment Agency, doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. This must be a positive integer.
+                description: A regulatory position statement (RPS) is issued when the Regulator, e.g A regulatory position statement is issued when the regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. This must be a positive integer.
                   <p>Business Rule:</p>
                   Must be a positive integer. 
           
                 example: 343
     receipt:
       type: object
+      required:
+        - address
+      properties:
+        address:
+          $ref: "#/components/schemas/receiptAddress"
     disposalOrRecoveryCode:
       type: object
+      required:
+        - code
+        - weight
       properties:
         code:
           type: string
           description: Disposal recovery code used. More information can be found here <p>EU Directive Annex I and Annex II define Disposal and Recovery Codes <p><a> https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2008:312:0003:0030:en:PDF</a></p> 
             <p>Business Rule:</p>
             If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code list. 
-
           example: |
             "code": "R1"
         weight:
@@ -572,7 +592,7 @@ components:
           example: 150
         isEstimate:
           type: boolean
-          description: Specifies whether the weight of waste is estimated. This a boolean value, i.e. true or false. 
+          description: Specifies whether the weight of waste is estimated. This a boolean value, i.e. true for estimated or false for not estimated. 
           example: true
     validationResult:
       type: object
@@ -625,7 +645,7 @@ components:
             A valid postcode must be included. 
             <p><b>Note- </b></p> <p>Carriers, Brokers/Dealers accept UK post codes. Receivers accept only UK post codes.</p>
   responses:
-    '400':
+    "400":
       description: Input was not in the correct format.
       content:
         application/json:
@@ -656,4 +676,4 @@ components:
                   errors:
                     type: array
                     items:
-                      $ref: '#/components/schemas/validationResult'
+                      $ref: "#/components/schemas/validationResult"
