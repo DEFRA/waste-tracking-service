@@ -8,8 +8,7 @@ info:
 
      <h2>Methods</h2> <p>The API is based on REST principles and uses both a <font color="green"><b>POST</b></font> and a <font color="orange"><b>PUT</b></font> method that return data in JSON format. It uses standard HTTP error response codes. </p>
      <p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. </p> <p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p>
-     <p> <b>Note-</b> This API specification is currently in draft stage and is subject to change.</p>
-    
+     <p> <b>Note-</b> This API specification is currently in draft stage and is subject to change.</p>  
 servers:
   - url: "https://api.server.test/v1"
 paths:
@@ -671,4 +670,5 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
