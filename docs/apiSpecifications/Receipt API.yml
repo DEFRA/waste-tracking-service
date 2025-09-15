@@ -115,6 +115,7 @@ components:
                 example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
               hazardousWasteConsignmentCode:
                 type: string
+              hazardousWasteConsignmentCode:
                 description: Hazardous waste consignment code (If EWC is HAZ, then mandatory). The consignment note code must follow the format- XXXXXX/YYYYY. - XXXXXX is made up of 6 letters and must be followed by a forward slash / - YYYYY is a 5-character unique identifier of the users choice using letters or numbers (no spaces or symbols). <p>More information here</p> <a>https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code</a>
                   <p><font color="green"><b>Business Rule:</b></font></p> 
                   If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format. If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.
@@ -633,3 +634,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
