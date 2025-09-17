@@ -350,6 +350,7 @@ components:
       required:
         - registrationNumber
         - organisationName
+        - meansOfTransport
       properties:
         registrationNumber:
           type: string
