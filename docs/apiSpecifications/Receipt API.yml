@@ -261,6 +261,7 @@ components:
           example: rubble bag, refuse sack, pallet
         weight:
           $ref: "#/components/schemas/weight"
+<<<<<<< HEAD
         pops:
           type: object
           required:
@@ -297,6 +298,60 @@ components:
                       <p><font color="green"><b>Business Rule:</b></font></p> 
                       If waste.pops.containsPops is True then waste.pops.components.concentration must be a valid decimal.
                     example: 100
+=======
+        pops:
+          type: object
+          required:
+            - containsPops
+          properties:
+            containsPops:
+              type: boolean
+              description: 
+                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. <p>More information on POPs can be found here:</p>
+                <a>https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
+                <a>https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops</a>
+              example: true
+            sourceOfComponents:
+              type: string
+              enum:
+                - NOT_PROVIDED
+                - CARRIER_PROVIDED
+                - GUIDANCE
+                - OWN_TESTING
+              description: |
+                Indicates how the POP component information was obtained. <p>Business Rules:</p>
+                <ul>
+                  <li>If wasteItem.pops.containsPops is True then wasteItem.pops.sourceOfComponents is required.</li>
+                  <li>If wasteItem.pops.containsPops is False then wasteItem.pops.sourceOfComponents must not be provided.</li>
+                  <li>If wasteItem.pops.sourceOfComponents is NOT_PROVIDED then wasteItem.pops.components must be omitted or an empty array.</li>
+                  <li>If wasteItem.pops.sourceOfComponents is any other value then wasteItem.pops.components must contain at least one item.</li>
+                </ul>
+              example: CARRIER_PROVIDED
+            components:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: 
+                      The name of the waste type, e.g. Aldrin, Chlordane, Dieldrin etc.                    
+                      <ul>
+                        <li>Aldrin,</li> <li>Chlordane,</li> <li>Chlordecone,</li> <li>Dicofol,</li> <li>Dieldrin,</li> <li>Endrin,</li> <li>Heptachlor,</li> <li>Hexabromobiphenyl,</li> <li>Hexabromocyclododecane (HBCDD),</li> <li>Hexabromodiphenyl ether and heptabromodiphenyl ether,</li> <li>Hexachlorobenzene (HCB),</li> <li>Hexachlorobutadiene,</li> <li>Alpha hexachlorocyclohexane,</li> <li>Beta hexachlorocyclohexane, </li> <li>Lindane,</li> <li>Mirex,</li> <li>Pentachlorobenzene,</li> <li>Polychlorinated biphenyls (PCB),</li> <li>Toxaphene,</li> <li>DDT,</li> <li>Perfluorooctane sulfonic acid (PFOS) its salts and perfluorooctane sulfonyl fluorid,</li> <li>Chlordane,</li> <li>Polychlorinated dibenzo-p-dioxins (PCDD),</li> <li>Polychlorinated dibenzofurans (PCDF),</li> <li>UV-328
+                        </li></ul>
+                      <p>This is not an exhaustive list, a listing of POPS in the Stockholme convention can be found here:</p>
+                      <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
+                      <p>Business Rule:</p>
+                      If wasteItem.pops.containsPops is True and wasteItem.pops.sourceOfComponents is not NOT_PROVIDED then wasteItem.pops.components.name must be a valid name when provided.
+                    example: Aldrin
+                  concentration:
+                    type: number
+                    description: 
+                      The concentration of the hazourdous waste in mg per kg, e.g. 50 mg per kg of Chlordane.
+                      <p>Business Rule:</p>
+                      If waste.pops.containsPops is True and wasteItem.pops.sourceOfComponents is not NOT_PROVIDED then waste.pops.components.concentration must be a valid decimal when provided.
+                    example: 100
+>>>>>>> 90503773 (Add sourceOfComponents field to Receipt API specifications)
         hazardous:
           type: object
           required:
