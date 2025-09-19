@@ -215,7 +215,7 @@ components:
           example: 200108 biodegradable kitchen and canteen waste, 150109 textile packaging
         wasteDescription:
           type: string
-          description: A detailed description of a specific waste material, including its physical characteristics, composition and any potential hazards associated with it. It''s essentially a classification of the waste that helps determine how it should be managed and disposed of safely.
+          description: A detailed description of a specific waste material, including its physical characteristics, composition and any potential hazards associated with it. It's essentially a classification of the waste that helps determine how it should be managed and disposed of safely.
           example: Basic mixed construction and demolition waste, this includes recyclable house bricks, gypsum plaster and slates.
         physicalForm:
           type: string
@@ -234,7 +234,7 @@ components:
           example: 2
         typeOfContainers:
           type: string
-          nullable: true
+          nullable: false
           description: |
             Containers are receptacles used for storing, transporting and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. 
             <font color="red"><b><p>Ongoing Development Note:</p>There is a new GET method endpoint in development which will return a list of container types.</b></font> <p> Possible types are:</p> 
@@ -247,7 +247,7 @@ components:
               <li>[CAS] Cask</li>
               <li>[CON] Container (unspecified)</li>
               <li>[DRU] Drum (typically 205L)</li>
-              <li>[FIB] Fibre drum/li>
+              <li>[FIB] Fibre drum</li>
               <li>[IBC] Intermediate Bulk Container (e.g. 1000L)</li>
               <li>[LOO] Loose (no container)</li>
               <li>[PAL] Pallet (e.g. shrink‑wrapped items)</li>
@@ -270,7 +270,7 @@ components:
               type: boolean
               description: |
                 Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
-                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger thuman health and the environment. POPs can be present in hazardous and non-hazardous waste.
+                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste.
                 <p><a>https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low</a></p>
                 <p>More information on POPs can be found here:</p>
                 <a>https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
@@ -316,7 +316,7 @@ components:
                 <a>https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA</a>
                 <p><font color="red">Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
                  <p><a>https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf</a></p><p></p><p></p>
-                <p>For more informaation refer to the waste support website at:</p>  <p><a>https://www.wastesupport.co.uk/hazard-codes/</a></p> <p>More information on hazardous waste codes and classification is avaialable below.</p> 
+                <p>For more information refer to the waste support website at:</p>  <p><a>https://www.wastesupport.co.uk/hazard-codes/</a></p> <p>More information on hazardous waste codes and classification is available below.</p> 
                 <a>https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland</a>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a vailid code. 
@@ -403,7 +403,7 @@ components:
         vehicleRegistration:
           type: string
           maxLength: 10
-          description: This is the carrier''s vehicle registration number. 
+          description: This is the carrier's vehicle registration number. 
             <p><font color="green"><b>Business Rule:</b></font></p> 
             If carrier.meansOfTransport is “Road” then carrier.vehicleRegistration is required. 
             If carrier.meansOfTransport is not “Road” then carrier.vehicleRegistration is not applicable.
@@ -502,10 +502,19 @@ components:
                 type: array
                 items:
                   type: integer
-                description: A regulatory position statement (RPS) is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. This must be a positive integer. 
-                  <p><font color="green"><b>Business Rule:</b></font></p> 
-                  Must be a positive integer.
-                example: 343
+                description: |
+                  A regulatory position statement (RPS) is issued when the Regulator (EA, SEPA, NIEA, NRW), exempts you from posessing a permit to carry out certain activities, particularly those which are low-risk. The statement is a code that matches an official list of such exemptions. This must be a positive integer, e.g. From RPS 50, simply return the number 50.
+                  <p>RPS lists for the Home Nations</p>
+                  <p><font color="blue"><b>Wales (NRW):</b></font></p>
+                  https://www.gov.uk/government/collections/basic-rules-environmental-permitting-regulatory-positions
+                  <p><font color="blue"><b>England:</b></font></p>
+                  https://www.gov.uk/government/collections/basic-rules-environmental-permitting-regulatory-positions
+                  <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
+                  https://www.sepa.org.uk/regulations/waste/guidance/#position_statements
+                  <p><font color="blue"><b>Northern Ireland (NI)</b></font></p> 
+                  https://www.daera-ni.gov.uk/publications/producer-responsibility-obligations-packaging-and-packaging-waste-regulations-2024-nation-sale-and-self-managed-organization-waste-reporting-regulatory-position-statement
+                example: 50 (England) Burning waste wood on campfires and bonfires 
+                  This RPS allows individuals and organisations to burn waste wood during community events (e.g. bonfire night) without the need to apply for a permit.
     receipt:
       type: object
       required:
@@ -596,9 +605,9 @@ components:
           example: 26a Oil Drum Lane, London, UK
         postcode:
           type: string
-          description: A valid postcode must be included. <p><b>Note- </b></p> <p>Carriers, Brokers/Dealers accept UK post codes. Receivers accept only UK post codes.</p> 
+          description: A valid postcode must be included. <p><b>Note- </b></p> <p>Carriers, Brokers/Dealers accept UK and Irish post codes. Receivers accept only UK post codes.</p> 
             <p><font color="green"><b>Business Rule:</b></font></p> 
-            Must be in specified receiptAddress.postCode format.
+            Must be in specified receiptAddress.postcode format.
           example: W12 7ZL
   responses:
     "400":
