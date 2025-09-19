@@ -47,6 +47,7 @@ nav:
   - receivers-process-diagram.md
   - receipt-data-definitions.md
   - api-specification.md
+  - api-authentication-guide.md
   - faq.md
   - roadmap.md
   - private-beta-comms-sign-up.md
