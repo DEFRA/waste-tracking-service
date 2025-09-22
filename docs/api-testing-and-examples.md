@@ -34,7 +34,6 @@ We provide a comprehensive Bruno collection that includes:
 - **OAuth2 Integration**: Automatic token management and refresh
 
 !!! Note "Bruno Collection Available"
-    The Bruno collection will SOON be available in the repository at [docs/bruno/digitalWasteTrackingExternalAPI](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI). 
-    See the [README](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI/EXPORT-README.md) for detailed setup instructions.
+    The Bruno collection will SOON be available in the repository at [docs/bruno/digitalWasteTrackingExternalAPI](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI).
 
-Page last updated on 21 August 2025.
+Page last updated on 22 September 2025.
