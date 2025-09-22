@@ -4,7 +4,7 @@ Bruno has been selected as our preferred API testing documentation tool, followi
 
 ## What is Bruno?
 
-Bruno is a software tool that helps developers test and interact with our waste tracking APIs. Think of it as a specialised testing environment where developers can try out different API features, check that everything works correctly, and share their testing setup with their team. It's designed to work across different stages of development, from initial testing to production use.
+Bruno is an opensource software tool that helps developers test and interact with our waste tracking APIs. Think of it as a specialised testing environment where developers can try out different API features, check that everything works correctly, and share their testing setup with their team. It's designed to work across different stages of development, from initial testing to production use.
 
 ## Our Bruno Collection
 
@@ -34,7 +34,7 @@ We provide a comprehensive Bruno collection that includes:
 - **OAuth2 Integration**: Automatic token management and refresh
 
 !!! Note "Bruno Collection Available"
-    The Bruno collection is now available in the repository at [docs/bruno/digitalWasteTrackingExternalAPI](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI). 
+    The Bruno collection will SOON be available in the repository at [docs/bruno/digitalWasteTrackingExternalAPI](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI). 
     See the [README](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI/EXPORT-README.md) for detailed setup instructions.
 
 Page last updated on 21 August 2025.
