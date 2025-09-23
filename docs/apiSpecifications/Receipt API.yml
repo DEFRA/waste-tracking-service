@@ -503,36 +503,35 @@ components:
           type: string
           description: The UK or Irish phone number of the organisation receiving the waste.
           example: 020 4756 XXXX
-        authorisations:
+        authorisationNumbers:
           type: array
-          minItems: 1
           items:
-            type: object
-            properties:
-              authorisationNumber:
-                type: string
-                description: |
-                  This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation. 
-                    <p>Home Nations Codes:</p>
-                    <p><font color="blue"><b>Wales (NRW):</b></font></p>
-                    XX9999XX, EPR/XX9999XX
-                    <p><font color="blue"><b>England:</b></font></p>
-                    HP9999XX, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX1234XX/D6789 
-                    <p>The last one with a D represents permit number with deployment</p>
-                    <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
-                    PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999,  EAS/P/999999
-                    <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
-                     P9999/99X, WPPC 99/99
-                     <p></p>
-                    <p><b>General Format:</b> where 9 is a digit 0-9 </p>
-              regulatoryPositionStatement:
-                type: array
-                items:
-                  type: integer
-                description: A regulatory position statement (RPS) is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. This must be a positive integer. 
-                  <p><font color="green"><b>Business Rule:</b></font></p> 
-                  Must be a positive integer.
-                example: 343
+            type: string
+          description: |
+            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation.
+              <p>Home Nations Codes:</p>
+              <p><font color="blue"><b>Wales (NRW):</b></font></p>
+              XX9999XX, EPR/XX9999XX
+              <p><font color="blue"><b>England:</b></font></p>
+              HP9999XX, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX1234XX/D6789
+              <p>The last one with a D represents permit number with deployment</p>
+              <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
+              PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999,  EAS/P/999999
+              <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
+               P9999/99X, WPPC 99/99
+               <p></p>
+              <p><b>General Format:</b> where 9 is a digit 0-9 </p>
+          example: ["EPR/XX9999XX", "WML999999"]
+        regulatoryPositionStatements:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          description: |
+            An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
+            <p><font color="green"><b>Business Rule:</b></font></p>
+            Must be positive integers.
+          example: [343, 456, 789]
     receipt:
       type: object
       required:
