@@ -14,7 +14,7 @@ This process involves two steps:
 ```python
 import requests  #use requests library
 import base64 
-def get_cognito_token(client_id, client_secret, token_url): # your clientID, Client Secret and OAuth URL here 
+def get_cognito_token(client_id, client_secret, token_url): # your clientID, Client Secret and OAuth URL
     client_credentials = f"{client_id}:{client_secret}"
     encoded_credentials = base64.b64encode(client_credentials.encode()).decode() 
     headers = { "Authorization": f"Basic {encoded_credentials}", "Content-Type": "application/x-www-form-urlencoded" }
@@ -37,8 +37,10 @@ def make_api_request(access_token, api_url): # your access token and the api url
 ```
 </li>
 </ol>
-##What are the login URLs for my API?
+## What is the OAuth login URL for my API?
 
+```code
 https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token
+```
 
 <br/>Page last updated on 23 September 2025.
