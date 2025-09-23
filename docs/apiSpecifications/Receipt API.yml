@@ -505,6 +505,7 @@ components:
           example: 020 4756 XXXX
         authorisationNumbers:
           type: array
+          minItems: 1
           items:
             type: string
           description: |
@@ -526,7 +527,6 @@ components:
           type: array
           items:
             type: integer
-            minimum: 1
           description: |
             An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
             <p><font color="green"><b>Business Rule:</b></font></p>
