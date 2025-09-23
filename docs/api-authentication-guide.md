@@ -1,18 +1,7 @@
 # Receipt of Waste - API authentication Note
 
-To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access/bearer token. The diagram below shows the authentication flow:
-```mermaid
-sequenceDiagram
-    participant Third Party Software
-    participant OAuth
-    participant Receipt API
+To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access/bearer token. 
 
-    Third Party Software->>OAuth: Client ID + Secret
-    OAuth-->>Third Party Software: Bearer Token
-
-    Third Party Software->>Receipt API: POST Receipt API + Bearer Token
-    Receipt API -->>Third Party Software: Result of Waste Movement Request (Success/Failure)
-```
 This process involves two steps: 
 
 1. Submit the client id and secret to the OAuth service to be granted an access token. See the python code snippet below.
