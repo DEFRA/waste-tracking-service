@@ -346,10 +346,10 @@ components:
                 <p>For more informaation refer to the waste support website at:</p>  <p><a>https://www.wastesupport.co.uk/hazard-codes/</a></p> <p>More information on hazardous waste codes and classification is avaialable below.</p> 
                 <a>https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland</a>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
-                 If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a vailid code. 
+                 If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code.
               example: 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, 10 - Wastes from Thermal Processes</p>
               items:
-                type: integer
+                type: string
             components:
               type: array
               items:
