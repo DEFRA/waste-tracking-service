@@ -1,8 +1,10 @@
 # Receipt of Waste - API authentication Note
 
-To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access/bearer token. 
+To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. The access token is also known as a 'bearer token'. 
 
 This process involves two steps: 
+1. Get an access token using your client ID and secret.
+3. Use the access token to start using the API.
 
 <ol>
     <li>Submit the client id and secret to the OAuth service to be granted an access token. See the python code snippet below.
@@ -21,11 +23,9 @@ def get_cognito_token(client_id, client_secret, token_url): # your clientID, Cli
     return token_response["access_token"]
 ```
 </li>
-<li>Submit the access/bearer token to use the API. See the python code snippet below.
-##Use a Cognito Token
+<li>Submit the access token to use the API. See the python code snippet below.
 
 ```python
-import requests 
 def make_api_request(access_token, api_url): 
     headers = { "Authorization": f"Bearer {access_token}" } 
     response = requests.get(api_url, headers=headers)
