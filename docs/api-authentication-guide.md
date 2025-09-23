@@ -6,11 +6,11 @@ Submit the client id and secret to the OAuth service granted an access token
 Submit the access token to use the API. The following Python snippets provide an example of doing this using the Python requests library.
 
 ##Get a Cognito Token
-![alt text](https://github.com/DEFRA/waste-tracking-service/blob/DWT-492-Post-Publication-Review/changelog/Get_a_cognito_token.png
+![alt text](https://github.com/DEFRA/waste-tracking-service/blob/DWT-492_sept15_review/changelog/Get_a_cognito_token.png
 )
 
 ##Use a Cognito Token
-![alt text](https://github.com/DEFRA/waste-tracking-service/blob/DWT-492-Post-Publication-Review/changelog/Use_a_cognito_token.png)
+![alt text](https://github.com/DEFRA/waste-tracking-service/blob/DWT-492_sept15_review/changelog//Use_a_cognito_token.png)
 
 ##What are the login URLs for my API?
 https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token
