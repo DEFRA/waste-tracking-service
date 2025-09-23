@@ -4,7 +4,8 @@ To start using the Receipt API, you need your Client ID and Secret which you sho
 
 This process involves two steps: 
 
-1. Submit the client id and secret to the OAuth service to be granted an access token. See the python code snippet below.
+<ol>
+    <li>Submit the client id and secret to the OAuth service to be granted an access token. See the python code snippet below.
 
 ```python
 import requests  #use requests library
@@ -17,10 +18,10 @@ def get_cognito_token(client_id, client_secret, token_url): # your clientID, Cli
     response = requests.post(f"{token_url}/oauth2/token", headers=headers, data=payload) 
     response.raise_for_status() 
     token_response = response.json() 
-    return token_response["access_token"] 
+    return token_response["access_token"]
 ```
-
-2. Submit the access/bearer token to use the API. See the python code snippet below.
+</li>
+<li>Submit the access/bearer token to use the API. See the python code snippet below.
 ##Use a Cognito Token
 
 ```python
@@ -31,6 +32,8 @@ def make_api_request(access_token, api_url):
     response.raise_for_status() 
     return response.json() 
 ```
+</li>
+</ol>
 ##What are the login URLs for my API?
 
 https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token
