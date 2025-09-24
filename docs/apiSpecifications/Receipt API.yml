@@ -497,6 +497,7 @@ components:
       type: object
       required:
         - organisationName
+        - authorisationNumbers
       properties:
         organisationName:
           type: string
@@ -515,7 +516,7 @@ components:
           items:
             type: string
           description: |
-            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation.
+            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
               <p>Home Nations Codes:</p>
               <p><font color="blue"><b>Wales (NRW):</b></font></p>
               XX9999XX, EPR/XX9999XX
