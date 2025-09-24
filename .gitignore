@@ -24,4 +24,7 @@ ___*
 # Special folder created by Intellij products
 .idea
 
+# Special folder for VSCode
+.vscode
+
 site/
