@@ -208,7 +208,7 @@ components:
             <a>https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA</a>
             <p><p><font color="red"><b>Below is the list of Waste Regulations 2005 for the UK (specifically England):</b></font></p>
             <p><a>https://www.legislation.gov.uk/uksi/2005/895/schedule/1/made</a></p>
-            <p>More non-official information on the EWC codes can also be found in the European Waste Catalogue produced by CSG below:</p>
+            <p>More information on the EWC codes can also be found in the European Waste Catalogue produced by CSG below:</p>
               <a>https://www.csg.co.uk/resources/ewc-codes#:~:text=This%20European%20Waste%20Catalogue%20checker%20helps%20you%20find, either%20by%20waste%20stream%20or%20by%20list%20view</a>.
               <p><font color="green"><b>Business Rule:</b></font></p> 
               Must be six digits (no spaces) and in the official wasteItem.ewcCode EWC catalog EUR-Lex. 
@@ -320,7 +320,7 @@ components:
                 <a>https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland</a>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a vailid code. 
-              example: 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, 10 - Wastes from Thermal Processes</p>
+              example: HP5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP10 - Wastes from Thermal Processes</p>
               items:
                 type: integer
             components:
@@ -356,7 +356,7 @@ components:
           nullable: true
           description: |
             <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
-            <p>Home Nations Codes:</p>
+            <p><b>Home Nations Codes:</p>
             <p><font color="blue"><b>Wales:</b></font></p>
                 CBDL999999, CBDU999999
                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>       
@@ -370,7 +370,7 @@ components:
                <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
                <p>Proposed format under new regulations (from April 2026) - EAS/R/xxxxxx (xxxxxx being actual numbers).</p>
             <p><font color="blue"><b>Northern Ireland</b></font></p>
-                ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999,ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
+                ROC UT 9, ROC UT 99, ROC UT 999, ROC UT 9999,ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
                 Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces.<p></p>
                 ROC UT 9999
                 ROC LT 9999
@@ -435,12 +435,12 @@ components:
         phoneNumber:
           type: string
           description: The UK or internationl phone number of the carrier.
-          example: 020 4756 3232
+          example: 020 4756 XXXX
         registrationNumber:
           type: string
           description: |
              <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
-             <p>Home Nations Codes:</p>
+             <p><b>Home Nations Codes:</b></p>
              <p><font color="blue"><b>Wales:</b></font></p>
                 CBDL999999, CBDU999999
                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
@@ -490,7 +490,7 @@ components:
                     <p><font color="blue"><b>Wales (NRW):</b></font></p>
                     XX9999XX, EPR/XX9999XX
                     <p><font color="blue"><b>England:</b></font></p>
-                    HP9999XX, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX1234XX/D6789 
+                    XX9999XX, HP9999XX/D9999, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX1234XX/D6789 
                     <p>The last one with a D represents permit number with deployment</p>
                     <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
                     PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999,  EAS/P/999999
