@@ -520,6 +520,7 @@ components:
                P9999/99X, WPPC 99/99
                <p></p>
               <p><b>General Format:</b> where 9 is a digit 0-9 </p>
+          example: ["EPR/XX9999XX", "WML999999"] 
         regulatoryPositionStatement:
           type: array
           items:
@@ -665,3 +666,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
