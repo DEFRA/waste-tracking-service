@@ -265,6 +265,7 @@ components:
           type: object
           required:
             - containsPops
+            - sourceOfComponents
           properties:
             containsPops:
               type: boolean
@@ -666,4 +667,5 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
