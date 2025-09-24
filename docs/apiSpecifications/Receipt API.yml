@@ -276,24 +276,35 @@ components:
                 <a>https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
                 <a>https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops</a>
               example: true
+            sourceOfcomponents:
+              type: string
+              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING] 
+              description: |
+                Indicates the source of POP component details.
+                - NOT_PROVIDED: Carrier did not provide component details
+                - CARRIER_PROVIDED: Components provided by carrier
+                - GUIDANCE: Components determined from guidance
+                - OWN_TESTING: Components determined from own testing
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                - Must be provided when containsPops is true
+                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
+                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided
+              example: CARRIER_PROVIDED
             components:
               type: array
               items:
                 type: object
-                required:
-                  - name
-                  - concentration
                 properties:
                   name:
                     type: string
                     description: |
                       The name of the POP e.g.  Persistant Organic Pollutant (POP). <ul> <li>Aldrin,</li> <li>Chlordane,</li> <li>Chlordecone,</li> <li>Dicofol,</li> <li>Dieldrin,</li> <li>Endrin,</li> <li>Heptachlor,</li> <li>Hexabromobiphenyl,</li> <li>Hexabromocyclododecane (HBCDD),</li> <li>Hexabromodiphenyl ether and heptabromodiphenyl ether,</li> <li>Hexachlorobenzene (HCB),</li> <li>Hexachlorobutadiene,</li> <li>Alpha hexachlorocyclohexane,</li> <li>Beta hexachlorocyclohexane, </li> <li>Lindane,</li> <li>Mirex,</li> <li>Pentachlorobenzene,</li> <li>Polychlorinated biphenyls (PCB),</li> <li>Toxaphene,</li> <li>DDT,</li> <li>Perfluorooctane sulfonic acid (PFOS) its salts and perfluorooctane sulfonyl fluorid,</li> <li>Chlordane,</li> <li>Polychlorinated dibenzo-p-dioxins (PCDD),</li> <li>Polychlorinated dibenzofurans (PCDF),</li> <li>UV-328 </li><li>Carrier did not provide detail</li></ul> <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found here:</p> <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a> <p>See also Annex B and Annex C in this document for Restricted and Unintentional releases of chemicals respectively.</p> 
-                        <p><font color="green"><b>Business Rule:</b></font></p> 
-                        If wasteItem.pops.containsPops is True then wasteItem.pops.components.name must be a valid name.
+                        <p><font color="green"><b>Business Rule:</b></font></p>
+                        Optional field. If provided, it must be a valid POP name from the list above.
                     example: Aldrin, Chlordane, Dieldrin.
                   concentration:
                     type: number
-                    description: The concentration of the hazourdous waste in mg per kg, e.g. 50 mg per kg of Chlordane. 
+                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
                       <p><font color="green"><b>Business Rule:</b></font></p> 
                       If waste.pops.containsPops is True then waste.pops.components.concentration must be a valid decimal.
                     example: 100
@@ -301,11 +312,26 @@ components:
           type: object
           required:
             - containsHazardous
+            - sourceOfComponents
           properties:
             containsHazardous:
               type: boolean
               description: Does the waste consignment contain Hazourdous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazourda waste) or false.
               example: true
+            sourceOfComponents:
+              type: string
+              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING]
+              description: |
+                Indicates the source of hazardous component details.
+                - NOT_PROVIDED: Carrier did not provide component details
+                - CARRIER_PROVIDED: Components provided by carrier
+                - GUIDANCE: Components determined from guidance
+                - OWN_TESTING: Components determined from own testing
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                - Must be provided when containsHazardous is true
+                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
+                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided  
+              example: CARRIER_PROVIDED
             hazCodes:
               type: array
               description: |
@@ -322,24 +348,23 @@ components:
                  If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a vailid code. 
               example: HP5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP10 - Wastes from Thermal Processes</p>
               items:
-                type: integer
+                type: string
             components:
               type: array
               items:
                 type: object
-                required:
-                  - name
-                  - concentration
                 properties:
                   name:
                     type: string
                     description: Name of the hazardous material, e.g. Mercury.
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, must be a valid chemical or biological component name.
                     example: lead, mercury
                   concentration:
                     type: number
                     description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg. 
                       <p><font color="green"><b>Business Rule:</b></font></p> 
-                      Must be a numeric value.
+                      Optional field. If provided, must be a positive numeric value.
                     example: 50
         disposalOrRecoveryCodes:
           type: array
@@ -410,7 +435,7 @@ components:
           example: RNT 493
         meansOfTransport:
           type: string
-          enum: [Road, Rail, Air, Sea, "Inland Waterway", Pipe, Other]
+          enum: [Road, Rail, Air, Sea, Inland Waterway, Pipe, Other]
           description: |
             This describes how the waste is transported (road, rail, air, sea, inland waterway, other)
             <p><font color="green"><b>Business Rule:</b></font></p> 
@@ -476,34 +501,31 @@ components:
           type: string
           description: The UK or Irish phone number of the organisation receiving the waste.
           example: 020 4756 XXXX
-        authorisations:
+        authorisationNumbers:
+           type: array
+           minItems: 1
+           items:
+             type: string
+           description: |
+            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation.
+              <p>Home Nations Codes:</p>
+              <p><font color="blue"><b>Wales (NRW):</b></font></p>
+              XX9999XX, EPR/XX9999XX
+              <p><font color="blue"><b>England:</b></font></p>
+              HP9999XX, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX1234XX/D6789
+              <p>The last one with a D represents permit number with deployment</p>
+              <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
+              PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999,  EAS/P/999999
+              <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
+               P9999/99X, WPPC 99/99
+               <p></p>
+              <p><b>General Format:</b> where 9 is a digit 0-9 </p>
+        regulatoryPositionStatement:
           type: array
-          minItems: 1
           items:
-            type: object
-            properties:
-              authorisationNumber:
-                type: string
-                description: |
-                  This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation. 
-                    <p>Home Nations Codes:</p>
-                    <p><font color="blue"><b>Wales (NRW):</b></font></p>
-                    XX9999XX, EPR/XX9999XX
-                    <p><font color="blue"><b>England:</b></font></p>
-                    XX9999XX, HP9999XX/D9999, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX1234XX/D6789 
-                    <p>The last one with a D represents permit number with deployment</p>
-                    <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
-                    PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999,  EAS/P/999999
-                    <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
-                     P9999/99X, WPPC 99/99
-                     <p></p>
-                    <p><b>General Format:</b> where 9 is a digit 0-9 </p>
-              regulatoryPositionStatement:
-                type: array
-                items:
-                  type: integer
-                description: |
-                  A regulatory position statement (RPS) is issued when the Regulator (EA, SEPA, NIEA, NRW), exempts you from posessing a permit to carry out certain activities, particularly those which are low-risk. The statement is a code that matches an official list of such exemptions. This must be a positive integer, e.g. From RPS 50, simply return the number 50.
+            type: integer
+          description: |
+            A regulatory position statement (RPS) is issued when the Regulator (EA, SEPA, NIEA, NRW), exempts you from posessing a permit to carry out certain activities, particularly those which are low-risk. The statement is a code that matches an official list of such exemptions. This must be a positive integer, e.g. From RPS 50, simply return the number 50.
                   <p>RPS lists for the Home Nations</p>
                   <p><font color="blue"><b>Wales (NRW):</b></font></p>
                   https://www.gov.uk/government/collections/basic-rules-environmental-permitting-regulatory-positions
@@ -513,8 +535,9 @@ components:
                   https://www.sepa.org.uk/regulations/waste/guidance/#position_statements
                   <p><font color="blue"><b>Northern Ireland (NI)</b></font></p> 
                   https://www.daera-ni.gov.uk/publications/producer-responsibility-obligations-packaging-and-packaging-waste-regulations-2024-nation-sale-and-self-managed-organization-waste-reporting-regulatory-position-statement
-                example: 50 (England) Burning waste wood on campfires and bonfires 
-                  This RPS allows individuals and organisations to burn waste wood during community events (e.g. bonfire night) without the need to apply for a permit.
+          example: |
+            [50] (England) Burning waste wood on campfires and bonfires 
+                  This RPS allows individuals and organisations to burn waste wood during community events (e.g. bonfire night) without the need to apply for a permit.            
     receipt:
       type: object
       required:
@@ -538,7 +561,7 @@ components:
               <p><font color="green"><b>Business Rule:</b></font></p> 
               If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code listed in EUR-Lex. 
           example: |
-            "code": "R1"
+            "R1"
         weight:
           $ref: "#/components/schemas/weight"
     weight:
