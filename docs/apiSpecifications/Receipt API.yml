@@ -286,22 +286,22 @@ components:
                 - CARRIER_PROVIDED: Components provided by carrier
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing
-                <p><font color="green"><b>Business Rules:</b></font></p>
-                - Must be provided when containsPops is true
-                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
-                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided
+                <p><font color="green"><b>Business Rule:</b></font></p>
+                Must be provided when containsPops is true.
               example: CARRIER_PROVIDED
             components:
               type: array
               items:
                 type: object
+                required:
+                  - name
                 properties:
                   name:
                     type: string
                     description: |
                       The name of the POP e.g.  Persistant Organic Pollutant (POP). <ul> <li>Aldrin,</li> <li>Chlordane,</li> <li>Chlordecone,</li> <li>Dicofol,</li> <li>Dieldrin,</li> <li>Endrin,</li> <li>Heptachlor,</li> <li>Hexabromobiphenyl,</li> <li>Hexabromocyclododecane (HBCDD),</li> <li>Hexabromodiphenyl ether and heptabromodiphenyl ether,</li> <li>Hexachlorobenzene (HCB),</li> <li>Hexachlorobutadiene,</li> <li>Alpha hexachlorocyclohexane,</li> <li>Beta hexachlorocyclohexane, </li> <li>Lindane,</li> <li>Mirex,</li> <li>Pentachlorobenzene,</li> <li>Polychlorinated biphenyls (PCB),</li> <li>Toxaphene,</li> <li>DDT,</li> <li>Perfluorooctane sulfonic acid (PFOS) its salts and perfluorooctane sulfonyl fluorid,</li> <li>Chlordane,</li> <li>Polychlorinated dibenzo-p-dioxins (PCDD),</li> <li>Polychlorinated dibenzofurans (PCDF),</li> <li>UV-328 </li><li>Details not provided by carrier</li></ul> <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found here:</p> <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a> <p>See also Annex B and Annex C in this document for Restricted and Unintentional releases of chemicals respectively.</p> 
                         <p><font color="green"><b>Business Rule:</b></font></p>
-                        Optional field. If provided, must be a valid POP name from the list above.
+                        Must be a valid POP name from the list above.
                     example: Aldrin, Chlordane, Dieldrin.
                   concentration:
                     type: number
@@ -309,6 +309,12 @@ components:
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a valid positive decimal number.
                     example: 100
+              description: |
+                The list of POP components.
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                - Must be provided when containsPops is true
+                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
+                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided
         hazardous:
           type: object
           required:
