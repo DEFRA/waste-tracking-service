@@ -4,11 +4,6 @@ To start using the Receipt API, you need your Client ID and Secret which you sho
 
 This process involves two steps: 
 <ol>
-<li>Use your client id and secret to obtain an authentication token, also known as an access token or bearer token.</li>
-<li>Submit your API request using the access token. </li>
-</ol>
-
-<ol>
     <li>Submit the client id and secret to the OAuth service to be granted an access token. See the python code snippet below.
 
 ```python
