@@ -393,7 +393,7 @@ components:
               items:
                 type: object
                 required:
-                  - required
+                  - name
                 properties:
                   name:
                     type: string
