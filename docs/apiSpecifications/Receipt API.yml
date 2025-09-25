@@ -231,7 +231,7 @@ components:
           description: Number of containers for storing, transporting and disposing of waste materials. 
             <p><font color="green"><b>Business Rule:</b></font></p> 
             This must be a positive integer entry.
-          example: 2
+          example: 2, 3
         typeOfContainers:
           type: string
           nullable: false
@@ -277,7 +277,7 @@ components:
                 <a>https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
                 <a>https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops</a>
               example: true
-            sourceOfcomponents:
+            sourceOfComponents:
               type: string
               enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING] 
               description: |
@@ -295,6 +295,8 @@ components:
               type: array
               items:
                 type: object
+                required:
+                  - name
                 properties:
                   name:
                     type: string
@@ -308,7 +310,13 @@ components:
                     description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
                       <p><font color="green"><b>Business Rule:</b></font></p> 
                       If waste.pops.containsPops is True then waste.pops.components.concentration must be a valid decimal.
-                    example: 100
+                    example: 12.5, 9,21234, 500
+              description: |
+                The list of POP components.
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                - Must be provided when containsPops is true
+                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
+                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided       
         hazardous:
           type: object
           required:
@@ -331,7 +339,7 @@ components:
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 - Must be provided when containsHazardous is true
                 - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
-                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided  
+                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.  
               example: CARRIER_PROVIDED
             hazCodes:
               type: array
@@ -346,7 +354,7 @@ components:
                 <p>For more information refer to the waste support website at:</p>  <p><a>https://www.wastesupport.co.uk/hazard-codes/</a></p> <p>More information on hazardous waste codes and classification is available below.</p> 
                 <a>https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland</a>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
-                 If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a vailid code. 
+                 If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP10 - Wastes from Thermal Processes</p>
               items:
                 type: string
@@ -365,8 +373,8 @@ components:
                     type: number
                     description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg. 
                       <p><font color="green"><b>Business Rule:</b></font></p> 
-                      Optional field. If provided, must be a positive numeric value.
-                    example: 50
+                      Optional field. If provided, must be a positive decimal value.
+                    example: 50, 12.5, 25.5
         disposalOrRecoveryCodes:
           type: array
           items:
@@ -376,6 +384,7 @@ components:
       required:
         - registrationNumber
         - organisationName
+        - meansOfTransport
       properties:
         registrationNumber:
           type: string
@@ -384,10 +393,10 @@ components:
             <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
             <p><b>Home Nations Codes:</p>
             <p><font color="blue"><b>Wales:</b></font></p>
-                CBDL999999, CBDU999999
+                CBDL999999, CBDU999999 (3+ digits)
                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>       
             <p><font color="blue"><b>England:</b></font></p>
-                CBDL999999, CBDU999999
+                CBDL999999, CBDU999999 (3+ digits)
                  <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>      
             <p><font color="blue"><b>Scotland:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
@@ -397,7 +406,7 @@ components:
                <p>Proposed format under new regulations (from April 2026) - EAS/R/xxxxxx (xxxxxx being actual numbers).</p>
             <p><font color="blue"><b>Northern Ireland</b></font></p>
                 ROC UT 9, ROC UT 99, ROC UT 999, ROC UT 9999,ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
-                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces.<p></p>
+                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note that spaces are not mandatory.<p></p>
                 ROC UT 9999
                 ROC LT 9999
                 <p></p><p></p>
@@ -513,7 +522,7 @@ components:
               <p><font color="blue"><b>Wales (NRW):</b></font></p>
               XX9999XX, EPR/XX9999XX
               <p><font color="blue"><b>England:</b></font></p>
-              HP9999XX, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX1234XX/D6789
+              XX9999XX, XX9999XX/D9999, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX9999XX/D9999 
               <p>The last one with a D represents permit number with deployment</p>
               <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
               PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999,  EAS/P/999999
@@ -521,7 +530,7 @@ components:
                P9999/99X, WPPC 99/99
                <p></p>
               <p><b>General Format:</b> where 9 is a digit 0-9 </p>
-          example: ["EPR/XX9999XX", "WML999999"] 
+           example: ["EPR/XX9999XX", "WML999999"] 
         regulatoryPositionStatement:
           type: array
           items:
@@ -667,5 +676,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
-
