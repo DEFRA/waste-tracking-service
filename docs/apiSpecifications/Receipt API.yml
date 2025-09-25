@@ -228,9 +228,9 @@ components:
           type: integer
           minimum: 0
           nullable: false
-          description: Number of containers for storing, transporting and disposing of waste materials. 
-            <p><font color="green"><b>Business Rule:</b></font></p> 
-            This must be a positive integer entry.
+          description: Number of containers for storing, transporting and disposing of waste materials.
+            <p><font color="green"><b>Business Rule:</b></font></p>
+            This must be a non-negative integer (0 or greater).
           example: 2
         typeOfContainers:
           type: string
@@ -305,9 +305,11 @@ components:
                     example: Aldrin, Chlordane, Dieldrin.
                   concentration:
                     type: number
+                    minimum: 0
+                    exclusiveMinimum: true
                     description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane.
                       <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, must be a valid positive decimal number.
+                      Optional field. If provided, must be a positive decimal number (greater than 0).
                     example: 100
               description: |
                 The list of POP components.
@@ -369,9 +371,11 @@ components:
                     example: lead, mercury
                   concentration:
                     type: number
+                    minimum: 0
+                    exclusiveMinimum: true
                     description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
                       <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, must be a positive numeric value.
+                      Optional field. If provided, must be a positive numeric value (greater than 0).
                     example: 50
         disposalOrRecoveryCodes:
           type: array
@@ -557,10 +561,12 @@ components:
           type: array
           items:
             type: integer
+            minimum: 0
+            exclusiveMinimum: true
           description: |
             An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
             <p><font color="green"><b>Business Rule:</b></font></p>
-            Must be positive integers.
+            Must be positive integers (greater than 0).
           example: [343, 456, 789]
     receipt:
       type: object
@@ -604,9 +610,11 @@ components:
           example: Tonnes
         amount:
           type: number
-          description: Total weight of the waste in a unit specified - Grams - Kilograms - Tonnes 
-            <p><font color="green">Business Rule:</font></p> 
-            Must be a positive number. <p><font color="red"><b>Note-</b></font></p> <p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
+          minimum: 0
+          exclusiveMinimum: true
+          description: Total weight of the waste in a unit specified - Grams - Kilograms - Tonnes
+            <p><font color="green">Business Rule:</font></p>
+            Must be a positive number (greater than 0). <p><font color="red"><b>Note-</b></font></p> <p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
           example: 150
         isEstimate:
           type: boolean
