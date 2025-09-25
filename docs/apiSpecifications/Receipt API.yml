@@ -517,19 +517,42 @@ components:
             type: string
           description: |
             This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
-              <p>Home Nations Codes:</p>
-              <p><font color="blue"><b>Wales (NRW):</b></font></p>
-              XX9999XX, EPR/XX9999XX
+              <p><font color="green"><b>Business Rules:</b></font></p>
+              <ul>
+                <li>At least one authorisation number is required</li>
+                <li>Must match a valid UK format pattern (case-insensitive)</li>
+                <li>All UK nation formats are accepted (no nation-specific validation)</li>
+                <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
+              </ul>
+              <p>Home Nations Codes (where 9 is a digit 0-9, X is a letter A-Z):</p>
               <p><font color="blue"><b>England:</b></font></p>
-              HP9999XX, EPR/XX9999XX, EAWML999999, WML999999, EPR/XX1234XX/D6789
-              <p>The last one with a D represents permit number with deployment</p>
+              <ul>
+                <li>XX9999XX - Standard format (e.g., HP3456XX)</li>
+                <li>XX9999XX/D9999 - With deployment number (e.g., AB1234CD/D5678)</li>
+                <li>EPR/XX9999XX - Environmental Permitting Regulations (e.g., EPR/AB1234CD)</li>
+                <li>EPR/XX9999XX/D9999 - EPR with deployment (e.g., EPR/AB1234CD/D5678)</li>
+                <li>EAWML999999 - Environment Agency Waste Management License</li>
+                <li>WML999999 - Waste Management License</li>
+              </ul>
               <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
-              PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999,  EAS/P/999999
-              <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
-               P9999/99X, WPPC 99/99
-               <p></p>
-              <p><b>General Format:</b> where 9 is a digit 0-9 </p>
-          example: ["EPR/XX9999XX", "WML999999"]
+              <ul>
+                <li>PPC/[AWEN]/9999999 - Pollution Prevention Control (e.g., PPC/A/1234567)</li>
+                <li>WML/[LWEN]/9999999 - Waste Management License (e.g., WML/L/7654321)</li>
+                <li>PPC/A/SEPA9999-9999 - PPC with SEPA reference</li>
+                <li>WML/L/SEPA9999-9999 - WML with SEPA reference</li>
+                <li>EAS/P/999999 - Environmental Authorisation Scotland</li>
+              </ul>
+              <p><font color="blue"><b>Wales (NRW):</b></font></p>
+              <ul>
+                <li>XX9999XX - Standard format (e.g., NW1234CD)</li>
+                <li>EPR/XX9999XX - Environmental Permitting Regulations</li>
+              </ul>
+              <p><font color="blue"><b>Northern Ireland:</b></font></p>
+              <ul>
+                <li>P9999/99X - Permit with division (e.g., P1234/56A)</li>
+                <li>WPPC 99/99 - Waste Prevention and Control (e.g., WPPC 12/34)</li>
+              </ul>
+          example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34"]
         regulatoryPositionStatements:
           type: array
           items:
@@ -653,6 +676,21 @@ components:
                        "key": "waste.0.wasteDescription",
                        "errorType": "NotProvided",
                        "message": "\"waste[0].wasteDescription\" is required"
+                      },
+                     {
+                       "key": "receiver.authorisationNumbers",
+                       "errorType": "Required",
+                       "message": "Site authorisation number is required"
+                      },
+                     {
+                       "key": "receiver.authorisationNumbers[0]",
+                       "errorType": "InvalidFormat",
+                       "message": "Site authorisation number must be in a valid UK format"
+                      },
+                     {
+                       "key": "receiver.authorisationNumbers",
+                       "errorType": "MinItems",
+                       "message": "At least one site authorisation number is required"
                       }
                     }
                  ]
