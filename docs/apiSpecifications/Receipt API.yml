@@ -375,6 +375,12 @@ components:
                       <p><font color="green"><b>Business Rule:</b></font></p> 
                       Optional field. If provided, must be a positive decimal value.
                     example: 50, 12.5, 25.5
+              description: |
+                The list of Hazardous components.
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                - Must be provided when containsHazardous is true
+                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
+                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided
         disposalOrRecoveryCodes:
           type: array
           items:
