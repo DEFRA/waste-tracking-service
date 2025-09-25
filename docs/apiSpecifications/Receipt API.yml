@@ -334,10 +334,8 @@ components:
                 - CARRIER_PROVIDED: Components provided by carrier
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing
-                <p><font color="green"><b>Business Rules:</b></font></p>
+                <p><font color="green"><b>Business Rule:</b></font></p>
                 - Must be provided when containsHazardous is true
-                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
-                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided
               example: CARRIER_PROVIDED
             hazCodes:
               type: array
@@ -360,6 +358,8 @@ components:
               type: array
               items:
                 type: object
+                required:
+                  - required
                 properties:
                   name:
                     type: string
@@ -373,6 +373,12 @@ components:
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a positive numeric value.
                     example: 50
+            description: |
+                The list of Hazardous components.
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                - Must be provided when containsHazardous is true
+                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
+                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided
         disposalOrRecoveryCodes:
           type: array
           items:
