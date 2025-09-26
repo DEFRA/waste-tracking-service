@@ -1,0 +1,71 @@
+meta {
+  name: Update Movement - Basic Required Fields Only
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}/movements/{{globalMovementId}}/receive
+  body: json
+  auth: inherit
+}
+
+headers {
+  ~Authorization: {{ManuallyObtainedAccessToken}}
+}
+
+body:json {
+  {
+    "organisationApiId": "{{organisationApiId}}",
+    "dateTimeReceived": "{{timestamp}}",
+    "wasteItems": [
+      {
+        "ewcCodes": [
+          "020101"
+        ],
+        "wasteDescription": "Basic mixed construction and demolition waste",
+        "physicalForm": "Mixed",
+        "numberOfContainers": 3,
+        "typeOfContainers": "SKI",
+        "weight": {
+          "metric": "Tonnes",
+          "amount": 2.5,
+          "isEstimate": false
+        },
+        "disposalOrRecoveryCodes": [
+          {
+            "code": "R1",
+            "weight": {
+              "metric": "Tonnes",
+              "amount": 0.75,
+              "isEstimate": false
+            }
+          }
+        ]
+      }
+    ],
+    "carrier": {
+      "organisationName": "Carrier Ltd",
+      "registrationNumber": "REG123456",
+      "meansOfTransport": "Rail"
+    },
+    "receiver": {
+      "organisationName": "Receiver Ltd",
+      "emailAddress": "receiver@test.com",
+      "authorisationNumbers": ["PPC/A/9999999"]
+    },
+    "receipt": {
+      "address": {
+        "fullAddress": "123 Test Street, Test City",
+        "postcode": "TC1 2AB"
+      }
+    }
+  }
+}
+
+script:pre-request {
+  const now = new Date();
+  // now.setFullYear(now.getFullYear() + 1); // Adds one year to the current date
+  // now.setFullYear(now.getFullYear() - 1); // Removes one year from the current date
+  bru.setVar('timestamp', now.toISOString());
+}
