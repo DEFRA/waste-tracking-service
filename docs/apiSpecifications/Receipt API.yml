@@ -641,7 +641,7 @@ components:
     address:
       type: object
       required:
-        - postCode
+        - postcode
       properties:
         fullAddress:
           type: string
