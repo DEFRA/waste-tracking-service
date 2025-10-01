@@ -461,8 +461,8 @@ components:
           description: |
             Provide reasons for not having the carrier registration number.
             <p><font color="green"><b>Business Rules:</b></font></p> 
-            If “Null” is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required. 
-            If a string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is not required.
+            If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required. 
+            If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.
           example: Waste carrier did not provide a carrier registration number.
         organisationName:
           type: string
