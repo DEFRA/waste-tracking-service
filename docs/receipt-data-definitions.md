@@ -79,7 +79,7 @@ They are a draft and may be updated to reflect changes to policy, legislation an
 | Receiver email               | Optional              | The receiver's email address.                                |
 | Receiver phone number        | Optional              | The receiver's business contact number.                      |
 | Receiver’s authorisation number             | Mandatory             | This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation.                                                                                                    |
-| Regulatory position statement               | Mandatory             | A regulatory position statement (RPS) is issued when the Environment Agency don’t require you to have a permit to carry out certain activities that they regulate. The statement will state which activities you do not require a permit for. |
+| Regulatory position statement               | Optional             | A regulatory position statement (RPS) is issued when the Environment Agency don’t require you to have a permit to carry out certain activities that they regulate. The statement will state which activities you do not require a permit for. |
 
 ## Receipt
 
