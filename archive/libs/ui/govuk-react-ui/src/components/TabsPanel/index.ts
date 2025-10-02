@@ -1,1 +1,0 @@
-export { TabsPanel } from './TabsPanel';

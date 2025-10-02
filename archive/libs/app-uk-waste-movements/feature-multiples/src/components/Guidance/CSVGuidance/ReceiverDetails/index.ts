@@ -1,1 +1,0 @@
-export { ReceiverDetails } from './ReceiverDetails';

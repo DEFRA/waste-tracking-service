@@ -1,1 +1,0 @@
-export { getPageRange } from './getPageRange';

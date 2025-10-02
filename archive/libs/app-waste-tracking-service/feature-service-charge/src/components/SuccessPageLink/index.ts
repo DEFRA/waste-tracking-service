@@ -1,1 +1,0 @@
-export { SuccessPageLink } from './SuccessPageLink';

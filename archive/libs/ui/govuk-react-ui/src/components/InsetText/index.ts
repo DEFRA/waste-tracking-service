@@ -1,1 +1,0 @@
-export { InsetText } from './InsetText';

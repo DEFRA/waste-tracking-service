@@ -1,9 +1,0 @@
-server: hub.browserstack.com
-
-common_caps:
-  build: browserstack-build-1
-  browserstack.debug: true
-  name: BStack single capybara
-
-browser_caps:
-  - browser: chrome

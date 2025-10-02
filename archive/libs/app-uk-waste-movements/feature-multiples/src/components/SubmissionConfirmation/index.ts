@@ -1,1 +1,0 @@
-export { SubmissionConfirmation } from './SubmissionConfirmation';

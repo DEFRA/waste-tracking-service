@@ -1,7 +1,0 @@
-@import 'node_modules/govuk-frontend/dist/govuk/base';
-@import 'accessible-autocomplete';
-
-.autocomplete__input,
-.autocomplete__wrapper {
-  @include govuk-typography-common($font-family: $govuk-font-family);
-}

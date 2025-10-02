@@ -1,1 +1,0 @@
-export { LinkCard } from './LinkCard';

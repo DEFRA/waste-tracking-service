@@ -1,1 +1,0 @@
-export { UploadForm } from './UploadForm';

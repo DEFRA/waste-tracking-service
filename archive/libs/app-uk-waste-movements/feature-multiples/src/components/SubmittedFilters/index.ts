@@ -1,1 +1,0 @@
-export { SubmittedFilters } from './SubmittedFilters';

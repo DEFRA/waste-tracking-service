@@ -1,1 +1,0 @@
-1. Application can be accessed through Dapr service invocation.

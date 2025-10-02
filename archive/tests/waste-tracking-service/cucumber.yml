@@ -1,5 +1,0 @@
-#parallel: --format json -o 'reports/parallel/<%= ENV['TEST_ENV_NUMBER'].to_i + 1 %>.json'
-# <% test_batch_id = "#{ENV['TEST_ENV_NUMBER']}" %>
-
-parallel: >
-  --format junit --out reports/junit_<%= test_batch_id %>/
