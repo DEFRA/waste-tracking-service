@@ -131,9 +131,11 @@ components:
                     "Household Waste Recycling Centre Receipt"
                   ]
                 description: Reason provided for not having a consignment code. 
-                  <p><font color="green"><b>Business Rule:</b></font></p> 
-                  If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.
-                  If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Local Authority Receipt”. 
+                  <p><font color="green"><b>Business Rules:</b></font></p>
+                  <ul>
+                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
+                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non-Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Household Waste Recycling Centre Receipt”.</li>
+                  </ul> 
                 example: Carrier did not provide documentation
               yourUniqueReference:
                 type: string
