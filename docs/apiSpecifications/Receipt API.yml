@@ -596,9 +596,18 @@ components:
               <p><font color="blue"><b>Northern Ireland:</b></font></p>
               <ul>
                 <li>P9999/99X - Permit with division (e.g., P1234/56A)</li>
+                <li>P9999/99X/V# - Permit with version number (e.g., P1234/56A/V1)</li>
                 <li>WPPC 99/99 - Waste Prevention and Control (e.g., WPPC 12/34)</li>
+                <li>WPPC 99/99/V# - WPPC with version number (e.g., WPPC 12/34/V2)</li>
+                <li>WML 99/# - File reference (e.g., WML 07/61)</li>
+                <li>WML 99/#/T - File reference with transfer (e.g., WML 19/36/T)</li>
+                <li>LN/99/# - Licence number (e.g., LN/13/02)</li>
+                <li>LN/99/# with suffixes - Licence with M, V#, T, C, or N in any combination (e.g., LN/13/02/M/V2)</li>
+                <li>PAC/9999/WCL999 - Planning Appeals Commission format (e.g., PAC/2014/WCL001)</li>
+                <li>WML 99/# LN/99/# - Combined file reference and licence (e.g., WML 07/61 LN/13/02/M/V2)</li>
+                <li>WML 99/# PAC/9999/WCL999 - Combined file reference and PAC (e.g., WML 04/38 PAC/2014/WCL001)</li>
               </ul>
-           example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34"]
+           example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34", "LN/13/02/M/V2", "PAC/2014/WCL001", "WML 04/38 PAC/2014/WCL001"]
         regulatoryPositionStatements:
           type: array
           items:
