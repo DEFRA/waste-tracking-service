@@ -25,9 +25,11 @@ paths:
             application/json:
               schema:
                 type: object
-                example:
-                  statusCode: 201
-                  globalMovementId: 25Z34MR9
+                example: 
+                  {
+                    "statusCode": "201",
+                    "globalMovementId": "25Z34MR9"
+                  }
                 properties:
                   wasteTrackingId:
                     type: string
@@ -64,14 +66,15 @@ paths:
             application/json:
               schema:
                 type: object
-                example:
-                  statusCode: 200
-                  globalMovementId: 25Z34MR9
+                example: |
+                  {
+                    "message": "Receipt movement updated successfully"
+                  } 
                 properties:
                   wasteTrackingId:
                     type: string
                     description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement.
-                    example: 25HRA0B2
+                    example: 25Z34MR9
                   validation:
                     type: object
                     properties:
@@ -117,7 +120,7 @@ components:
                 type: string
                 description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory. 
                     <p><font color="red">England & Wales:</font></p>
-                    <p>format-  XXXXXX/YYYYY</p>
+                    <p><i>Format-</i>  XXXXXX/YYYYY</p>
                     <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
                     <p><font color="red">Scotland</font></p>
                     <p><i>Format-</i>  SA, SB or SC followed by a 7-digit number (e.g. SB1234567). Also known as Special Waste Consignment Note</p>
@@ -139,11 +142,9 @@ components:
                     "Household Waste Recycling Centre Receipt"
                   ]
                 description: Reason provided for not having a consignment code. 
-                  <p><font color="green"><b>Business Rules:</b></font></p>
-                  <ul>
-                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non-Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Household Waste Recycling Centre Receipt”.</li>
-                  </ul> 
+                  <p><font color="green"><b>Business Rule:</b></font></p> 
+                  If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.
+                  If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Local Authority Receipt”. 
                 example: Carrier did not provide documentation
               yourUniqueReference:
                 type: string
@@ -212,13 +213,13 @@ components:
           description: |
             An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK.  
             The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them. 
-            To find an EWC code for a particular waste item, use the Dsposal
+            To find an EWC code for a particular waste item, use the <i>Dsposal</i>
             <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">waste thesaurus.</a><p></p>
             <font color="red"><b>The official EWC legislation decision EUR-Lex from the European Union 2000/532 is contained</b></font> 
             <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">here.</a><p></p>
             <font color="red"><b>The list of Waste Regulations 2005 for the UK (specifically England) can be found</b></font>
             <a href="https://www.legislation.gov.uk/uksi/2005/895/schedule/1/made">here.</a><p></p>
-            More information on EWC codes can also be found in the European Waste Catalogue (produced by CSG) can be found
+            More information on EWC codes can also be found in the European Waste Catalogue (produced by CSG) which can be found
               <a href="https://www.csg.co.uk/resources/ewc-codes#:~:text=This%20European%20Waste%20Catalogue%20checker%20helps%20you%20find, either%20by%20waste%20stream%20or%20by%20list%20view">here.</a>
               <p><font color="green"><b>Business Rule:</b></font></p> 
               Must be six digits (no spaces) and in the official wasteItem.ewcCode EWC catalog EUR-Lex. 
@@ -282,10 +283,10 @@ components:
               description: |
                 Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
                 Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste.
-                <p><a>https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low</a></p>
+                <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a></p>
                 <p>More information on POPs can be found here:</p>
-                <a>https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
-                <a>https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops</a>
+                <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
+                <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p>
               example: true
             sourceOfComponents:
               type: string
@@ -356,13 +357,13 @@ components:
               description: |
                 Hazardous waste codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP1 - HP15. 
                 To find a code for a potential hazourdous waste item, use the following waste thesaurus:
-                <p><a>https://dsposal.uk/your/waste-thesaurus?keyword=Petrol+Containing+Acidum+Salis&type=low</a></p>                
+                <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Petrol+Containing+Acidum+Salis&type=low">Waste Thesaurus</a></p>         
                  <p><b><font color="red">The official EWC code legislation decision EUR-Lex from the European Union 2000/532 is contained here in Annex III:</font></b><p>
-                <a>https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA</a>
+                <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA"></a>
                 <p><font color="red">Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
-                 <p><a>https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf</a></p><p></p><p></p>
-                <p>For more information refer to the waste support website at:</p>  <p><a>https://www.wastesupport.co.uk/hazard-codes/</a></p> <p>More information on hazardous waste codes and classification is available below.</p> 
-                <a>https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland</a>
+                 <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
+                <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p> 
+                <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP10 - Wastes from Thermal Processes</p>
@@ -402,26 +403,29 @@ components:
           description: |
             <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
             <p><b>Home Nations Codes:</p>
-            <p><font color="blue"><b>Wales:</b></font></p>
-                CBDL999999, CBDU999999 (3+ digits)
-                <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>       
+            <p><font color="blue"><b>Wales NRW:</b></font></p>
+                XX9999XX, EPR/XX9999XX    
             <p><font color="blue"><b>England:</b></font></p>
-                CBDL999999, CBDU999999 (3+ digits)
-                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>      
-            <p><font color="blue"><b>Scotland:</b></font></p>
-                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
-                <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
-               <p>Current format – WCR/R/1234567</p>
-               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
-               <p>Proposed format under new regulations (from April 2026) - EAS/R/xxxxxx (xxxxxx being actual numbers).</p>
-            <p><font color="blue"><b>Northern Ireland</b></font></p>
-                ROC UT 9, ROC UT 99, ROC UT 999, ROC UT 9999,ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
-                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note that spaces are not mandatory.<p></p>
-                ROC UT 9999
-                ROC LT 9999
-                <p></p><p></p>
-                <p><b>General Format:</b> 9 is a digit 0-9</p>
-          example: England - CBDL123456, CBDU123456, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432
+                EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, PR/XX9999XX/D9999 (the last one with a D rep permit number with deployment)
+            <p><font color="blue"><b>Scotland SEPA:</b></font></p>
+                PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999, *EAS/P/999999
+               <p>*Proposed format under new regulations (from April 2026) - EAS/R/xxxxxx (xxxxxx being actual numbers).</p>
+            <p><font color="blue"><b>Northern Ireland NRI</b></font></p>
+                P9999/99X, P9999/99X/V#, WPPC 99/99, WPPC 99/99/V#, PAC/9999/WCL999
+                <p></p>
+                WML 99/# (where # could mean any positive integer)
+                <p></p>
+                LN/99/# (where # could mean any positive integer and can also have 01,02,---09, 10-99,100-999, etc))
+                <p></p>
+                WML 99/# (Could have  /T appended) which means a transfer
+                <p></p>
+                LN/99/# (Could have any of the following (/M-modification, /V#-variation, /T-transfer, /C-closure) appended in any combination.
+                <p></p>
+                In V#, # means any positive integer.
+                <p></p>
+                Please see rationale below:
+                <p></p>
+                Licences have file reference beginning WML and a licence number beginning LN.  Additional characters may be appended (/M-modification, /V#-variation, /T-transfer, /C-closure) eg WML 07/61 LN/13/02/M/V2, WML 19/36/T LN/10/35/T/M. The format of the licence number when granted following appeal to PAC can vary, e.g. WML 04/38 PAC/2014/WCL001
         reasonForNoRegistrationNumber:
           type: string
           description: |
@@ -653,8 +657,9 @@ components:
         key:
           type: string
           example:
-            "statusCode": 201,
-            "globalMovementId": "25HRA0B2"
+            {
+              "message": "Receipt movement updated successfully"
+            }
         errorType:
           type: string
           example: NotProvided
@@ -738,4 +743,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
