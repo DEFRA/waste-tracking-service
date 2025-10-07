@@ -529,45 +529,54 @@ components:
              type: string
            description: |
             This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation. AT least one authorisation number is required.
-            <p><font color="green"><b>Business Rules:</b></font></p>
-              <ul>
-                <li>At least one authorisation number is required</li>
-                <li>Must match a valid UK format pattern (case-insensitive)</li>
-                <li>All UK nation formats are accepted (no nation-specific validation)</li>
-                <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
-              </ul>
-              <p>Home Nations Codes (where 9 is a digit 0-9, X is a letter A-Z):</p>
+              <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
                 <li>EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, PR/XX9999XX/D9999 (the last one with a D rep permit number with deployment)</li>
               </ul>
               <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
               <ul>
-                <li>PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999,  EAS/P/999999</li>
+                <li>PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999, EAS/P/999999</li>
               </ul>
               <p><font color="blue"><b>Wales (NRW):</b></font></p>
               <ul>
                 <li>XX9999XX, EPR/XX9999XX</li>
               </ul>
-              <p><font color="blue"><b>Northern Ireland:</b></font></p>
+              <p><font color="blue"><b>Northern Ireland (NRI):</b></font></p>
               <ul>
-                <li>P9999/99X, P9999/99X/V#, WPPC 99/99, WPPC 99/99/V#, PAC/9999   /WCL999<p></p>
+                <li>P9999/99X, P9999/99X/V#, WPPC 99/99, WPPC 99/99/V#<p></p>
+                <font color="red">WML 99/# PAC/9999/WCL999
+                WML 99/# LN/99/#</font>
+                </li><p></p>
+                Please note the following explanation:<p></p>
                 WML 99/# (where # could mean any positive integer)
                   <p>LN/99/# (where # could mean any positive integer and can also have 01,02,---09, 10-99,100-999, etc))</p>
                   WML 99/# (Could have  /T appended) which means a transfer
                   <p>LN/99/# (Could have any of the following (/M-modification, /V#-variation, /T-transfer, /C-closure) appended in any combination.</p>
                  In V#, # means any positive integer.</li>
+                 <p></p>
+                 Rationale:
+                <p></p>
+                 Licences have file reference beginning WML and a licence number beginning LN.  Additional characters may be appended (/M-modification, /V#-variation, /T-transfer, /C-closure) eg WML 07/61 LN/13/02/M/V2, WML 19/36/T LN/10/35/T/M.  Format of licence number when granted following appeal to PAC can vary, eg WML 04/38 PAC/2014/WCL001
+                 <p>Further explanation below:</p>
                 <li>P9999/99X - Permit with division (e.g., P1234/56A)</li>
                 <li>P9999/99X/V# - Permit with version number (e.g., P1234/56A/V1)</li>
                 <li>WPPC 99/99 - Waste Prevention and Control (e.g., WPPC 12/34)</li>
                 <li>WPPC 99/99/V# - WPPC with version number (e.g., WPPC 12/34/V2)</li>
-                <li>WML 99/# - File reference (e.g., WML 07/61)</li>
+                <li>WML 99/# - File reference (e.g., C)</li>
                 <li>WML 99/#/T - File reference with transfer (e.g., WML 19/36/T)</li>
                 <li>LN/99/# - Licence number (e.g., LN/13/02)</li>
                 <li>LN/99/# with suffixes - Licence with M, V#, T, C, or N in any combination (e.g., LN/13/02/M/V2)</li>
                 <li>PAC/9999/WCL999 - Planning Appeals Commission format (e.g., PAC/2014/WCL001)</li>
                 <li>WML 99/# LN/99/# - Combined file reference and licence (e.g., WML 07/61 LN/13/02/M/V2)</li>
                 <li>WML 99/# PAC/9999/WCL999 - Combined file reference and PAC (e.g., WML 04/38 PAC/2014/WCL001)</li>
+              </ul>
+              <p><font color="green"><b>Business Rules:</b></font></p>
+              <ul>
+                <li>At least one authorisation number is required</li>
+                <li>Must match a valid UK format pattern (case-insensitive)</li>
+                <li>All UK nation formats are accepted (no nation-specific validation)</li>
+                <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
               </ul>
            example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34", "LN/13/02/M/V2", "PAC/2014/WCL001", "WML 04/38 PAC/2014/WCL001"]
         regulatoryPositionStatements:
@@ -729,3 +738,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
