@@ -80,7 +80,7 @@ paths:
     get:
       description: Endpoint used to get a list of EWC codes.
       responses:
-        "201":
+        "200":
           description: Success.
           content:
             application/json:
@@ -101,7 +101,7 @@ paths:
     get:
       description: Endpoint used to get a list of hazardous property codes.
       responses:
-        "201":
+        "200":
           description: Success.
           content:
             application/json:
