@@ -89,7 +89,7 @@ paths:
 components:
   requestBodies:
     receiveMovementRequest:
-      description: Details of the waste movement to be created. The mandatory paramaters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      description: Details of the waste movement to be created or updated. The mandatory paramaters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
       required: true
       content:
         application/json:
@@ -268,7 +268,7 @@ components:
               <li>[WBI] Wheelie Bin (any size)</li>
             </ul>
             <p><font color="green"><b>Business Rule:</b></font></p> 
-            Must be in disposalOrRecoveryCode.code list.
+            Must be in typeOfContainers list.
           example: rubble bag, refuse sack, pallet
         weight:
           $ref: "#/components/schemas/weight"
@@ -402,30 +402,25 @@ components:
           nullable: true
           description: |
             <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
-            <p><b>Home Nations Codes:</p>
-            <p><font color="blue"><b>Wales NRW:</b></font></p>
-                XX9999XX, EPR/XX9999XX    
-            <p><font color="blue"><b>England:</b></font></p>
-                EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, PR/XX9999XX/D9999 (the last one with a D rep permit number with deployment)
-            <p><font color="blue"><b>Scotland SEPA:</b></font></p>
-                PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999, *EAS/P/999999
-               <p>*Proposed format under new regulations (from April 2026) - EAS/R/xxxxxx (xxxxxx being actual numbers).</p>
-            <p><font color="blue"><b>Northern Ireland NRI</b></font></p>
-                P9999/99X, P9999/99X/V#, WPPC 99/99, WPPC 99/99/V#, PAC/9999/WCL999
-                <p></p>
-                WML 99/# (where # could mean any positive integer)
-                <p></p>
-                LN/99/# (where # could mean any positive integer and can also have 01,02,---09, 10-99,100-999, etc))
-                <p></p>
-                WML 99/# (Could have  /T appended) which means a transfer
-                <p></p>
-                LN/99/# (Could have any of the following (/M-modification, /V#-variation, /T-transfer, /C-closure) appended in any combination.
-                <p></p>
-                In V#, # means any positive integer.
-                <p></p>
-                Please see rationale below:
-                <p></p>
-                Licences have file reference beginning WML and a licence number beginning LN.  Additional characters may be appended (/M-modification, /V#-variation, /T-transfer, /C-closure) eg WML 07/61 LN/13/02/M/V2, WML 19/36/T LN/10/35/T/M. The format of the licence number when granted following appeal to PAC can vary, e.g. WML 04/38 PAC/2014/WCL001
+             <p><b>Home Nations Codes:</b></p>
+             <p><b>General Format</b> where 9 is a digit 0-9</p>
+             <p><font color="blue"><b>Wales NRW:</b></font></p>
+                CBDL999999, CBDU999999
+                <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
+             <p><font color="blue"><b>England:</b></font></p>
+                CBDL999999, CBDU999999 (3+ digits)
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
+             <p><font color="blue"><b>Scotland SEPA:</b></font></p>
+                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
+                <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
+               <p>Current format – WCR/R/1234567</p>
+               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
+             <p><font color="blue"><b>Northern Ireland NI</b></font></p>
+                <p></p><p>ROC UT 9,ROC UT 99,ROC UT 999,ROC UT 9999,ROC UT 99999,  ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999 </p>
+                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces are not mandatory.<p></p> For example:
+                ROC UT 9999
+                ROC LT 9999<p></p><p></p>
+                <p><b>General Format</b> where 9 is a digit 0-9</p>
         reasonForNoRegistrationNumber:
           type: string
           description: |
@@ -490,19 +485,19 @@ components:
           description: |
              <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
              <p><b>Home Nations Codes:</b></p>
-             <p><font color="blue"><b>Wales:</b></font></p>
+             <p><b>General Format</b> where 9 is a digit 0-9</p>
+             <p><font color="blue"><b>Wales NRW:</b></font></p>
                 CBDL999999, CBDU999999
                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
                 CBDL999999, CBDU999999
                  <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
-             <p><font color="blue"><b>Scotland:</b></font></p>
+             <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
                <p>Current format – WCR/R/1234567</p>
                <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
-               <p>Proposed format under new regulations (from April 2026) - EAS/R/xxxxxx (xxxxxx being actual numbers).</p>
-             <p><font color="blue"><b>Northern Ireland</b></font></p>
+             <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
                 ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999,ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
                 Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces.<p></p>
                 ROC UT 9999
@@ -618,9 +613,9 @@ components:
           type: string
           description: |
              Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
-              To find a code for a particular waste item, use the following waste thesaurus:
-              <p><a>https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low</a></p>
-              <p><b><font color="red">For the offical source of information, refer to the EU Directive in Annex I and Annex II where it defines Disposal and Recovery Codes on page 312/23 in this link:</b></font></p><p><a>https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA</a></p>
+              To find a code for a particular waste item, use the following 
+             <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">waste thesaurus:</a></p>
+              <b><font color="red">For the offical source of information, refer to the EU Directive in Annex I and Annex II where it defines Disposal and Recovery Codes on page 312/23</b></font> <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">in this link.</a>
               <p><font color="green"><b>Business Rule:</b></font></p> 
               If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code listed in EUR-Lex. 
           example: |
