@@ -97,6 +97,23 @@ paths:
                       type: boolean
                       description: True if the EWC code is for hazardous waste, otherwise false.
                       example: true
+  /reference-data/hazardous-property-codes:
+    get:
+      description: Endpoint used to get a list of hazardous property codes.
+      responses:
+        "201":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The hazardous property code.
+                      example: HP_01
 components:
   requestBodies:
     receiveMovementRequest:
