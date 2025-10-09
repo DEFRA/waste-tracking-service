@@ -302,9 +302,45 @@ components:
                   name:
                     type: string
                     description: |
-                      The name of the POP e.g.  Persistant Organic Pollutant (POP). <ul> <li>Aldrin,</li> <li>Chlordane,</li> <li>Chlordecone,</li> <li>Dicofol,</li> <li>Dieldrin,</li> <li>Endrin,</li> <li>Heptachlor,</li> <li>Hexabromobiphenyl,</li> <li>Hexabromocyclododecane (HBCDD),</li> <li>Hexabromodiphenyl ether and heptabromodiphenyl ether,</li> <li>Hexachlorobenzene (HCB),</li> <li>Hexachlorobutadiene,</li> <li>Alpha hexachlorocyclohexane,</li> <li>Beta hexachlorocyclohexane, </li> <li>Lindane,</li> <li>Mirex,</li> <li>Pentachlorobenzene,</li> <li>Polychlorinated biphenyls (PCB),</li> <li>Toxaphene,</li> <li>DDT,</li> <li>Perfluorooctane sulfonic acid (PFOS) its salts and perfluorooctane sulfonyl fluorid,</li> <li>Chlordane,</li> <li>Polychlorinated dibenzo-p-dioxins (PCDD),</li> <li>Polychlorinated dibenzofurans (PCDF),</li> <li>UV-328 </li><li>Carrier did not provide detail</li></ul> <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found here:</p> <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a> <p>See also Annex B and Annex C in this document for Restricted and Unintentional releases of chemicals respectively.</p> 
-                        <p><font color="green"><b>Business Rule:</b></font></p>
-                        Optional field. If provided, it must be a valid POP name from the list above.
+                      The name of the POP e.g.  Persistant Organic Pollutant (POP). 
+                      <ul>
+                      <li>Endosulfan,</li>
+                      <li>Hexachlorobutadiene,</li>
+                      <li>Polychlorinated naphthalenes,</li>
+                      <li>SCCPs,</li>
+                      <li>Tetrabromodiphenyl ether,</li>
+                      <li>Pentabromodiphenyl ether,</li>
+                      <li>Hexabromodiphenyl ether,</li>
+                      <li>Heptabromodiphenyl ether,</li>
+                      <li>Decabromodiphenyl ether,</li>
+                      <li>Tetra-, penta-, hexa-, hepta- and deca- bromodiphenyl ether,</li>
+                      <li>PFOS,</li>
+                      <li>PCDD/PCDF,</li>
+                      <li>DDT,</li>
+                      <li>Chlordane,</li>
+                      <li>Hexachlorocyclohexanes,</li>
+                      <li>Dieldrin,</li>
+                      <li>Endrin,</li>
+                      <li>Heptachlor,</li>
+                      <li>Hexachlorobenzene,</li>
+                      <li>Chlordecone,</li>
+                      <li>Aldrin,</li>
+                      <li>Pentachlorobenzene,</li>
+                      <li>PCB,</li>
+                      <li>Mirex,</li>
+                      <li>Toxaphene,</li>
+                      <li>Hexabromobiphenyl,</li>
+                      <li>Hexabromocyclododecane,</li>
+                      <li>Pentachlorophenol,</li>
+                      <li>PFOA,</li>
+                      <li>Dicofol,</li>
+                      <li>PFHxS</li>
+                      </ul> 
+                      <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found here:</p>
+                      <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
+                      <p>See also Annex B and Annex C in this document for Restricted and Unintentional releases of chemicals respectively.</p> 
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, it must be a valid POP name from the list above.
                     example: Aldrin, Chlordane, Dieldrin.
                   concentration:
                     type: number
@@ -365,6 +401,8 @@ components:
               type: array
               items:
                 type: object
+                required:
+                  - name
                 properties:
                   name:
                     type: string
@@ -571,13 +609,6 @@ components:
                 <li>All UK nation formats are accepted (no nation-specific validation)</li>
                 <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
               </ul>
-              <p><font color="green"><b>Business Rules:</b></font></p>
-              <ul>
-                <li>At least one authorisation number is required</li>
-                <li>Must match a valid UK format pattern (case-insensitive)</li>
-                <li>All UK nation formats are accepted (no nation-specific validation)</li>
-                <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
-              </ul>
            example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34", "LN/13/02/M/V2", "PAC/2014/WCL001", "WML 04/38 PAC/2014/WCL001"]
         regulatoryPositionStatements:
           type: array
@@ -657,7 +688,7 @@ components:
     address:
       type: object
       required:
-        - postCode
+        - postcode
       properties:
         fullAddress:
           type: string
