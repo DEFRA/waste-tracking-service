@@ -1,0 +1,152 @@
+---
+title: Receipt API TechnicaI Interface Specification (TIS)
+weight: 1
+description: FPOs, Software developers, designers, product owners or business analysts. Integrate your software with the (UKIMs) Authorisation Checker API service.
+---
+Version 0.1 issued June 2024
+
+Author: Keith Birch
+
+
+# UK Internal Market Scheme (UKIMS) Authorisation Checker API Technical Interface Specification (TIS)
+
+## Document summary
+This document is the technical interface specification (TIS) for the UKIMs Authorisation Checker API. It shows the processes involved in the exchange of messages between Fast Parcel Operators (FPOs) and this UKIMS API during Great Britain and Northern Ireland (GB/XI) customs movements. It provides definitions and formats used 
+
+## Introduction
+This API allows Fast Parcel Operators (FPOs), software developers and third party software users to check if the holders of provided EORI Numbers have a valid UKIMS authorisation. The aim is to avoid possible rejections of goods moving through from GB-NI, which could physically stop the B2B parcels. The API is based on REST principles with a single POST method endpoint that returns data in JSON format. It uses standard HTTP error response codes.
+
+### Related documentation
+The TIS should be read with the following related documentation: 
+- UKIMS Authorisation Checker API v1.0 reference guide.
+- UKIMS Authorisation Checker API v1.0 service guide 
+
+### Changelog
+You can find the changelog in the UK Internal Market Scheme (UKIMS) Authorisation Checker API Reference Guide Changelog · hmrc/ukim-auth-checker-api Wiki (github.com).
+
+## Process Flows
+
+### Basic High Level Process Flow for EORI Check
+
+![Process Flow](FlowDiagram-UKIM3.png)
+
+```mermaid
+title UKIMS Authorisation Checker API
+ 
+activate Third Party Software
+ 
+activate oauth
+Third Party Software->oauth:GET /token
+Third Party Software<--oauth:Access token (4hr expiry)
+deactivate oauth
+ 
+activate UKIMS Authorisation Checker API
+Third Party Software->UKIMS Authorisation Checker API:POST /customs/uk-internal-market-scheme/eori/lookup/check-multiple-eori
+ 
+
+Third Party Software<--UKIMS Authorisation Checker API:HTTP 200 - JSON with results
+  
+deactivate Third Party Software
+deactivate UKIMS Authorisation Checker API
+```
+
+## Data Items Format
+<%= partial 'documentation/partials/google_tag_manager_js' %>
+
+Each data item within a EORI check can be one of the following:
+
+- alphanumeric (an)
+- text field (a
+- dateTime
+- date
+- time
+
+A field may be defined with a certain number of characters. `..` is used to mean 'up to'. 
+
+For example: 
+
+-	`a2` refers to a text field of exactly 2 characters
+-	`an..32` refers to an alphanumeric value up to 32 characters in length.
+
+
+## Numerical Fields
+
+Numerical fields contain either a cardinal value (positive integer value).
+
+Triad separators, such as a comma, must not be used.
+
+Signs, whether positive or negative, must not be used (all values are always intrinsically positive).
+
+For numerical values, leading zeroes must not be used. Trailing zeroes should only be used to indicate precision.
+
+Below are some worked examples for a n..11,3 type:
+
+| Value entered    | Status  | Details                                                                                         |
+| ---------------- | ------- | ----------------------------------------------------------------------------------------------- |
+| 12345678.123     | Valid   |                                                                                                 |
+| 123456789012.123 | Invalid | Too many digits before decimal point and hence too many digits in total                         |
+| 12345678.1234    | Invalid | Too many digits after decimal point and hence too many digits in total                          |
+| 0123             | Invalid | Leading zero not permitted                                                                      |
+| +123             | Invalid | Plus sign not allowed                                                                           |
+| -123             | Invalid | Minus sign not allowed                                                                          |
+| 1,234            | Invalid | Triad separator not allowed                                                                     |
+| .3               | Invalid | No digit before decimal point                                                                   |
+| 12345.           | Invalid | No digit after decimal point                                                                    |
+| 0.3              | Valid   |                                                                                                 |
+| 1.3E1            | Invalid | Only digits and decimal point allowed                                                           |
+| 12345678901      | Valid   | n..11,3 can have a maximum of 11 digits, of which a maximum of 3 can be after the decimal point |
+
+The rules above also apply to numerical values within Codelists. Values in such a list should always be stored without leading zeroes (in order to avoid problems of comparing e.g. a value of 60 against a value of 060). If the leading zeroes are omitted, a numerical comparison should always work out fine.
+
+There are no Codelists with decimal values.
+
+## Date/Time Fields
+
+The specification of Date and/or Time fields used in [message types](messagetypes.html) is as per [W3C XML Schema specification](http://www.w3.org/TR/xmlschema-0/) except that:
+
+- for all times in DateTime, Date and Time fields time zone must be omitted with the local time always implied as being the Coordinated Universal Time (UTC, sometimes called "Greenwich Mean Time");
+- all years in DateTime and Date fields are in the Common Era (i.e. AD), hence the negative sign is not permitted.
+
+Although you should refer to the [W3C XML Schema specification](http://www.w3.org/TR/xmlschema-0/), the following table indicates the format for each type and their corresponding regular expression.
+
+Date/Time fields format and their corresponding regular expressions:
+
+|Type| Regular Expression|
+| - | - |
+|Date	|yyyy '-' MM '-' dd<br></br>\d{4}-\d{2}-\d{2}|
+|Time	|hh ':' mm ':' ss ('.' s+)?<br></br>\d{2}:\d{2}:\d{2}(\.\d+)?|
+|Date/Time|	yyyy '-' MM '-' dd 'T' hh ':' mm ':' ss ('.' s+)?<br></br>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?|
+
+Where:
+
+- yyyy is a four-or-more digit
+- the remaining '-'s are separators between parts of the date portion
+- MM is a two-digit numeral that represents the month
+- dd is a two-digit numeral that represents the day
+- 'T' is a separator indicating that time-of-day follows
+- hh is a two-digit numeral that represents the hour; '24' is permitted if the minutes and seconds represented are zero, and the dateTime value so represented is the first instant of the following day (the hour property of a dateTime object in the ·value space· cannot have a value greater than 23)
+- ':' is a separator between parts of the time-of-day portion
+- mm is a two-digit numeral that represents the minute
+- ss is a two-integer-digit numeral that represents the whole seconds
+- '.' s+ (if present) represents the fractional seconds
+
+## Binary data
+
+For Data Items containing arbitrary binary data, Base64-encoding is used, thus the base64Binary XML Schema datatype.
+
+The specification of base64Binary fields used in [message types](messagetypes.html) is as per [W3C XML Schema specification](http://www.w3.org/TR/xmlschema-0/).
+
+The file format of binary embedded data should be limited to two specific standards based file formats:
+
+- Joint Photographic Experts Group (JPEG) for images
+- Portable Document Format (PDF) for documents
+
+The file format of binary embedded data can be determined by the first few bytes of the file (also known as “magic number”):
+
+- The Joint Photographic Experts Group (JPEG) files always begin with the bytes “FF D8”
+- The Portable Document Format (PDF) files always begin with the bytes “25 50 44 46” (the hex values of “%PDF”)
+
+### EORI Format
+### Json Body Format
+### Rules
+
