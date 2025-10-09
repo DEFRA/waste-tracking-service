@@ -384,12 +384,11 @@ components:
                     example: lead, mercury
                   concentration:
                     type: number
-                    minimum: 0
-                    exclusiveMinimum: true
+                    minimum: 1
                     description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a positive numeric value (greater than 0).
-                    example: 50
+                    example: 50, 12.5, 25.5
         disposalOrRecoveryCodes:
           type: array
           items:
