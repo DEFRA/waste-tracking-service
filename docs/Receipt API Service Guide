@@ -1,7 +1,6 @@
 ---
 title: DEFRA Receipt of Waste API Service Guide
-weight: 1
-description: This API Service Gudie is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
+description: This API Service Guide is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
 ---
 
 Version 1.0 issued October 2025
@@ -286,7 +285,7 @@ A detailed description of the error responses for this API can be found in the [
 ## API rate limiting
 Each software house should register a single application with HMRC. This application will be used to identify the software house during the OAuth 2.0 grant flow and will also be used in subsequent per user API calls. We limit the number of requests that each application can make. This protects our backend service against excessive load and encourages real-time API calls over batch processing.
 
-We set limits based on anticipated loads and peaks. Our standard limit is 3 requests per second per application. If you believe that your application will sustain traffic load above this value, contact the SDS Team at email [SDSTeam@defra.gov.uk](mailto:SDSTeam@defra.gov.uk)
+We set limits based on anticipated loads and peaks. Our standard limit is 3 requests per second per application. If you believe that your application will sustain traffic load above this value, contact the SDS Team at email [SDSTeam@defra.gov.uk](mailto:SDSTeam@defra.gov.uk XXXXX TBD)
 
 ## Changelog
 
