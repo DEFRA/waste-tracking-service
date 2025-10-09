@@ -25,12 +25,10 @@ paths:
             application/json:
               schema:
                 type: object
-                example: 
-                  {
-                    "statusCode": "201",
-                    "globalMovementId": "25Z34MR9"
-                  }
                 properties:
+                  statusCode:
+                    type: integer
+                    example: 201
                   wasteTrackingId:
                     type: string
                     description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when either a POST or PUT request is successful, i.e. return code 201, 200.
@@ -66,15 +64,7 @@ paths:
             application/json:
               schema:
                 type: object
-                example: |
-                  {
-                    "message": "Receipt movement updated successfully"
-                  } 
                 properties:
-                  wasteTrackingId:
-                    type: string
-                    description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement.
-                    example: 25Z34MR9
                   validation:
                     type: object
                     properties:
@@ -89,7 +79,7 @@ paths:
 components:
   requestBodies:
     receiveMovementRequest:
-      description: Details of the waste movement to be created or updated. The mandatory paramaters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
       required: true
       content:
         application/json:
@@ -118,7 +108,7 @@ components:
                 example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
               hazardousWasteConsignmentCode:
                 type: string
-                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory. 
+                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
                     <p><font color="red">England & Wales:</font></p>
                     <p><i>Format-</i>  XXXXXX/YYYYY</p>
                     <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
@@ -384,7 +374,8 @@ components:
                     example: lead, mercury
                   concentration:
                     type: number
-                    minimum: 1
+                    minimum: 0
+                    exclusiveMinimum: true
                     description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a positive numeric value (greater than 0).
@@ -580,6 +571,13 @@ components:
                 <li>All UK nation formats are accepted (no nation-specific validation)</li>
                 <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
               </ul>
+              <p><font color="green"><b>Business Rules:</b></font></p>
+              <ul>
+                <li>At least one authorisation number is required</li>
+                <li>Must match a valid UK format pattern (case-insensitive)</li>
+                <li>All UK nation formats are accepted (no nation-specific validation)</li>
+                <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
+              </ul>
            example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34", "LN/13/02/M/V2", "PAC/2014/WCL001", "WML 04/38 PAC/2014/WCL001"]
         regulatoryPositionStatements:
           type: array
@@ -648,10 +646,7 @@ components:
       properties:
         key:
           type: string
-          example:
-            {
-              "message": "Receipt movement updated successfully"
-            }
+          example: wasteItems[0].disposalOrRecoveryCodes
         errorType:
           type: string
           example: NotProvided
