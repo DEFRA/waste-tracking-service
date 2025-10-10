@@ -25,12 +25,10 @@ paths:
             application/json:
               schema:
                 type: object
-                example: 
-                  {
-                    "statusCode": "201",
-                    "globalMovementId": "25Z34MR9"
-                  }
                 properties:
+                  statusCode:
+                    type: integer
+                    example: 201
                   wasteTrackingId:
                     type: string
                     description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when either a POST or PUT request is successful, i.e. return code 201, 200.
@@ -66,15 +64,7 @@ paths:
             application/json:
               schema:
                 type: object
-                example: |
-                  {
-                    "message": "Receipt movement updated successfully"
-                  } 
                 properties:
-                  wasteTrackingId:
-                    type: string
-                    description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement.
-                    example: 25Z34MR9
                   validation:
                     type: object
                     properties:
@@ -89,7 +79,7 @@ paths:
 components:
   requestBodies:
     receiveMovementRequest:
-      description: Details of the waste movement to be created or updated. The mandatory paramaters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
       required: true
       content:
         application/json:
@@ -118,7 +108,7 @@ components:
                 example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
               hazardousWasteConsignmentCode:
                 type: string
-                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory. 
+                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
                     <p><font color="red">England & Wales:</font></p>
                     <p><i>Format-</i>  XXXXXX/YYYYY</p>
                     <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
@@ -239,10 +229,10 @@ components:
           type: integer
           minimum: 0
           nullable: false
-          description: Number of containers for storing, transporting and disposing of waste materials. 
-            <p><font color="green"><b>Business Rule:</b></font></p> 
-            This must be a positive integer entry.
-          example: 2, 3
+          description: Number of containers for storing, transporting and disposing of waste materials.
+            <p><font color="green"><b>Business Rule:</b></font></p>
+            This must be a non-negative integer (0 or greater).
+          example: 2
         typeOfContainers:
           type: string
           nullable: false
@@ -312,16 +302,54 @@ components:
                   name:
                     type: string
                     description: |
-                      The name of the POP e.g.  Persistant Organic Pollutant (POP). <ul> <li>Aldrin,</li> <li>Chlordane,</li> <li>Chlordecone,</li> <li>Dicofol,</li> <li>Dieldrin,</li> <li>Endrin,</li> <li>Heptachlor,</li> <li>Hexabromobiphenyl,</li> <li>Hexabromocyclododecane (HBCDD),</li> <li>Hexabromodiphenyl ether and heptabromodiphenyl ether,</li> <li>Hexachlorobenzene (HCB),</li> <li>Hexachlorobutadiene,</li> <li>Alpha hexachlorocyclohexane,</li> <li>Beta hexachlorocyclohexane, </li> <li>Lindane,</li> <li>Mirex,</li> <li>Pentachlorobenzene,</li> <li>Polychlorinated biphenyls (PCB),</li> <li>Toxaphene,</li> <li>DDT,</li> <li>Perfluorooctane sulfonic acid (PFOS) its salts and perfluorooctane sulfonyl fluorid,</li> <li>Chlordane,</li> <li>Polychlorinated dibenzo-p-dioxins (PCDD),</li> <li>Polychlorinated dibenzofurans (PCDF),</li> <li>UV-328 </li><li>Carrier did not provide detail</li></ul> <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found here:</p> <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a> <p>See also Annex B and Annex C in this document for Restricted and Unintentional releases of chemicals respectively.</p> 
-                        <p><font color="green"><b>Business Rule:</b></font></p>
-                        Optional field. If provided, it must be a valid POP name from the list above.
+                      The name of the POP e.g.  Persistant Organic Pollutant (POP). 
+                      <ul>
+                      <li>Endosulfan,</li>
+                      <li>Hexachlorobutadiene,</li>
+                      <li>Polychlorinated naphthalenes,</li>
+                      <li>SCCPs,</li>
+                      <li>Tetrabromodiphenyl ether,</li>
+                      <li>Pentabromodiphenyl ether,</li>
+                      <li>Hexabromodiphenyl ether,</li>
+                      <li>Heptabromodiphenyl ether,</li>
+                      <li>Decabromodiphenyl ether,</li>
+                      <li>Tetra-, penta-, hexa-, hepta- and deca- bromodiphenyl ether,</li>
+                      <li>PFOS,</li>
+                      <li>PCDD/PCDF,</li>
+                      <li>DDT,</li>
+                      <li>Chlordane,</li>
+                      <li>Hexachlorocyclohexanes,</li>
+                      <li>Dieldrin,</li>
+                      <li>Endrin,</li>
+                      <li>Heptachlor,</li>
+                      <li>Hexachlorobenzene,</li>
+                      <li>Chlordecone,</li>
+                      <li>Aldrin,</li>
+                      <li>Pentachlorobenzene,</li>
+                      <li>PCB,</li>
+                      <li>Mirex,</li>
+                      <li>Toxaphene,</li>
+                      <li>Hexabromobiphenyl,</li>
+                      <li>Hexabromocyclododecane,</li>
+                      <li>Pentachlorophenol,</li>
+                      <li>PFOA,</li>
+                      <li>Dicofol,</li>
+                      <li>PFHxS</li>
+                      </ul> 
+                      <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found here:</p>
+                      <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
+                      <p>See also Annex B and Annex C in this document for Restricted and Unintentional releases of chemicals respectively.</p> 
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, it must be a valid POP name from the list above.
                     example: Aldrin, Chlordane, Dieldrin.
                   concentration:
                     type: number
-                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
-                      <p><font color="green"><b>Business Rule:</b></font></p> 
-                      If waste.pops.containsPops is True then waste.pops.components.concentration must be a valid decimal.
-                    example: 12.5, 9,21234, 500
+                    minimum: 0
+                    exclusiveMinimum: true
+                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane.
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, must be a positive decimal number (greater than 0).
+                    example: 100
               description: |
                 The list of POP components.
                 <p><font color="green"><b>Business Rules:</b></font></p>
@@ -373,6 +401,8 @@ components:
               type: array
               items:
                 type: object
+                required:
+                  - name
                 properties:
                   name:
                     type: string
@@ -382,9 +412,11 @@ components:
                     example: lead, mercury
                   concentration:
                     type: number
-                    description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg. 
-                      <p><font color="green"><b>Business Rule:</b></font></p> 
-                      Optional field. If provided, must be a positive decimal value.
+                    minimum: 0
+                    exclusiveMinimum: true
+                    description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, must be a positive numeric value (greater than 0).
                     example: 50, 12.5, 25.5
         disposalOrRecoveryCodes:
           type: array
@@ -582,20 +614,12 @@ components:
           type: array
           items:
             type: integer
+            minimum: 1
           description: |
-            A regulatory position statement (RPS) is issued when the Regulator (EA, SEPA, NIEA, NRW), exempts you from posessing a permit to carry out certain activities, particularly those which are low-risk. The statement is a code that matches an official list of such exemptions. This must be a positive integer, e.g. From RPS 50, simply return the number 50.
-                  <p>RPS lists for the Home Nations</p>
-                  <p><font color="blue"><b>Wales (NRW):</b></font></p>
-                  https://www.gov.uk/government/collections/basic-rules-environmental-permitting-regulatory-positions
-                  <p><font color="blue"><b>England:</b></font></p>
-                  https://www.gov.uk/government/collections/basic-rules-environmental-permitting-regulatory-positions
-                  <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
-                  https://www.sepa.org.uk/regulations/waste/guidance/#position_statements
-                  <p><font color="blue"><b>Northern Ireland (NI)</b></font></p> 
-                  https://www.daera-ni.gov.uk/publications/producer-responsibility-obligations-packaging-and-packaging-waste-regulations-2024-nation-sale-and-self-managed-organization-waste-reporting-regulatory-position-statement
-          example: |
-            [50] (England) Burning waste wood on campfires and bonfires 
-                  This RPS allows individuals and organisations to burn waste wood during community events (e.g. bonfire night) without the need to apply for a permit.            
+            An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
+            <p><font color="green"><b>Business Rule:</b></font></p>
+            Must be positive integers (greater than 0).
+          example: [343, 456, 789]
     receipt:
       type: object
       required:
@@ -638,9 +662,11 @@ components:
           example: Tonnes
         amount:
           type: number
-          description: Total weight of the waste in a unit specified - Grams - Kilograms - Tonnes 
-            <p><font color="green">Business Rule:</font></p> 
-            Must be a positive number. <p><font color="red"><b>Note-</b></font></p> <p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
+          minimum: 0
+          exclusiveMinimum: true
+          description: Total weight of the waste in a unit specified - Grams - Kilograms - Tonnes
+            <p><font color="green">Business Rule:</font></p>
+            Must be a positive number (greater than 0). <p><font color="red"><b>Note-</b></font></p> <p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
           example: 150
         isEstimate:
           type: boolean
@@ -651,10 +677,7 @@ components:
       properties:
         key:
           type: string
-          example:
-            {
-              "message": "Receipt movement updated successfully"
-            }
+          example: wasteItems[0].disposalOrRecoveryCodes
         errorType:
           type: string
           example: NotProvided
@@ -665,7 +688,7 @@ components:
     address:
       type: object
       required:
-        - postCode
+        - postcode
       properties:
         fullAddress:
           type: string
