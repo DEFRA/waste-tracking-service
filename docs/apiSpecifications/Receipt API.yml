@@ -113,7 +113,7 @@ paths:
                     code:
                       type: string
                       description: The hazardous property code.
-                      example: HP_01
+                      example: HP_1
 components:
   requestBodies:
     receiveMovementRequest:
