@@ -79,7 +79,7 @@ paths:
 components:
   requestBodies:
     receiveMovementRequest:
-      description: Details of the waste movement to be created or updated. The mandatory paramaters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
       required: true
       content:
         application/json:
@@ -108,7 +108,7 @@ components:
                 example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
               hazardousWasteConsignmentCode:
                 type: string
-                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory. 
+                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
                     <p><font color="red">England & Wales:</font></p>
                     <p><i>Format-</i>  XXXXXX/YYYYY</p>
                     <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
@@ -235,7 +235,7 @@ components:
           minimum: 0
           nullable: false
           description: Number of containers for storing, transporting and disposing of waste materials. 
-            <p><font color="green"><b>Business Rule:</b></font></p> 
+            <p><font color="green"><b>Business Rule:</b></font></p>
             This must be a non-negative integer (0 or greater).
           example: 2, 3
         typeOfContainers:
@@ -351,7 +351,7 @@ components:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
+                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane.
                       <p><font color="green"><b>Business Rule:</b></font></p> 
                       Optional field. If provided, must be a positive decimal number (greater than 0)
                     example: 12.5, 9,21234, 500
@@ -621,10 +621,10 @@ components:
             type: integer
             minimum: 1
           description: |
-             An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
-               <p><font color="green"><b>Business Rule:</b></font></p>
-               Must be positive integers (greater than 0).
-          example: [343, 456, 789]          
+            An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
+            <p><font color="green"><b>Business Rule:</b></font></p>
+            Must be positive integers (greater than 0).
+          example: [343, 456, 789]
     receipt:
       type: object
       required:
@@ -766,3 +766,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
