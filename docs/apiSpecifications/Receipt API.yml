@@ -234,7 +234,7 @@ components:
           type: integer
           minimum: 0
           nullable: false
-          description: Number of containers for storing, transporting and disposing of waste materials. 
+          description: Number of containers for storing, transporting and disposing of waste materials.
             <p><font color="green"><b>Business Rule:</b></font></p>
             This must be a non-negative integer (0 or greater).
           example: 2, 3
@@ -766,4 +766,5 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
