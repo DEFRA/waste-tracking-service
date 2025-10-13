@@ -352,8 +352,8 @@ components:
                     minimum: 0
                     exclusiveMinimum: true
                     description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane.
-                      <p><font color="green"><b>Business Rule:</b></font></p> 
-                      Optional field. If provided, must be a positive decimal number (greater than 0)
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, must be a positive decimal number (greater than 0).
                     example: 12.5, 9,21234, 500
               description: |
                 The list of POP components.
@@ -766,5 +766,6 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
 
