@@ -79,7 +79,7 @@ paths:
 components:
   requestBodies:
     receiveMovementRequest:
-      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      description: Details of the waste movement to be created or updated. The mandatory paramaters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
       required: true
       content:
         application/json:
@@ -108,7 +108,7 @@ components:
                 example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
               hazardousWasteConsignmentCode:
                 type: string
-                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
+                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory. 
                     <p><font color="red">England & Wales:</font></p>
                     <p><i>Format-</i>  XXXXXX/YYYYY</p>
                     <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
@@ -131,10 +131,15 @@ components:
                     "Carrier did not provide documentation",
                     "Household Waste Recycling Centre Receipt"
                   ]
-                description: Reason provided for not having a consignment code. 
+                description: Reason provided for not having a consignment code. There are three reasons you can choose to provide.
+                  <ul>
+                      <li>"Non-Haz Waste Transfer"</li>
+                      <li>"Carrier did not provide documentation"</li>
+                      <li>"Household Waste Recycling Centre Receipt"</li>
+                  </ul>
                   <p><font color="green"><b>Business Rule:</b></font></p> 
                   If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.
-                  If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Local Authority Receipt”. 
+                  If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Household Waste Recycling Centre Receipt”. 
                 example: Carrier did not provide documentation
               yourUniqueReference:
                 type: string
@@ -229,10 +234,10 @@ components:
           type: integer
           minimum: 0
           nullable: false
-          description: Number of containers for storing, transporting and disposing of waste materials.
-            <p><font color="green"><b>Business Rule:</b></font></p>
+          description: Number of containers for storing, transporting and disposing of waste materials. 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
             This must be a non-negative integer (0 or greater).
-          example: 2
+          example: 2, 3
         typeOfContainers:
           type: string
           nullable: false
@@ -346,10 +351,10 @@ components:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane.
-                      <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, must be a positive decimal number (greater than 0).
-                    example: 100
+                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
+                      <p><font color="green"><b>Business Rule:</b></font></p> 
+                      Optional field. If provided, must be a positive decimal number (greater than 0)
+                    example: 12.5, 9,21234, 500
               description: |
                 The list of POP components.
                 <p><font color="green"><b>Business Rules:</b></font></p>
@@ -451,7 +456,7 @@ components:
                 <p></p><p>ROC UT 9,ROC UT 99,ROC UT 999,ROC UT 9999,ROC UT 99999,  ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999 </p>
                 Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces are not mandatory.<p></p> For example:
                 ROC UT 9999
-                ROC LT 9999<p></p><p></p>
+                ROCLT9999<p></p><p></p>
                 <p><b>General Format</b> where 9 is a digit 0-9</p>
         reasonForNoRegistrationNumber:
           type: string
@@ -531,9 +536,9 @@ components:
                <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
              <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
                 ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999,ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
-                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces.<p></p>
+                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note that spaces are not mandatory.<p></p>
                 ROC UT 9999
-                ROC LT 9999<p></p><p></p>
+                ROCLT9999<p></p><p></p>
                 <p><b>Note:</b> where 9 is a digit 0-9</p>
           example: England - CBDL123456, CBDU123456, Wales - CBDL124351, CBDU33435, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432
     receiver:
@@ -616,10 +621,10 @@ components:
             type: integer
             minimum: 1
           description: |
-            An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
-            <p><font color="green"><b>Business Rule:</b></font></p>
-            Must be positive integers (greater than 0).
-          example: [343, 456, 789]
+             An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
+               <p><font color="green"><b>Business Rule:</b></font></p>
+               Must be positive integers (greater than 0).
+          example: [343, 456, 789]          
     receipt:
       type: object
       required:
