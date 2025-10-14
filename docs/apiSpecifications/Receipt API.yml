@@ -5,9 +5,15 @@ info:
   description: |
     <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking is available here:
     <p><a>https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.</a></p>
-     <p><h2>Methods</h2></p> <p>The API is based on REST principles and uses both a <font color="green"><b>POST</b></font> and a <font color="orange"><b>PUT</b></font> method that return data in JSON format. It uses standard HTTP error response codes. </p>
-     <p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. </p> <p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p>
-     <p> <b>Note-</b> This API specification is currently in draft stage and is subject to change.</p>
+     <p><h2>Methods</h2></p><p>The API is based on REST principles and uses five endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and three <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes. </p>
+     <ul>
+     <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</li>
+     <li></p> <p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
+     <li><p>The first <font color="blue"><b>GET</b></font> method is used to retreive a list of European Waste Codes (EWC).</li>
+     <li> <p>The second <font color="blue"><b>GET</b></font> method is used to retreive a list of harardous waste codes (called Special Waste Codes in Scotland).</p></li>
+     <li> <p>The third <font color="blue"><b>GET</b></font> method is used to retreive a list of Disposal or Recovery codes.</p></li>
+     </ul>
+     <b>Note-</b> This API specification is currently in draft stage and is subject to change.
 servers:
   - url: https://api.server.test/v1
 paths:
@@ -76,6 +82,44 @@ paths:
           $ref: "#/components/responses/400"
         "404":
           description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
+  /reference-data/ewc-codes:
+    get:
+      description: Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous = True / False on success, or a <b>401</b> on failure.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The EWC code.
+                      example: 010101
+                    isHazardous:
+                      type: boolean
+                      description: True if the EWC code is for hazardous waste, otherwise False.
+                      example: true
+  /reference-data/hazardous-property-codes:
+    get:
+      description: Endpoint used to get a list of hazardous property code. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The hazardous property code.
+                      example: HP 1        
 components:
   requestBodies:
     receiveMovementRequest:
@@ -108,7 +152,7 @@ components:
                 example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
               hazardousWasteConsignmentCode:
                 type: string
-                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
+                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory. 
                     <p><font color="red">England & Wales:</font></p>
                     <p><i>Format-</i>  XXXXXX/YYYYY</p>
                     <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
@@ -117,8 +161,11 @@ components:
                     <p><font color="red">Northern Ireland and Eire:</font></p>
                     <p><i>Format-</i>  DA, DB or DC followed by a 7-digit number (e.g. DA5301234)</p><p></p>
                     <p><a href="https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code">More information here</a></p>
-                    <p><font color="green"><b>Business Rule:</b></font></p> 
-                    If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format. If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.
+                    <p><font color="green"><b>Business Rule:</b></font></p>
+                    <ul>
+                    <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
+                     <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
+                     </ul>
                 example: |
                   Company name: CJTILE Ltd → Code prefix: CJTILE/
                   Unique ID: A0001
@@ -137,9 +184,11 @@ components:
                       <li>"Carrier did not provide documentation"</li>
                       <li>"Household Waste Recycling Centre Receipt"</li>
                   </ul>
-                  <p><font color="green"><b>Business Rule:</b></font></p> 
-                  If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.
-                  If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Household Waste Recycling Centre Receipt”. 
+                  <p><font color="green"><b>Business Rules:</b></font></p> 
+                  <ul>
+                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
+                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Household Waste Recycling Centre Receipt”. </li>
+                  </ul>
                 example: Carrier did not provide documentation
               yourUniqueReference:
                 type: string
@@ -234,16 +283,16 @@ components:
           type: integer
           minimum: 0
           nullable: false
-          description: Number of containers for storing, transporting and disposing of waste materials.
-            <p><font color="green"><b>Business Rule:</b></font></p>
+          description: Number of containers for storing, transporting and disposing of waste materials. 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
             This must be a non-negative integer (0 or greater).
           example: 2, 3
         typeOfContainers:
           type: string
           nullable: false
           description: |
-            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. 
-            <font color="red"><b><p>Ongoing Development Note:</p>There is a new GET method endpoint in development which will return a list of container types.</b></font> <p> Possible types are:</p> 
+            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
+            <p> Possible types are:</p> 
             <ul>
               <li>[BAG] Bag / Sack e.g.(rubble bag, refuse sack)</li>
               <li>[BAL] Bale</li>
@@ -264,7 +313,7 @@ components:
             </ul>
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be in typeOfContainers list.
-          example: rubble bag, refuse sack, pallet
+          example: BAG, PAL, SKI
         weight:
           $ref: "#/components/schemas/weight"
         pops:
@@ -277,8 +326,8 @@ components:
               type: boolean
               description: |
                 Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
-                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste.
-                <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a></p>
+                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. You can find more information in the 
+                <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a>
                 <p>More information on POPs can be found here:</p>
                 <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
                 <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p>
@@ -293,9 +342,11 @@ components:
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing
                 <p><font color="green"><b>Business Rules:</b></font></p>
-                - Must be provided when containsPops is true
-                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
-                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided
+                <ul>
+                <li>Must be provided when containsPops is true</li>
+                <li> If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
+                </ul>
               example: CARRIER_PROVIDED
             components:
               type: array
@@ -341,9 +392,9 @@ components:
                       <li>Dicofol,</li>
                       <li>PFHxS</li>
                       </ul> 
-                      <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found here:</p>
-                      <a> https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx</a>
-                      <p>See also Annex B and Annex C in this document for Restricted and Unintentional releases of chemicals respectively.</p> 
+                      <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found 
+                      <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">here.</a></p>
+                      <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p> 
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, it must be a valid POP name from the list above.
                     example: Aldrin, Chlordane, Dieldrin.
@@ -351,16 +402,18 @@ components:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane.
-                      <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, must be a positive decimal number (greater than 0).
+                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
+                      <p><font color="green"><b>Business Rule:</b></font></p> 
+                      Optional field. If provided, must be a positive decimal number (greater than 0)
                     example: 12.5, 9,21234, 500
               description: |
                 The list of POP components.
                 <p><font color="green"><b>Business Rules:</b></font></p>
-                - Must be provided when containsPops is true
-                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
-                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided       
+                <ul>
+                <li>Must be provided when containsPops is true</li>
+                <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided</li>
+                </ul>
         hazardous:
           type: object
           required:
@@ -369,7 +422,7 @@ components:
           properties:
             containsHazardous:
               type: boolean
-              description: Does the waste consignment contain Hazourdous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazourda waste) or false.
+              description: Does the waste consignment contain Hazourdous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazourda waste) or false (does not contain hazourdous waste).
               example: true
             sourceOfComponents:
               type: string
@@ -381,14 +434,16 @@ components:
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing
                 <p><font color="green"><b>Business Rules:</b></font></p>
-                - Must be provided when containsHazardous is true
-                - If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided
-                - If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.  
+                <ul>
+                <li>Must be provided when containsHazardous is true</li>
+                <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
+                </ul>
               example: CARRIER_PROVIDED
             hazCodes:
               type: array
               description: |
-                Hazardous waste codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP1 - HP15. 
+                Hazardous waste codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15. 
                 To find a code for a potential hazourdous waste item, use the following waste thesaurus:
                 <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Petrol+Containing+Acidum+Salis&type=low">Waste Thesaurus</a></p>         
                  <p><b><font color="red">The official EWC code legislation decision EUR-Lex from the European Union 2000/532 is contained here in Annex III:</font></b><p>
@@ -399,7 +454,7 @@ components:
                 <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
-              example: HP5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP10 - Wastes from Thermal Processes</p>
+              example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
               items:
                 type: string
             components:
@@ -463,8 +518,10 @@ components:
           description: |
             Provide reasons for not having the carrier registration number.
             <p><font color="green"><b>Business Rules:</b></font></p> 
-            If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required. 
-            If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.
+            <ul>
+            <li>If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required.</li>
+            <li>If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.</li>
+            </ul>
           example: Waste carrier did not provide a carrier registration number.
         organisationName:
           type: string
@@ -485,9 +542,11 @@ components:
           type: string
           maxLength: 10
           description: This is the carrier's vehicle registration number. 
-            <p><font color="green"><b>Business Rule:</b></font></p> 
-            If carrier.meansOfTransport is “Road” then carrier.vehicleRegistration is required. 
-            If carrier.meansOfTransport is not “Road” then carrier.vehicleRegistration is not applicable.
+            <p><font color="green"><b>Business Rules:</b></font></p> 
+            <ul>
+           <li>If carrier.meansOfTransport is “Road” then carrier.vehicleRegistration is required.</li>
+           <li>If carrier.meansOfTransport is not “Road” then carrier.vehicleRegistration is not applicable.</li>
+           </ul>
           example: RNT 493
         meansOfTransport:
           type: string
@@ -564,7 +623,7 @@ components:
            items:
              type: string
            description: |
-            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation. AT least one authorisation number is required.
+            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
@@ -621,10 +680,10 @@ components:
             type: integer
             minimum: 1
           description: |
-            An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
-            <p><font color="green"><b>Business Rule:</b></font></p>
-            Must be positive integers (greater than 0).
-          example: [343, 456, 789]
+             An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
+               <p><font color="green"><b>Business Rule:</b></font></p>
+               Must be positive integers (greater than 0).
+          example: [343, 456, 789]          
     receipt:
       type: object
       required:
