@@ -1,11 +1,18 @@
 name: Deploy Versioned Documentation
 
 on:
+  push:
+    branches:
+      - main
   release:
     types: [published]
 
 permissions:
   contents: write
+
+concurrency:
+  group: docs-pages
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -26,14 +33,52 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Prepare cache key
+        run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+
       - name: Install dependencies
         run: pip install mkdocs-material mike
 
-      - name: Deploy documentation
+      - name: Determine deployment target
+        id: target
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            VERSION="${GITHUB_REF#refs/tags/}"
+            ALIAS="latest"
+            SET_DEFAULT=true
+            echo "Publishing release documentation for ${VERSION}"
+          else
+            VERSION="next"
+            ALIAS="preview"
+            SET_DEFAULT=false
+            echo "Publishing preview documentation for main"
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "alias=${ALIAS}" >> "$GITHUB_OUTPUT"
+          echo "set-default=${SET_DEFAULT}" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy documentation with mike
         env:
-          VERSION: ${{ github.event.release.tag_name }}
+          VERSION: ${{ steps.target.outputs.version }}
+          ALIAS: ${{ steps.target.outputs.alias }}
         run: |
           set -euo pipefail
-          echo "Deploying ${VERSION} documentation"
-          mike deploy --push --remote origin --branch gh-pages --update-aliases "${VERSION}" latest
+          echo "Deploying ${VERSION} (alias: ${ALIAS})"
+          mike deploy --push --remote origin --branch gh-pages --update-aliases "${VERSION}" "${ALIAS}"
+          mike list
+
+      - name: Update default alias
+        if: steps.target.outputs.set-default == 'true'
+        run: |
+          set -euo pipefail
+          echo "Setting default documentation to 'latest'"
           mike set-default --push --remote origin --branch gh-pages latest
+          mike list
