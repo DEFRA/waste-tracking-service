@@ -114,6 +114,23 @@ paths:
                       type: string
                       description: The hazardous property code.
                       example: HP_1
+  /reference-data/disposal-or-recovery-codes:
+    get:
+      description: Endpoint used to get a list of disposal or recovery codes.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations).
+                      example: R1
 components:
   requestBodies:
     receiveMovementRequest:
