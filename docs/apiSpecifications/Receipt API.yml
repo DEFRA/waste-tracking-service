@@ -5,13 +5,14 @@ info:
   description: |
     <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking is available here:
     <p><a>https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.</a></p>
-     <p><h2>Methods</h2></p><p>The API is based on REST principles and uses five endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and three <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes. </p>
+     <p><h2>Methods</h2></p>
+     <p>The API is based on REST principles and uses five endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and three <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes. </p>
      <ul>
-     <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</li>
-     <li></p> <p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
-     <li><p>The first <font color="blue"><b>GET</b></font> method is used to retreive a list of European Waste Codes (EWC).</li>
-     <li> <p>The second <font color="blue"><b>GET</b></font> method is used to retreive a list of harardous waste codes (called Special Waste Codes in Scotland).</p></li>
-     <li> <p>The third <font color="blue"><b>GET</b></font> method is used to retreive a list of Disposal or Recovery codes.</p></li>
+     <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
+     <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
+     <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
+     <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</p></li>
+     <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
      </ul>
      <b>Note-</b> This API specification is currently in draft stage and is subject to change.
 servers:
@@ -169,7 +170,7 @@ components:
                 example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
               hazardousWasteConsignmentCode:
                 type: string
-                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory. 
+                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
                     <p><font color="red">England & Wales:</font></p>
                     <p><i>Format-</i>  XXXXXX/YYYYY</p>
                     <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
@@ -439,7 +440,7 @@ components:
           properties:
             containsHazardous:
               type: boolean
-              description: Does the waste consignment contain Hazourdous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazourda waste) or false (does not contain hazourdous waste).
+              description: Does the waste consignment contain Hazardous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazardous waste) or false (does not contain hazourdous waste).
               example: true
             sourceOfComponents:
               type: string
@@ -842,4 +843,5 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
