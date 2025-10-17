@@ -1,0 +1,847 @@
+openapi: "3.0.3"
+info:
+  title: Digital Waste Tracking Receipt API
+  version: "1.0"
+  description: |
+    <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking is available here:
+    <p><a>https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.</a></p>
+     <p><h2>Methods</h2></p>
+     <p>The API is based on REST principles and uses five endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and three <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes. </p>
+     <ul>
+     <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
+     <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
+     <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
+     <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</p></li>
+     <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
+     </ul>
+     <b>Note-</b> This API specification is currently in draft stage and is subject to change.
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /movements/receive:
+    post:
+      description: |
+        Endpoint used when waste is received but the receiver has not yet recorded the waste movement. Generally at this stage, the receiver does not have or use the waste tracking ID. The waste tracking ID will be returned in the 201 response if the movement is successfully stored.
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "201":
+          description: Success- The waste movement has been stored.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 201
+                  wasteTrackingId:
+                    type: string
+                    description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when either a POST or PUT request is successful, i.e. return code 201, 200.
+                    example: 25HRA0B2
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+  /movements/{wasteTrackingId}/receive:
+    put:
+      description: |
+        Endpoint to be used when waste is received and the waste record is to be updated. The carrier has a <b>waste tracking ID</b> and this parameter <b>must</b> be used in the URL path.
+      parameters:
+        - name: wasteTrackingId
+          in: path
+          required: true
+          description: The globally unique id of the movement.
+          example: 25HRA0B2
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "200":
+          description: The waste movement receipt has been updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
+  /reference-data/ewc-codes:
+    get:
+      description: Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous = True / False on success, or a <b>401</b> on failure.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The EWC code.
+                      example: 010101
+                    isHazardous:
+                      type: boolean
+                      description: True if the EWC code is for hazardous waste, otherwise False.
+                      example: true
+  /reference-data/hazardous-property-codes:
+    get:
+      description: Endpoint used to get a list of hazardous property code. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The hazardous property code.
+                      example: HP_1
+  /reference-data/disposal-or-recovery-codes:
+    get:
+      description: Endpoint used to get a list of disposal or recovery codes.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations).
+                      example: R1
+components:
+  requestBodies:
+    receiveMovementRequest:
+      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - organisationApiId
+              - dateTimeReceived
+              - carrier
+              - wasteItems
+              - receiver
+              - receipt
+            properties:
+              organisationApiId:
+                type: string
+                format: uuid
+                description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service.
+                example: ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg
+              dateTimeReceived:
+                type: string
+                format: date-time
+                description: |
+                  This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
+                  UTC is the global time standard and does not observe daylight saving time.
+                  BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
+                example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
+              hazardousWasteConsignmentCode:
+                type: string
+                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
+                    <p><font color="red">England & Wales:</font></p>
+                    <p><i>Format-</i>  XXXXXX/YYYYY</p>
+                    <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
+                    <p><font color="red">Scotland</font></p>
+                    <p><i>Format-</i>  SA, SB or SC followed by a 7-digit number (e.g. SB1234567). Also known as Special Waste Consignment Note</p>
+                    <p><font color="red">Northern Ireland and Eire:</font></p>
+                    <p><i>Format-</i>  DA, DB or DC followed by a 7-digit number (e.g. DA5301234)</p><p></p>
+                    <p><a href="https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code">More information here</a></p>
+                    <p><font color="green"><b>Business Rule:</b></font></p>
+                    <ul>
+                    <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
+                     <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
+                     </ul>
+                example: |
+                  Company name: CJTILE Ltd → Code prefix: CJTILE/
+                  Unique ID: A0001
+                  Full code: CJTILE/A0001
+              reasonForNoConsignmentCode:
+                type: string
+                enum:
+                  [
+                    "Non-Haz Waste Transfer",
+                    "Carrier did not provide documentation",
+                    "Household Waste Recycling Centre Receipt"
+                  ]
+                description: Reason provided for not having a consignment code. There are three reasons you can choose to provide.
+                  <ul>
+                      <li>"Non-Haz Waste Transfer"</li>
+                      <li>"Carrier did not provide documentation"</li>
+                      <li>"Household Waste Recycling Centre Receipt"</li>
+                  </ul>
+                  <p><font color="green"><b>Business Rules:</b></font></p> 
+                  <ul>
+                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
+                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Household Waste Recycling Centre Receipt”. </li>
+                  </ul>
+                example: Carrier did not provide documentation
+              yourUniqueReference:
+                type: string
+                description: This could be a unique weighbridge ticket number, waste transfer note number etc.
+                example: wTBrdgAA020
+              otherReferencesForMovement:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - label
+                    - reference
+                  properties:
+                    label:
+                      type: string
+                      minLength: 1
+                      description: The type/label of the reference (e.g., 'PO Number', 'Waste Ticket', 'Haulier Note')
+                      example: PO Number
+                    reference:
+                      type: string
+                      minLength: 1
+                      description: The actual reference value
+                      example: PO-12345
+                description: Optional array of label-reference pairs for additional tracking information
+                example:
+                  - label: PO Number
+                    reference: PO-12345
+                  - label: Waste Ticket
+                    reference: WT-67890
+                  - label: Haulier Note
+                    reference: HN-11111
+              specialHandlingRequirements:
+                type: string
+                maxLength: 5000
+                description: Usually required only for abnormal hazardous waste that might contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm.
+                example: The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.
+              wasteItems:
+                type: array
+                minItems: 1
+                items:
+                  $ref: "#/components/schemas/wasteItem"
+              carrier:
+                $ref: "#/components/schemas/carrier"
+              brokerOrDealer:
+                $ref: "#/components/schemas/brokerOrDealer"
+              receiver:
+                $ref: "#/components/schemas/receiver"
+              receipt:
+                $ref: "#/components/schemas/receipt"
+  schemas:
+    wasteItem:
+      type: object
+      required:
+        - ewcCodes
+        - wasteDescription
+        - physicalForm
+        - typeOfContainers
+        - numberOfContainers
+        - weight
+      properties:
+        ewcCodes:
+          type: array
+          items:
+            type: string
+          maxItems: 5
+          description: |
+            An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK.  
+            The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them. 
+            To find an EWC code for a particular waste item, use the <i>Dsposal</i>
+            <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">waste thesaurus.</a><p></p>
+            <font color="red"><b>The official EWC legislation decision EUR-Lex from the European Union 2000/532 is contained</b></font> 
+            <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">here.</a><p></p>
+            <font color="red"><b>The list of Waste Regulations 2005 for the UK (specifically England) can be found</b></font>
+            <a href="https://www.legislation.gov.uk/uksi/2005/895/schedule/1/made">here.</a><p></p>
+            More information on EWC codes can also be found in the European Waste Catalogue (produced by CSG) which can be found
+              <a href="https://www.csg.co.uk/resources/ewc-codes#:~:text=This%20European%20Waste%20Catalogue%20checker%20helps%20you%20find, either%20by%20waste%20stream%20or%20by%20list%20view">here.</a>
+              <p><font color="green"><b>Business Rule:</b></font></p> 
+              Must be six digits (no spaces) and in the official wasteItem.ewcCode EWC catalog EUR-Lex. 
+          example: 200108 biodegradable kitchen and canteen waste, 150109 textile packaging
+        wasteDescription:
+          type: string
+          description: A detailed description of a specific waste material, including its physical characteristics, composition and any potential hazards associated with it. It's essentially a classification of the waste that helps determine how it should be managed and disposed of safely.
+          example: Basic mixed construction and demolition waste, this includes recyclable house bricks, gypsum plaster and slates.
+        physicalForm:
+          type: string
+          enum: [Gas, Liquid, Solid, Powder, Sludge, Mixed]
+          description: This is the form of the waste. This could be a gas, liquid, solid, powder, sludge or mixed. 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            Must be “Gas”, “Liquid”, “Solid”, Powder”, “Sludge” or “Mixed”.
+          example: Sludge
+        numberOfContainers:
+          type: integer
+          minimum: 0
+          nullable: false
+          description: Number of containers for storing, transporting and disposing of waste materials. 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            This must be a non-negative integer (0 or greater).
+          example: 2, 3
+        typeOfContainers:
+          type: string
+          nullable: false
+          description: |
+            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
+            <p> Possible types are:</p> 
+            <ul>
+              <li>[BAG] Bag / Sack e.g.(rubble bag, refuse sack)</li>
+              <li>[BAL] Bale</li>
+              <li>[BOX] Box, Carton, Crate</li>
+              <li>[CAN] Can/Jerrycan</li>
+              <li>[CAR] Carrier (e.g. pallet cage)</li>
+              <li>[CAS] Cask</li>
+              <li>[CON] Container (unspecified)</li>
+              <li>[DRU] Drum (typically 205L)</li>
+              <li>[FIB] Fibre drum</li>
+              <li>[IBC] Intermediate Bulk Container (e.g. 1000L)</li>
+              <li>[LOO] Loose (no container)</li>
+              <li>[PAL] Pallet (e.g. shrink‑wrapped items)</li>
+              <li>[ROR] Roll‑on Roll‑off container (RoRo)</li>
+              <li>[SKI] Skip</li>
+              <li>[TAN] Tanker/Tank</li>
+              <li>[WBI] Wheelie Bin (any size)</li>
+            </ul>
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            Must be in typeOfContainers list.
+          example: BAG, PAL, SKI
+        weight:
+          $ref: "#/components/schemas/weight"
+        pops:
+          type: object
+          required:
+            - containsPops
+            - sourceOfComponents
+          properties:
+            containsPops:
+              type: boolean
+              description: |
+                Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
+                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. You can find more information in the 
+                <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a>
+                <p>More information on POPs can be found here:</p>
+                <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
+                <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p>
+              example: true
+            sourceOfComponents:
+              type: string
+              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING] 
+              description: |
+                Indicates the source of POP component details.
+                - NOT_PROVIDED: Carrier did not provide component details
+                - CARRIER_PROVIDED: Components provided by carrier
+                - GUIDANCE: Components determined from guidance
+                - OWN_TESTING: Components determined from own testing
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                <ul>
+                <li>Must be provided when containsPops is true</li>
+                <li> If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
+                </ul>
+              example: CARRIER_PROVIDED
+            components:
+              type: array
+              items:
+                type: object
+                required:
+                  - name
+                properties:
+                  name:
+                    type: string
+                    description: |
+                      The name of the POP e.g.  Persistant Organic Pollutant (POP). 
+                      <ul>
+                      <li>Endosulfan,</li>
+                      <li>Hexachlorobutadiene,</li>
+                      <li>Polychlorinated naphthalenes,</li>
+                      <li>SCCPs,</li>
+                      <li>Tetrabromodiphenyl ether,</li>
+                      <li>Pentabromodiphenyl ether,</li>
+                      <li>Hexabromodiphenyl ether,</li>
+                      <li>Heptabromodiphenyl ether,</li>
+                      <li>Decabromodiphenyl ether,</li>
+                      <li>Tetra-, penta-, hexa-, hepta- and deca- bromodiphenyl ether,</li>
+                      <li>PFOS,</li>
+                      <li>PCDD/PCDF,</li>
+                      <li>DDT,</li>
+                      <li>Chlordane,</li>
+                      <li>Hexachlorocyclohexanes,</li>
+                      <li>Dieldrin,</li>
+                      <li>Endrin,</li>
+                      <li>Heptachlor,</li>
+                      <li>Hexachlorobenzene,</li>
+                      <li>Chlordecone,</li>
+                      <li>Aldrin,</li>
+                      <li>Pentachlorobenzene,</li>
+                      <li>PCB,</li>
+                      <li>Mirex,</li>
+                      <li>Toxaphene,</li>
+                      <li>Hexabromobiphenyl,</li>
+                      <li>Hexabromocyclododecane,</li>
+                      <li>Pentachlorophenol,</li>
+                      <li>PFOA,</li>
+                      <li>Dicofol,</li>
+                      <li>PFHxS</li>
+                      </ul> 
+                      <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found 
+                      <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">here.</a></p>
+                      <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p> 
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, it must be a valid POP name from the list above.
+                    example: Aldrin, Chlordane, Dieldrin.
+                  concentration:
+                    type: number
+                    minimum: 0
+                    exclusiveMinimum: true
+                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
+                      <p><font color="green"><b>Business Rule:</b></font></p> 
+                      Optional field. If provided, must be a positive decimal number (greater than 0)
+                    example: 12.5, 9,21234, 500
+              description: |
+                The list of POP components.
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                <ul>
+                <li>Must be provided when containsPops is true</li>
+                <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided</li>
+                </ul>
+        hazardous:
+          type: object
+          required:
+            - containsHazardous
+            - sourceOfComponents
+          properties:
+            containsHazardous:
+              type: boolean
+              description: Does the waste consignment contain Hazardous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazardous waste) or false (does not contain hazourdous waste).
+              example: true
+            sourceOfComponents:
+              type: string
+              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING]
+              description: |
+                Indicates the source of hazardous component details.
+                - NOT_PROVIDED: Carrier did not provide component details
+                - CARRIER_PROVIDED: Components provided by carrier
+                - GUIDANCE: Components determined from guidance
+                - OWN_TESTING: Components determined from own testing
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                <ul>
+                <li>Must be provided when containsHazardous is true</li>
+                <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
+                </ul>
+              example: CARRIER_PROVIDED
+            hazCodes:
+              type: array
+              description: |
+                Hazardous waste codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15. 
+                To find a code for a potential hazourdous waste item, use the following waste thesaurus:
+                <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Petrol+Containing+Acidum+Salis&type=low">Waste Thesaurus</a></p>         
+                 <p><b><font color="red">The official EWC code legislation decision EUR-Lex from the European Union 2000/532 is contained here in Annex III:</font></b><p>
+                <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA"></a>
+                <p><font color="red">Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
+                 <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
+                <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p> 
+                <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a>
+                 <p><font color="green"><b>Business Rule:</b></font></p> 
+                 If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
+              example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
+              items:
+                type: string
+            components:
+              type: array
+              items:
+                type: object
+                required:
+                  - name
+                properties:
+                  name:
+                    type: string
+                    description: Name of the hazardous material, e.g. Mercury.
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, must be a valid chemical or biological component name.
+                    example: lead, mercury
+                  concentration:
+                    type: number
+                    minimum: 0
+                    exclusiveMinimum: true
+                    description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, must be a positive numeric value (greater than 0).
+                    example: 50, 12.5, 25.5
+        disposalOrRecoveryCodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/disposalOrRecoveryCode"
+    carrier:
+      type: object
+      required:
+        - registrationNumber
+        - organisationName
+        - meansOfTransport
+      properties:
+        registrationNumber:
+          type: string
+          nullable: true
+          description: |
+            <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
+             <p><b>Home Nations Codes:</b></p>
+             <p><b>General Format</b> where 9 is a digit 0-9</p>
+             <p><font color="blue"><b>Wales NRW:</b></font></p>
+                CBDL999999, CBDU999999
+                <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
+             <p><font color="blue"><b>England:</b></font></p>
+                CBDL999999, CBDU999999 (3+ digits)
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
+             <p><font color="blue"><b>Scotland SEPA:</b></font></p>
+                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
+                <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
+               <p>Current format – WCR/R/1234567</p>
+               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
+             <p><font color="blue"><b>Northern Ireland NI</b></font></p>
+                <p></p><p>ROC UT 9,ROC UT 99,ROC UT 999,ROC UT 9999,ROC UT 99999,  ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999 </p>
+                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces are not mandatory.<p></p> For example:
+                ROC UT 9999
+                ROCLT9999<p></p><p></p>
+                <p><b>General Format</b> where 9 is a digit 0-9</p>
+        reasonForNoRegistrationNumber:
+          type: string
+          description: |
+            Provide reasons for not having the carrier registration number.
+            <p><font color="green"><b>Business Rules:</b></font></p> 
+            <ul>
+            <li>If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required.</li>
+            <li>If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.</li>
+            </ul>
+          example: Waste carrier did not provide a carrier registration number.
+        organisationName:
+          type: string
+          description: The business name of the carrier. 
+          example: Waste Carriers Lite Ltd
+        address:
+          $ref: "#/components/schemas/address"
+        emailAddress:
+          type: string
+          format: email
+          description: The email address of the carrier.
+          example: info@wastecarrierselite.co.uk
+        phoneNumber:
+          type: string
+          description: The UK or internationl phone number of the carrier.
+          example: 020 4756 XXXX
+        vehicleRegistration:
+          type: string
+          maxLength: 10
+          description: This is the carrier's vehicle registration number. 
+            <p><font color="green"><b>Business Rules:</b></font></p> 
+            <ul>
+           <li>If carrier.meansOfTransport is “Road” then carrier.vehicleRegistration is required.</li>
+           <li>If carrier.meansOfTransport is not “Road” then carrier.vehicleRegistration is not applicable.</li>
+           </ul>
+          example: RNT 493
+        meansOfTransport:
+          type: string
+          enum: [Road, Rail, Air, Sea, Inland Waterway, Pipe, Other]
+          description: |
+            This describes how the waste is transported (road, rail, air, sea, inland waterway, other)
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
+          example: Rail
+    brokerOrDealer:
+      type: object
+      required:
+        - organisationName
+      properties:
+        organisationName:
+          type: string
+          description: The broker or dealer organisation name who arranged this transfer.
+          example: Waste Desposal Ltd
+        address:
+          $ref: "#/components/schemas/address"
+        emailAddress:
+          type: string
+          format: email
+          description: The email address of the carrier.
+          example: info@wastecarrierselite.co.uk
+        phoneNumber:
+          type: string
+          description: The UK or internationl phone number of the carrier.
+          example: 020 4756 XXXX
+        registrationNumber:
+          type: string
+          description: |
+             <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
+             <p><b>Home Nations Codes:</b></p>
+             <p><b>General Format</b> where 9 is a digit 0-9</p>
+             <p><font color="blue"><b>Wales NRW:</b></font></p>
+                CBDL999999, CBDU999999
+                <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
+             <p><font color="blue"><b>England:</b></font></p>
+                CBDL999999, CBDU999999
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
+             <p><font color="blue"><b>Scotland SEPA:</b></font></p>
+                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
+                <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
+               <p>Current format – WCR/R/1234567</p>
+               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
+             <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
+                ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999,ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
+                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note that spaces are not mandatory.<p></p>
+                ROC UT 9999
+                ROCLT9999<p></p><p></p>
+                <p><b>Note:</b> where 9 is a digit 0-9</p>
+          example: England - CBDL123456, CBDU123456, Wales - CBDL124351, CBDU33435, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432
+    receiver:
+      type: object
+      required:
+        - organisationName
+        - authorisationNumbers
+      properties:
+        organisationName:
+          type: string
+          description: The name of the organisation receiving the waste.
+        emailAddress:
+          type: string
+          description: The email address of the organisation receiving the waste.
+          example: info@wastecarrierselite.co.uk
+        phoneNumber:
+          type: string
+          description: The UK or Irish phone number of the organisation receiving the waste.
+          example: 020 4756 XXXX
+        authorisationNumbers:
+           type: array
+           minItems: 1
+           items:
+             type: string
+           description: |
+            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
+              <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
+              <p><font color="blue"><b>England:</b></font></p>
+              <ul>
+                <li>EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, PR/XX9999XX/D9999 (the last one with a D rep permit number with deployment)</li>
+              </ul>
+              <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
+              <ul>
+                <li>PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999, EAS/P/999999</li>
+              </ul>
+              <p><font color="blue"><b>Wales (NRW):</b></font></p>
+              <ul>
+                <li>XX9999XX, EPR/XX9999XX</li>
+              </ul>
+              <p><font color="blue"><b>Northern Ireland (NRI):</b></font></p>
+              <ul>
+                <li>P9999/99X, P9999/99X/V#, WPPC 99/99, WPPC 99/99/V#<p></p>
+                <font color="red">WML 99/# PAC/9999/WCL999
+                WML 99/# LN/99/#</font>
+                </li><p></p>
+                Please note the following explanation:<p></p>
+                WML 99/# (where # could mean any positive integer)
+                  <p>LN/99/# (where # could mean any positive integer and can also have 01,02,---09, 10-99,100-999, etc))</p>
+                  WML 99/# (Could have  /T appended) which means a transfer
+                  <p>LN/99/# (Could have any of the following (/M-modification, /V#-variation, /T-transfer, /C-closure) appended in any combination.</p>
+                 In V#, # means any positive integer.</li>
+                 <p></p>
+                 Rationale:
+                <p></p>
+                 Licences have file reference beginning WML and a licence number beginning LN.  Additional characters may be appended (/M-modification, /V#-variation, /T-transfer, /C-closure) eg WML 07/61 LN/13/02/M/V2, WML 19/36/T LN/10/35/T/M.  Format of licence number when granted following appeal to PAC can vary, eg WML 04/38 PAC/2014/WCL001
+                 <p>Further explanation below:</p>
+                <li>P9999/99X - Permit with division (e.g., P1234/56A)</li>
+                <li>P9999/99X/V# - Permit with version number (e.g., P1234/56A/V1)</li>
+                <li>WPPC 99/99 - Waste Prevention and Control (e.g., WPPC 12/34)</li>
+                <li>WPPC 99/99/V# - WPPC with version number (e.g., WPPC 12/34/V2)</li>
+                <li>WML 99/# - File reference (e.g., C)</li>
+                <li>WML 99/#/T - File reference with transfer (e.g., WML 19/36/T)</li>
+                <li>LN/99/# - Licence number (e.g., LN/13/02)</li>
+                <li>LN/99/# with suffixes - Licence with M, V#, T, C, or N in any combination (e.g., LN/13/02/M/V2)</li>
+                <li>PAC/9999/WCL999 - Planning Appeals Commission format (e.g., PAC/2014/WCL001)</li>
+                <li>WML 99/# LN/99/# - Combined file reference and licence (e.g., WML 07/61 LN/13/02/M/V2)</li>
+                <li>WML 99/# PAC/9999/WCL999 - Combined file reference and PAC (e.g., WML 04/38 PAC/2014/WCL001)</li>
+              </ul>
+              <p><font color="green"><b>Business Rules:</b></font></p>
+              <ul>
+                <li>At least one authorisation number is required</li>
+                <li>Must match a valid UK format pattern (case-insensitive)</li>
+                <li>All UK nation formats are accepted (no nation-specific validation)</li>
+                <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
+              </ul>
+           example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34", "LN/13/02/M/V2", "PAC/2014/WCL001", "WML 04/38 PAC/2014/WCL001"]
+        regulatoryPositionStatements:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          description: |
+            An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
+            <p><font color="green"><b>Business Rule:</b></font></p>
+            Must be positive integers (greater than 0).
+          example: [343, 456, 789]
+    receipt:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          $ref: "#/components/schemas/receiptAddress"
+    disposalOrRecoveryCode:
+      type: object
+      required:
+        - code
+        - weight
+      properties:
+        code:
+          type: string
+          description: |
+             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
+              To find a code for a particular waste item, use the following 
+             <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">waste thesaurus:</a></p>
+              <b><font color="red">For the offical source of information, refer to the EU Directive in Annex I and Annex II where it defines Disposal and Recovery Codes on page 312/23</b></font> <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">in this link.</a>
+              <p><font color="green"><b>Business Rule:</b></font></p> 
+              If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code listed in EUR-Lex. 
+          example: |
+            "R1"
+        weight:
+          $ref: "#/components/schemas/weight"
+    weight:
+      type: object
+      required:
+        - metric
+        - amount
+        - isEstimate
+      properties:
+        metric:
+          type: string
+          enum: [Grams, Kilograms, Tonnes]
+          description: Unit of measurement in which the waste is being accepted. 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+             Must be “Grams”, “Kilograms” or “Tonnes”
+          example: Tonnes
+        amount:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+          description: Total weight of the waste in a unit specified - Grams - Kilograms - Tonnes
+            <p><font color="green">Business Rule:</font></p>
+            Must be a positive number (greater than 0). <p><font color="red"><b>Note-</b></font></p> <p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
+          example: 150
+        isEstimate:
+          type: boolean
+          description: Specifies whether the weight of waste is estimated. This a boolean value, i.e. true for estimated or false for not estimated.
+          example: true
+    validationResult:
+      type: object
+      properties:
+        key:
+          type: string
+          example: wasteItems[0].disposalOrRecoveryCodes
+        errorType:
+          type: string
+          example: NotProvided
+        message:
+          type: string
+          example: Success/Failure
+          description: Waste description is/is not successfully stored.
+    address:
+      type: object
+      required:
+        - postcode
+      properties:
+        fullAddress:
+          type: string
+          description: The business location address of the carrier or broker/dealer.
+          example: 26a Oil Drum Lane, London, UK
+        postcode:
+          type: string
+          description: A valid postcode must be included. <p><font color="red"><b>Note-</b></font></p> Carriers, Brokers/Dealers accept UK and Irish post codes. 
+          example: W12 7ZL
+    receiptAddress:
+      type: object
+      required:
+        - fullAddress
+        - postcode
+      properties:
+        fullAddress:
+          type: string
+          description: This is the address the waste is received at.
+          example: 26a Oil Drum Lane, London, UK
+        postcode:
+          type: string
+          description: A valid postcode must be included. <p><b>Note- </b></p> <p>Carriers, Brokers/Dealers accept UK and Irish post codes. Receivers accept only UK post codes.</p> 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            Must be in specified receiptAddress.postcode format.
+          example: W12 7ZL
+  responses:
+    "400":
+      description: Input was not in the correct format.
+      content:
+        application/json:
+          schema:
+            type: object
+            example: |
+              {
+               "validation": {
+                 "errors": [
+                    {
+                      "key": "waste.0.ewcCodes",
+                      "errorType": "NotProvided",
+                      "message": "\"waste[0].ewcCodes\" is required"
+                     },
+                     {
+                       "key": "waste.0.wasteDescription",
+                       "errorType": "NotProvided",
+                       "message": "\"waste[0].wasteDescription\" is required"
+                      },
+                                           {
+                       "key": "receiver.authorisationNumbers",
+                       "errorType": "Required",
+                       "message": "Site authorisation number is required"
+                      },
+                     {
+                       "key": "receiver.authorisationNumbers[0]",
+                       "errorType": "InvalidFormat",
+                       "message": "Site authorisation number must be in a valid UK format"
+                      },
+                     {
+                       "key": "receiver.authorisationNumbers",
+                       "errorType": "MinItems",
+                       "message": "At least one site authorisation number is required"
+                     }
+                 ]
+                }
+                }
+            properties:
+              validation:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/validationResult"
+
+

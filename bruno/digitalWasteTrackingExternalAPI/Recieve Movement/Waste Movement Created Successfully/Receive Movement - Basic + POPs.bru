@@ -1,0 +1,91 @@
+meta {
+  name: Receive Movement - Basic + POPs
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/movements/receive
+  body: json
+  auth: inherit
+}
+
+headers {
+  ~Authorization: {{ManuallyObtainedAccessToken}}
+}
+
+body:json {
+  {
+    "organisationApiId": "{{organisationApiId}}",
+    "dateTimeReceived": "{{timestamp}}",
+    "wasteItems": [
+      {
+        "ewcCodes": [
+          "020101"
+        ],
+        "wasteDescription": "Contaminated soil containing persistent organic pollutants (POPs) from former agricultural site with pesticide residues",
+        "physicalForm": "Mixed",
+        "numberOfContainers": 8,
+        "typeOfContainers": "SKI",
+        "weight": {
+          "metric": "Tonnes",
+          "amount": 1.8,
+          "isEstimate": true
+        },
+        "pops": {
+          "containsPops": true,
+          "sourceOfComponents": "CARRIER_PROVIDED",
+          "components": [
+            {
+              "name": "Chlordane",
+              "concentration": 45.2
+            },
+            {
+              "name": "Dieldrin",
+              "concentration": 12.8
+            },
+            {
+              "name": "Aldrin",
+              "concentration": 8.3
+            }
+          ]
+        },
+        "disposalOrRecoveryCodes": [
+          {
+            "code": "R1",
+            "weight": {
+              "metric": "Tonnes",
+              "amount": 0.75,
+              "isEstimate": false
+            }
+          }
+        ]
+      }
+    ],
+    "carrier": {
+      "organisationName": "Carrier Ltd",
+      "registrationNumber": "REG123456",
+      "meansOfTransport": "Rail"
+    },
+    "receiver": {
+      "organisationName": "Receiver Ltd",
+      "emailAddress": "receiver@test.com",
+      "authorisationNumbers": ["PPC/A/9999999"]
+    },
+    "receipt": {
+      "address": {
+        "fullAddress": "123 Test Street, Test City",
+        "postcode": "TC1 2AB"
+      }
+    }
+  }
+}
+
+vars:post-response {
+  globalMovementId: res.body.globalMovementId
+}
+
+script:pre-request {
+  const now = new Date().toISOString();
+  bru.setVar('timestamp', now);
+}

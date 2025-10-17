@@ -1,0 +1,950 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="This API Service Guide is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.">
+      
+      
+      
+        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/receipt-api-service-guide/">
+      
+      
+      
+      
+      <link rel="icon" href="../favicons/moj.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>DEFRA Receipt of Waste API Service Guide - Defra digital waste tracking</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+  
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+  
+  <style>:root{.md-tag.md-tag--draft{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5.5%202C3.6%202%202%203.6%202%205.5v13C2%2020.4%203.6%2022%205.5%2022H16l6-6V5.5C22%203.6%2020.4%202%2018.5%202zm.3%202h12.5c1%200%201.8.8%201.8%201.8V15h-1.5c-1.9%200-3.5%201.6-3.5%203.5V20H5.8c-1%200-1.8-.8-1.8-1.8V5.8C4%204.8%204.8%204%205.8%204%22/%3E%3C/svg%3E');}.md-tag.md-tag--accepted{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M18.5%202h-13C3.6%202%202%203.6%202%205.5v13C2%2020.4%203.6%2022%205.5%2022H16l6-6V5.5C22%203.6%2020.4%202%2018.5%202M20%2015h-1.5c-1.9%200-3.5%201.6-3.5%203.5V20H5.8c-1%200-1.8-.8-1.8-1.8V5.8C4%204.8%204.8%204%205.8%204h12.5c1%200%201.8.8%201.8%201.8V15m-4.9-6.8%201.5%201.5-6%206-3.5-3.5%201.5-1.5%202%202z%22/%3E%3C/svg%3E');}.md-tag.md-tag--proposed{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M13%2011h3v2h-3v3h-2v-3H8v-2h3V8h2zm9-5.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--deprecated{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%2011h8v2H8zm14-5.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--superseded{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M11%2015h2v2h-2zm0-2h2V7h-2zm11-7.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--rejected{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M16%209.4%2013.4%2012l2.6%202.6-1.4%201.4-2.6-2.6L9.4%2016%208%2014.6l2.6-2.6L8%209.4%209.4%208l2.6%202.6L14.6%208zm6-3.9V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}}</style>
+
+    
+  <link rel="stylesheet" href="../assets/stylesheets/extra.css">
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/tags-color.css">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#defra-receipt-of-waste-api-service-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Defra digital waste tracking" class="md-header__button md-logo" aria-label="Defra digital waste tracking" data-md-component="logo">
+      
+  <img src="../logos/moj.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Defra digital waste tracking
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DEFRA Receipt of Waste API Service Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DEFRA/waste-tracking-service" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Defra digital waste tracking" class="md-nav__button md-logo" aria-label="Defra digital waste tracking" data-md-component="logo">
+      
+  <img src="../logos/moj.png" alt="logo">
+
+    </a>
+    Defra digital waste tracking
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DEFRA/waste-tracking-service" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About digital waste tracking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storyboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Service vision – storyboard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Service vision - process diagram
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../initial-scope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Initial scope - receivers only by October 2026
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../receivers-process-diagram/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Receipt of Waste - process diagram
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../receipt-data-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Receipt of Waste - data requirements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-specification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Receipt of Waste - draft API specification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-authentication-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Receipt of Waste - API authentication Note
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Receipt of Waste API - Frequently asked questions (FAQs)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-testing-and-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Testing and Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Receipt of Waste API - Roadmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../private-beta-comms-sign-up/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Apply to test the service in beta
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DEFRA/waste-tracking-service/edit/main/docs/receipt-api-service-guide.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/receipt-api-service-guide.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<p>Version 1.0 issued October 2025</p>
+<h1 id="defra-receipt-of-waste-api-service-guide">DEFRA Receipt of Waste API Service Guide</h1>
+<h2 id="introduction">Introduction</h2>
+<p>This document introduces waste receivers, software developers and third party software users to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about the digital processes involved for operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.</p>
+<p><strong>Note:</strong> During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the DEFRA Waste Tracking Service (DWT)  Receipt API Service Guide <a href="https://github.com/hmrc/ukim-auth-checker-api-service-guide/wiki/UK-Internal-Market-Scheme-(UKIMS)-Authorisation-Checker-API-Service-Guide-Changelog">Changelog</a>.</p>
+<h2 id="receipt-api-overview">Receipt API Overview</h2>
+<p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about the Digital Waste Tracking is available here:
+    <p><a>https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.</a></p></p>
+<p>The API is based on REST principles and uses both a <font color="green"><b>POST</b></font> and a <font color="orange"><b>PUT</b></font> method that return data in JSON format. It uses standard HTTP error response codes. </p>
+     <p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. </p> <p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result. Use the API to report/update a waste movement to the Waste Tracking Service.</p>
+<p><strong>Note:</strong> At present the API endpoints relate only to Great Britain and Ireland.</p>
+<h3 id="what-makes-up-a-receive-waste-movement">What makes up a Receive Waste Movement?</h3>
+<p>The Request Body is an essential part of an API <font color="green"><b>POST</b></font> or <font color="orange"><b>PUT</b></font> request, it containes important data fields that a waste receiver needs to report about a waste movement. </p>
+<p>The <font color="orange"><b>PUT</b></font> request also contains a mandatory variable called the wasteTrackingId in the URL. </p>
+<p>A breakdown of a typica Receive Waste Movement API Request Body is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">{</span>
+<span class="w">  </span><span class="s">&quot;organisationApiId&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">&quot;dateTimeReceived&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;UTC</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">2025-09-15T12:12:28Z,</span><span class="nv"> </span><span class="s">BST</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">2025-09-15T13:12:28+01:00&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">&quot;hazardousWasteConsignmentCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Company</span><span class="nv"> </span><span class="s">name:</span><span class="nv"> </span><span class="s">CJTILE</span><span class="nv"> </span><span class="s">Ltd</span><span class="nv"> </span><span class="s">→</span><span class="nv"> </span><span class="s">Code</span><span class="nv"> </span><span class="s">prefix:</span><span class="nv"> </span><span class="s">CJTILE/\nUnique</span><span class="nv"> </span><span class="s">ID:</span><span class="nv"> </span><span class="s">A0001\nFull</span><span class="nv"> </span><span class="s">code:</span><span class="nv"> </span><span class="s">CJTILE/A0001\n&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">&quot;reasonForNoConsignmentCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Carrier</span><span class="nv"> </span><span class="s">did</span><span class="nv"> </span><span class="s">not</span><span class="nv"> </span><span class="s">provide</span><span class="nv"> </span><span class="s">documentation&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">&quot;yourUniqueReference&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;wTBrdgAA020&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">&quot;otherReferencesForMovement&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">    </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">&quot;label&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PO</span><span class="nv"> </span><span class="s">Number&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;reference&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PO-12345&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">},</span>
+<span class="w">    </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">&quot;label&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Waste</span><span class="nv"> </span><span class="s">Ticket&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;reference&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;WT-67890&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">},</span>
+<span class="w">    </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">&quot;label&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Haulier</span><span class="nv"> </span><span class="s">Note&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;reference&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;HN-11111&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="p p-Indicator">],</span>
+<span class="w">  </span><span class="s">&quot;specialHandlingRequirements&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;The</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">must</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">fully</span><span class="nv"> </span><span class="s">inspected</span><span class="nv"> </span><span class="s">by</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">handler</span><span class="nv"> </span><span class="s">according</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">Hazardous</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">consignment</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">EWC</span><span class="nv"> </span><span class="s">codes</span><span class="nv"> </span><span class="s">provided.&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">&quot;wasteItems&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">    </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">&quot;ewcCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;200108</span><span class="nv"> </span><span class="s">biodegradable</span><span class="nv"> </span><span class="s">kitchen</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">canteen</span><span class="nv"> </span><span class="s">waste,</span><span class="nv"> </span><span class="s">150109</span><span class="nv"> </span><span class="s">textile</span><span class="nv"> </span><span class="s">packaging&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;wasteDescription&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Basic</span><span class="nv"> </span><span class="s">mixed</span><span class="nv"> </span><span class="s">construction</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">demolition</span><span class="nv"> </span><span class="s">waste,</span><span class="nv"> </span><span class="s">this</span><span class="nv"> </span><span class="s">includes</span><span class="nv"> </span><span class="s">recyclable</span><span class="nv"> </span><span class="s">house</span><span class="nv"> </span><span class="s">bricks,</span><span class="nv"> </span><span class="s">gypsum</span><span class="nv"> </span><span class="s">plaster</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">slates.&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;physicalForm&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Sludge&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;numberOfContainers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;typeOfContainers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;rubble</span><span class="nv"> </span><span class="s">bag,</span><span class="nv"> </span><span class="s">refuse</span><span class="nv"> </span><span class="s">sack,</span><span class="nv"> </span><span class="s">pallet&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;weight&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">&quot;metric&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Tonnes&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;amount&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">150</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;isEstimate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
+<span class="w">      </span><span class="p p-Indicator">},</span>
+<span class="w">      </span><span class="s">&quot;pops&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">&quot;containsPops&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;components&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">          </span><span class="p p-Indicator">{</span>
+<span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Aldrin,</span><span class="nv"> </span><span class="s">Chlordane,</span><span class="nv"> </span><span class="s">Dieldrin.&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">100</span>
+<span class="w">          </span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="p p-Indicator">},</span>
+<span class="w">      </span><span class="s">&quot;hazardous&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">&quot;containsHazardous&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;hazCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;5</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Wastes</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">petroleum</span><span class="nv"> </span><span class="s">refining,</span><span class="nv"> </span><span class="s">Natural</span><span class="nv"> </span><span class="s">Gas</span><span class="nv"> </span><span class="s">Purification</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">pyrolitic</span><span class="nv"> </span><span class="s">treatment</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">coal,</span><span class="nv"> </span><span class="s">10</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Wastes</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">Thermal</span><span class="nv"> </span><span class="s">Processes&lt;/p&gt;&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;components&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">          </span><span class="p p-Indicator">{</span>
+<span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;lead,</span><span class="nv"> </span><span class="s">mercury&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">50</span>
+<span class="w">          </span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="p p-Indicator">},</span>
+<span class="w">      </span><span class="s">&quot;disposalOrRecoveryCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">        </span><span class="p p-Indicator">{</span>
+<span class="w">          </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;\&quot;code\&quot;:</span><span class="nv"> </span><span class="s">\&quot;R1\&quot;\n&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">          </span><span class="s">&quot;weight&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">            </span><span class="s">&quot;metric&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Tonnes&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">&quot;amount&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">150</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">&quot;isEstimate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
+<span class="w">          </span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="p p-Indicator">],</span>
+<span class="w">  </span><span class="s">&quot;carrier&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="s">&quot;registrationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;England</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">CBDL123456,</span><span class="nv"> </span><span class="s">CBDU123456,</span><span class="nv"> </span><span class="s">Scotland</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">WCR/R/522048,</span><span class="nv"> </span><span class="s">Northern</span><span class="nv"> </span><span class="s">Ireland</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">ROC</span><span class="nv"> </span><span class="s">UT</span><span class="nv"> </span><span class="s">36,</span><span class="nv"> </span><span class="s">ROC</span><span class="nv"> </span><span class="s">LT</span><span class="nv"> </span><span class="s">5432&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;reasonForNoRegistrationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Waste</span><span class="nv"> </span><span class="s">carrier</span><span class="nv"> </span><span class="s">did</span><span class="nv"> </span><span class="s">not</span><span class="nv"> </span><span class="s">provide</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">carrier</span><span class="nv"> </span><span class="s">registration</span><span class="nv"> </span><span class="s">number.&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;organisationName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Waste</span><span class="nv"> </span><span class="s">Carriers</span><span class="nv"> </span><span class="s">Lite</span><span class="nv"> </span><span class="s">Ltd&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;26a</span><span class="nv"> </span><span class="s">Oil</span><span class="nv"> </span><span class="s">Drum</span><span class="nv"> </span><span class="s">Lane,</span><span class="nv"> </span><span class="s">London,</span><span class="nv"> </span><span class="s">UK&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;postCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;W12</span><span class="nv"> </span><span class="s">7ZL&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">},</span>
+<span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;info@wastecarrierselite.co.uk&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;020</span><span class="nv"> </span><span class="s">4756</span><span class="nv"> </span><span class="s">XXXX&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;vehicleRegistration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;RNT</span><span class="nv"> </span><span class="s">493&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;meansOfTransport&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Rail&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">},</span>
+<span class="w">  </span><span class="s">&quot;brokerOrDealer&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="s">&quot;organisationName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Waste</span><span class="nv"> </span><span class="s">Desposal</span><span class="nv"> </span><span class="s">Ltd&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;26a</span><span class="nv"> </span><span class="s">Oil</span><span class="nv"> </span><span class="s">Drum</span><span class="nv"> </span><span class="s">Lane,</span><span class="nv"> </span><span class="s">London,</span><span class="nv"> </span><span class="s">UK&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;postCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;W12</span><span class="nv"> </span><span class="s">7ZL&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">},</span>
+<span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;info@wastecarrierselite.co.uk&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;020</span><span class="nv"> </span><span class="s">4756</span><span class="nv"> </span><span class="s">3232&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;registrationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;England</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">CBDL123456,</span><span class="nv"> </span><span class="s">CBDU123456,</span><span class="nv"> </span><span class="s">Wales</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">CBDL124351,</span><span class="nv"> </span><span class="s">CBDU33435,</span><span class="nv"> </span><span class="s">Scotland</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">WCR/R/522048,</span><span class="nv"> </span><span class="s">Northern</span><span class="nv"> </span><span class="s">Ireland</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">ROC</span><span class="nv"> </span><span class="s">UT</span><span class="nv"> </span><span class="s">36,</span><span class="nv"> </span><span class="s">ROC</span><span class="nv"> </span><span class="s">LT</span><span class="nv"> </span><span class="s">5432&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">},</span>
+<span class="w">  </span><span class="s">&quot;receiver&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="s">&quot;organisationName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;string&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;info@wastecarrierselite.co.uk&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;020</span><span class="nv"> </span><span class="s">4756</span><span class="nv"> </span><span class="s">XXXX&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;authorisations&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">      </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">&quot;authorisationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;string&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;regulatoryPositionStatement&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">343</span>
+<span class="w">      </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">},</span>
+<span class="w">  </span><span class="s">&quot;receipt&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;26a</span><span class="nv"> </span><span class="s">Oil</span><span class="nv"> </span><span class="s">Drum</span><span class="nv"> </span><span class="s">Lane,</span><span class="nv"> </span><span class="s">London,</span><span class="nv"> </span><span class="s">UK&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;postCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;W12</span><span class="nv"> </span><span class="s">7ZL&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="p p-Indicator">}</span>
+<span class="p p-Indicator">}</span>
+</code></pre></div>
+<p>In summary, XXXXXX.</p>
+<h2 id="authentication-process-flow">Authentication Process Flow</h2>
+<div class="highlight"><pre><span></span><code>sequenceDiagram
+    participant Third Party Software
+    participant OAuth
+    participant Receipt API
+
+    Third Party Software-&gt;&gt;OAuth: Client ID + Secret
+    OAuth--&gt;&gt;Third Party Software: Bearer Token
+
+    Third Party Software-&gt;&gt;Receipt API: POST Receipt API + Bearer Token
+    Receipt API --&gt;&gt;Third Party Software: Result of Waste Movement Request (Success/Failure)
+</code></pre></div>
+<h2 id="api-status">API Status</h2>
+<p>This version of the Receipt of Waste API:</p>
+<ul>
+<li>supports <strong>only</strong> the API v1.0 Receipt of Waste API for Private Beta customers.</li>
+<li>is currently <strong>not</strong> ready for testing</li>
+<li>will <strong>not</strong> be ready for use in general production until the service goes live</li>
+</ul>
+<h2 id="user-journeys">User Journeys</h2>
+<p>These journeys show practical preparation and use of the API:</p>
+<ul>
+<li><a href="#developer-setup">Developer setup</a></li>
+<li><a href="#making-api-requests">Making API Requests</a></li>
+<li><a href="#validating-a-collection-of-Receipt-Requests">Validating a collection of Receipt Requests</a></li>
+</ul>
+<h2 id="use-the-api-to">Use the API to:</h2>
+<ul>
+<li>Report details of each waste movement arriving at a waste receiver's site.</li>
+<li>Run tests in the sandbox/test environment.</li>
+</ul>
+<h2 id="developer-setup">Developer Setup</h2>
+<p>To develop using the Receipt of Waste API, you must:</p>
+<ul>
+<li>be familiar with HTTP, RESTful services and JSON (XXXXX OAuth Later Check)</li>
+<li>be registered with a DEFRA account.</li>
+<li>registered as a developer (XXXXX Check Dev account exists)</li>
+</ul>
+<p>You can view all the applications you have currently registered on the [Developer Hub] (https://developer.service.defra.gov.uk/api-documentation/docs/api) (XXXXX Check) Applications page, where you can also administer API subscriptions and application credentials. (XXXXX Checks)</p>
+<h2 id="getting-started">Getting started</h2>
+<h3 id="making-api-requests">Making API requests</h3>
+<p>Before sending any requests to the Receipt of Waste API, make sure that you are addressing the following points in your software:</p>
+<ul>
+<li>the correct URL for the environment and API version number</li>
+<li>the correct header contents and payload information</li>
+</ul>
+<p>For details, see the <a href="https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml">Receipt of Waste API v1.0 Reference Guide</a>.</p>
+<p>The base URLs of the sandbox and production environments are as follows:</p>
+<p><div class="highlight"><pre><span></span><code>Sandbox https://api.server.test/v1/movements/receive/test
+
+Production https://api.server.test/v1/movements/receive
+</code></pre></div>
+XXXXX</p>
+<h3 id="validating-a-collection-of-receipt-requests">Validating a collection of Receipt Requests</h3>
+<p>Link to POST method in the <a href="https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml">Receipt of Waste API v1.0 Reference Guide</a>. XXXXX</p>
+<h3 id="example-of-a-post-request">Example of a POST request</h3>
+<div class="highlight"><pre><span></span><code>curl --location POST &#39;https://test-api.service.defra.gov.uk/movements/receive
+{
+[
+XXXXX
+]
+}
+</code></pre></div>
+<p>Example of a successful response:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;xxxxx&quot;: &quot;xxxxxx&quot;,
+  &quot;xxxxx&quot;: [
+    {
+      &quot;&quot;: &quot;xxxxx&quot;,
+      &quot;xxxxx&quot;: true
+    }
+  ]
+}
+</code></pre></div>
+<h3 id="example-of-a-put-request">Example of a PUT request</h3>
+<div class="highlight"><pre><span></span><code>curl --location POST &#39;https://test-api.service.defra.gov.uk/movements/{wasteTrackingId}/receive
+{
+[
+XXXXX
+]
+}
+</code></pre></div>
+<p>Example of a successful response:</p>
+<p><div class="highlight"><pre><span></span><code>{
+  &quot;xxxxx&quot;: &quot;xxxxxx&quot;,
+  &quot;xxxxx&quot;: [
+    {
+      &quot;&quot;: &quot;xxxxx&quot;,
+      &quot;xxxxx&quot;: true
+    }
+  ]
+}
+</code></pre></div>
+An example of an unsuccessful response, in this case a 401 error. This error response is typically generated when authentication information is not provided, in this example by omitting a bearer token:</p>
+<p>POST Request payload:</p>
+<p><div class="highlight"><pre><span></span><code>headers: {
+    &quot;Content-Type&quot; : &quot;application/json&quot;,
+    &quot;Authorisation&quot;: `*empty*`
+  }
+</code></pre></div>
+Response: </p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;code&quot;: &quot;MISSING_CREDENTIALS&quot;,
+  &quot;message&quot;: &quot;Authentication information is not provided&quot;
+}
+</code></pre></div>
+<h2 id="error-responses">Error Responses</h2>
+<p>A detailed description of the error responses for this API can be found in the <a href="https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml">Receipt API v1.0 Reference Guide</a>.</p>
+<h2 id="api-rate-limiting">API rate limiting</h2>
+<p>Each software house should register a single application with HMRC. This application will be used to identify the software house during the OAuth 2.0 grant flow and will also be used in subsequent per user API calls. We limit the number of requests that each application can make. This protects our backend service against excessive load and encourages real-time API calls over batch processing.</p>
+<p>We set limits based on anticipated loads and peaks. Our standard limit is 3 requests per second per application. If you believe that your application will sustain traffic load above this value, contact the SDS Team at email <a href="mailto:SDSTeam@defra.gov.uk XXXXX TBD">SDSTeam@defra.gov.uk</a></p>
+<h2 id="changelog">Changelog</h2>
+<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog">Receipt API v1.0 Service Guide</a> GitHub wiki.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+  <footer class="md-footer">
+    <div class="md-footer-meta__inner md-grid">
+
+      <div class="md-copyright">
+
+        
+          
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:wasteuserresearch@defra.gov.uk" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/defra/waste-tracking-service" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+        
+
+        Made with 
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        <br><br>
+        <img src="../assets/images/ogl.png" >
+        All content is available under the 
+        <a
+            href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+            target="_blank" rel="noopener"
+        >
+            Open Government Licence v3.0</a>
+        , except where otherwise stated
+      </div>
+
+      <div class="md-copyright">
+        <a 
+          href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          target="_blank" rel="noopener">
+          <img src="../assets/images/govuk-crest-2x.png" width=125px height=102px;>
+          <br>
+          © Crown copyright
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.action.edit", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

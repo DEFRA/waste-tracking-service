@@ -1,0 +1,169 @@
+meta {
+  name: Update Movement - Complex
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{baseUrl}}/movements/{{globalMovementId}}/receive
+  body: json
+  auth: inherit
+}
+
+headers {
+  ~Authorization: {{ManuallyObtainedAccessToken}}
+}
+
+body:json {
+  {
+    "organisationApiId": "{{organisationApiId}}",
+    "dateTimeReceived": "{{timestamp}}",
+    "reasonForNoConsignmentCode": "Carrier did not provide documentation",
+    "wasteItems": [
+      {
+        "ewcCodes": [
+          "200121"
+        ],
+        "wasteDescription": "Industrial waste containing persistent organic pollutants (POPs) and hazardous heavy metals from decommissioned electrical equipment and contaminated soil",
+        "physicalForm": "Mixed",
+        "numberOfContainers": 15,
+        "typeOfContainers": "SKI",
+        "weight": {
+          "metric": "Tonnes",
+          "amount": 1.2,
+          "isEstimate": true
+        },
+        "pops": {
+          "containsPops": true,
+          "sourceOfComponents": "CARRIER_PROVIDED",
+          "components": [
+            {
+              "name": "Chlordane",
+              "concentration": 250
+            },
+            {
+              "name": "Toxaphene",
+              "concentration": 156.4
+            },
+            {
+              "name": "Dicofol",
+              "concentration": 0.8
+            },
+            {
+              "name": "DDT",
+              "concentration": 1.2
+            }
+          ]
+        },
+        "hazardous": {
+          "containsHazardous": true,
+          "hazCodes": [
+            "HP_1",
+            "HP_3",
+            "HP_6"
+          ],
+          "sourceOfComponents": "CARRIER_PROVIDED",
+          "components": [
+            {
+              "name": "Mercury",
+              "concentration": 0.35
+            },
+            {
+              "name": "Arsenic",
+              "concentration": 300
+            },
+            {
+              "name": "Chromium",
+              "concentration": 0.42
+            },
+            {
+              "name": "Lead",
+              "concentration": 0.89
+            }
+          ]
+        },
+        "disposalOrRecoveryCodes": [
+          {
+            "code": "R1",
+            "weight": {
+              "metric": "Tonnes",
+              "amount": 0.75,
+              "isEstimate": false
+            }
+          }
+        ]
+      },
+      {
+        "ewcCodes": [
+          "150110"
+        ],
+        "wasteDescription": "Secondary waste containing plastic packaging and minor contaminants",
+        "physicalForm": "Solid",
+        "numberOfContainers": 5,
+        "typeOfContainers": "SKI",
+        "weight": {
+          "metric": "Tonnes",
+          "amount": 1.1,
+          "isEstimate": true
+        },
+        "pops": {
+          "containsPops": false,
+          "sourceOfComponents": "NOT_PROVIDED"
+        },
+        "hazardous": {
+          "containsHazardous": true,
+          "hazCodes": [
+            "HP_6"
+          ],
+          "sourceOfComponents": "CARRIER_PROVIDED",
+          "components": [
+            {
+              "name": "Arsenic",
+              "concentration": 75
+            }
+          ]
+        },
+        "disposalOrRecoveryCodes": [
+          {
+            "code": "R1",
+            "weight": {
+              "metric": "Tonnes",
+              "amount": 0.75,
+              "isEstimate": false
+            }
+          }
+        ]
+      }
+    ],
+    "carrier": {
+      "organisationName": "Carrier Ltd",
+      "registrationNumber": "REG123456",
+      "address": {
+        "fullAddress": "321 Test Street, Test City",
+        "postcode": "TC2 2CD"
+      },
+      "emailAddress": "test@carrier.com",
+      "phoneNumber": "01234567890",
+      "meansOfTransport": "Road",
+      "vehicleRegistration": "AB12 CDE"
+    },
+    "receiver": {
+      "organisationName": "Receiver Ltd",
+      "emailAddress": "receiver@test.com",
+      "phoneNumber": "01234567890",
+      "authorisationNumbers": ["PPC/A/9999999", "PPC/A/SEPA9999-9999"],
+      "regulatoryPositionStatements": [123, 456]
+    },
+    "receipt": {
+      "address": {
+        "fullAddress": "123 Test Street, Test City",
+        "postcode": "TC1 2AB"
+      }
+    }
+  }
+}
+
+script:pre-request {
+  const now = new Date().toISOString();
+  bru.setVar('timestamp', now);
+}
