@@ -95,7 +95,7 @@ paths:
                 type: array
                 items:
                   type: object
-                  properties:
+                  properties: 
                     code:
                       type: string
                       description: The EWC code.
@@ -106,7 +106,7 @@ paths:
                       example: true
   /reference-data/hazardous-property-codes:
     get:
-      description: Endpoint used to get a list of hazardous property code. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
+      description: Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
       responses:
         "200":
           description: Success.
@@ -136,8 +136,8 @@ paths:
                   properties:
                     code:
                       type: string
-                      description: The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations).
-                      example: R1
+                      description: The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations). 
+                      example: D3, R1, R11
   /reference-data/container-types:
     get:
       description: Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
@@ -153,8 +153,8 @@ paths:
                   properties:
                     code:
                       type: string
-                      description: The container type.
-                      example: BAG                    
+                      description: The container type. See 
+                      example:  BAG, PAL, SKI               
 components:
   requestBodies:
     receiveMovementRequest:
@@ -175,7 +175,7 @@ components:
               organisationApiId:
                 type: string
                 format: uuid
-                description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service.
+                description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service. <p><b>Note</b> This is also known as the <font color="orange"><b>API Code</b></font>.</p>
                 example: ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg
               dateTimeReceived:
                 type: string
@@ -393,46 +393,148 @@ components:
                   name:
                     type: string
                     description: |
-                      The name of the POP e.g.  Persistant Organic Pollutant (POP). 
-                      <ul>
-                      <li>Endosulfan,</li>
-                      <li>Hexachlorobutadiene,</li>
-                      <li>Polychlorinated naphthalenes,</li>
-                      <li>SCCPs,</li>
-                      <li>Tetrabromodiphenyl ether,</li>
-                      <li>Pentabromodiphenyl ether,</li>
-                      <li>Hexabromodiphenyl ether,</li>
-                      <li>Heptabromodiphenyl ether,</li>
-                      <li>Decabromodiphenyl ether,</li>
-                      <li>Tetra-, penta-, hexa-, hepta- and deca- bromodiphenyl ether,</li>
-                      <li>PFOS,</li>
-                      <li>PCDD/PCDF,</li>
-                      <li>DDT,</li>
-                      <li>Chlordane,</li>
-                      <li>Hexachlorocyclohexanes,</li>
-                      <li>Dieldrin,</li>
-                      <li>Endrin,</li>
-                      <li>Heptachlor,</li>
-                      <li>Hexachlorobenzene,</li>
-                      <li>Chlordecone,</li>
-                      <li>Aldrin,</li>
-                      <li>Pentachlorobenzene,</li>
-                      <li>PCB,</li>
-                      <li>Mirex,</li>
-                      <li>Toxaphene,</li>
-                      <li>Hexabromobiphenyl,</li>
-                      <li>Hexabromocyclododecane,</li>
-                      <li>Pentachlorophenol,</li>
-                      <li>PFOA,</li>
-                      <li>Dicofol,</li>
-                      <li>PFHxS</li>
-                      </ul> 
+                      The name and code of the POP e.g.  Persistant Organic Pollutant (POP). Please enter just the code. 
+                      
+                      <table border="1">
+                          <thead>
+                              <tr>
+                                  <th>POP Name</th>
+                                  <th>POP Code</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>Endosulfan</td>
+                                  <td>END</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexachlorobutadiene</td>
+                                  <td>HCBD</td>
+                              </tr>
+                              <tr>
+                                  <td>Polychlorinated naphthalenes</td>
+                                  <td>PCNS</td>
+                              </tr>
+                              <tr>    
+                                  <td>Short-chain chlorinated paraffins</td>
+                                  <td>SCCPS</td>
+                              </tr>
+                              <tr>
+                                  <td>Tetrabromodiphenyl ether</td>
+                                  <td>TETRABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Pentabromodiphenyl ether</td>
+                                  <td>PENTABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexabromodiphenyl ether</td>
+                                  <td>HEXABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Heptabromodiphenyl ether</td>
+                                  <td>HEPTABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Decabromodiphenyl ether</td>
+                                  <td>DECABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Tetra-, penta-, hexa-, hepta- deca- BDEs</td>
+                                  <td>PBDES</td>
+                              </tr>
+                              <tr>
+                                  <td>Perfluorooctane sulfonic acid (and derivatives)</td>
+                                  <td>PFOS</td>
+                              </tr>
+                              <tr>
+                                  <td>Polychlorinated dibenzo-p-dioxins/furans</td>
+                                  <td>PCDD_PCDF</td>
+                              </tr>
+                              <tr>
+                                  <td>Dichlorodiphenyltrichloroethane</td>
+                                  <td>DDT</td>
+                              </tr>
+                              <tr>
+                                  <td>Chlordane</td>
+                                  <td>CHL</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexachlorocyclohexanes (including lindane)</td>
+                                  <td>HCH</td>
+                              </tr>
+                              <tr>
+                                  <td>Dieldrin</td>
+                                  <td>DLD</td>
+                              </tr>
+                              <tr>
+                                  <td>Endrin</td>
+                                  <td>ENDN</td>
+                              </tr>
+                              <tr>
+                                  <td>Heptachlor</td>
+                                  <td>HPT</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexachlorobenzene</td>
+                                  <td>HCB</td>
+                              </tr>
+                              <tr>
+                                  <td>Chlordecone</td>
+                                  <td>CLD</td>
+                              </tr>
+                              <tr>
+                                  <td>Aldrin</td>
+                                  <td>ALD</td>
+                              </tr>
+                              <tr>
+                                  <td>Pentachlorobenzene</td>
+                                  <td>PECBZ</td>
+                              </tr>
+                              <tr>
+                                  <td>Polychlorinated biphenyls</td>
+                                  <td>PCB</td>
+                              </tr>
+                              <tr>
+                                  <td>Mirex</td>
+                                  <td>MRX</td>
+                              </tr>
+                              <tr>
+                                  <td>Toxaphene</td>
+                                  <td>TOX</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexabromobiphenyl</td>
+                                  <td>HBB</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexabromocyclododecane</td>
+                                  <td>HBCD</td>
+                              </tr>
+                              <tr>
+                                  <td>Pentachlorophenol</td>
+                                  <td>PCP</td>
+                              </tr>
+                              <tr>
+                                  <td>Perfluorooctanoic acid</td>
+                                  <td>PFOA</td>
+                              </tr>
+                              <tr>
+                                  <td>Dicofol</td>
+                                  <td>DCF</td>
+                              </tr>
+                              <tr>
+                                  <td>Perfluorohexane sulfonic acid</td>
+                                  <td>PFHXS</td>
+                              </tr>
+                          </tbody>
+                      </table>
                       <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found 
                       <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">here.</a></p>
                       <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p> 
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, it must be a valid POP name from the list above.
-                    example: Aldrin, Chlordane, Dieldrin.
+                    example: PFHXS, HBB
                   concentration:
                     type: number
                     minimum: 0
@@ -457,7 +559,7 @@ components:
           properties:
             containsHazardous:
               type: boolean
-              description: Does the waste consignment contain Hazardous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazardous waste) or false (does not contain hazourdous waste).
+              description: Does the waste consignment contain <b>Hazardous Properties</b>, true or false?. This is a boolean value, i.e. true (contains hazardous properties) or false (does not contain hazourdous properties).
               example: true
             sourceOfComponents:
               type: string
@@ -860,6 +962,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
-
-
