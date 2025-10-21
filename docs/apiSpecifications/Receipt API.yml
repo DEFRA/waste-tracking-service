@@ -85,10 +85,27 @@ paths:
           description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
   /reference-data/ewc-codes:
     get:
-      description: Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous = True / False on success, or a <b>401</b> on failure.
+      description: |
+        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.<p></p>
+        Example Request
+        ```json
+        curl --request GET \ --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/ewc-codes \
+          --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX
+        ```
       responses:
         "200":
-          description: Success.
+          description: |
+            Success
+            ```json
+            {
+              "code": "010102",
+              "isHazardous": false
+            },
+            {
+              "code": "010304",
+               "isHazardous": true
+            }
+            ```
           content:
             application/json:
               schema:
@@ -106,10 +123,28 @@ paths:
                       example: true
   /reference-data/hazardous-property-codes:
     get:
-      description: Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
+      description: |
+        Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure. <p></p>
+        Example Request
+        ```json
+        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/hazardous-property-codes \
+        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN
+        ```
       responses:
         "200":
-          description: Success.
+          description: |
+            Success
+            ```json
+            {
+              "code": "HP_1"
+            },
+            {
+              "code": "HP_2"
+            },
+            {
+              "code": "HP_3"
+            }
+            ```
           content:
             application/json:
               schema:
@@ -123,10 +158,28 @@ paths:
                       example: HP_1
   /reference-data/disposal-or-recovery-codes:
     get:
-      description: Endpoint used to get a list of disposal or recovery codes.
+      description: |
+        Endpoint used to get a list of disposal or recovery codes. <p></p>
+        Example Request
+        ```json
+        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/disposal-or-recovery-codes \
+        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHNxOXZuZTdkcDFoM3ZtdGUwIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJ3YXN0ZS1tb3ZlbWVudC1leHRlcm5hbC1hcGktcmVzb3VyY2Utc3J2XC9hY2Nlc3MiLCJhdXRoX3RpbWUiOjE3NjA1MjYyNzUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS13ZXN0LTIuYW1hem9uYXdzLmNvbVwvZXUtd2VzdC0yX3l4VzliZUpDVyIsImV4cCI6MTc2MDUyOTg3NSwiaWF0IjoxNzYwNTI2Mjc1LCJ2ZXJzaW9uIjoyLCJqdGkiOiIyOTBmODVhNy1mMzFlLTQ4MDMtYWQxMS02OGEyZjFlNGJlYmYiLCJjbGllbnRfaWQiOiIybHRldXNlaHNxOXZuZTdkcDFoM3ZtdGUwIn0.
+        ```
       responses:
         "200":
-          description: Success.
+          description: |
+            Success
+            ```json
+            {
+             "code": "R1"
+            },
+            {
+             "code": "R2"
+            },
+            {
+             "code": "R3"
+            }
+            ```
           content:
             application/json:
               schema:
@@ -140,7 +193,7 @@ paths:
                       example: D3, R1, R11
   /reference-data/container-types:
     get:
-      description: Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
+      description: Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure. <p></p>
       responses:
         "200":
           description: Success.
