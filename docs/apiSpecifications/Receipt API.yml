@@ -334,22 +334,21 @@ components:
           example: BAG, PAL, SKI
         weight:
           $ref: "#/components/schemas/weight"
+        containsPops:
+          type: boolean
+          description: |
+            Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
+            Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. You can find more information in the
+            <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a>
+            <p>More information on POPs can be found here:</p>
+            <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
+            <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p>
+          example: true
         pops:
           type: object
           required:
-            - containsPops
             - sourceOfComponents
           properties:
-            containsPops:
-              type: boolean
-              description: |
-                Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
-                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. You can find more information in the 
-                <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a>
-                <p>More information on POPs can be found here:</p>
-                <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
-                <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p>
-              example: true
             sourceOfComponents:
               type: string
               enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING] 
@@ -361,7 +360,7 @@ components:
                 - OWN_TESTING: Components determined from own testing
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 <ul>
-                <li>Must be provided when containsPops is true</li>
+                <li>Must be provided when wasteItem.containsPops is true</li>
                 <li> If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
                 <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
                 </ul>
@@ -428,20 +427,19 @@ components:
                 The list of POP components.
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 <ul>
-                <li>Must be provided when containsPops is true</li>
+                <li>Must be provided when wasteItem.containsPops is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
                 <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided</li>
                 </ul>
+        containsHazardous:
+          type: boolean
+          description: Does the waste consignment contain Hazardous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazardous waste) or false (does not contain hazourdous waste).
+          example: true
         hazardous:
           type: object
           required:
-            - containsHazardous
             - sourceOfComponents
           properties:
-            containsHazardous:
-              type: boolean
-              description: Does the waste consignment contain Hazardous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazardous waste) or false (does not contain hazourdous waste).
-              example: true
             sourceOfComponents:
               type: string
               enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING]
@@ -453,7 +451,7 @@ components:
                 - OWN_TESTING: Components determined from own testing
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 <ul>
-                <li>Must be provided when containsHazardous is true</li>
+                <li>Must be provided when wasteItem.containsHazardous is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
                 <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
                 </ul>
@@ -468,10 +466,10 @@ components:
                 <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA"></a>
                 <p><font color="red">Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
                  <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
-                <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p> 
+                <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p>
                 <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a>
-                 <p><font color="green"><b>Business Rule:</b></font></p> 
-                 If wasteItem.hazardous.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
+                 <p><font color="green"><b>Business Rule:</b></font></p>
+                 If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
               items:
                 type: string
