@@ -6,13 +6,14 @@ info:
     <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking is available here:
     <p><a>https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.</a></p>
      <p><h2>Methods</h2></p>
-     <p>The API is based on REST principles and uses five endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and three <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes. </p>
+     <p>The API is based on REST principles and uses six endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and four  <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes. </p>
      <ul>
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
      <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
      <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
+     <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
      </ul>
      <b>Note-</b> This API specification is currently in draft stage and is subject to change.
 servers:
@@ -193,7 +194,12 @@ paths:
                       example: D3, R1, R11
   /reference-data/container-types:
     get:
-      description: Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure. <p></p>
+      description: | 
+        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure. <p></p>
+        Example Request
+         ```json
+        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/container-types \
+        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHNxOXZuZTdkcDFoM3ZtdGUwIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJ3YXN0ZS1tb3ZlbWVudC1leHRlcm5hbC1hcGktcmVzb3VyY2Utc3J2XC9hY2Nlc3MiLCJhdXRoX3RpbWUiOjE3NjA1MjYyNzUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS13ZXN0LTIuYW1hem9uYXdzLmNvbVwvZXUtd2VzdC0yX3l4VzliZUpDVyIsImV4cCI6MTc2MDUyOTg3NSwiaWF0IjoxNzYwNTI2Mjc1LCJ2ZXJzaW9uIjoyLCJqdGkiOiIyOTBmODVhNy1mMzFlLTQ4MDMtYWQxMS02OGEyZjFlNGJlYmYiLCJjbGllbnRfaWQiOiIybHRldXNlaHNxOXZuZTdkcDFoM3ZtdGUwIn0.     
       responses:
         "200":
           description: Success.
@@ -206,7 +212,7 @@ paths:
                   properties:
                     code:
                       type: string
-                      description: The container type. See 
+                      description: The container type.
                       example:  BAG, PAL, SKI               
 components:
   requestBodies:
@@ -612,7 +618,7 @@ components:
           properties:
             containsHazardous:
               type: boolean
-              description: Does the waste consignment contain <b>Hazardous Properties</b>, true or false?. This is a boolean value, i.e. true (contains hazardous properties) or false (does not contain hazourdous properties).
+              description: Does the waste consignment contain <b>Hazardous Properties</b>, true or false?. This is a mandatory indication. This is a boolean value, i.e. true (contains hazardous properties) or false (does not contain hazourdous properties).
               example: true
             sourceOfComponents:
               type: string
