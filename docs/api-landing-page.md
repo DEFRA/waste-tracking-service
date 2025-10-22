@@ -15,7 +15,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 ## Receipt API Overview 
 
-![Receipt of Waste](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/initial-scope-receivers.png) 
+![Receipt of Waste](https://github.com/DEFRA/waste-tracking-service/edit/DWT-924_Landing_Page/docs/api-landing-page.md) 
 
 The Receipt of Waste API OAS Specification is available [here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
     
@@ -248,5 +248,6 @@ A detailed description of the error responses for this API can be found in the [
 [README](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/README.md)
 
 ## Changelog
+
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
