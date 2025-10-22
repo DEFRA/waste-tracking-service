@@ -230,10 +230,10 @@ We have assembled a collection of Bruno test scripts to help you learn about wor
 
 A detailed description of the error responses for this API can be found in the [Receipt API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml).
  
-## API rate limiting
-Each software house should register a single application with HMRC. This application will be used to identify the software house during the OAuth 2.0 grant flow and will also be used in subsequent per user API calls. We limit the number of requests that each application can make. This protects our backend service against excessive load and encourages real-time API calls over batch processing.
+## API rate limiting (To be confirmed)
+Each software house should register a single application with DEFRA. This application will be used to identify the software house during the OAuth 2.0 grant flow and will also be used in subsequent per user API calls. We limit the number of requests that each application can make. This protects our backend service against excessive load and encourages real-time API calls over batch processing.
 
-We set limits based on anticipated loads and peaks. Our standard limit is 3 requests per second per application. If you believe that your application will sustain traffic load above this value, contact the XXXXX
+We set limits based on anticipated loads and peaks. Our standard limit is 3 requests per second per application. If you believe that your application will sustain traffic load above this value, use the help contact details specified below.
 
 ## Getting help by email
 
@@ -244,5 +244,6 @@ We set limits based on anticipated loads and peaks. Our standard limit is 3 requ
 - All users can also post questions/comments to https://github.com/DEFRA/waste-tracking-service/discussions
 
 ## Changelog
+
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
