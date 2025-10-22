@@ -17,7 +17,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
 
-![Receipt of Waste](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/initial-scope-receivers-only.png) 
+![Receipt of Waste](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/initial-scope-receivers.png) 
 
 The Receipt of Waste API OAS Specification is available [here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
     
@@ -247,3 +247,4 @@ We set limits based on anticipated loads and peaks. Our standard limit is 3 requ
 
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
