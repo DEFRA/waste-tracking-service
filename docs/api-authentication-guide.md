@@ -35,7 +35,7 @@ def make_api_request(access_token, api_url): # your access token and the api url
 ## What is the OAuth login URL for my API?
 
 ```code
-https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token
+https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
 ```
 
 <br/>Page last updated on 23 September 2025.
