@@ -108,7 +108,7 @@ Production: https://api.server.test/v1/movements/receive
 
 ### What makes up a Receive Waste Movement Request?
 
-A URL command specifying the API endpoint or server you want to interact with, in this case the Waste Tracking Service, example shown below.
+A request starts with a command and a URL specifying the method and the API endpoint or server you want to interact with, in this case the Waste Tracking Service. An example is shown below.
 
 ```curl
 curl --request POST \
@@ -143,7 +143,7 @@ curl --request POST \
 ```
 
 
- The Request Body is the essential part of an API <font color="green"><b>POST</b></font> or <font color="orange"><b>PUT</b></font> request, it containes important data fields that a waste receiver needs to report about a waste movement. 
+ The Request Body is the essential part of an API <font color="green"><b>POST</b></font> or <font color="orange"><b>PUT</b></font> request, it contains important data fields that a waste receiver needs to report about a waste movement. 
 
 
 An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:
@@ -286,3 +286,4 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
