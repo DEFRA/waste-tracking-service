@@ -9,7 +9,7 @@ Version 1.0 issued October 2025
 # DEFRA Receipt of Waste API Landing Page (Private BETA)
 
 ## Introduction
-This page introduces waste receivers, software developers and third party software users to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about the digital processes involved for operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
+This page introduces waste receivers, software developers and third party software providors to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about the digital processes involved for operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
 
 **Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the DEFRA Waste Tracking Service (DWT)  Receipt API Landing Page [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog).
 
@@ -41,7 +41,7 @@ This version of the Receipt of Waste API:
 - a roadmap to the Receipt API [can be found here.](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/roadmap.md)
 
 ## Getting Started 
-Use these short sections for practical preparation and use of the API:
+Work through these short sections for practical preparation and use of the API:
 
 - [Getting started](#getting-started)
 - [Authentication](#Authentication)
@@ -49,12 +49,15 @@ Use these short sections for practical preparation and use of the API:
 - [Validating a Collection of Requests and Responses](#validating-a-collection-of-requests-and-responses)
 
 
-
 #### Prequisite Steps:
 
-1. Developers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/).
-2. Get the API Code. Before developers are issued with Receipt of Waste Production credentials, they must first demonstrate that they have implemented the specification in its entirety. This is to ensure that all scenarios have been implemented. They will then be issued a Client ID and Client Secret for the External Test environment. These will come via encrypted email. 
-3. Begin testing by sending waste movements to the Waste Tracking Service. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
+1. Receivers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/) using the on-borading form.
+2. Get the <font color="orange"><b>API Code</b></font>/<font color="orange"><b>organisationApiId</b></font>. After completing the on-boarding form, an API Code will be issued to the Receivers and their Software Providors who can then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service.
+
+   <b>Note:</b> Before issuing an API Code, <b>Software Providors</b> must first demonstrate that they have implemented the specification in its entirety. This is to ensure that all scenarios have been implemented. 
+3. Developers are issued a Client ID and Client Secret for the External Test environment. These will come via encrypted email. 
+4. Request an OAuth bearer token using the client ID and Client Secret. See [Authentication](#Authentication).
+5. Begin testing by sending waste movements to the Waste Tracking Service. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
 
 The URL for the test environment:
 
@@ -66,8 +69,6 @@ To develop using the Receipt of Waste API, you must:
 
 - be familiar with HTTP, RESTful services and JSON and OAuth
 - have received your client id and secret (by encrypted email)
-
-Note: The <font color="orange"><b>API Code</b></font>/ <font color="orange"><b>organisationApiId</b></font> is passed during the Receiver's manual onboarding process and input into the API service manually. In any subsequent waste Receipt request, the submitted API Code is validated against the API Code that was manually input. This is used internally to authenticate a user, i.e. receiver.
 
 ### Authentication
 
@@ -126,7 +127,7 @@ This is broken down as follows:
 curl --request POST \
   --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
  ```
-2. The header information containing the Bearer Token
+2. The header information containing the Bearer Token and the content type
 ```json
  --header 'authorization: Bearer 
  eyJraWQiOiJQYnJiZXZv
@@ -137,7 +138,8 @@ curl --request POST \
 -- data '{
   "organisationApiId": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
-  "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc\
+  "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc
+  )
 ```
 
 
