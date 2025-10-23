@@ -34,7 +34,9 @@ The API is based on REST principles and currently has six endpoints that return 
 **Note:** At present the API endpoints relate only to Great Britain and Northern Ireland.
 
 ## API Status
+
 This version of the Receipt of Waste API:
+
 - supports **only** the API v1.0 Receipt of Waste API for Private Beta customers.
 - a roadmap to the Receipt API [can be found here.](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/roadmap.md)
 
@@ -48,7 +50,7 @@ Use these short sections for practical preparation and use of the API:
 
 
 
-Prequisite Steps:
+#### Prequisite Steps:
 
 1. Developers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/).
 2. Get the API Code. Before developers are issued with Receipt of Waste Production credentials, they must first demonstrate that they have implemented the specification in its entirety. This is to ensure that all scenarios have been implemented. They will then be issued a Client ID and Client Secret for the External Test environment. These will come via encrypted email. 
@@ -91,7 +93,7 @@ sequenceDiagram
 Before sending any requests to the Receipt of Waste API, make sure that you are addressing the following points in your software:
 
 - the correct URL for the environment and API version number
-- the correct header contents and payload information
+- the correct header contents and payload information, see example request below.
 
 For details, see the [Receipt of Waste API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml).
 
@@ -120,17 +122,17 @@ curl --request POST \
 This is broken down as follows: 
 
 1. The cURL command and URL
-```curl
+```json
 curl --request POST \
   --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
  ```
 2. The header information containing the Bearer Token
-```curl
+```json
  --header 'authorization: Bearer 
  eyJraWQiOiJQYnJiZXZv
 ```
 3. The Request Body
-```curl
+```json
 -- data '{
   "organisationApiId": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
@@ -281,5 +283,3 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
-
-
