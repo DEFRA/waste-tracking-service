@@ -105,7 +105,7 @@ Production: https://api.server.test/v1/movements/receive
 
 ### What makes up a Receive Waste Movement Request?
 
-A URL specifying the API endpoint or server you want to interact with in this case the Waste Tracking Service, example shown below.
+A URL specifying the API endpoint or server you want to interact with, in this case the Waste Tracking Service, example shown below.
 
 ```curl
 curl --request POST \
@@ -281,4 +281,5 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
