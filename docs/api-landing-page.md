@@ -6,7 +6,7 @@ description: This API Landing Page is for waste receivers, software developers a
 
 Version 1.0 issued October 2025
 
-# DEFRA Receipt of Waste API Landing Page
+# DEFRA Receipt of Waste API Landing Page (Private BETA)
 
 ## Introduction
 This page introduces waste receivers, software developers and third party software users to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about the digital processes involved for operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
@@ -67,7 +67,7 @@ To develop using the Receipt of Waste API, you must:
 - be familiar with HTTP, RESTful services and JSON and OAuth
 - have received your client id and secret (by encrypted email)
 
-Note: The <font color="orange"><b>API Code</b></font> and <font color="orange"><b>organisationApiId</b></font> is passed during the Receiver's manual onboarding process and input into the API service manually. In any subsequent waste Receipt request, the submitted API Code is validated against the API Code that was manually input. This is used internally to authenticate a user, i.e. receiver.
+Note: The <font color="orange"><b>API Code</b></font>/ <font color="orange"><b>organisationApiId</b></font> is passed during the Receiver's manual onboarding process and input into the API service manually. In any subsequent waste Receipt request, the submitted API Code is validated against the API Code that was manually input. This is used internally to authenticate a user, i.e. receiver.
 
 ### Authentication
 
@@ -107,7 +107,7 @@ Production: https://api.server.test/v1/movements/receive
 
 ### What makes up a Receive Waste Movement Request?
 
-A URL specifying the API endpoint or server you want to interact with, in this case the Waste Tracking Service, example shown below.
+A URL command specifying the API endpoint or server you want to interact with, in this case the Waste Tracking Service, example shown below.
 
 ```curl
 curl --request POST \
@@ -130,13 +130,14 @@ curl --request POST \
 ```json
  --header 'authorization: Bearer 
  eyJraWQiOiJQYnJiZXZv
+ --header 'content-type: application/json' \
 ```
 3. The Request Body
 ```json
 -- data '{
   "organisationApiId": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
-  "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc
+  "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc\
 ```
 
 
