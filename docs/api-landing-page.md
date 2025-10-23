@@ -15,9 +15,9 @@ This page introduces waste receivers, software developers and third party softwa
 
 ## Receipt API Overview 
 
-![Receipt of Waste](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/initial-scope-receivers.jpg) 
+![Receipt of Waste Process Flow](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/initial-scope-receivers.jpg)
 
-The Receipt of Waste API OAS Specification is available [here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
+The Receipt of Waste API OAS Specification is available [here.](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
     
 The API is based on REST principles and currently has six endpoints that return data in JSON format and use standard HTTP error response codes, see the table below.
 
@@ -55,7 +55,8 @@ Use these short sections for practical preparation and use of the API:
 Prequisite Steps:
 
 1. Developers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/).
-2. Before developers are issued with Receipt of Waste Production credentials, they must first demonstrate that they have implemented the specification in its entirety. This is to ensure that all scenarios have been implemented. They will then be issued a Client ID and Client Secret for the External Test environment. These will come via encrypted email. 
+2. Get the API Code. Before developers are issued with Receipt of Waste Production credentials, they must first demonstrate that they have implemented the specification in its entirety. This is to ensure that all scenarios have been implemented. They will then be issued a Client ID and Client Secret for the External Test environment. These will come via encrypted email. 
+3. Begin testing by sending waste movements to the Waste Tracking Service. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
 
 The URL for the test environment:
 
@@ -101,16 +102,50 @@ For details, see the [Receipt of Waste API v1.0 Reference Guide](https://github.
 The base URLs of the sandbox and production environments are as follows:
 
 ```code 
-https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
+Test: https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
 
-Production https://api.server.test/v1/movements/receive
+Production: https://api.server.test/v1/movements/receive
 ```
 
 ### What makes up a Receive Waste Movement Request?
+
+A URL specifying the API endpoint or server URL you want to interact with in this case the Waste Tracking Service, example shown below.
+
+```curl
+curl --request POST \
+  --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
+  --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZ \
+  --header 'content-type: application/json' \
+  --data '{
+  "organisationApiId": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
+  "dateTimeReceived": "2025-10-15T11:05:05.310Z",
+  "reasonForNoConsignmentCode": "Carrier did not provide documentation"
+```
+This is broken down as follows: 
+
+1. The cURL command and URL
+```curl
+curl --request POST \
+  --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
+ ```
+2. The header information containing the Bearer Token
+```curl
+ --header 'authorization: Bearer 
+ eyJraWQiOiJQYnJiZXZv
+```
+3. The Request Body
+```curl
+-- data '{
+  "organisationApiId": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
+  "dateTimeReceived": "2025-10-15T11:05:05.310Z",
+  "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc
+```
+
+
  The Request Body is the essential part of an API <font color="green"><b>POST</b></font> or <font color="orange"><b>PUT</b></font> request, it containes important data fields that a waste receiver needs to report about a waste movement. 
 
 
-An example of a complete Receive Waste API Request Body used by the POST and PUT methods is as follows:
+An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:
 
 
 ```yaml
@@ -249,8 +284,4 @@ A detailed description of the error responses for this API can be found in the [
 
 ## Changelog
 
-
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
-
-
-
