@@ -138,6 +138,23 @@ paths:
                       type: string
                       description: The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations).
                       example: R1
+  /reference-data/container-types:
+    get:
+      description: Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The container type.
+                      example: BAG
 components:
   requestBodies:
     receiveMovementRequest:
