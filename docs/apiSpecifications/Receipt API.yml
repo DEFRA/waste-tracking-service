@@ -283,6 +283,8 @@ components:
         - typeOfContainers
         - numberOfContainers
         - weight
+        - containsPops
+        - containsHazardous
       properties:
         ewcCodes:
           type: array
