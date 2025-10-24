@@ -52,7 +52,7 @@ Work through these short sections for practical preparation and use of the API:
 #### Prequisite Steps:
 
 1. Receivers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/) using the on-borading form.
-2. Get the <font color="orange"><b>API Code</b></font>/<font color="orange"><b>organisationApiId</b></font>. After completing the on-boarding form, an API Code will be issued to the Receivers and their Software Providors who can then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service.
+2. Get the <font color="orange"><b>API Code</b></font> (also known as the <font color="orange"><b>organisationApiId</b></font>). After completing the on-boarding form, an API Code will be issued to the Receivers and their Software Providors who can then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service.
 
    <b>Note:</b> Before issuing an API Code, <b>Software Providors</b> must first demonstrate that they have implemented the specification in its entirety. This is to ensure that all scenarios have been implemented. 
 3. Developers are issued a Client ID and Client Secret for the External Test environment. These will come via encrypted email. 
@@ -143,7 +143,7 @@ curl --request POST \
 ```
 
 
- The Request Body is the essential part of an API <font color="green"><b>POST</b></font> or <font color="orange"><b>PUT</b></font> request, it contains important data fields that a waste receiver needs to report about a waste movement. 
+ The Request Body is the essential part of an API <font color="green"><b>POST</b></font> or <font color="orange"><b>PUT</b></font> request, it containes important data fields that a waste receiver needs to report about a waste movement. 
 
 
 An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:
@@ -283,7 +283,8 @@ A detailed description of the error responses for this API can be found in the [
 
 [README](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/README.md)
 
+[FAQs](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/faq.md)
+
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
-
