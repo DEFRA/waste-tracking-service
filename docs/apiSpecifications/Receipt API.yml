@@ -113,7 +113,7 @@ paths:
                 type: array
                 items:
                   type: object
-                  properties: 
+                  properties:
                     code:
                       type: string
                       description: The EWC code.
@@ -217,24 +217,24 @@ paths:
 components:
   requestBodies:
     receiveMovementRequest:
-      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
       required: true
       content:
         application/json:
           schema:
             type: object
             required:
-              - organisationApiId
+              - apiCode
               - dateTimeReceived
               - carrier
               - wasteItems
               - receiver
               - receipt
             properties:
-              organisationApiId:
+              apiCode:
                 type: string
                 format: uuid
-                description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service. <p><b>Note</b> This is also known as the <font color="orange"><b>API Code</b></font>.</p>
+                description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service. 
                 example: ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg
               dateTimeReceived:
                 type: string
