@@ -49,7 +49,7 @@ Work through these short sections for practical preparation and use of the API:
 - [Validating a Collection of Requests and Responses](#validating-a-collection-of-requests-and-responses)
 
 
-#### Prequisite Steps:
+#### Prequisite Steps (Receiver)
 
 1. Receivers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/) using the on-borading form.
 2. Get the <font color="orange"><b>apiCode</b></font>. After successfuly completing the on-boarding form, an apiCode will be issued to the Receivers and their Software Providors who can then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service.
@@ -69,6 +69,9 @@ To develop using the Receipt of Waste API, you must:
 
 - be familiar with HTTP, RESTful services and JSON and OAuth
 - have received your client id and secret (by encrypted email)
+
+#### Prequisite Steps (Developers)
+TBD
 
 ### Authentication
 
@@ -288,3 +291,4 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
