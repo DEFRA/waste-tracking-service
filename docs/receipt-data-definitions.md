@@ -3,9 +3,9 @@
 !!! Note "Private Beta"
     Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
-These draft data definition tables describe the information we expect to be recorded by the future waste tracking service when a receiving site accepts or rejects waste.
+This table lists all of the fields required to be recorded by the Reciept of Waste API. The table indicates which fields will be mandatory vs optional - however note that some fields will become mandatory based on the data entered previously. For example, if the waste is hazardous, then the hazardous property code and hazardous compoments become mandatory. 
 
-They are a draft and may be updated to reflect changes to policy, legislation and feedback received from those in the waste industry.
+For more detail on any of these fields, refer to the [Receipt of Waste API specification](https://defra.github.io/waste-tracking-service/apiSpecifications/index.html)
 
 ## Movement details
 
