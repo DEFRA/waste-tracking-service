@@ -3,16 +3,17 @@ info:
   title: Digital Waste Tracking Receipt API
   version: "1.0"
   description: |
-    <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking is available here:
-    <p><a>https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.</a></p>
+    <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking 
+    <a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.">is available here:</a>
      <p><h2>Methods</h2></p>
-     <p>The API is based on REST principles and uses five endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and three <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes. </p>
+     <p>The API is based on REST principles and uses six endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and four <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes.</p>
      <ul>
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
      <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
      <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
+     <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
      </ul>
      <b>Note-</b> This API specification is currently in draft stage and is subject to change.
 servers:
@@ -85,10 +86,29 @@ paths:
           description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
   /reference-data/ewc-codes:
     get:
-      description: Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous = True / False on success, or a <b>401</b> on failure.
+      description: |
+        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.<br><br>
+        Example Request
+        ```json
+        curl --request GET \ --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/ewc-codes \
+          --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX
+        ```
       responses:
         "200":
-          description: Success.
+          description: |
+            Success
+            ```json
+            [  
+            {
+              "code": "010102",
+              "isHazardous": false
+            },
+            {
+              "code": "010304",
+               "isHazardous": true
+            }
+            ]
+            ```
           content:
             application/json:
               schema:
@@ -106,10 +126,30 @@ paths:
                       example: true
   /reference-data/hazardous-property-codes:
     get:
-      description: Endpoint used to get a list of hazardous property code. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
+      description: |
+        Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Example Request
+        ```json
+        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/hazardous-property-codes \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN
+        ```
       responses:
         "200":
-          description: Success.
+          description: |
+            Success
+            ```json
+            [
+            {
+              "code": "HP_1"
+            },
+            {
+              "code": "HP_2"
+            },
+            {
+              "code": "HP_3"
+            }
+            ]
+            ```
           content:
             application/json:
               schema:
@@ -123,10 +163,30 @@ paths:
                       example: HP_1
   /reference-data/disposal-or-recovery-codes:
     get:
-      description: Endpoint used to get a list of disposal or recovery codes.
+      description: |
+        Endpoint used to get a list of disposal or recovery codes.<br><br>
+        Example Request
+        ```json
+        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/disposal-or-recovery-codes \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
+        ```
       responses:
         "200":
-          description: Success.
+          description: |
+            Success
+            ```json
+            [
+            {
+             "code": "R1"
+            },
+            {
+             "code": "R2"
+            },
+            {
+             "code": "R3"
+            }
+            ]
+            ```
           content:
             application/json:
               schema:
@@ -136,14 +196,33 @@ paths:
                   properties:
                     code:
                       type: string
-                      description: The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations).
-                      example: R1
+                      description: The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations). 
+                      example: D3, R1, R11
   /reference-data/container-types:
     get:
-      description: Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.
+      description: | 
+        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Example Request
+         ```json
+        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/container-types \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw
       responses:
-        "200":
-          description: Success.
+        "200": 
+          description: |
+            Success
+            ```json
+            [
+             {
+                "code": "BAG" 
+             },
+             {
+                "code:"PAL"
+            },
+            {
+                "code": "SKI"
+             }
+            ]
+            ```
           content:
             application/json:
               schema:
@@ -154,7 +233,7 @@ paths:
                     code:
                       type: string
                       description: The container type.
-                      example: BAG
+                      example:  BAG, PAL, SKI               
 components:
   requestBodies:
     receiveMovementRequest:
@@ -357,11 +436,11 @@ components:
           type: boolean
           description: |
             Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
-            Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. You can find more information in the
-            <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a>
-            <p>More information on POPs can be found here:</p>
-            <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
-            <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p>
+                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. You can find more information in the 
+                <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a>
+                <p>More information on POPs can be found here:</p>
+                <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
+                <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p
           example: true
         pops:
           type: object
@@ -394,46 +473,148 @@ components:
                   name:
                     type: string
                     description: |
-                      The name of the POP e.g.  Persistant Organic Pollutant (POP). 
-                      <ul>
-                      <li>Endosulfan,</li>
-                      <li>Hexachlorobutadiene,</li>
-                      <li>Polychlorinated naphthalenes,</li>
-                      <li>SCCPs,</li>
-                      <li>Tetrabromodiphenyl ether,</li>
-                      <li>Pentabromodiphenyl ether,</li>
-                      <li>Hexabromodiphenyl ether,</li>
-                      <li>Heptabromodiphenyl ether,</li>
-                      <li>Decabromodiphenyl ether,</li>
-                      <li>Tetra-, penta-, hexa-, hepta- and deca- bromodiphenyl ether,</li>
-                      <li>PFOS,</li>
-                      <li>PCDD/PCDF,</li>
-                      <li>DDT,</li>
-                      <li>Chlordane,</li>
-                      <li>Hexachlorocyclohexanes,</li>
-                      <li>Dieldrin,</li>
-                      <li>Endrin,</li>
-                      <li>Heptachlor,</li>
-                      <li>Hexachlorobenzene,</li>
-                      <li>Chlordecone,</li>
-                      <li>Aldrin,</li>
-                      <li>Pentachlorobenzene,</li>
-                      <li>PCB,</li>
-                      <li>Mirex,</li>
-                      <li>Toxaphene,</li>
-                      <li>Hexabromobiphenyl,</li>
-                      <li>Hexabromocyclododecane,</li>
-                      <li>Pentachlorophenol,</li>
-                      <li>PFOA,</li>
-                      <li>Dicofol,</li>
-                      <li>PFHxS</li>
-                      </ul> 
+                      The name and code of the POP e.g.  Persistant Organic Pollutant (POP). Please enter just the code. 
+                      
+                      <table border="1">
+                          <thead>
+                              <tr>
+                                  <th>POP Name</th>
+                                  <th>POP Code</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>Endosulfan</td>
+                                  <td>END</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexachlorobutadiene</td>
+                                  <td>HCBD</td>
+                              </tr>
+                              <tr>
+                                  <td>Polychlorinated naphthalenes</td>
+                                  <td>PCNS</td>
+                              </tr>
+                              <tr>    
+                                  <td>Short-chain chlorinated paraffins</td>
+                                  <td>SCCPS</td>
+                              </tr>
+                              <tr>
+                                  <td>Tetrabromodiphenyl ether</td>
+                                  <td>TETRABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Pentabromodiphenyl ether</td>
+                                  <td>PENTABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexabromodiphenyl ether</td>
+                                  <td>HEXABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Heptabromodiphenyl ether</td>
+                                  <td>HEPTABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Decabromodiphenyl ether</td>
+                                  <td>DECABDE</td>
+                              </tr>
+                              <tr>
+                                  <td>Tetra-, penta-, hexa-, hepta- deca- BDEs</td>
+                                  <td>PBDES</td>
+                              </tr>
+                              <tr>
+                                  <td>Perfluorooctane sulfonic acid (and derivatives)</td>
+                                  <td>PFOS</td>
+                              </tr>
+                              <tr>
+                                  <td>Polychlorinated dibenzo-p-dioxins/furans</td>
+                                  <td>PCDD_PCDF</td>
+                              </tr>
+                              <tr>
+                                  <td>Dichlorodiphenyltrichloroethane</td>
+                                  <td>DDT</td>
+                              </tr>
+                              <tr>
+                                  <td>Chlordane</td>
+                                  <td>CHL</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexachlorocyclohexanes (including lindane)</td>
+                                  <td>HCH</td>
+                              </tr>
+                              <tr>
+                                  <td>Dieldrin</td>
+                                  <td>DLD</td>
+                              </tr>
+                              <tr>
+                                  <td>Endrin</td>
+                                  <td>ENDN</td>
+                              </tr>
+                              <tr>
+                                  <td>Heptachlor</td>
+                                  <td>HPT</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexachlorobenzene</td>
+                                  <td>HCB</td>
+                              </tr>
+                              <tr>
+                                  <td>Chlordecone</td>
+                                  <td>CLD</td>
+                              </tr>
+                              <tr>
+                                  <td>Aldrin</td>
+                                  <td>ALD</td>
+                              </tr>
+                              <tr>
+                                  <td>Pentachlorobenzene</td>
+                                  <td>PECBZ</td>
+                              </tr>
+                              <tr>
+                                  <td>Polychlorinated biphenyls</td>
+                                  <td>PCB</td>
+                              </tr>
+                              <tr>
+                                  <td>Mirex</td>
+                                  <td>MRX</td>
+                              </tr>
+                              <tr>
+                                  <td>Toxaphene</td>
+                                  <td>TOX</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexabromobiphenyl</td>
+                                  <td>HBB</td>
+                              </tr>
+                              <tr>
+                                  <td>Hexabromocyclododecane</td>
+                                  <td>HBCD</td>
+                              </tr>
+                              <tr>
+                                  <td>Pentachlorophenol</td>
+                                  <td>PCP</td>
+                              </tr>
+                              <tr>
+                                  <td>Perfluorooctanoic acid</td>
+                                  <td>PFOA</td>
+                              </tr>
+                              <tr>
+                                  <td>Dicofol</td>
+                                  <td>DCF</td>
+                              </tr>
+                              <tr>
+                                  <td>Perfluorohexane sulfonic acid</td>
+                                  <td>PFHXS</td>
+                              </tr>
+                          </tbody>
+                      </table>
                       <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found 
                       <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">here.</a></p>
                       <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p> 
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, it must be a valid POP name from the list above.
-                    example: Aldrin, Chlordane, Dieldrin.
+                    example: PFHXS, HBB
                   concentration:
                     type: number
                     minimum: 0
@@ -451,9 +632,9 @@ components:
                 <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided</li>
                 </ul>
         containsHazardous:
-          type: boolean
-          description: Does the waste consignment contain Hazardous waste, true or false? Hazardous waste is any waste that is potentially harmful to human health or the environment. This is a boolean value, i.e. true (contains hazardous waste) or false (does not contain hazourdous waste).
-          example: true
+              type: boolean
+              description: Does the waste consignment contain <b>Hazardous Properties</b>, true or false?. This is a mandatory indication. This is a boolean value, i.e. true (contains hazardous properties) or false (does not contain hazourdous properties).
+              example: true        
         hazardous:
           type: object
           required:
@@ -487,7 +668,7 @@ components:
                  <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
                 <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p>
                 <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a>
-                 <p><font color="green"><b>Business Rule:</b></font></p>
+                 <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
               items:
@@ -860,5 +1041,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
-
