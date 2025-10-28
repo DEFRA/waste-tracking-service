@@ -1,14 +1,33 @@
 # Production Approval Tests for Receipt of Waste API
 
-Below are a list of Gherkin style Scenarios outlining in a behavioural sense some of the key functionalities of the system as it stands. As each system integrating with us is unique, it isn’t feasible for us to give each integrating developer a specific payload per scenario, so please use the following scenarios and the details found in the Github Documentation Service to illustrate the functionality. When you’ve completed developing and testing your integration please send a test submission for each of these scenarios and note down the corresponding Global Waste Tracking ID’s so we can review.
+When you’ve completed developing and testing your integration please send a test submission for each of these scenarios and note down the corresponding Global Waste Tracking ID’s so we can review. 
 
-As a quick note on Gherkin Scenarios:
-”Scenario” - A title for Given, When, and Then combinations illustrating a behaviour that can occur within a system
-”Given” - A precondition step outlining a state a system needs to be in
-”When” - An action step that can be carried out by a user/actor within a system
-”Then” - An expectation step of what should be achieved by the combination of the Given and When steps
+!!! Note "Sending Production Approval Tests"
+    Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
+  
 
-More info can be found here
+The scenarios to be demonstrated are:
+- <b>R01</b> Basic Waste receipt - single waste item
+- <b>R02</b> Basic waste receipt - with multiple waste items
+- <b>R03</b> Basic Waste receipt - with means of transport ‘Road’
+- <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes
+- <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes
+- <b>R06</b> Basic waste Receipt - with multiple receiver authorisation numbers 
+- <b>R07</b> Basic waste Receipt - with Mirror EWC codes
+- <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)
+- <b>C02</b> Basic waste Receipt - with no Carrier details and reason 
+- <b>B01</b> Basic waste Receipt - with a Broker / Dealer
+- <b>P01</b> POPs Waste Receipt - multiple POPs components
+- <b>H01</b> Hazardous Waste Receipt - multiple hazardouse components
+- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason
+- <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason
+- <b>X01</b> Hazardous & POPs Waste Receipt
+
+Below are a list of Gherkin style Scenarios outlining in a behavioural sense the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:
+- ”Scenario” - A title for Given, When, and Then combinations illustrating a behaviour that can occur within a system
+- ”Given” - A precondition step outlining a state a system needs to be in
+- ”When” - An action step that can be carried out by a user/actor within a system
+- ”Then” - An expectation step of what should be achieved by the combination of the Given and When steps
 
 The following is not an exhaustive set of tests and you will be expected to review our documentation in full to ensure that you have integrated as per the specification.
 
