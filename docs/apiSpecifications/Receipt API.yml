@@ -225,21 +225,21 @@ paths:
 components:
   requestBodies:
     receiveMovementRequest:
-      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>organisationApiId, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
       required: true
       content:
         application/json:
           schema:
             type: object
             required:
-              - apiCode
+              - organisationApiId
               - dateTimeReceived
               - carrier
               - wasteItems
               - receiver
               - receipt
             properties:
-              apiCode:
+              organisationApiId:
                 type: string
                 format: uuid
                 description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service.
@@ -1029,3 +1029,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
