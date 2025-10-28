@@ -29,5 +29,5 @@ This folder contains an exported version of the Digital Waste Tracking External 
 ## Support
 For questions about this collection, refer to the included documentation or contact the Digital Waste Tracking team.
 
-**Exported on**: Fri Sep 26 14:20:55 BST 2025
+**Exported on**: Tue Oct 28 14:04:34 GMT 2025
 **Collection Version**: 1

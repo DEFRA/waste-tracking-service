@@ -1,0 +1,15 @@
+meta {
+  name: Get haz-property-codes
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/reference-data/hazardous-property-codes
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
