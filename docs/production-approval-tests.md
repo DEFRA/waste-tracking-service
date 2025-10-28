@@ -1,6 +1,6 @@
 # Production Approval Tests for Receipt of Waste API
 
-When you’ve completed developing and testing your integration please send a test submission for each of these scenarios and note down the corresponding Global Waste Tracking ID’s so we can review. 
+When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Global Waste Tracking ID’s so we can review. 
 
 !!! Note "Sending Production Approval Tests"
     Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
@@ -23,7 +23,7 @@ The scenarios to be demonstrated are:
 - <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason
 - <b>X01</b> Hazardous & POPs Waste Receipt
 
-Below are a list of Gherkin style Scenarios outlining in a behavioural sense the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:
+Below are a list of Gherkin style Scenarios outlining, in a behavioural sense, the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:
 - ”Scenario” - A title for Given, When, and Then combinations illustrating a behaviour that can occur within a system
 - ”Given” - A precondition step outlining a state a system needs to be in
 - ”When” - An action step that can be carried out by a user/actor within a system
@@ -35,7 +35,7 @@ The following is not an exhaustive set of tests and you will be expected to revi
 
 As a user,  
 I want to submit a basic waste movement receipt,<br> 
-So that I can record the receipt of non-hazardous waste.<br> 
+so that I can record the receipt of non-hazardous waste.<br> 
 
 ### Scenario: Submit basic receipt of waste with single waste item (R01)
 
@@ -108,7 +108,7 @@ And I should receive a global movement ID<br>
 
 As a user,<br>
 I want to submit a receipt of waste with appropriate carrier information,<br>
-So that the movement is properly documented and compliant.<br>
+so that the movement is properly documented and compliant.<br>
 
 ### Scenario: Submit receipt of waste with no carrier details and no reason (C01)
 
@@ -134,7 +134,7 @@ And I should receive a global movement ID<br>
 
 As a user,<br>
 I want to submit waste movement receipts involving brokers or dealers,<br>
-So that all parties in the waste movement chain are properly recorded.<br>
+so that all parties in the waste movement chain are properly recorded.<br>
 
 ### Scenario: Submit receipt of waste with Broker/Dealer involvement (B01)
 
@@ -149,7 +149,7 @@ And I should receive a global movement ID<br>
 
 As a user,<br>
 I want to submit waste movement receipts containing POPs components,<br>
-So that persistent organic pollutants are properly tracked and managed.<br>
+so that persistent organic pollutants are properly tracked and managed.<br>
 
 ### Scenario: Submit receipt of waste with multiple POPs components (P01)
 
@@ -164,7 +164,7 @@ And I should receive a global movement ID<br>
 
 As a user,<br>
 I want to submit waste movement receipts containing hazardous components,<br>
-So that hazardous waste is properly classified and tracked.<br>
+so that hazardous waste is properly classified and tracked.<br>
 
 ### Scenario: Submit receipt of waste with multiple hazardous components (H01)
 
@@ -201,7 +201,7 @@ And I should receive a global movement ID<br>
 
 As a user,<br>
 I want to submit waste movement receipts containing both hazardous and POPs components,<br>
-So that complex waste streams are properly classified and tracked.<br>
+so that complex waste streams are properly classified and tracked.<br>
 
 ### Scenario: Submit receipt of  waste with both hazardous and POPs components (X01)
 
@@ -227,6 +227,6 @@ The following scenarios may be exempted if the integrating system doesn’t hand
 |H01, H02|If all entities that use the software never receive hazardous waste|
 |X01|If all entities that use the software never receive both types of waste|
 
-If your circumstances change at any point, you will need to <br>
-a) Let us know immediately and <br>
-b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant
+If your circumstances change at any point, you will need to: <br>
+a) Let us know immediately. <br>
+b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant.
