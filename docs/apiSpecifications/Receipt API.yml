@@ -87,17 +87,18 @@ paths:
   /reference-data/ewc-codes:
     get:
       description: |
-        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.<p></p>
+        <p>Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.</p>
         Example Request
         ```json
         curl --request GET \ --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/ewc-codes \
-          --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX
+          --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX
         ```
       responses:
         "200":
           description: |
             Success
             ```json
+            [  
             {
               "code": "010102",
               "isHazardous": false
@@ -106,6 +107,7 @@ paths:
               "code": "010304",
                "isHazardous": true
             }
+            ]
             ```
           content:
             application/json:
@@ -129,13 +131,14 @@ paths:
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/hazardous-property-codes \
-        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN
         ```
       responses:
         "200":
           description: |
             Success
             ```json
+            [
             {
               "code": "HP_1"
             },
@@ -145,6 +148,7 @@ paths:
             {
               "code": "HP_3"
             }
+            ]
             ```
           content:
             application/json:
@@ -164,13 +168,14 @@ paths:
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/disposal-or-recovery-codes \
-        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
         ```
       responses:
         "200":
           description: |
             Success
             ```json
+            [
             {
              "code": "R1"
             },
@@ -180,6 +185,7 @@ paths:
             {
              "code": "R3"
             }
+            ]
             ```
           content:
             application/json:
@@ -199,7 +205,7 @@ paths:
         Example Request
          ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/container-types \
-        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw
       responses:
         "200": 
           description: |
@@ -207,7 +213,13 @@ paths:
             ```json
             [
              {
-                "code": "BAG, PAL, SKI"
+                "code": "BAG" 
+             },
+             {
+                "code:"PAL"
+            },
+            {
+                "code": "SKI"
              }
             ]
             ```
@@ -1029,4 +1041,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
