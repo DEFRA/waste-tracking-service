@@ -87,7 +87,7 @@ paths:
   /reference-data/ewc-codes:
     get:
       description: |
-        <p>Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.</p>
+        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.<br><br>
         Example Request
         ```json
         curl --request GET \ --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/ewc-codes \
@@ -127,7 +127,7 @@ paths:
   /reference-data/hazardous-property-codes:
     get:
       description: |
-        Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure. <p></p>
+        Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/hazardous-property-codes \
@@ -164,7 +164,7 @@ paths:
   /reference-data/disposal-or-recovery-codes:
     get:
       description: |
-        Endpoint used to get a list of disposal or recovery codes. <p></p>
+        Endpoint used to get a list of disposal or recovery codes.<br><br>
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/disposal-or-recovery-codes \
@@ -201,7 +201,7 @@ paths:
   /reference-data/container-types:
     get:
       description: | 
-        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure. <p></p>
+        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
         Example Request
          ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/container-types \
