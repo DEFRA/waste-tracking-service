@@ -7,21 +7,21 @@ When you’ve completed developing and testing your integration, please send a t
   
 
 The scenarios to be demonstrated are:
-- <b>R01</b> Basic Waste receipt - single waste item
-- <b>R02</b> Basic waste receipt - with multiple waste items
-- <b>R03</b> Basic Waste receipt - with means of transport ‘Road’
-- <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes
-- <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes
-- <b>R06</b> Basic waste Receipt - with multiple receiver authorisation numbers 
-- <b>R07</b> Basic waste Receipt - with Mirror EWC codes
-- <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)
-- <b>C02</b> Basic waste Receipt - with no Carrier details and reason 
-- <b>B01</b> Basic waste Receipt - with a Broker / Dealer
-- <b>P01</b> POPs Waste Receipt - multiple POPs components
-- <b>H01</b> Hazardous Waste Receipt - multiple hazardouse components
-- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason
-- <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason
-- <b>X01</b> Hazardous & POPs Waste Receipt
+- <b>R01</b> Basic Waste receipt - single waste item<br>
+- <b>R02</b> Basic waste receipt - with multiple waste items<br>
+- <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
+- <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
+- <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
+- <b>R06</b> Basic waste Receipt - with multiple receiver authorisation numbers<br> 
+- <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
+- <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
+- <b>C02</b> Basic waste Receipt - with no Carrier details and reason<br> 
+- <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
+- <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
+- <b>H01</b> Hazardous Waste Receipt - multiple hazardouse components<br>
+- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason<br>
+- <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason<br>
+- <b>X01</b> Hazardous & POPs Waste Receipt<br>
 
 Below are a list of Gherkin style Scenarios outlining, in a behavioural sense, the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:
 - ”Scenario” - A title for Given, When, and Then combinations illustrating a behaviour that can occur within a system
