@@ -23,11 +23,11 @@ The scenarios to be demonstrated are:
 - <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason<br>
 - <b>X01</b> Hazardous & POPs Waste Receipt<br>
 
-Below are a list of Gherkin style Scenarios outlining, in a behavioural sense, the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:
-- ”Scenario” - A title for Given, When, and Then combinations illustrating a behaviour that can occur within a system
-- ”Given” - A precondition step outlining a state a system needs to be in
-- ”When” - An action step that can be carried out by a user/actor within a system
-- ”Then” - An expectation step of what should be achieved by the combination of the Given and When steps
+Below are a list of Gherkin style Scenarios outlining, in a behavioural sense, the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:<br>
+- ”Scenario” - A title for Given, When, and Then combinations illustrating a behaviour that can occur within a system<br>
+- ”Given” - A precondition step outlining a state a system needs to be in<br>
+- ”When” - An action step that can be carried out by a user/actor within a system<br>
+- ”Then” - An expectation step of what should be achieved by the combination of the Given and When steps<br>
 
 The following is not an exhaustive set of tests and you will be expected to review our documentation in full to ensure that you have integrated as per the specification.
 
