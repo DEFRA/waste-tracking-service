@@ -40,6 +40,18 @@ This version of the Receipt of Waste API:
 - supports **only** the API v1.0 Receipt of Waste API for Private Beta customers.
 - a roadmap to the Receipt API [can be found here.](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/roadmap.md)
 
+## Related API Documentation
+[Receipt of Waste API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
+
+[Receipt of Waste Roadmap](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/roadmap.md)
+
+[Receipt of Waste API Data Definitions](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/receipt-data-definitions.md)
+
+[README](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/README.md)
+
+[FAQs](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/faq.md)
+
+
 ## Getting Started 
 Work through these short sections for practical preparation and use of the API:
 
@@ -292,5 +304,6 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
 
