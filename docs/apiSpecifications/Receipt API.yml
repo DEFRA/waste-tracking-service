@@ -6,7 +6,7 @@ info:
     <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking 
     <a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.">is available here:</a>
      <p><h2>Methods</h2></p>
-     <p>The API is based on REST principles and uses six endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and four <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes.</p>
+     <p>The API is based on REST principles and uses seven endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and five <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes.</p>
      <ul>
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
@@ -14,6 +14,7 @@ info:
      <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
      <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
+     <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
      </ul>
      <b>Note-</b> This API specification is currently in draft stage and is subject to change.
 servers:
@@ -233,7 +234,47 @@ paths:
                     code:
                       type: string
                       description: The container type.
-                      example:  BAG, PAL, SKI               
+                      example:  BAG, PAL, SKI
+  /reference-data/pop-names:
+    get:
+      description: |
+        Endpoint used to get a list of POP (Persistent Organic Pollutant) name codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Example Request
+         ```json
+        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/pop-names \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
+        ```
+      responses:
+        "200":
+          description: |
+            Success
+            ```json
+            [
+             {
+                "code": "END"
+             },
+             {
+                "code": "HCBD"
+            },
+            {
+                "code": "PCNS"
+             },
+            {
+                "code": "SCCPS"
+             }
+            ]
+            ```
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The POP code. See the full list of valid POP codes in the wasteItem.pops.components section below.
+                      example: PFOS, END, HCBD, PCNS, SCCPS
 components:
   requestBodies:
     receiveMovementRequest:
