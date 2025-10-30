@@ -34,9 +34,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  statusCode:
-                    type: integer
-                    example: 201
                   wasteTrackingId:
                     type: string
                     description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when either a POST or PUT request is successful, i.e. return code 201, 200.
