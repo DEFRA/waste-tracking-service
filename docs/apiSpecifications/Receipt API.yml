@@ -509,12 +509,12 @@ components:
               items:
                 type: object
                 required:
-                  - name
+                  - code
                 properties:
-                  name:
+                  code:
                     type: string
                     description: |
-                      The name and code of the POP e.g.  Persistant Organic Pollutant (POP). Please enter just the code. 
+                      The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP code from the reference list below. 
                       
                       <table border="1">
                           <thead>
@@ -652,10 +652,10 @@ components:
                       </table>
                       <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found 
                       <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">here.</a></p>
-                      <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p> 
+                      <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p>
                       <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, it must be a valid POP name from the list above.
-                    example: PFHXS, HBB
+                      Optional field. If provided, it must be a valid POP code from the reference list above. The code is validated against reference data to ensure accuracy.
+                    example: PFHXS, HBB, END, PCDD_PCDF
                   concentration:
                     type: number
                     minimum: 0
