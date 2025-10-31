@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: {{baseUrl}}/movements/{{globalMovementId}}/receive
+  url: {{baseUrl}}/movements/{{wasteTrackingId}}/receive
   body: json
   auth: inherit
 }
@@ -16,7 +16,7 @@ headers {
 
 body:json {
   {
-    "organisationApiId": "{{organisationApiId}}",
+    "apiCode": "{{apiCode}}",
     "dateTimeReceived": "{{timestamp}}",
     "wasteItems": [
       {
@@ -38,15 +38,15 @@ body:json {
           "sourceOfComponents": "CARRIER_PROVIDED",
           "components": [
             {
-              "name": "Chlordane",
+              "code": "CHL",
               "concentration": 45.2
             },
             {
-              "name": "Dieldrin",
+              "code": "DLD",
               "concentration": 12.8
             },
             {
-              "name": "Aldrin",
+              "code": "ALD",
               "concentration": 8.3
             }
           ]

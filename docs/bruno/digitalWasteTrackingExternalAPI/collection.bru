@@ -37,7 +37,7 @@ docs {
   3. **Set Environment Secrets**: Configure the following secret variables in your selected environment:
      - `clientId`: Your OAuth2 client ID
      - `clientSecret`: Your OAuth2 client secret  
-     - `organisationApiId`: Your valid organisation API ID for testing
+     - `apiCode`: Your valid organisation API ID for testing
   4. **Set Authentication**: Configure OAuth2 authentication (see Authentication section below)
 
   ## 🔐 Authentication
@@ -117,7 +117,7 @@ docs {
   Each environment includes secret variables that need to be configured:
   - `clientId`: Your OAuth2 client ID for authentication
   - `clientSecret`: Your OAuth2 client secret for authentication
-  - `organisationApiId`: Your valid organisation API ID for testing waste movements
+  - `apiCode`: Your valid organisation API ID for testing waste movements
 
   ### Setting Up Environment Secrets
   1. **Select Environment**: Choose your target environment in Bruno
@@ -125,7 +125,7 @@ docs {
   3. **Set Values**: Enter your actual values for each secret variable
   4. **Save**: The secrets will be stored securely and used by all requests in that environment
 
-  **Note**: The `organisationApiId` is automatically used in all request bodies, so you don't need to manually update individual requests.
+  **Note**: The `apiCode` is automatically used in all request bodies, so you don't need to manually update individual requests.
 
   ## 📊 Expected Response Codes
 
@@ -157,10 +157,10 @@ docs {
   Some requests capture response data for use in subsequent requests:
   ```javascript
   vars:post-response {
-    globalMovementId: res.body.globalMovementId
+    wasteTrackingId: res.body.wasteTrackingId
   }
   ```
-  This allows you to use `{{globalMovementId}}` in update requests.
+  This allows you to use `{{wasteTrackingId}}` in update requests.
 
   ## 🚨 Common Issues & Solutions
 
@@ -198,7 +198,7 @@ docs {
   **Problem**: Update requests failing with 404
   **Solution**:
   - Ensure you've created a movement first
-  - Check that the `globalMovementId` variable is set correctly
+  - Check that the `wasteTrackingId` variable is set correctly
   - Verify the movement ID format is correct
 
   ### 5. OAuth Variable Not Found
