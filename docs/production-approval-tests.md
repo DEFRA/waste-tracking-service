@@ -6,7 +6,7 @@ When you’ve completed developing and testing your integration, please send a t
     Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
   
 
-The scenarios to be demonstrated are:
+The scenarios to be demonstrated are:<br>
 - <b>R01</b> Basic Waste receipt - single waste item<br>
 - <b>R02</b> Basic waste receipt - with multiple waste items<br>
 - <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
