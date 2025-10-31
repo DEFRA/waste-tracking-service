@@ -1,11 +1,11 @@
 meta {
-  name: Receive Movement - Error - Missing organisationApiId as a required field
+  name: Receive Movement - Error - Missing apiCode as a required field
   type: http
   seq: 1
 }
 
 put {
-  url: {{baseUrl}}/movements/{{globalMovementId}}/receive
+  url: {{baseUrl}}/movements/{{wasteTrackingId}}/receive
   body: json
   auth: inherit
 }

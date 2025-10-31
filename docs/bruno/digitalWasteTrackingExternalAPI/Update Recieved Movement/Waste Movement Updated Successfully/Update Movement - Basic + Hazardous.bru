@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: {{baseUrl}}/movements/{{globalMovementId}}/receive
+  url: {{baseUrl}}/movements/{{wasteTrackingId}}/receive
   body: json
   auth: inherit
 }
@@ -16,7 +16,7 @@ headers {
 
 body:json {
   {
-    "organisationApiId": "{{organisationApiId}}",
+    "apiCode": "{{apiCode}}",
     "dateTimeReceived": "{{timestamp}}",
     "hazardousWasteConsignmentCode": "CJTILE/A0001",
     "wasteItems": [
