@@ -1,28 +1,85 @@
-name: ci 
+name: docs-release
+
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Tag to deploy (e.g. v1.2.0)'
+        required: true
+
 permissions:
   contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Resolve version
+        id: version
+        run: |
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${{ github.event.release.tag_name }}"
+          fi
+
+          if [ -z "$VERSION" ]; then
+            echo "::error::Release version could not be determined." >&2
+            exit 1
+          fi
+
+          if ! [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.-]+)?$ ]]; then
+            echo "::error::Version must follow semantic versioning and start with 'v'." >&2
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "ref=$VERSION" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ steps.version.outputs.ref }}
+
+      - name: Validate tag ancestry
+        run: |
+          git fetch origin main
+          if ! git merge-base --is-ancestor HEAD origin/main; then
+            echo "::error::Tags must point to commits on the main branch." >&2
+            exit 1
+          fi
+
       - name: Configure Git Credentials
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.x
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
-      - uses: actions/cache@v4
+          python-version: '3.x'
+
+      - name: Prime cache key
+        run: echo "cache_id=$(date --utc '+%G-%V')" >> "$GITHUB_ENV"
+
+      - name: Cache MkDocs dependencies
+        uses: actions/cache@v4
         with:
-          key: mkdocs-material-${{ env.cache_id }}
+          key: mkdocs-${{ env.cache_id }}
           path: .cache
           restore-keys: |
-            mkdocs-material-
-      - run: pip install mkdocs-material 
-      - run: mkdocs gh-deploy --force
+            mkdocs-
+
+      - name: Install MkDocs tooling
+        run: pip install mkdocs-material mike
+
+      - name: Deploy documentation version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          mike deploy --push --remote origin --branch gh-pages --update-aliases "$VERSION" latest
+          mike set-default --push --remote origin --branch gh-pages latest
+
+      - name: List published versions
+        run: mike list --remote origin --branch gh-pages
