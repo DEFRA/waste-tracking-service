@@ -3,7 +3,7 @@
 !!! Note "Private Beta"
     Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
-The Department for Environment, Food & Rural Affairs (Defra) intend to transform how data about waste movements is collected and shared with the regulators across all 4 UK nations. It will be mandatory for Waste Receivers to report waste they’ve received from October 2026\.
+The UK Government, alongside Scottish Government, Welsh Government and the Department of Agriculture, Environment and Rural Affairs (DAERA) in Northern Ireland intend to transform how data about waste movements is collected and shared with the regulators across all 4 UK nations. It will be mandatory for Waste Receivers to report waste they’ve received from October 2026\.
 
 You can read more about the [digital waste tracking policy on GOV.UK](https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking).
 
