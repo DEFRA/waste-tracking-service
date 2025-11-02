@@ -64,26 +64,21 @@ Work through these short sections for practical preparation and use of the API:
 #### Prequisite Steps (Receiver)
 
 1. Receivers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/) using the on-borading form.
-2. Get the <font color="orange"><b>API Code</b></font>. After successfuly completing the on-boarding form, an API Code will be issued to the Receivers and their Software Providors who can then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service.
-
-   <b>Note:</b> Before issuing an API Code, <b>the Receivers Software Providors</b> must first demonstrate that they have implemented the specification in its entirety. This is to ensure that all scenarios have been implemented. 
+2. Get the <font color="orange"><b>API Code</b></font>. After successfuly completing the on-boarding programme, an API Code will be issued to the Receivers and their Software Providors who can then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service. 
 
 #### Prequisite Steps (Developers)
 
 To develop using the Receipt of Waste API, you must:
-
 - be familiar with HTTP, RESTful services and JSON and OAuth
-- have received your client id and secret (by encrypted email)
+- have received your client id and secret (by encrypted email, see step 4 below.)
 
-1. Request an OAuth bearer token using the client ID and Client Secret. See [Authentication](#Authentication).
-2. Begin testing by sending waste movements to the Waste Tracking Service. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
+These are the necesary steps:
+1. Gain access to the test environment which can be [found here](https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud).
+2. Request an OAuth bearer token using the client ID and Client Secret. See [Authentication](#Authentication).
+3. Begin sending requests and developing the integration with the API. At the same time demonstrating  that you have [implemented the specification in its entirety](https://github.com/DEFRA/waste-tracking-service/blob/DWT-720_API_Diagram/docs/production-approval-tests.md). 
+4. Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
 
-
-The URL for the test environment:
-
-```code 
-https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
-```
+5. Begin sending waste movements to the Waste Tracking Service. 
 
 
 ### Authentication
@@ -304,6 +299,7 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
 
 
