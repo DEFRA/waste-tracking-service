@@ -64,8 +64,8 @@ Work through these short sections for practical preparation and use of the API:
 
 #### Prequisite Steps (Receiver)
 
-1. Receivers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/) using the on-borading form.
-2. Get the <font color="orange"><b>API Code</b></font>. After successfuly completing the on-boarding programme, an API Code will be issued to the Receivers and their Software Providors who can then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service. 
+1. Waste Receivers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/) using the on-boarding form.
+2. Get the <font color="orange"><b>API Code</b></font>. After successfuly completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service. 
 
 #### Prequisite Steps (Developers)
 
@@ -79,11 +79,11 @@ These are the necesary steps:
    ```code
    https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
    ```
-3. Request an OAuth bearer token using the client ID and Client Secret. See [Authentication](#Authentication).
-4. Begin sending requests and developing the integration with the API. At the same time demonstrating that you have [implemented the specification in its entirety](https://github.com/DEFRA/waste-tracking-service/blob/DWT-720_API_Diagram/docs/production-approval-tests.md). 
-5. Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
-6. Apply for Production Credentials. XXXXX
-7. Following acceptance of your integration, begin sending waste movements to the Waste Tracking Service. 
+2. Request an OAuth bearer token using the client ID and Client Secret. See [Authentication](#Authentication).
+3. Begin sending requests and developing the integration with the API. At the same time demonstrating that you have [implemented the specification in its entirety](https://github.com/DEFRA/waste-tracking-service/blob/DWT-720_API_Diagram/docs/production-approval-tests.md). 
+4. Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
+5. Apply for Production Credentials. XXXXX
+6. Following acceptance of your integration, begin sending waste movements to the Waste Tracking Service. 
 
 ### Authentication
 
@@ -303,6 +303,7 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
 
 
