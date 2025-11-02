@@ -48,6 +48,8 @@ This version of the Receipt of Waste API:
 
 [Receipt of Waste API Data Definitions](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/receipt-data-definitions.md)
 
+[Use Cases](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/use-cases.md)
+
 [README](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/README.md)
 
 [FAQs](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/faq.md)
@@ -62,7 +64,7 @@ Work through these short sections for practical preparation and use of the API:
 - [Validating a Collection of Requests and Responses](#validating-a-collection-of-requests-and-responses)
 
 
-#### Prequisite Steps (Receiver)
+#### Prequisite Steps (Receivers)
 
 1. Waste Receivers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/) using the on-boarding form.
 2. Accept the API Terms and Conditions.
@@ -304,6 +306,7 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
 
 
