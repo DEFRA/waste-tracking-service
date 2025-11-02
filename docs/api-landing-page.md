@@ -9,7 +9,7 @@ Version 1.0 issued October 2025
 # DEFRA Receipt of Waste API Landing Page (Private BETA)
 
 ## Introduction
-This page introduces waste receivers, software developers and third party software providors to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about the digital processes involved for operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
+This page introduces waste receivers, software developers and third party software providors to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started and the digital processes involved for operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
 
 **Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the DEFRA Waste Tracking Service (DWT)  Receipt API Landing Page [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog).
 
@@ -71,16 +71,15 @@ Work through these short sections for practical preparation and use of the API:
 
 To develop using the Receipt of Waste API, you must:
 - be familiar with HTTP, RESTful services and JSON and OAuth
-- have received your client id and secret (by encrypted email, see step 4 below.)
+- have received your client id and secret (by encrypted email, see step 2 below.)
+- be familiar with API's terms of service.
 
 These are the necesary steps:
 1. Gain access to the test environment which can be [found here](https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud).
 2. Request an OAuth bearer token using the client ID and Client Secret. See [Authentication](#Authentication).
 3. Begin sending requests and developing the integration with the API. At the same time demonstrating  that you have [implemented the specification in its entirety](https://github.com/DEFRA/waste-tracking-service/blob/DWT-720_API_Diagram/docs/production-approval-tests.md). 
 4. Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
-
 5. Begin sending waste movements to the Waste Tracking Service. 
-
 
 ### Authentication
 
@@ -300,6 +299,7 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
 
 
