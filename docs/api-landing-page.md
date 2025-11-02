@@ -114,7 +114,7 @@ Before sending any requests to the Receipt of Waste API, make sure that you are 
 - the correct URL for the environment and API version number
 - the correct header contents and payload information, see example request below.
 
-For details, see the [Receipt of Waste API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml).
+For details, see the [Receipt of Waste API v1.0 Reference Guide](https://defra.github.io/waste-tracking-service/apiSpecifications/index.html).
 
 The base URLs of the sandbox and production environments are as follows:
 
@@ -306,6 +306,7 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
 
 
