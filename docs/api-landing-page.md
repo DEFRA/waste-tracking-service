@@ -19,7 +19,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 The Receipt of Waste API OAS Specification is available [here.](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
     
-The API is based on REST principles and currently has six endpoints that return data in JSON format and use standard HTTP error response codes, see the table below.
+The API is based on REST principles and currently has seven endpoints that return data in JSON format and use standard HTTP error response codes, see the table below.
 
 | Endpoint |  Description|
 |----------|-------------|
@@ -29,6 +29,7 @@ The API is based on REST principles and currently has six endpoints that return 
 |<font color="blue"><b>GET</b></font>|is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).|
 |<font color="blue"><b>GET</b></font>|is used to retrieve a list of Disposal or Recovery codes.|
 |<font color="blue"><b>GET</b></font>|is used to retrieve a list of Container Types.|
+|<font color="blue"><b>GET</b></font>|is used to retrieve a list of Waste POP Codes.|
 
     
 **Note:** At present the API endpoints relate only to Great Britain and Northern Ireland.
@@ -299,6 +300,7 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
 
 
