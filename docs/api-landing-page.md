@@ -72,7 +72,7 @@ Work through these short sections for practical preparation and use of the API:
 To develop using the Receipt of Waste API, you must:
 - be familiar with HTTP, RESTful services and JSON and OAuth
 - have received your client id and secret (by encrypted email, see step 2 below.)
-- be familiar with API's terms of service.
+- be familiar with the API's terms of service.
 
 These are the necesary steps:
 1. Gain access to the test environment. The URL is shown beloow
@@ -303,6 +303,7 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
 
 
