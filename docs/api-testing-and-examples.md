@@ -23,7 +23,7 @@ We provide a comprehensive Bruno collection that includes:
 1. **Install Bruno**: Download the free open source software from [their site](https://www.usebruno.com/) or from [Github](https://github.com/usebruno/bruno/releases)
 2. **Open our collection**: The Bruno collection is located in the repository at `docs/bruno/digitalWasteTrackingExternalAPI/`, use the "Open" funcationality in Bruno to view it.
 3. **Configure environment**: Set up your environment variables and OAuth2 credentials
-4. **Make a request**: Run the POST Request "Receive Movement - Basic Required Fields Only" as a starting point, it should return a successful response code and a globalMovementId.
+4. **Make a request**: Run the POST Request "Receive Movement - Basic Required Fields Only" as a starting point, it should return a successful response code and a Waste Tracking ID (wasteTrackingId).
 
 ## Using the Collection
 
