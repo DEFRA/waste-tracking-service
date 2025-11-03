@@ -877,7 +877,7 @@ components:
            items:
              type: string
            description: |
-            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
+            This is an array of the site's authorisation (permit) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
@@ -1079,3 +1079,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
