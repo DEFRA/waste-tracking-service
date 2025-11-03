@@ -1,6 +1,6 @@
 # Production Approval Tests for Receipt of Waste API
 
-When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Global Waste Tracking ID’s so we can review. 
+When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. 
 
 !!! Note "Sending Production Approval Tests"
     Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
@@ -47,7 +47,7 @@ And there are no POPs properties<br>
 And there are no Hazardous properties<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ### Scenario: Submit basic receipt of waste with multiple waste items (R02)
 
@@ -56,7 +56,7 @@ And I have a basic waste movement<br>
 And there are multiple waste items<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ### Scenario: Submit basic receipt of waste with Road transport (R03)
 
@@ -65,7 +65,7 @@ And I have a basic waste movement<br>
 And the means of transport is ‘Road’<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ### Scenario: Submit basic receipt of waste with no Disposal or Recovery codes (R04)
 
@@ -74,7 +74,7 @@ And I have a basic waste movement<br>
 And there are no accompanying ‘Disposal or Recovery’ codes<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 And I should receive a warning about missing codes<br>
 
 ### Scenario: Submit basic receipt of waste with multiple Disposal or Recovery codes (R05)
@@ -84,7 +84,7 @@ And I have a basic waste movement<br>
 And there are multiple accompanying ‘Disposal or Recovery’ codes<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ### Scenario: Submit basic receipt of waste with multiple receiver authorisation numbers (R06)
 
@@ -93,8 +93,7 @@ And I have a basic waste movement<br>
 And there are multiple receiver authorisation numbers<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
-
+And I should receive a Waste Tracking ID
 ### Scenario: Submit basic receipt of waste with Mirror EWC codes (R07)
 
 Given I have authenticated<br>
@@ -102,7 +101,7 @@ And I have a basic waste movement<br>
 And there is a Mirror / Dual EWC code<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ## Feature: Carrier Details Scenarios
 
@@ -128,7 +127,7 @@ And there are no carrier details<br>
 And a reason is provided<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ## Feature: Broker/Dealer Scenarios
 
@@ -143,7 +142,7 @@ And I have a basic waste movement<br>
 And there is a Broker/Dealer involved in the movement<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ## Feature: POPs Waste Scenarios
 
@@ -158,7 +157,7 @@ And I have a basic waste movement<br>
 And it contains multiple POPs Components<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ## Feature: Hazardous Waste Scenarios
 
@@ -173,7 +172,7 @@ And I have a basic waste movement<br>
 And it contains multiple Hazardous Components<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ### Scenario: Submit receipt of hazardous waste with no Consignment Note Code and no reason (H02)
 
@@ -195,7 +194,7 @@ And there is no Consignment Note Code<br>
 And a reason is provided<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ## Feature: Combined Hazardous and POPs Scenarios
 
@@ -211,7 +210,7 @@ And it contains Hazardous Components<br>
 And it contains POPs components<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
-And I should receive a global movement ID<br>
+And I should receive a Waste Tracking ID<br>
 
 ## Technical Exemptions
 
