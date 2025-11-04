@@ -4,7 +4,7 @@ weight: 1
 description: This API Landing Page is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
 ---
 
-Version 1.0 issued October 2025
+Version 1.0 issued November 2025
 
 # DEFRA Receipt of Waste API Landing Page (Private BETA)
 
@@ -15,7 +15,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 ## Receipt API Overview 
 
-![Receipt of Waste Process Flow](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/initial-scope-receivers.jpg)
+![Receipt of Waste Process Flow](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/initial-scope-receivers.jpg)
 
 The Receipt of Waste API OAS Specification is available [here.](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
     
@@ -39,7 +39,7 @@ The API is based on REST principles and currently has seven endpoints. They retu
 This version of the Receipt of Waste API:
 
 - supports **only** the API v1.0 Receipt of Waste API for Private Beta customers.
-- a roadmap to the Receipt API [can be found here.](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/roadmap.md)
+- a roadmap to the Receipt API [can be found here.](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/roadmap.md)
 
 ## Related API Documentation
 [Receipt of Waste API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
@@ -83,7 +83,7 @@ These are the necesary steps:
    https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
    ```
 2. Using the client ID and Client Secret, request an OAuth bearer token. See [Authentication](#Authentication).
-3. Begin sending requests and developing the integration with the API. At the same time demonstrating that you have [implemented the specification in its entirety](https://github.com/DEFRA/waste-tracking-service/blob/DWT-720_API_Diagram/docs/production-approval-tests.md). When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.
+3. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](https://github.com/DEFRA/waste-tracking-service/blob/DWT-720_API_Diagram/docs/production-approval-tests.md). When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.
 4. Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
 5. Apply for Production Credentials.
 6. Following acceptance of your integration, begin sending waste movements to the Waste Tracking Service. 
@@ -307,3 +307,5 @@ You can find the changelog for this document in the [Receipt API v1.0 Landing Pa
 
 
 
+
+ http://127.0.0.1:8000/waste-tracking-service
