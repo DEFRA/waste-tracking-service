@@ -1,4 +1,4 @@
-site_name: Defra digital waste tracking
+site_name: Defra digital waste tracking (DWT)
 site_url: https://defra.github.io/waste-tracking-service
 repo_url: https://github.com/DEFRA/waste-tracking-service
 remote_branch: gh-pages
@@ -40,18 +40,23 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 nav:
-  - README.md
-  - storyboards.md
-  - use-cases.md
-  - initial-scope.md
-  - receivers-process-diagram.md
-  - receipt-data-definitions.md
-  - api-specification.md
-  - api-authentication-guide.md
-  - faq.md
-  - api-testing-and-examples.md
-  - roadmap.md
-  - private-beta-comms-sign-up.md
+  - About Waste Tracking: 
+    - storyboards.md
+    - initial-scope.md
+    - receivers-process-diagram.md
+    - use-cases.md
+  - Phase 1 Reciept of Waste:
+    - api-landing-page.md
+    - api-specification.md
+    - receipt-data-definitions.md 
+    - api-authentication-guide.md
+    - production-approval-tests.md
+    - api-testing-and-examples.md
+    - roadmap.md
+    - private-beta-comms-sign-up.md
+    - faq.md
+  - Phase 2 Collection of Waste:
+    - development-starting-soon.md
 extra_css:
   - stylesheets/tags-color.css
   - stylesheets/extra.css
