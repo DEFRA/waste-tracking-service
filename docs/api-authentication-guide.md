@@ -38,4 +38,4 @@ def make_api_request(access_token, api_url): # your access token and the api url
 https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token
 ```
 
-<br/>Page last updated on 23 September 2025.
+<br/>Page last updated on November 2025.
