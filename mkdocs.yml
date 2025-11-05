@@ -47,12 +47,12 @@ nav:
   - receivers-process-diagram.md
   - receipt-data-definitions.md
   - api-specification.md
+  - production-approval-tests.md
   - api-authentication-guide.md
   - faq.md
   - api-testing-and-examples.md
   - roadmap.md
   - private-beta-comms-sign-up.md
-  - production-approval-tests.md
 extra_css:
   - stylesheets/tags-color.css
   - stylesheets/extra.css
