@@ -47,6 +47,7 @@ nav:
   - receivers-process-diagram.md
   - receipt-data-definitions.md
   - api-specification.md
+  - production-approval-tests.md
   - api-authentication-guide.md
   - faq.md
   - api-testing-and-examples.md
