@@ -23,4 +23,4 @@ The following page lists all of the changes to the API specification since it wa
 
 - [receipt of waste API change log](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog)
 
-<br/>Page last updated on 12 September 2025.
+<br/>Page last updated November 2025.
