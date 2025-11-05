@@ -42,7 +42,9 @@ This version of the Receipt of Waste API:
 - a roadmap to the Receipt API [can be found here.](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/roadmap.md)
 
 ## Related API Documentation
-[Receipt of Waste API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
+[Receipt of Waste - API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
+
+[Receipt of Waste - API Production Approval Tests](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/production-approval-tests.md)
 
 [Receipt of Waste Roadmap](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/roadmap.md)
 
