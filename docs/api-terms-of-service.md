@@ -108,3 +108,8 @@ Failure to comply with these obligations may result in suspension of API access.
 
 
 
+### Reference Material
+
+Terms of use -[Defra API Developer Portal - GOV.UK](https://developer-portal.trade.defra.gov.uk/documentation/terms-of-use)
+
+Also HMRC Terms Of Use - [HMRC Developer Hub - GOV.UK](https://developer.service.hmrc.gov.uk/api-documentation/docs/terms-of-use#introduction)
