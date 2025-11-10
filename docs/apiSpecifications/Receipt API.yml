@@ -17,10 +17,10 @@ info:
      <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
      </ul>
      <b>Note-</b> This API specification is currently in draft stage and is subject to change.
-contact:
-    name: Reciept of Waste
+  contact:
+    name: Reciept of Waste API Support
     email: WasteTracking_Developers@defra.gov.uk 
-termsOfService: https://github.com/DEFRA/waste-tracking-service/blob/main/docs/termsOfService    
+  termsOfService: https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-terms-of-service.md
 servers:
   - url: https://api.server.test/v1
 paths:
@@ -1083,4 +1083,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
