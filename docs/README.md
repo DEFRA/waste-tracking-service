@@ -1,7 +1,8 @@
 # About digital waste tracking
 
-!!! Note "Private Beta"
-    Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
+**Private Beta**
+
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
 The Department for Environment, Food & Rural Affairs (Defra) intend to transform how data about waste movements is collected and shared with the regulators across all 4 UK nations. It will be mandatory for Waste Receivers to report waste they’ve received from October 2026\.
 
