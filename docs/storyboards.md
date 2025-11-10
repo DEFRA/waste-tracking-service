@@ -1,7 +1,7 @@
 # Service vision – storyboard
 
-!!! Note "Private Beta"
-    Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
+## Private Beta
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
 [![View a visual image of the storyboard (.png file)](../wt-storyboard-carriers-receiver.png)](../wt-storyboard-carriers-receiver.png)
 ## Scenario
