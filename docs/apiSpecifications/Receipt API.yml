@@ -6,7 +6,7 @@ info:
     <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking 
     <a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.">is available here:</a>
      <p><h2>Methods</h2></p>
-     <p>The API is based on REST principles and uses six endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and four <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes.</p>
+     <p>The API is based on REST principles and uses seven endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and five <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes.</p>
      <ul>
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
@@ -14,6 +14,7 @@ info:
      <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
      <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
+     <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
      </ul>
      <b>Note-</b> This API specification is currently in draft stage and is subject to change.
 servers:
@@ -34,9 +35,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  statusCode:
-                    type: integer
-                    example: 201
                   wasteTrackingId:
                     type: string
                     description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when either a POST or PUT request is successful, i.e. return code 201, 200.
@@ -87,17 +85,18 @@ paths:
   /reference-data/ewc-codes:
     get:
       description: |
-        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.<p></p>
+        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.<br><br>
         Example Request
         ```json
         curl --request GET \ --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/ewc-codes \
-          --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX
+          --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX
         ```
       responses:
         "200":
           description: |
             Success
             ```json
+            [  
             {
               "code": "010102",
               "isHazardous": false
@@ -106,6 +105,7 @@ paths:
               "code": "010304",
                "isHazardous": true
             }
+            ]
             ```
           content:
             application/json:
@@ -125,17 +125,18 @@ paths:
   /reference-data/hazardous-property-codes:
     get:
       description: |
-        Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure. <p></p>
+        Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/hazardous-property-codes \
-        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN
         ```
       responses:
         "200":
           description: |
             Success
             ```json
+            [
             {
               "code": "HP_1"
             },
@@ -145,6 +146,7 @@ paths:
             {
               "code": "HP_3"
             }
+            ]
             ```
           content:
             application/json:
@@ -160,17 +162,18 @@ paths:
   /reference-data/disposal-or-recovery-codes:
     get:
       description: |
-        Endpoint used to get a list of disposal or recovery codes. <p></p>
+        Endpoint used to get a list of disposal or recovery codes.<br><br>
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/disposal-or-recovery-codes \
-        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
         ```
       responses:
         "200":
           description: |
             Success
             ```json
+            [
             {
              "code": "R1"
             },
@@ -180,6 +183,7 @@ paths:
             {
              "code": "R3"
             }
+            ]
             ```
           content:
             application/json:
@@ -195,11 +199,11 @@ paths:
   /reference-data/container-types:
     get:
       description: | 
-        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure. <p></p>
+        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
         Example Request
          ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/container-types \
-        --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw
       responses:
         "200": 
           description: |
@@ -207,7 +211,13 @@ paths:
             ```json
             [
              {
-                "code": "BAG, PAL, SKI"
+                "code": "BAG" 
+             },
+             {
+                "code:"PAL"
+            },
+            {
+                "code": "SKI"
              }
             ]
             ```
@@ -221,7 +231,47 @@ paths:
                     code:
                       type: string
                       description: The container type.
-                      example:  BAG, PAL, SKI               
+                      example:  BAG, PAL, SKI
+  /reference-data/pop-names:
+    get:
+      description: |
+        Endpoint used to get a list of POP (Persistent Organic Pollutant) name codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Example Request
+         ```json
+        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/pop-names \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
+        ```
+      responses:
+        "200":
+          description: |
+            Success
+            ```json
+            [
+             {
+                "code": "END"
+             },
+             {
+                "code": "HCBD"
+            },
+            {
+                "code": "PCNS"
+             },
+            {
+                "code": "SCCPS"
+             }
+            ]
+            ```
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The POP code. See the full list of valid POP codes in the wasteItem.pops.components section below.
+                      example: PFOS, END, HCBD, PCNS, SCCPS
 components:
   requestBodies:
     receiveMovementRequest:
@@ -456,12 +506,12 @@ components:
               items:
                 type: object
                 required:
-                  - name
+                  - code
                 properties:
-                  name:
+                  code:
                     type: string
                     description: |
-                      The name and code of the POP e.g.  Persistant Organic Pollutant (POP). Please enter just the code. 
+                      The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP code from the reference list below. 
                       
                       <table border="1">
                           <thead>
@@ -599,10 +649,10 @@ components:
                       </table>
                       <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found 
                       <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">here.</a></p>
-                      <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p> 
+                      <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p>
                       <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, it must be a valid POP name from the list above.
-                    example: PFHXS, HBB
+                      Optional field. If provided, it must be a valid POP code from the reference list above. The code is validated against reference data to ensure accuracy.
+                    example: PFHXS, HBB, END, PCDD_PCDF
                   concentration:
                     type: number
                     minimum: 0
@@ -827,7 +877,7 @@ components:
            items:
              type: string
            description: |
-            This is an array of the site's authorisation (permit or exemption) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
+            This is an array of the site's authorisation (permit) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
