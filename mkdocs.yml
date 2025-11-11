@@ -44,7 +44,6 @@ nav:
   - About Waste Tracking: 
     - storyboards.md
     - initial-scope.md
-    - receivers-process-diagram.md
     - use-cases.md
   - Phase 1 Receipt of Waste:
     - api-specification.md
@@ -52,6 +51,7 @@ nav:
     - api-authentication-guide.md
     - production-approval-tests.md
     - api-testing-and-examples.md
+    - receivers-process-diagram.md
     - roadmap.md
     - private-beta-comms-sign-up.md
     - api-terms-of-service.md
