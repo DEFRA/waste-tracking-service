@@ -98,7 +98,7 @@ These are the necesary steps:
 
       When you’ve completed developing and testing your integration, please [email](WasteTracking_Developers@defra.gov.uk) a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.
 
-5. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive an API Code. You may now begin sending waste movements to the Waste Tracking Service. 
+5. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive an API Code. You begin sending waste movements to the Waste Tracking Service. 
 
 ### Authentication
 
@@ -163,19 +163,22 @@ curl --request POST \
 
 This is broken down as follows: 
 
-1. The cURL command and URL
+- The cURL command and URL
+
 ```json
 curl --request POST \
   --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
 ```
-2. The header information containing the Bearer Token and the content type
+
+- The header information containing the Bearer Token and the content type
 
 ```json
  --header 'authorization: Bearer 
  eyJraWQiOiJQYnJiZXZv
  --header 'content-type: application/json' \
 ```
-3. The Request Body
+
+- The Request Body
 
 ```json
 -- data '{
