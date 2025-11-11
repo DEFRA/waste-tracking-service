@@ -6,17 +6,23 @@ description: This API Landing Page is for waste receivers, software developers a
 
 Version 1.0 issued November 2025
 
-# Welcome to the Receipt of Waste API (Private Beta)
+# Welcome to the Receipt of Waste API  - Private Beta
 
 ## Introduction
-This page introduces waste receivers, software developers and third party software providors to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started and the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
+This page introduces waste receivers, software developers and third party software providors to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
 
-**Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the DEFRA Waste Tracking Service (DWT) Receipt API Landing Page [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
+**Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the DEFRA Waste Tracking Service (DWT) Receipt API [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
 
-## Receipt API Overview 
+## Receipt API Overview
 
-The Receipt of Waste API OAS Specification is available [here.](https://github.com/DEFRA/waste-tracking-service/blob/DWT-924_Landing_Page/docs/apiSpecifications/Receipt%20API.yml)
-    
+The Receipt of Waste API OAS Specification is available [here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml).
+
+#### Receipt of Waste Process Flow
+
+
+[![receivers only](initial-scope-receivers-only.png)](initial-scope-receivers-only.png)
+
+
 The API is based on REST principles and currently has seven endpoints. They return data in JSON format and use standard HTTP error response codes, see the table below.
 
 | Endpoint |  Description|
@@ -37,22 +43,22 @@ The API is based on REST principles and currently has seven endpoints. They retu
 This version of the Receipt of Waste API:
 
 - supports **only** the API v1.0 Receipt of Waste API for Private Beta customers.
-- a roadmap to the Receipt API [can be found here.](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/roadmap.md)
+- a roadmap to the Receipt API [can be found here.](roadmap.md)
 
 ## Related API Documentation
-[Receipt of Waste - API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml)
+[Receipt of Waste - API v1.0 Reference Guide](./apiSpecifications/Receipt%20API.yml)
 
-[Receipt of Waste - API Production Approval Tests](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/production-approval-tests.md)
+[Receipt of Waste - API Production Approval Tests](production-approval-tests.md)
 
-[Receipt of Waste Roadmap](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/roadmap.md)
+[Receipt of Waste Roadmap](roadmap.md)
 
-[Receipt of Waste API Data Definitions](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/receipt-data-definitions.md)
+[Receipt of Waste API Data Definitions](receipt-data-definitions.md)
 
-[Use Cases](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/use-cases.md)
+[Use Cases](use-cases.md)
 
-[README](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/README.md)
+[API README](README.md)
 
-[FAQs](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/faq.md)
+[FAQs](faq.md)
 
 
 ## Getting Started 
@@ -66,55 +72,71 @@ Work through these short sections on practical preparation and use of the API:
 
 #### Prequisite Steps (Receivers)
 
-1. Waste Receivers need to [sign-up for private beta](https://defra.github.io/waste-tracking-service/private-beta-comms-sign-up/) using the on-boarding form.
+1. Waste Receivers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
 3. Get the <font color="orange"><b>API Code</b></font>. After successfuly completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service. 
 
 #### Prequisite Steps (Developers)
 
 To develop using the Receipt of Waste API, you must:
+
 - be familiar with HTTP, RESTful services and JSON and OAuth
-- have received your client id and secret (by encrypted email, see step 2 below)
+- have received your client id and secret (by encrypted email, see step 1 below)
 - be familiar with the API's terms of service.
 
 These are the necesary steps:
-1. Gain access to the test environment. The URL is shown below:
+
+1. Developers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
+
+2. Gain access to the test environment. The URL is shown below:
    ```code
    https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
    ```
-2. Using the client ID and Client Secret, request an OAuth bearer token. See [Authentication](#Authentication).
-3. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](https://github.com/DEFRA/waste-tracking-service/blob/DWT-720_API_Diagram/docs/production-approval-tests.md). When you’ve completed developing and testing your integration, please [email](WasteTracking_Developers@defra.gov.uk) a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.
-4. Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
-5. Apply for Production Credentials.
-6. Following acceptance of your integration, begin sending waste movements to the Waste Tracking Service. 
+
+3. Using the client ID and Client Secret, request an OAuth bearer token. See [Authentication](#Authentication).
+4. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
+
+      When you’ve completed developing and testing your integration, please [email](WasteTracking_Developers@defra.gov.uk) a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.
+
+5. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive an API Code. You may now begin sending waste movements to the Waste Tracking Service. 
 
 ### Authentication
 
 To start using the Receipt API, you need first to authenticate your access using your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token and make your first receipt of waste movement request. 
 
-The diagram below illustrates the authentication process followed by a POST request waste movement. For a more detailed description with code snippets you can refer to this [authentication note](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-authentication-guide.md).
+The diagram below illustrates the authentication process followed by a POST request waste movement. For a more detailed description with code snippets you can refer to this [authentication note](api-authentication-guide.md).
 
-```mermaid
-sequenceDiagram
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid Diagram Example</title>
+    <!-- Load Mermaid from CDN -->
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+        // Initialize Mermaid
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h2></h2>
+    <div class="mermaid">
+
+ sequenceDiagram
     participant Third Party Software
     participant OAuth
     participant Receipt API
-
     Third Party Software->>OAuth: Client ID + Secret
     OAuth-->>Third Party Software: Bearer Token
-
     Third Party Software->>Receipt API: POST Receipt API + Bearer Token
     Receipt API -->>Third Party Software: Result of Waste Movement Request (Success/Failure)
-```
+    </div>
+</body>
+</html>
 
 ## Making API requests
 
 Before sending any requests to the Receipt of Waste API, make sure that you are addressing the following points in your software:
-
-- the correct URL for the environment and API version number
-- the correct header contents and payload information, see example request below.
-
-For details, see the [Receipt of Waste API v1.0 Reference Guide](https://defra.github.io/waste-tracking-service/apiSpecifications/index.html).
 
 The base URLs of the sandbox and production environments are as follows:
 
@@ -138,27 +160,31 @@ curl --request POST \
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
   "reasonForNoConsignmentCode": "Carrier did not provide documentation"
 ```
+
 This is broken down as follows: 
 
 1. The cURL command and URL
 ```json
 curl --request POST \
   --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
- ```
+```
 2. The header information containing the Bearer Token and the content type
+
 ```json
  --header 'authorization: Bearer 
  eyJraWQiOiJQYnJiZXZv
  --header 'content-type: application/json' \
 ```
 3. The Request Body
+
 ```json
 -- data '{
   "organisationApiId": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
   "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc
-  )
+  }
 ```
+
 The Request Body is the essential part of an API <font color="green"><b>POST</b></font> or <font color="orange"><b>PUT</b></font> request, it contains important data fields that a waste receiver needs to report about a waste movement. 
 
 An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:
@@ -270,45 +296,24 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
   }
 }
 ```
-A description of each of the fields contained in the API Specification [is available here.](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/receipt-data-definitions.md)
+A description of each of the fields contained in the API Specification [is available here.](receipt-data-definitions.md)
 ### Validating a Collection of Requests and Responses
 
-We have assembled a collection of Bruno test scripts to help you learn about working with the Receipt API. These scripts can [be found here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-testing-and-examples.md).
+We have assembled a collection of Bruno test scripts to help you learn about working with the Receipt API. These scripts can [be found here](api-testing-and-examples.md).
 
 ## Error Responses
 
-A detailed description of the error responses for this API can be found in the [Receipt API v1.0 Reference Guide](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml).
+A detailed description of the error responses for this API can be found in the [Receipt API v1.0 Reference Guide](apiSpecifications/Receipt%20API.yml).
 
 
 ## Getting help by email
 
-- For developers: WasteTracking_Developers@defra.gov.uk 
+- For developers: <font color="light blue"><b>WasteTracking_Developers@defra.gov.uk</b></font>
 
-- For receivers: WasteTracking_Testing@defra.gov.uk
+- For receivers: <font color="blue"><b>WasteTracking_Testing@defra.gov.uk</b></font>
 
-- All users can also post questions/comments to https://github.com/DEFRA/waste-tracking-service/discussions
+- All users can also post questions/comments<a href="https://github.com/DEFRA/waste-tracking-service/discussions"> here</a> in our discussions forum
 
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
