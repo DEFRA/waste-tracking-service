@@ -1,4 +1,4 @@
-# Receipt of Waste - data requirements
+# Receipt of Waste - Data Definitions
 
 **Private Beta**
 
