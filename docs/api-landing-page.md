@@ -4,6 +4,8 @@ weight: 1
 description: This API Landing Page is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
 ---
 
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+
 Version 1.0 issued November 2025
 
 # Welcome to the Receipt of Waste API  - Private Beta
@@ -70,12 +72,6 @@ Work through these short sections on practical preparation and use of the API:
 - [Validating a Collection of Requests and Responses](#validating-a-collection-of-requests-and-responses)
 
 
-#### Prequisite Steps (Receivers)
-
-1. Waste Receivers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
-2. Accept the API Terms and Conditions.
-3. Get the <font color="orange"><b>API Code</b></font>. After successfuly completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service. 
-
 #### Prequisite Steps (Developers)
 
 To develop using the Receipt of Waste API, you must:
@@ -98,7 +94,14 @@ These are the necesary steps:
 
       When you’ve completed developing and testing your integration, please [email](WasteTracking_Developers@defra.gov.uk) a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.
 
-5. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive an API Code. You begin sending waste movements to the Waste Tracking Service. 
+5. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive an API Code. You can begin sending waste movements to the Waste Tracking Service. 
+
+
+#### Prequisite Steps (Receivers)
+
+1. Waste Receivers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
+2. Accept the API Terms and Conditions.
+3. Get the <font color="orange"><b>API Code</b></font>. After successfuly completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service. 
 
 ### Authentication
 
