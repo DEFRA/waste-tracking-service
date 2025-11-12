@@ -13,7 +13,7 @@ Version 1.0 issued November 2025
 ## Introduction
 This page introduces waste receivers, software developers and third party software providors to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
 
-**Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the DEFRA Waste Tracking Service (DWT) Receipt API [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
+**Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Defra Waste Tracking Service (DWT) Receipt API [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
 
 ## Receipt API Overview
 

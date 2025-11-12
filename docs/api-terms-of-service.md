@@ -1,6 +1,9 @@
+
 # Receipt API Terms Of Service
 
-## Terms of Use for Software Services Integrating with the Digital Waste Tracking API
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+
+## Terms of Service for Software Services Integrating with the Digital Waste Tracking API
 
 ### Introduction
 

@@ -1,7 +1,9 @@
-# Receipt of Waste - Data Definitions
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
 
-**Private Beta**
 
+# Receipt of Waste - data Definitions
+
+<b>Private Beta</b>
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
 These draft data definition tables describe the information we expect to be recorded by the future waste tracking service when a receiving site accepts or rejects waste.

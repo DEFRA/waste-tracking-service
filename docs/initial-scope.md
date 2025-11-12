@@ -1,7 +1,11 @@
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+
+
 # Initial scope - receivers only by October 2026
 
-!!! Note "Private Beta"
-    Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
+<b>Private Beta</b>
+
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
 The waste industry involves a large number and complex array of operators. This includes approximately:
 

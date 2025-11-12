@@ -1,9 +1,13 @@
 # Receipt of Waste - draft API specification
 
-!!! Note "Private Beta"
-    Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
 
-> These APIs are a draft. They may be updated to reflect changes to policy, legislation and user feedback.
+
+<b>Private Beta</b>
+
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
+
+These APIs are a draft. They may be updated to reflect changes to policy, legislation and user feedback.
 
 We are designing waste tracking APIs to be flexible and accommodate differences in business processes, allowing for:
 
