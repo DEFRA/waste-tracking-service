@@ -17,6 +17,10 @@ info:
      <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
      </ul>
      <b>Note-</b> This API specification is currently in draft stage and is subject to change.
+  contact:
+    name: Reciept of Waste API Support
+    email: WasteTracking_Developers@defra.gov.uk 
+    
 servers:
   - url: https://api.server.test/v1
 paths:
@@ -162,7 +166,8 @@ paths:
   /reference-data/disposal-or-recovery-codes:
     get:
       description: |
-        Endpoint used to get a list of disposal or recovery codes.<br><br>
+        Endpoint used to get a list of disposal or recovery codes.<br>
+        Note: The field in the specification is case-sensitive, please use the case specified for the code.<br><br>
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/disposal-or-recovery-codes \
@@ -199,7 +204,8 @@ paths:
   /reference-data/container-types:
     get:
       description: | 
-        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br>        
+          Note: The field in the specification is case-sensitive, please use the case specified for the code.<br><br>
         Example Request
          ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/container-types \
@@ -330,12 +336,35 @@ components:
                     "Carrier did not provide documentation",
                     "Household Waste Recycling Centre Receipt"
                   ]
-                description: Reason provided for not having a consignment code. There are three reasons you can choose to provide.
+                description: Reason provided for not having a consignment code. There are three codes you can choose to provide.
+                  <table border="1">
+                          <thead>
+                              <tr>
+                                  <th>Reason</th>
+                                  <th>Reason Code</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>Non-Haz Waste Transfer</td>
+                                  <td>NON_HAZ_WASTE_TRANSFER</td>
+                              </tr>
+                              <tr>
+                                  <td>Carrier did not provide documentation</td>
+                                  <td>NO_DOC_WITH_WASTE</td>
+                              </tr>
+                              <tr>
+                                  <td>Household Wast Recycling Centre Receipt</td>
+                                  <td>HWRC_RECEIPT</td>
+                              </tr>
+                          </tbody>
+                      </table>
                   <ul>
                       <li>"Non-Haz Waste Transfer"</li>
                       <li>"Carrier did not provide documentation"</li>
                       <li>"Household Waste Recycling Centre Receipt"</li>
                   </ul>
+                  <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
                   <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
@@ -432,6 +461,7 @@ components:
           description: This is the form of the waste. This could be a gas, liquid, solid, powder, sludge or mixed. 
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be “Gas”, “Liquid”, “Solid”, Powder”, “Sludge” or “Mixed”.
+            <b>Note:</b> The field is case-sensitive, please use the case specified in the description.
           example: Sludge
         numberOfContainers:
           type: integer
@@ -445,7 +475,7 @@ components:
           type: string
           nullable: false
           description: |
-            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
+            Containers are receptacles used for storing, transport ing and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
             <p> Possible types are:</p> 
             <ul>
               <li>[BAG] Bag / Sack e.g.(rubble bag, refuse sack)</li>
@@ -465,6 +495,7 @@ components:
               <li>[TAN] Tanker/Tank</li>
               <li>[WBI] Wheelie Bin (any size)</li>
             </ul>
+            <b>Note:</b> The field is case-sensitive, please use the case specified for the code in the list.
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be in typeOfContainers list.
           example: BAG, PAL, SKI
@@ -493,7 +524,8 @@ components:
                 - NOT_PROVIDED: Carrier did not provide component details
                 - CARRIER_PROVIDED: Components provided by carrier
                 - GUIDANCE: Components determined from guidance
-                - OWN_TESTING: Components determined from own testing
+                - OWN_TESTING: Components determined from own testing<br><br>
+                 <b>Note:</b> The field is case-sensitive, please use the case specified in the list above.
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 <ul>
                 <li>Must be provided when wasteItem.containsPops is true</li>
@@ -700,12 +732,13 @@ components:
                 Hazardous waste codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15. 
                 To find a code for a potential hazourdous waste item, use the following waste thesaurus:
                 <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Petrol+Containing+Acidum+Salis&type=low">Waste Thesaurus</a></p>         
-                 <p><b><font color="red">The official EWC code legislation decision EUR-Lex from the European Union 2000/532 is contained here in Annex III:</font></b><p>
-                <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA"></a>
-                <p><font color="red">Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
+                 <p>The official EWC code legislation decision EUR-Lex from the European Union 2000/532 is contained here: </p>
+                   <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32006R1013&qid=1763042900354#anx_%C2%A0III">in Annex III.</a>
+                <p>Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
                  <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
                 <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p>
-                <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a>
+                <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a><br><br>
+                <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
@@ -751,10 +784,10 @@ components:
              <p><b>Home Nations Codes:</b></p>
              <p><b>General Format</b> where 9 is a digit 0-9</p>
              <p><font color="blue"><b>Wales NRW:</b></font></p>
-                CBDL999999, CBDU999999
+                CBDL9, CBDL99, CBDU999 (1+ digits)
                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
-                CBDL999999, CBDU999999 (3+ digits)
+                CBDL9, CBDL99, CBDU999 (1+ digits)
                  <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
@@ -767,10 +800,18 @@ components:
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>General Format</b> where 9 is a digit 0-9</p>
+          example:
+            England - CBDL6, CBDU45, CBDU84916, Wales - CBDL1, CBDU33, CBDU84916, Scotland - WCR/522048, Northern Ireland - ROC UT 36, ROC LT 5432
         reasonForNoRegistrationNumber:
           type: string
           description: |
-            Provide reasons for not having the carrier registration number.
+            Provide reasons for not having the carrier registration number. Given reasons are:
+            <ul>
+            <li><b>ON_SITE - Movement within the same premises</b> (e.g. waste transferred between different areas or authorisations on the same site)</li>
+            <li><b>HOUSEHOLD - Householder transporting own waste</b> (e.g. individual taking personal or household waste to a HWRC, not for profit)</li>
+            <li><b>ONE_OFF - One-off or infrequent waste transport</b> (carrier does not normally and regularly transport controlled waste)</li>
+            <li><b>MARINE - Marine transport covered by a marine licence/exemption</b> (waste moved by vessel in connection with a licensed marine operation)</li>
+            </ul>
             <p><font color="green"><b>Business Rules:</b></font></p> 
             <ul>
             <li>If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required.</li>
@@ -807,6 +848,7 @@ components:
           enum: [Road, Rail, Air, Sea, Inland Waterway, Pipe, Other]
           description: |
             This describes how the waste is transported (road, rail, air, sea, inland waterway, other)
+            <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
           example: Rail
@@ -848,12 +890,12 @@ components:
                <p>Current format – WCR/R/1234567</p>
                <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
              <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
-                ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999,ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
+                ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999, ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
                 Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note that spaces are not mandatory.<p></p>
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>Note:</b> where 9 is a digit 0-9</p>
-          example: England - CBDL123456, CBDU123456, Wales - CBDL124351, CBDU33435, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432
+          example: CBDL6, CBDU45, CBDU84916, Wales - CBDL1, CBDU33, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432
     receiver:
       type: object
       required:
@@ -957,7 +999,8 @@ components:
              Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
               To find a code for a particular waste item, use the following 
              <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">waste thesaurus:</a></p>
-              <b><font color="red">For the offical source of information, refer to the EU Directive in Annex I and Annex II where it defines Disposal and Recovery Codes on page 312/23</b></font> <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">in this link.</a>
+              <b>For the offical source of information, refer to the EU Directive in Annex I and Annex II where it defines Disposal and Recovery Codes on page 312/23</b></font> <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">in this link above.</a>
+               <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the link<p>
               <p><font color="green"><b>Business Rule:</b></font></p> 
               If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code listed in EUR-Lex. 
           example: |
