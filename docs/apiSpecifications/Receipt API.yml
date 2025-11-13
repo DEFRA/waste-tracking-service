@@ -543,8 +543,9 @@ components:
                   code:
                     type: string
                     description: |
-                      The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP code from the reference list below. 
-                      
+                      The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP cod from the reference table below. 
+                        <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the link<p>
+
                       <table border="1">
                           <thead>
                               <tr>
@@ -738,7 +739,7 @@ components:
                  <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
                 <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p>
                 <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a><br><br>
-                <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
+                <b>Note:</b> The field is case-sensitive, please use the case specified in the links, see example field.
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
