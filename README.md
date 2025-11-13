@@ -9,7 +9,6 @@ Documentation website for DEFRA's Digital Waste Tracking Service. This repositor
 - [Technology Stack](#technology-stack)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
 - [Development](#development)
   - [Available Commands](#available-commands)
   - [Adding Documentation](#adding-documentation)
@@ -45,14 +44,14 @@ The documentation is aimed at waste receivers, carriers, software providers, and
 ## Technology Stack
 
 - **Site Generator**: MkDocs Material
-- **Runtime**: Python 3.x
+- **Runtime**: Python 3
 - **Deployment**: GitHub Pages (via GitHub Actions)
 - **API Testing**: Bruno API collections
 - **Hosting**: GitHub Pages at `defra.github.io/waste-tracking-service`
 
 ## Prerequisites
 
-- Python >= 3.x
+- Python 3
 - pip (Python package manager)
 
 ## Getting Started
@@ -90,31 +89,6 @@ mkdocs build
 ```
 
 The built site will be output to the `site/` directory.
-
-## Project Structure
-
-```
-waste-tracking-service/
-├── docs/                              # Documentation content
-│   ├── README.md                      # Documentation home page
-│   ├── api-specification.md           # API overview and links
-│   ├── api-authentication-guide.md    # Authentication instructions
-│   ├── api-testing-and-examples.md    # Testing guide
-│   ├── receipt-data-definitions.md    # Data requirements table
-│   ├── use-cases.md                   # Process workflows
-│   ├── production-approval-tests.md   # Production testing requirements
-│   ├── faq.md                         # Frequently asked questions
-│   ├── roadmap.md                     # Product roadmap
-│   ├── apiSpecifications/             # OpenAPI/Swagger specifications
-│   │   └── Receipt API.yml            # Receipt of Waste API spec
-│   ├── bruno/                         # Bruno API collections
-│   └── assets/                        # Images and diagrams
-├── tech_docs_template/                # Custom MkDocs theme files
-├── .github/workflows/                 # CI/CD pipeline
-│   └── ci.yml                         # Automated deployment workflow
-├── mkdocs.yml                         # MkDocs configuration
-└── site/                              # Generated static site (gitignored)
-```
 
 ## Development
 
