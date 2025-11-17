@@ -17,10 +17,10 @@ info:
      <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
      </ul>
      <b>Note-</b> This API specification is currently in draft stage and is subject to change.
+  termsOfService: https://defra.github.io/waste-tracking-service/api-terms-of-service
   contact:
     name: Reciept of Waste API Support
     email: WasteTracking_Developers@defra.gov.uk 
-    termsOfService: https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-terms-of-service.md
 servers:
   - url: https://api.server.test/v1
 paths:
@@ -475,7 +475,7 @@ components:
           type: string
           nullable: false
           description: |
-            Containers are receptacles used for storing, transport ing and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
+            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
             <p> Possible types are:</p> 
             <ul>
               <li>[BAG] Bag / Sack e.g.(rubble bag, refuse sack)</li>
@@ -543,7 +543,7 @@ components:
                   code:
                     type: string
                     description: |
-                      The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP cod from the reference table below. 
+                      The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP code from the reference table below.
                         <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the table below:<p>
                       <table border="1">
                           <thead>
@@ -738,7 +738,7 @@ components:
                  <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
                 <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p>
                 <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a><br><br>
-                <b>Note:</b> The field is case-sensitive, please use the case specified in the links, see example field.
+                <b>Note:</b> The field is case-sensitive, please use the case specified in the links, also see example field.
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
@@ -1122,4 +1122,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
