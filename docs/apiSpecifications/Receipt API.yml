@@ -544,8 +544,7 @@ components:
                     type: string
                     description: |
                       The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP cod from the reference table below. 
-                        <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the table below:<p>
-
+                        <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the table below:<p
                       <table border="1">
                           <thead>
                               <tr>
@@ -1123,3 +1122,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
