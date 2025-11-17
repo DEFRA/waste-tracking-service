@@ -20,7 +20,7 @@ info:
   contact:
     name: Reciept of Waste API Support
     email: WasteTracking_Developers@defra.gov.uk 
-    
+    termsOfService: https://github.com/DEFRA/waste-tracking-service/blob/main/docs/api-terms-of-service.md
 servers:
   - url: https://api.server.test/v1
 paths:
@@ -544,7 +544,7 @@ components:
                     type: string
                     description: |
                       The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP cod from the reference table below. 
-                        <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the link<p>
+                        <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the table below:<p>
 
                       <table border="1">
                           <thead>
