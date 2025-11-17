@@ -730,7 +730,7 @@ components:
               type: array
               description: |
                 Hazardous waste codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15. 
-                To find a code for a potential hazourdous waste item, use the following waste thesaurus:
+                To find a code for a potential hazardous waste item, use the following waste thesaurus:
                 <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Petrol+Containing+Acidum+Salis&type=low">Waste Thesaurus</a></p>         
                  <p>The official EWC code legislation decision EUR-Lex from the European Union 2000/532 is contained here: </p>
                    <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32006R1013&qid=1763042900354#anx_%C2%A0III">in Annex III.</a>
@@ -1122,3 +1122,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
