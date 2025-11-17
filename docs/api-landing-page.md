@@ -10,7 +10,7 @@ Version 1.0 issued November 2025
 # Welcome to the Receipt of Waste API  - Private Beta
 
 ## Introduction
-This page introduces waste receivers, software developers and third party software providors to the DEFRA Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
+This page introduces waste receivers, software developers and third party software providers to the Defra Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
 
 **Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Defra Waste Tracking Service (DWT) Receipt API [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
 
@@ -80,7 +80,7 @@ To develop using the Receipt of Waste API, you must:
 - Have received your client id and secret. These will be sent to the developer after signing up for Private Beta.
 - Be familiar with the API's [terms of service](api-terms-of-service.md).
 
-These are the necesary steps:
+These are the necessary steps:
 
 1. Developers need to [sign-up for Private Beta](private-beta-comms-sign-up.md) using the on-boarding form. They will then be issued a client id and secret.
 
@@ -101,7 +101,7 @@ These are the necesary steps:
 
 1. Waste Receivers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
-3. Get the <font color="orange"><b>API Code</b></font>. After successfuly completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organisation within the Digital Waste Tracking service. 
+3. Get the <font color="orange"><b>API Code</b></font>. After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service. 
 
 ### Authentication
 
