@@ -737,7 +737,7 @@ components:
                 <p>Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
                  <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
                 <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p>
-                <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guideance Hazardous Waste Returns</a><br><br>
+                <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guidance Hazardous Waste Returns</a><br><br>
                 <b>Note:</b> The field is case-sensitive, please use the case specified in the links, also see example field.
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
@@ -1122,4 +1122,5 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
