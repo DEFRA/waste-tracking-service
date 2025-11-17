@@ -1,10 +1,9 @@
 ---
 title: Welcome to the Receipt of Waste API (Private Beta)
-weight: 1
-description: This API Landing Page is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites, to report details of each waste movement arriving at their site. This will be mandatory from October 2026.
 ---
 
 [← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+
 
 Version 1.0 issued November 2025
 
@@ -20,7 +19,6 @@ This page introduces waste receivers, software developers and third party softwa
 The Receipt of Waste API OAS Specification is available [here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml).
 
 #### Receipt of Waste Process Flow
-
 
 [![receivers only](initial-scope-receivers-only.png)](initial-scope-receivers-only.png)
 
@@ -52,6 +50,8 @@ This version of the Receipt of Waste API:
 
 [Receipt of Waste - API Production Approval Tests](production-approval-tests.md)
 
+[Defra Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
+
 [Receipt of Waste Roadmap](roadmap.md)
 
 [Receipt of Waste API Data Definitions](receipt-data-definitions.md)
@@ -76,25 +76,25 @@ Work through these short sections on practical preparation and use of the API:
 
 To develop using the Receipt of Waste API, you must:
 
-- be familiar with HTTP, RESTful services and JSON and OAuth
-- have received your client id and secret (by encrypted email, see step 1 below)
-- be familiar with the API's terms of service.
+- Be familiar with HTTP, RESTful services and JSON and OAuth
+- Have received your client id and secret. These will be sent to the developer after signing up for Private Beta.
+- Be familiar with the API's [terms of service](api-terms-of-service.md).
 
 These are the necesary steps:
 
-1. Developers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
+1. Developers need to [sign-up for Private Beta](private-beta-comms-sign-up.md) using the on-boarding form. They will then be issued a client id and secret.
 
 2. Gain access to the test environment. The URL is shown below:
    ```code
    https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
    ```
 
-3. Using the client ID and Client Secret, request an OAuth bearer token. See [Authentication](#Authentication).
+3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#Authentication).
 4. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
 
       When you’ve completed developing and testing your integration, please [email](WasteTracking_Developers@defra.gov.uk) a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.
 
-5. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive an API Code. You can begin sending waste movements to the Waste Tracking Service. 
+5. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive a client ID and secret for the production environment. You can now begin sending waste movements to the Waste Tracking Service.
 
 
 #### Prequisite Steps (Receivers)
@@ -107,35 +107,7 @@ These are the necesary steps:
 
 To start using the Receipt API, you need first to authenticate your access using your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token and make your first receipt of waste movement request. 
 
-The diagram below illustrates the authentication process followed by a POST request waste movement. For a more detailed description with code snippets you can refer to this [authentication note](api-authentication-guide.md).
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mermaid Diagram Example</title>
-    <!-- Load Mermaid from CDN -->
-    <script type="module">
-        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
-        // Initialize Mermaid
-        mermaid.initialize({ startOnLoad: true });
-    </script>
-</head>
-<body>
-    <h2></h2>
-    <div class="mermaid">
-
- sequenceDiagram
-    participant Third Party Software
-    participant OAuth
-    participant Receipt API
-    Third Party Software->>OAuth: Client ID + Secret
-    OAuth-->>Third Party Software: Bearer Token
-    Third Party Software->>Receipt API: POST Receipt API + Bearer Token
-    Receipt API -->>Third Party Software: Result of Waste Movement Request (Success/Failure)
-    </div>
-</body>
-</html>
+For a more detailed description with code snippets, refer to this [authentication information](api-authentication-guide.md).
 
 ## Making API requests
 
