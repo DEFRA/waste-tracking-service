@@ -3,7 +3,7 @@ info:
   title: Digital Waste Tracking Receipt API
   version: "1.0"
   description: |
-    <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licenced waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking 
+    <p>This API is for waste receivers, software developers and third party software users. It enables operators of permitted or licensed waste receiving sites to report details of each waste movement arriving at their site. This will be mandatory from October 2026. More information about Digital Waste Tracking 
     <a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service.">is available here:</a>
      <p><h2>Methods</h2></p>
      <p>The API is based on REST principles and uses seven endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and five <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes.</p>
@@ -1122,6 +1122,7 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
 
 
