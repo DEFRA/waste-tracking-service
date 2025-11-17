@@ -522,7 +522,7 @@ components:
               description: |
                 Indicates the source of POP component details.
                 - NOT_PROVIDED: Carrier did not provide component details
-                - CARRIER_PROVIDED: Components provided by carrier
+                - PROVIDED_WITH_WASTE: Components provided by carrier
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing<br><br>
                  <b>Note:</b> The field is case-sensitive, please use the case specified in the list above.
@@ -1122,5 +1122,6 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
 
