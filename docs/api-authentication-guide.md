@@ -51,7 +51,7 @@ Sequence Diagram for Authentication Flow
 </head>
 <body>
     <h2></h2>
-    <div class="mermaid">
+<div class="mermaid">
  sequenceDiagram
     participant Third Party Software
     participant OAuth
@@ -71,3 +71,4 @@ https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth
 ```
 
 <br/>Page last updated on November 2025.
+
