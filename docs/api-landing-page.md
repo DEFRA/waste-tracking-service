@@ -1,5 +1,5 @@
 ---
-title: Welcome to the Receipt of Waste API (Private Beta)
+title: Phase 1 - Receipt of Waste
 ---
 
 [← Back](https://defra.github.io/waste-tracking-service){ .md-button }
@@ -7,7 +7,7 @@ title: Welcome to the Receipt of Waste API (Private Beta)
 
 Version 1.0 issued November 2025
 
-# Welcome to the Receipt of Waste API  - Private Beta
+# Welcome to Phase 1 - Receipt of Waste API
 
 ## Introduction
 This page introduces waste receivers, software developers and third party software providers to the Defra Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
@@ -16,7 +16,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 ## Receipt API Overview
 
-The Receipt of Waste API OAS Specification is available [here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml).
+The latest version of the Receipt of Waste API OAS Specification is available [here](https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml).
 
 #### Receipt of Waste Process Flow
 
