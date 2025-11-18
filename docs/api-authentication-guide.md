@@ -1,3 +1,7 @@
+
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+
+
 # Receipt of Waste - API authentication Note
 
 To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. 
@@ -32,10 +36,39 @@ def make_api_request(access_token, api_url): # your access token and the api url
 ```
 </li>
 </ol>
+Sequence Diagram for Authentication Flow
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid Diagram Example</title>
+    <!-- Load Mermaid from CDN -->
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+        // Initialize Mermaid
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h2></h2>
+    <div class="mermaid">
+
+ sequenceDiagram
+    participant Third Party Software
+    participant OAuth
+    participant Receipt API
+    Third Party Software->>OAuth: Client ID + Secret
+    OAuth-->>Third Party Software: Bearer Token
+    Third Party Software->>Receipt API: POST Receipt API + Bearer Token
+    Receipt API -->>Third Party Software: Result of Waste Movement Request (Success/Failure)
+    </div>
+</body>
+</html>
+
 ## What is the OAuth login URL for my API?
 
 ```code
-https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
+https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token
 ```
 
-<br/>Page last updated on 23 September 2025.
+<br/>Page last updated on November 2025.
