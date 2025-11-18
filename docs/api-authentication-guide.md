@@ -36,6 +36,34 @@ def make_api_request(access_token, api_url): # your access token and the api url
 ```
 </li>
 </ol>
+Sequence Diagram for Authentication Flow
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid Diagram Example</title>
+    <!-- Load Mermaid from CDN -->
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+        // Initialize Mermaid
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h2></h2>
+    <div class="mermaid">
+ sequenceDiagram
+    participant Third Party Software
+    participant OAuth
+    participant Receipt API
+    Third Party Software->>OAuth: Client ID + Secret
+    OAuth-->>Third Party Software: Bearer Token
+    Third Party Software->>Receipt API: POST Receipt API + Bearer Token
+    Receipt API -->>Third Party Software: Result of Waste Movement Request (Success/Failure)
+    </div>
+</body>
+</html>
+
 ## What is the OAuth login URL for my API?
 
 ```code
