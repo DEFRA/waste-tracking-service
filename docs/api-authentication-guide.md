@@ -37,6 +37,7 @@ def make_api_request(access_token, api_url): # your access token and the api url
 </li>
 </ol>
 Sequence Diagram for Authentication Flow
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -51,7 +52,8 @@ Sequence Diagram for Authentication Flow
 </head>
 <body>
     <h2></h2>
-<div class="mermaid">
+    <div class="mermaid">
+
  sequenceDiagram
     participant Third Party Software
     participant OAuth
@@ -64,6 +66,7 @@ Sequence Diagram for Authentication Flow
 </body>
 </html>
 
+
 ## What is the OAuth login URL for my API?
 
 ```code
@@ -71,4 +74,3 @@ https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth
 ```
 
 <br/>Page last updated on November 2025.
-
