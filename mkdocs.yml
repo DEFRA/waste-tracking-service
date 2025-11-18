@@ -56,8 +56,6 @@ nav:
     - private-beta-comms-sign-up.md
     - api-terms-of-service.md
     - faq.md
-  - Phase 2 Collection of Waste:
-    - development-starting-soon.md
 extra_css:
   - stylesheets/tags-color.css
   - stylesheets/extra.css
