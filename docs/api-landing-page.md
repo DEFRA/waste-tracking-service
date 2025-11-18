@@ -1,5 +1,5 @@
 ---
-title: Phase 1 - Receipt of Waste
+title: Introduction to the Receipt of Waste API
 ---
 
 [← Back](https://defra.github.io/waste-tracking-service){ .md-button }
