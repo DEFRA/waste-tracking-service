@@ -857,12 +857,12 @@ components:
     receiver:
       type: object
       required:
-        - organisationName
+        - siteName
         - authorisationNumbers
       properties:
-        organisationName:
+        siteName:
           type: string
-          description: The name of the organisation receiving the waste.
+          description: The name of the site receiving the waste.
         emailAddress:
           type: string
           description: The email address of the organisation receiving the waste.
