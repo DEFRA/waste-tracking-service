@@ -1,5 +1,5 @@
 meta {
-  name: Receive Movement - Error - Missing organisationApiId as a required field
+  name: Receive Movement - Error - Missing apiCode as a required field
   type: http
   seq: 1
 }
@@ -28,12 +28,14 @@ body:json {
           "metric": "Tonnes",
           "amount": 2.5,
           "isEstimate": false
-        }
+        },
+        "containsHazardous": false,
+        "containsPops": false
       }
     ],
     "carrier": {
       "organisationName": "Carrier Ltd",
-      "registrationNumber": "REG123456",
+      "registrationNumber": "CBDL999999",
       "meansOfTransport": "Rail"
     },
     "receiver": {
@@ -51,7 +53,7 @@ body:json {
 }
 
 vars:post-response {
-  globalMovementId: res.body.globalMovementId
+  wasteTrackingId: res.body.wasteTrackingId
 }
 
 script:pre-request {

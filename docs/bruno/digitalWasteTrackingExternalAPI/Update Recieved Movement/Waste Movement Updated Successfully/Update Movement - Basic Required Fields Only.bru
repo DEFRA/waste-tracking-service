@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: {{baseUrl}}/movements/{{globalMovementId}}/receive
+  url: {{baseUrl}}/movements/{{wasteTrackingId}}/receive
   body: json
   auth: inherit
 }
@@ -16,7 +16,7 @@ headers {
 
 body:json {
   {
-    "organisationApiId": "{{organisationApiId}}",
+    "apiCode": "{{apiCode}}",
     "dateTimeReceived": "{{timestamp}}",
     "wasteItems": [
       {
@@ -32,6 +32,8 @@ body:json {
           "amount": 2.5,
           "isEstimate": false
         },
+        "containsHazardous": false,
+        "containsPops": false,
         "disposalOrRecoveryCodes": [
           {
             "code": "R1",
@@ -46,7 +48,7 @@ body:json {
     ],
     "carrier": {
       "organisationName": "Carrier Ltd",
-      "registrationNumber": "REG123456",
+      "registrationNumber": "CBDL999999",
       "meansOfTransport": "Rail"
     },
     "receiver": {

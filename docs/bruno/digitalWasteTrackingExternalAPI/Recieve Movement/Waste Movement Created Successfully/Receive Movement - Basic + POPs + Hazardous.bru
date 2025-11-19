@@ -16,7 +16,7 @@ headers {
 
 body:json {
   {
-    "organisationApiId": "{{organisationApiId}}",
+    "apiCode": "{{apiCode}}",
     "dateTimeReceived": "{{timestamp}}",
     "hazardousWasteConsignmentCode": "SB1234567",
     "wasteItems": [
@@ -33,30 +33,30 @@ body:json {
           "amount": 1.2,
           "isEstimate": true
         },
+        "containsPops": true,
         "pops": {
-          "containsPops": true,
           "sourceOfComponents": "CARRIER_PROVIDED",
           "components": [
             {
-              "name": "Chlordane",
+              "code": "CHL",
               "concentration": 250
             },
             {
-              "name": "Toxaphene",
+              "code": "TOX",
               "concentration": 156.4
             },
             {
-              "name": "Dicofol",
+              "code": "DCF",
               "concentration": 0.8
             },
             {
-              "name": "DDT",
+              "code": "DDT",
               "concentration": 1.2
             }
           ]
         },
+        "containsHazardous": true,
         "hazardous": {
-          "containsHazardous": true,
           "hazCodes": [
             "HP_1",
             "HP_3",
@@ -96,7 +96,7 @@ body:json {
     ],
     "carrier": {
       "organisationName": "Carrier Ltd",
-      "registrationNumber": "REG123456",
+      "registrationNumber": "CBDL999999",
       "meansOfTransport": "Rail"
     },
     "receiver": {
@@ -114,7 +114,7 @@ body:json {
 }
 
 vars:post-response {
-  globalMovementId: res.body.globalMovementId
+  wasteTrackingId: res.body.wasteTrackingId
 }
 
 script:pre-request {

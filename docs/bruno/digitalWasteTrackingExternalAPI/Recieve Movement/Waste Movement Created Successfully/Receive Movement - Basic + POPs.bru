@@ -16,7 +16,7 @@ headers {
 
 body:json {
   {
-    "organisationApiId": "{{organisationApiId}}",
+    "apiCode": "{{apiCode}}",
     "dateTimeReceived": "{{timestamp}}",
     "wasteItems": [
       {
@@ -32,20 +32,21 @@ body:json {
           "amount": 1.8,
           "isEstimate": true
         },
+        "containsHazardous": false,
+        "containsPops": true,
         "pops": {
-          "containsPops": true,
           "sourceOfComponents": "CARRIER_PROVIDED",
           "components": [
             {
-              "name": "Chlordane",
+              "code": "CHL",
               "concentration": 45.2
             },
             {
-              "name": "Dieldrin",
+              "code": "DLD",
               "concentration": 12.8
             },
             {
-              "name": "Aldrin",
+              "code": "ALD",
               "concentration": 8.3
             }
           ]
@@ -64,7 +65,7 @@ body:json {
     ],
     "carrier": {
       "organisationName": "Carrier Ltd",
-      "registrationNumber": "REG123456",
+      "registrationNumber": "CBDL999999",
       "meansOfTransport": "Rail"
     },
     "receiver": {
@@ -82,7 +83,7 @@ body:json {
 }
 
 vars:post-response {
-  globalMovementId: res.body.globalMovementId
+  wasteTrackingId: res.body.wasteTrackingId
 }
 
 script:pre-request {
