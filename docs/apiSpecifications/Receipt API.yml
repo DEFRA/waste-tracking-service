@@ -529,8 +529,9 @@ components:
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 <ul>
                 <li>Must be provided when wasteItem.containsPops is true</li>
-                <li> If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
+                <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, components are recommended but not required (validation warning if not provided)</li>
+                <li>If sourceOfComponents is GUIDANCE or OWN_TESTING, components are required (validation error if not provided)</li>
                 </ul>
               example: PROVIDED_WITH_WASTE
             components:
@@ -699,7 +700,8 @@ components:
                 <ul>
                 <li>Must be provided when wasteItem.containsPops is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, an empty components array will generate a validation warning</li>
+                <li>If sourceOfComponents is GUIDANCE or OWN_TESTING, components are required and cannot be empty (validation error if not provided)</li>
                 </ul>
         containsHazardous:
               type: boolean
@@ -723,7 +725,8 @@ components:
                 <ul>
                 <li>Must be provided when wasteItem.containsHazardous is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, components are recommended but not required (validation warning if not provided)</li>
+                <li>If sourceOfComponents is GUIDANCE or OWN_TESTING, components are required (validation error if not provided)</li>
                 </ul>
               example: PROVIDED_WITH_WASTE
             hazCodes:
