@@ -1,17 +1,20 @@
-# Receipt of Waste - data requirements
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
 
-!!! Note "Private Beta"
-    Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
-This table lists all of the fields required to be recorded by the Reciept of Waste API. The table indicates which fields will be mandatory vs optional - however note that some fields will become mandatory based on the data entered previously. For example, if the waste is hazardous, then the hazardous property code and hazardous compoments become mandatory. 
+# Receipt of Waste - data Definitions
 
-For more detail on any of these fields, refer to the [Receipt of Waste API specification](https://defra.github.io/waste-tracking-service/apiSpecifications/index.html)
+<b>Private Beta</b>
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
+
+These draft data definition tables describe the information we expect to be recorded by the future waste tracking service when a receiving site accepts or rejects waste.
+
+They are a draft and may be updated to reflect changes to policy, legislation and feedback received from those in the waste industry.
 
 ## Movement details
 
 | Data field                                           | Mandatory or optional | Description                                                                                                                                                      |
 | ---------------------------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| API code                                    | Mandatory             | This is the unique identifier of the organisation, provided during registration. An API code is required for each business or organisation.                                                                              |
+| API Code                                     | Mandatory             | This is the unique identifier of the organisation, provided during registration.                                                                                 |
 | Date/time received                                   | Mandatory             | This is the date and exact time waste was received at the site.                                                                                                  |
 | Hazardous waste consignment code                     | Optional              | Hazardous waste consignment code (If EWC is Haz, then mandatory)                                                                                               |
 | Reasons provided for not having a consignment number | Optional              | Reasons provided for not having a consignment number                                                                                                             |
@@ -32,14 +35,12 @@ For more detail on any of these fields, refer to the [Receipt of Waste API speci
 | Weight - amount                                                                                              | Mandatory             | Total weight of the waste being accepted                                                                                                                                                                                                                                                 |
 | Is the waste weight estimated?                                                                             | Mandatory             | Specifies whether the quantity of waste is estimated.                                                                                                                                                                                                                          |
 | **POPs data:**                                                                                              |
-| Does the waste contain persistent organic pollutants (POPs)?                                                | Mandatory             | Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous _and_ non-hazardous waste.If "Y" then following properties are mandatory.                                                           |
-| Source of components                                               | Optional             | Indicates the source of POP component details: NOT_PROVIDED: Carrier did not provide component details, CARRIER_PROVIDED: Components provided by carrier, GUIDANCE: Components determined from guidance, OWN_TESTING: Components determined from own testing                                                          |
+| Does the waste contain persistent organic pollutants (POPs)?                                                | Mandatory             | Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous _and_ non-hazardous waste.If "Y" then following properties are mandatory.                                                              |
 | POP name                                                                                                    | Optional             | E.g. Aldrin, Chlordane, Dieldrin etc.                                                                                                                                                                                                                                                    |
 | POP concentration value                                                                                     | Optional             | E.g. 50mg per kg of Chlordane.                                                                                                                                                                                                                                                           |
 | **Hazardous waste data:**                                                                                   |
 | Is the waste hazardous?                                                                                     | Mandatory             | Hazardous waste is any waste that is potentially harmful to human health or the environment. If "Y" then following properties are mandatory. |
 | Hazardous property codes (Haz code)                                                                         | Optional             | Hazard property (HP) codes are used to classify hazardous waste. E.g. HP 1 - Explosive Waste, HP 2 - Oxidising Waste, HP 3 - Flammable Waste etc. [Waste classification technical guidance - GOV.UK](https://www.gov.uk/government/publications/waste-classification-technical-guidance) |
-| Source of components                                               | Optional             | Indicates the source of hazardous component details: NOT_PROVIDED: Carrier did not provide component details, CARRIER_PROVIDED: Components provided by carrier, GUIDANCE: Components determined from guidance, OWN_TESTING: Components determined from own testing                                                          |
 | Chemical or biological component                                                                            | Optional             | E.g. Mercury.                                                                                                                                                                                                                                                                            |
 | Component concentration value                                                                               | Optional             | E.g. 30mg per kg.                                                                                                                                                                                                                                                                        |
 | **Disposal or Recovery Codes:**                                                                                   |

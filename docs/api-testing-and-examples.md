@@ -1,3 +1,5 @@
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+
 # API Testing and Examples
 
 Bruno has been selected as our preferred API testing documentation tool, following [GOV.UK API technical and data standards](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#test-your-assumptions-with-users) for providing test services and living documentation.
@@ -23,7 +25,7 @@ We provide a comprehensive Bruno collection that includes:
 1. **Install Bruno**: Download the free open source software from [their site](https://www.usebruno.com/) or from [Github](https://github.com/usebruno/bruno/releases)
 2. **Open our collection**: The Bruno collection is located in the repository at `docs/bruno/digitalWasteTrackingExternalAPI/`, use the "Open" funcationality in Bruno to view it.
 3. **Configure environment**: Set up your environment variables and OAuth2 credentials
-4. **Make a request**: Run the POST Request "Receive Movement - Basic Required Fields Only" as a starting point, it should return a successful response code and a Waste Tracking ID (wasteTrackingId).
+4. **Make a request**: Run the POST Request "Receive Movement - Basic Required Fields Only" as a starting point, it should return a successful response code and a globalMovementId.
 
 ## Using the Collection
 
@@ -36,4 +38,4 @@ We provide a comprehensive Bruno collection that includes:
 !!! Note "Bruno Collection Available"
     The Bruno collection is available in the repository at [docs/bruno/digitalWasteTrackingExternalAPI](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI).
 
-Page last updated on 26 September 2025.
+Page last updated on November 2025.

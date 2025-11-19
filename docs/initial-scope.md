@@ -1,7 +1,13 @@
-# Initial scope - receivers only by October 2026
+[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
 
-!!! Note "Private Beta"
-    Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
+
+# Initial scope - Mandatory for Waste Receivers from October 2026
+
+<b>Private Beta</b>
+
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md).
+
+The first phase of the roll-out of the Waste Tracking Service is concerned with the Receipt of Waste only. Click here to see our [user documentation for Phase 1,](api-landing-page.md) beginning with our Phase 1- Receipt of Waste page.
 
 The waste industry involves a large number and complex array of operators. This includes approximately:
 
@@ -11,7 +17,10 @@ The waste industry involves a large number and complex array of operators. This 
 
 These work across the UK in a wide variety of sectors with varying levels of digital capability.  
 
-To build a stable, effective and user-friendly service we need to build it incrementally. This starts with the creation of a firm foundation which delivers some of the intended benefits. Additional aspects can be added as we learn from testing the core elements of the service. This will allow us to refine and adjust our approach as we move towards a more complete end-to-end waste tracking service.  
+To build a stable, effective and user-friendly service we need to build it incrementally. This starts with the creation of a firm foundation which delivers some of the intended benefits. Additional aspects can be added as we learn from testing the core elements of the service. This will allow us to refine and adjust our approach as we move towards a more complete end-to-end waste tracking service. 
+
+You may wish to browse the 
+[Defra Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
 
 Following assessment of the options and international best practice, the first element of our waste tracking service will focus on waste receiving sites inputting data about all waste they receive. This includes waste containing persistent organic pollutants (POPs). Following this phase, we are planning to expand the service to other waste operators.
 
