@@ -518,11 +518,11 @@ components:
           properties:
             sourceOfComponents:
               type: string
-              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING] 
+              enum: [NOT_PROVIDED, PROVIDED_WITH_WASTE, GUIDANCE, OWN_TESTING]
               description: |
                 Indicates the source of POP component details.
                 - NOT_PROVIDED: Carrier did not provide component details
-                - PROVIDED_WITH_WASTE: Components provided by carrier
+                - PROVIDED_WITH_WASTE: Components provided with the waste
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing<br><br>
                  <b>Note:</b> The field is case-sensitive, please use the case specified in the list above.
@@ -530,9 +530,9 @@ components:
                 <ul>
                 <li>Must be provided when wasteItem.containsPops is true</li>
                 <li> If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
                 </ul>
-              example: CARRIER_PROVIDED
+              example: PROVIDED_WITH_WASTE
             components:
               type: array
               items:
@@ -699,7 +699,7 @@ components:
                 <ul>
                 <li>Must be provided when wasteItem.containsPops is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided</li>
                 </ul>
         containsHazardous:
               type: boolean
@@ -712,20 +712,20 @@ components:
           properties:
             sourceOfComponents:
               type: string
-              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING]
+              enum: [NOT_PROVIDED, PROVIDED_WITH_WASTE, GUIDANCE, OWN_TESTING]
               description: |
                 Indicates the source of hazardous component details.
                 - NOT_PROVIDED: Carrier did not provide component details
-                - CARRIER_PROVIDED: Components provided by carrier
+                - PROVIDED_WITH_WASTE: Components provided with the waste
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 <ul>
                 <li>Must be provided when wasteItem.containsHazardous is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
                 </ul>
-              example: CARRIER_PROVIDED
+              example: PROVIDED_WITH_WASTE
             hazCodes:
               type: array
               description: |
