@@ -359,11 +359,6 @@ components:
                               </tr>
                           </tbody>
                       </table>
-                  <ul>
-                      <li>"Non-Haz Waste Transfer"</li>
-                      <li>"Carrier did not provide documentation"</li>
-                      <li>"Household Waste Recycling Centre Receipt"</li>
-                  </ul>
                   <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
@@ -518,7 +513,7 @@ components:
           properties:
             sourceOfComponents:
               type: string
-              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING] 
+              enum: [NOT_PROVIDED, PROVIDED_WITH_WASTE, GUIDANCE, OWN_TESTING] 
               description: |
                 Indicates the source of POP component details.
                 - NOT_PROVIDED: Carrier did not provide component details
@@ -530,9 +525,9 @@ components:
                 <ul>
                 <li>Must be provided when wasteItem.containsPops is true</li>
                 <li> If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
                 </ul>
-              example: CARRIER_PROVIDED
+              example: PROVIDED_WITH_WASTE
             components:
               type: array
               items:
@@ -712,20 +707,21 @@ components:
           properties:
             sourceOfComponents:
               type: string
-              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING]
+              enum: [NOT_PROVIDED, PROVIDED_WITH_WASTE, GUIDANCE, OWN_TESTING]
               description: |
                 Indicates the source of hazardous component details.
                 - NOT_PROVIDED: Carrier did not provide component details
-                - CARRIER_PROVIDED: Components provided by carrier
+                - PROVIDED_WITH_WASTE: Components provided by carrier
                 - GUIDANCE: Components determined from guidance
-                - OWN_TESTING: Components determined from own testing
+                - OWN_TESTING: Components determined from own testing<br>
+                <b>Note:</b> The field is case-sensitive, please use the case specified in the list above.<br>
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 <ul>
                 <li>Must be provided when wasteItem.containsHazardous is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
                 </ul>
-              example: CARRIER_PROVIDED
+              example: PROVIDED_WITH_WASTE
             hazCodes:
               type: array
               description: |
@@ -773,7 +769,7 @@ components:
       type: object
       required:
         - registrationNumber
-        - organisationName
+        - siteName
         - meansOfTransport
       properties:
         registrationNumber:
@@ -784,7 +780,7 @@ components:
              <p><b>Home Nations Codes:</b></p>
              <p><b>General Format</b> where 9 is a digit 0-9</p>
              <p><font color="blue"><b>Wales NRW:</b></font></p>
-                CBDL9, CBDL99, CBDU999 (1+ digits)
+                CBDL9, CBDL99, CBDU999 (3+ digits)
                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
                 CBDL9, CBDL99, CBDU999 (1+ digits)
@@ -818,9 +814,9 @@ components:
             <li>If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.</li>
             </ul>
           example: Waste carrier did not provide a carrier registration number.
-        organisationName:
+        siteName:
           type: string
-          description: The business name of the carrier. 
+          description: The business site name of the carrier. 
           example: Waste Carriers Lite Ltd
         address:
           $ref: "#/components/schemas/address"
@@ -831,7 +827,7 @@ components:
           example: info@wastecarrierselite.co.uk
         phoneNumber:
           type: string
-          description: The UK or internationl phone number of the carrier.
+          description: The UK or international phone number of the carrier.
           example: 020 4756 XXXX
         vehicleRegistration:
           type: string
@@ -870,7 +866,7 @@ components:
           example: info@wastecarrierselite.co.uk
         phoneNumber:
           type: string
-          description: The UK or internationl phone number of the carrier.
+          description: The UK or international phone number of the carrier.
           example: 020 4756 XXXX
         registrationNumber:
           type: string
@@ -1122,7 +1118,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
-
-
-
