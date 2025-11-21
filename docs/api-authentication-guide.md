@@ -70,7 +70,9 @@ Sequence Diagram for Authentication Flow
 ## What is the OAuth login URL for my API?
 
 ```code
-https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token
+Production: https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com
+
+Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com 
 ```
 
-<br/>Page last updated on November 2025.
+<br/>Page last updated on November 20th 2025.
