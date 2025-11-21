@@ -11,7 +11,7 @@ The API Code (apiCode) is a mandatory (uuid) field used in the Request Body (rec
 [![API Code listed in API Specifaction](api-apiCode.png)](api-apiCode.png)
 #### Using the API Code
 - When software developers begin testing their software against the API, they need to provide a ["Dummy" Test Code](#dummy-test-codes).
-- Following acceptance of the integration test submission, the Defra API Team will issue receivers with a <b>Production API Code</b>. This is passed to their software developers so that they they can set up a working connection to the Receipt of Waste Production service.
+- Once developers have been granted access to the Receipt of Waste API production environment, the Defra Team will issue receivers with a <b>Production API Code</b>. This is passed to  software developers so that they can set up a working connection to the Receipt of Waste Production service.
 
 #### API Code as used in a PUT or POST request
 
@@ -40,8 +40,7 @@ The API Code (apiCode) is a mandatory (uuid) field used in the Request Body (rec
 
 ## Dummy Test Codes
 
-There are ten dummy codes to choose from (see below). There are no restrictions, developers can select, re-use, chop or change from the list as they choose.
-
+There are ten dummy codes to choose from (see below). There are no restrictions, developers can select any code from the list.
 ```code
 1. 1f83215e-4b90-4785-9ab2-2614839aa2e9
 
