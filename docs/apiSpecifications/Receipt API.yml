@@ -784,10 +784,10 @@ components:
              <p><b>Home Nations Codes:</b></p>
              <p><b>General Format</b> where 9 is a digit 0-9</p>
              <p><font color="blue"><b>Wales NRW:</b></font></p>
-                CBDL9, CBDL99, CBDU999 (1+ digits)
+                CBDL9, CBDL99, CBDU999 (3+ digits)
                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
-                CBDL9, CBDL99, CBDU999 (1+ digits)
+                CBDL9, CBDL99, CBDU999 (3+ digits)
                  <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
@@ -1122,6 +1122,7 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
 
 
