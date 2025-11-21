@@ -76,7 +76,7 @@ Work through these short sections on practical preparation and use of the API:
 
 To develop using the Receipt of Waste API, you must:
 
-- Be familiar with HTTP, RESTful services and JSON and OAuth
+- Be familiar with HTTP, RESTful services and JSON and OAuth.
 - Have received your client id and secret. These will be sent to the developer after signing up for Private Beta.
 - Be familiar with the API's [terms of service](api-terms-of-service.md).
 
@@ -86,22 +86,27 @@ These are the necessary steps:
 
 2. Gain access to the test environment. The URL is shown below:
    ```code
-   https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
+   http://waste-tracking.integration.api.defra.gov.uk/
    ```
 
 3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#Authentication).
-4. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
+
+
+4. For testing, you also need a <font color="orange"><b>Dummy API Code</b></font> to begin testing. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
+
+5. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
 
       When you’ve completed developing and testing your integration, please [email](WasteTracking_Developers@defra.gov.uk) a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.
 
-5. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive a client ID and secret for the production environment. You can now begin sending waste movements to the Waste Tracking Service.
+6. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive a client ID and secret for the production environment. 
 
+You can now begin sending waste movements to the Waste Tracking Service.
 
 #### Prequisite Steps (Receivers)
 
 1. Waste Receivers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
-3. Get the <font color="orange"><b>API Code</b></font>. After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service. 
+3. Get the [Production API Code](api-codes-for-testing-and-production.md)</b></font>. After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.
 
 ### Authentication
 
@@ -113,12 +118,12 @@ For a more detailed description with code snippets, refer to this [authenticatio
 
 Before sending any requests to the Receipt of Waste API, make sure that you are addressing the following points in your software:
 
-The base URLs of the sandbox and production environments are as follows:
+The base URLs of the test and production environments are as follows:
 
 ```code 
-Test: https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
+Test: http://waste-tracking.integration.api.defra.gov.uk/
 
-Production: https://api.server.test/v1/movements/receive
+Production: http://waste-tracking.api.defra.gov.uk/
 ```
 
 ### What makes up a Receive Waste Movement Request?
@@ -127,11 +132,11 @@ A request starts with a command and a URL specifying the method and the API endp
 
 ```curl
 curl --request POST \
-  --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
+  --url http://waste-tracking.api.defra.gov.uk/
   --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZ \
   --header 'content-type: application/json' \
   --data '{
-  "organisationApiId": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
+  "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
   "reasonForNoConsignmentCode": "Carrier did not provide documentation"
 ```
@@ -142,7 +147,7 @@ This is broken down as follows:
 
 ```json
 curl --request POST \
-  --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
+  --url http://waste-tracking.api.defra.gov.uk/
 ```
 
 - The header information containing the Bearer Token and the content type
@@ -157,7 +162,7 @@ curl --request POST \
 
 ```json
 -- data '{
-  "organisationApiId": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
+  "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
   "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc
   }
@@ -169,107 +174,154 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
 
 ```yaml
 {
-  "apiCode": "ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg",
-  "dateTimeReceived": "UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00",
-  "hazardousWasteConsignmentCode": "Company name: CJTILE Ltd → Code prefix: CJTILE/\nUnique ID: A0001\nFull code: CJTILE/A0001\n",
-  "reasonForNoConsignmentCode": "Carrier did not provide documentation",
-  "yourUniqueReference": "wTBrdgAA020",
-  "otherReferencesForMovement": [
-    {
-      "label": "PO Number",
-      "reference": "PO-12345"
-    },
-    {
-      "label": "Waste Ticket",
-      "reference": "WT-67890"
-    },
-    {
-      "label": "Haulier Note",
-      "reference": "HN-11111"
-    }
-  ],
-  "specialHandlingRequirements": "The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.",
+  "apiCode": "1f83215e-4b90-4785-9ab2-2614839aa2e9",
+  "dateTimeReceived": "2025-11-20T12:26:24.281Z",
+  "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE",
   "wasteItems": [
     {
-      "ewcCodes": "200108 biodegradable kitchen and canteen waste, 150109 textile packaging",
-      "wasteDescription": "Basic mixed construction and demolition waste, this includes recyclable house bricks, gypsum plaster and slates.",
-      "physicalForm": "Sludge",
-      "numberOfContainers": 2,
-      "typeOfContainers": "rubble bag, refuse sack, pallet",
+      "ewcCodes": [
+        "200121"
+      ],
+      "wasteDescription": "Industrial waste containing persistent organic pollutants (POPs) and hazardous heavy metals from decommissioned electrical equipment and contaminated soil",
+      "physicalForm": "Mixed",
+      "numberOfContainers": 15,
+      "typeOfContainers": "SKI",
       "weight": {
         "metric": "Tonnes",
-        "amount": 150,
+        "amount": 1.2,
         "isEstimate": true
       },
+      "containsPops": true,
       "pops": {
-        "containsPops": true,
+        "sourceOfComponents": "CARRIER_PROVIDED",
         "components": [
           {
-            "name": "Aldrin, Chlordane, Dieldrin.",
-            "concentration": 100
+            "code": "CHL",
+            "concentration": 250
+          },
+          {
+            "code": "TOX",
+            "concentration": 156.4
+          },
+          {
+            "code": "DCF",
+            "concentration": 0.8
+          },
+          {
+            "code": "DDT",
+            "concentration": 1.2
           }
         ]
       },
+      "containsHazardous": true,
       "hazardous": {
-        "containsHazardous": true,
-        "hazCodes": "5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, 10 - Wastes from Thermal Processes</p>",
+        "hazCodes": [
+          "HP_1",
+          "HP_3",
+          "HP_6"
+        ],
+        "sourceOfComponents": "CARRIER_PROVIDED",
         "components": [
           {
-            "name": "lead, mercury",
-            "concentration": 50
+            "name": "Mercury",
+            "concentration": 0.35
+          },
+          {
+            "name": "Arsenic",
+            "concentration": 300
+          },
+          {
+            "name": "Chromium",
+            "concentration": 0.42
+          },
+          {
+            "name": "Lead",
+            "concentration": 0.89
           }
         ]
       },
       "disposalOrRecoveryCodes": [
         {
-          "code": "\"code\": \"R1\"\n",
+          "code": "R1",
           "weight": {
             "metric": "Tonnes",
-            "amount": 150,
-            "isEstimate": true
+            "amount": 0.75,
+            "isEstimate": false
+          }
+        }
+      ]
+    },
+    {
+      "ewcCodes": [
+        "150110"
+      ],
+      "wasteDescription": "Secondary waste containing plastic packaging and minor contaminants",
+      "physicalForm": "Solid",
+      "numberOfContainers": 5,
+      "typeOfContainers": "SKI",
+      "weight": {
+        "metric": "Tonnes",
+        "amount": 1.1,
+        "isEstimate": true
+      },
+      "containsPops": false,
+      "pops": {
+        "sourceOfComponents": "NOT_PROVIDED"
+      },
+      "containsHazardous": true,
+      "hazardous": {
+        "hazCodes": [
+          "HP_6"
+        ],
+        "sourceOfComponents": "CARRIER_PROVIDED",
+        "components": [
+          {
+            "name": "Arsenic",
+            "concentration": 75
+          }
+        ]
+      },
+      "disposalOrRecoveryCodes": [
+        {
+          "code": "R1",
+          "weight": {
+            "metric": "Tonnes",
+            "amount": 0.75,
+            "isEstimate": false
           }
         }
       ]
     }
   ],
-  "carrier": {
-    "registrationNumber": "England - CBDL123456, CBDU123456, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432",
-    "reasonForNoRegistrationNumber": "Waste carrier did not provide a carrier registration number.",
-    "organisationName": "Waste Carriers Lite Ltd",
+  "carrier": {  
+    "organisationName": "Carrier Ltd",
+    "registrationNumber": "CBDL999999",
     "address": {
-      "fullAddress": "26a Oil Drum Lane, London, UK",
-      "postCode": "W12 7ZL"
+      "fullAddress": "321 Test Street, Test City",
+      "postcode": "TC2 2CD"
     },
-    "emailAddress": "info@wastecarrierselite.co.uk",
-    "phoneNumber": "020 4756 XXXX",
-    "vehicleRegistration": "RNT 493",
-    "meansOfTransport": "Rail"
-  },
-  "brokerOrDealer": {
-    "organisationName": "Waste Desposal Ltd",
-    "address": {
-      "fullAddress": "26a Oil Drum Lane, London, UK",
-      "postCode": "W12 7ZL"
-    },
-    "emailAddress": "info@wastecarrierselite.co.uk",
-    "phoneNumber": "020 4756 3232",
-    "registrationNumber": "England - CBDL123456, CBDU123456, Wales - CBDL124351, CBDU33435, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432"
+    "emailAddress": "test@carrier.com",
+    "phoneNumber": "01234567890",
+    "meansOfTransport": "Road",
+    "vehicleRegistration": "AB12 CDE"
   },
   "receiver": {
-    "organisationName": "string",
-    "emailAddress": "info@wastecarrierselite.co.uk",
-    "phoneNumber": "020 4756 XXXX",
-    "authorisations": [
-      {
-        "authorisationNumber": "string",
-        "regulatoryPositionStatement": 343
-      }
+    "siteName": "Receiver Ltd",
+    "emailAddress": "receiver@test.com",
+    "phoneNumber": "01234567890",
+    "authorisationNumbers": [
+      "PPC/A/9999999",
+      "PPC/A/SEPA9999-9999"
+    ],
+    "regulatoryPositionStatements": [
+      123,
+      456
     ]
   },
   "receipt": {
     "address": {
-      "fullAddress": "26a Oil Drum Lane, London, UK",
-      "postCode": "W12 7ZL"
+      "fullAddress": "123 Test Street, Test City",
+      "postcode": "TC1 2AB"
     }
   }
 }
