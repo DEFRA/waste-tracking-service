@@ -2,7 +2,7 @@
 
 # Testing and Production API Codes
 
-This document explains what API Codes codes are and where to use them.
+This document explains what API Codes are and where to use them.
 
 ## What are the Testing and Production API Codes?
 
@@ -62,4 +62,5 @@ There are ten dummy codes to choose from (see below). There are no restrictions,
 
 10. 75ff9140-8617-406e-9163-2ba4907e645b2
 ```
+
 
