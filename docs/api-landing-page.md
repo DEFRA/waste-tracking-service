@@ -88,10 +88,9 @@ These are the necessary steps:
    ```code
    http://waste-tracking.integration.api.defra.gov.uk/
    ```
+3. For testing, you also need a <font color="orange"><b>Dummy API Code</b></font> to begin testing. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
 
-3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#Authentication).
-
-4. You also need a <font color="orange"><b>Dummy API Code</b></font> to begin testing. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
+4. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#Authentication). 
 
 5. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
 
@@ -346,3 +345,4 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
