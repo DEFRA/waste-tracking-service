@@ -46,6 +46,7 @@ nav:
     - initial-scope.md
   - Phase 1 Receipt of Waste:
     - api-landing-page.md
+    - api-codes-for-testing-and-production.md
     - receivers-process-diagram.md
     - api-specification.md
     - receipt-data-definitions.md 
