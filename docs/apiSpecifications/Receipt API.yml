@@ -915,7 +915,7 @@ components:
            items:
              type: string
            description: |
-            This is an array of the site's authorisation (permit) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
+            This is the site's authorisation (permit) number that allows it to accept waste for intended recovery and disposal operation. Only one authorisation number is required per site.
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
@@ -960,7 +960,7 @@ components:
               </ul>
               <p><font color="green"><b>Business Rules:</b></font></p>
               <ul>
-                <li>At least one authorisation number is required</li>
+                <li>Only one authorisation number is required per site</li>
                 <li>Must match a valid UK format pattern (case-insensitive)</li>
                 <li>All UK nation formats are accepted (no nation-specific validation)</li>
                 <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
