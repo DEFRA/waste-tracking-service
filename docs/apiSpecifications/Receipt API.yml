@@ -769,7 +769,7 @@ components:
       type: object
       required:
         - registrationNumber
-        - siteName
+        - organisationName
         - meansOfTransport
       properties:
         registrationNumber:
@@ -814,7 +814,7 @@ components:
             <li>If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.</li>
             </ul>
           example: Waste carrier did not provide a carrier registration number.
-        siteName:
+        organisationName:
           type: string
           description: The business site name of the carrier. 
           example: Waste Carriers Lite Ltd
@@ -1118,5 +1118,6 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
 
