@@ -86,7 +86,7 @@ These are the necessary steps:
 
 2. Gain access to the test environment. The URL is shown below:
    ```code
-   https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
+   https://waste-tracking.integration.api.defra.gov.uk/
    ```
 
 3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#Authentication).
@@ -116,9 +116,9 @@ Before sending any requests to the Receipt of Waste API, make sure that you are 
 The base URLs of the sandbox and production environments are as follows:
 
 ```code 
-Test: https://waste-movement-external-api.api.ext-test.cdp-int.defra.cloud
+Test:  https://waste-tracking.integration.api.defra.gov.uk/
 
-Production: https://api.server.test/v1/movements/receive
+Production: https://waste-tracking.api.defra.gov.uk/
 ```
 
 ### What makes up a Receive Waste Movement Request?
@@ -295,3 +295,4 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
