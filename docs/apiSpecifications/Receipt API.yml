@@ -359,11 +359,6 @@ components:
                               </tr>
                           </tbody>
                       </table>
-                  <ul>
-                      <li>"Non-Haz Waste Transfer"</li>
-                      <li>"Carrier did not provide documentation"</li>
-                      <li>"Household Waste Recycling Centre Receipt"</li>
-                  </ul>
                   <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
@@ -518,7 +513,7 @@ components:
           properties:
             sourceOfComponents:
               type: string
-              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING] 
+              enum: [NOT_PROVIDED, PROVIDED_WITH_WASTE, GUIDANCE, OWN_TESTING] 
               description: |
                 Indicates the source of POP component details.
                 - NOT_PROVIDED: Carrier did not provide component details
@@ -530,9 +525,9 @@ components:
                 <ul>
                 <li>Must be provided when wasteItem.containsPops is true</li>
                 <li> If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided</li>
                 </ul>
-              example: CARRIER_PROVIDED
+              example: PROVIDED_WITH_WASTE
             components:
               type: array
               items:
@@ -712,20 +707,21 @@ components:
           properties:
             sourceOfComponents:
               type: string
-              enum: [NOT_PROVIDED, CARRIER_PROVIDED, GUIDANCE, OWN_TESTING]
+              enum: [NOT_PROVIDED, PROVIDED_WITH_WASTE, GUIDANCE, OWN_TESTING]
               description: |
                 Indicates the source of hazardous component details.
                 - NOT_PROVIDED: Carrier did not provide component details
-                - CARRIER_PROVIDED: Components provided by carrier
+                - PROVIDED_WITH_WASTE: Components provided by carrier
                 - GUIDANCE: Components determined from guidance
-                - OWN_TESTING: Components determined from own testing
+                - OWN_TESTING: Components determined from own testing<br>
+                <b>Note:</b> The field is case-sensitive, please use the case specified in the list above.<br>
                 <p><font color="green"><b>Business Rules:</b></font></p>
                 <ul>
                 <li>Must be provided when wasteItem.containsHazardous is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if no components are provided.</li>
                 </ul>
-              example: CARRIER_PROVIDED
+              example: PROVIDED_WITH_WASTE
             hazCodes:
               type: array
               description: |
@@ -820,7 +816,7 @@ components:
           example: Waste carrier did not provide a carrier registration number.
         organisationName:
           type: string
-          description: The business name of the carrier. 
+          description: The business site name of the carrier. 
           example: Waste Carriers Lite Ltd
         address:
           $ref: "#/components/schemas/address"
@@ -831,7 +827,7 @@ components:
           example: info@wastecarrierselite.co.uk
         phoneNumber:
           type: string
-          description: The UK or internationl phone number of the carrier.
+          description: The UK or international phone number of the carrier.
           example: 020 4756 XXXX
         vehicleRegistration:
           type: string
@@ -870,7 +866,7 @@ components:
           example: info@wastecarrierselite.co.uk
         phoneNumber:
           type: string
-          description: The UK or internationl phone number of the carrier.
+          description: The UK or international phone number of the carrier.
           example: 020 4756 XXXX
         registrationNumber:
           type: string
@@ -899,12 +895,12 @@ components:
     receiver:
       type: object
       required:
-        - organisationName
+        - siteName
         - authorisationNumbers
       properties:
-        organisationName:
+        siteName:
           type: string
-          description: The name of the organisation receiving the waste.
+          description: The site name of the organisation receiving the waste.
         emailAddress:
           type: string
           description: The email address of the organisation receiving the waste.
@@ -919,7 +915,7 @@ components:
            items:
              type: string
            description: |
-            This is an array of the site's authorisation (permit) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
+            This is the site's authorisation (permit) number that allows it to accept waste for intended recovery and disposal operation. Only one authorisation number is required per site.
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
@@ -964,7 +960,7 @@ components:
               </ul>
               <p><font color="green"><b>Business Rules:</b></font></p>
               <ul>
-                <li>At least one authorisation number is required</li>
+                <li>Only one authorisation number is required per site</li>
                 <li>Must match a valid UK format pattern (case-insensitive)</li>
                 <li>All UK nation formats are accepted (no nation-specific validation)</li>
                 <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
@@ -1122,7 +1118,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
-
-
-
