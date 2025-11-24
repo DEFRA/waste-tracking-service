@@ -127,7 +127,7 @@ A request starts with a command and a URL specifying the method and the API endp
 
 ```curl
 curl --request POST \
-  --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
+  --url https://waste-tracking.integration.api.defra.gov.uk/
   --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZ \
   --header 'content-type: application/json' \
   --data '{
@@ -142,7 +142,7 @@ This is broken down as follows:
 
 ```json
 curl --request POST \
-  --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/movements/receive \
+  --url https://waste-tracking.integration.api.defra.gov.uk/
 ```
 
 - The header information containing the Bearer Token and the content type
@@ -295,4 +295,5 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
 
