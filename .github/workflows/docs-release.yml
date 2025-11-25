@@ -1,0 +1,89 @@
+name: Deploy Release Docs
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag to deploy (e.g., v1.2.3)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            VERSION="${{ github.event.release.tag_name }}"
+          else
+            VERSION="${{ github.event.inputs.version }}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_clean=${VERSION#v}" >> $GITHUB_OUTPUT
+
+      - name: Validate version format
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid version format: '$VERSION'. Expected v*.*.* (e.g., v1.2.3)"
+            exit 1
+          fi
+
+      - name: Verify tag is on main branch
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          TAG_COMMIT=$(git rev-list -n 1 "$VERSION" 2>/dev/null || echo "")
+          if [[ -z "$TAG_COMMIT" ]]; then
+            echo "::error::Tag $VERSION not found"
+            exit 1
+          fi
+          git fetch origin main
+          if ! git merge-base --is-ancestor "$TAG_COMMIT" origin/main; then
+            echo "::error::Tag '$VERSION' is not on main branch. Tags must be created from main."
+            exit 1
+          fi
+
+      - name: Configure Git credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+
+      - run: pip install mkdocs-material mike
+
+      - name: Checkout at tag
+        run: git checkout ${{ steps.version.outputs.version }}
+
+      - name: Deploy to current alias
+        run: |
+          # Deploy only to 'current' alias - no separate version numbers in dropdown
+          mike deploy --push --update-aliases current
+          mike set-default --push current
+
+      - name: List deployed versions
+        run: |
+          git fetch origin gh-pages
+          mike list

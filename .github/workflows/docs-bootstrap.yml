@@ -1,0 +1,39 @@
+name: Bootstrap Documentation
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "bootstrap" to confirm initialization'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'bootstrap'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - run: pip install mkdocs-material mike
+
+      - name: Initialize mike on gh-pages
+        run: |
+          mike deploy --push preview
+          mike set-default --push preview
+          echo "Bootstrap complete. 'preview' is now the default."
+          mike list
