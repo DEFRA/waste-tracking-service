@@ -517,7 +517,7 @@ components:
               description: |
                 Indicates the source of POP component details.
                 - NOT_PROVIDED: Carrier did not provide component details
-                - PROVIDED_WITH_WASTE: Components provided by carrier
+                - PROVIDED_WITH_WASTE: Components provided with the waste
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing<br><br>
                  <b>Note:</b> The field is case-sensitive, please use the case specified in the list above.
@@ -694,7 +694,8 @@ components:
                 <ul>
                 <li>Must be provided when wasteItem.containsPops is true</li>
                 <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
-                <li>If sourceOfComponents is CARRIER_PROVIDED, GUIDANCE, or OWN_TESTING, the system will accept submission but provide a validation warning if an empty components array is provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, an empty components array will generate a validation warning</li>
+                <li>If sourceOfComponents is GUIDANCE or OWN_TESTING, components are required and cannot be empty (validation error if not provided)</li>
                 </ul>
         containsHazardous:
               type: boolean
