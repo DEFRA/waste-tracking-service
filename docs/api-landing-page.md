@@ -86,7 +86,7 @@ These are the necessary steps:
 
 2. Gain access to the test environment. The URL is shown below:
    ```code
-   http://waste-tracking.integration.api.defra.gov.uk/
+   https://waste-tracking.integration.api.defra.gov.uk/
    ```
 
 3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#Authentication).
@@ -121,9 +121,9 @@ Before sending any requests to the Receipt of Waste API, make sure that you are 
 The base URLs of the test and production environments are as follows:
 
 ```code 
-Test: http://waste-tracking.integration.api.defra.gov.uk/
+Test:  https://waste-tracking.integration.api.defra.gov.uk/
 
-Production: http://waste-tracking.api.defra.gov.uk/
+Production: https://waste-tracking.api.defra.gov.uk/
 ```
 
 ### What makes up a Receive Waste Movement Request?
@@ -132,7 +132,7 @@ A request starts with a command and a URL specifying the method and the API endp
 
 ```curl
 curl --request POST \
-  --url http://waste-tracking.api.defra.gov.uk/
+  --url https://waste-tracking.integration.api.defra.gov.uk/
   --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZ \
   --header 'content-type: application/json' \
   --data '{
@@ -147,7 +147,7 @@ This is broken down as follows:
 
 ```json
 curl --request POST \
-  --url http://waste-tracking.api.defra.gov.uk/
+  --url https://waste-tracking.integration.api.defra.gov.uk/
 ```
 
 - The header information containing the Bearer Token and the content type
@@ -347,3 +347,5 @@ A detailed description of the error responses for this API can be found in the [
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
+
