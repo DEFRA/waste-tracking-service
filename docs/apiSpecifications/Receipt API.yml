@@ -517,7 +517,7 @@ components:
               description: |
                 Indicates the source of POP component details.
                 - NOT_PROVIDED: Carrier did not provide component details
-                - PROVIDED_WITH_WASTE: Components provided with waste
+                - PROVIDED_WITH_WASTE: Components provided with the waste
                 - GUIDANCE: Components determined from guidance
                 - OWN_TESTING: Components determined from own testing<br><br>
                  <b>Note:</b> The field is case-sensitive, please use the case specified in the list above.
@@ -902,7 +902,7 @@ components:
       properties:
         siteName:
           type: string
-          description: The name of site receiving the waste.
+          description: The name of the site receiving the waste.
         emailAddress:
           type: string
           description: The email address of the organisation receiving the waste.
@@ -911,7 +911,7 @@ components:
           type: string
           description: The UK or Irish phone number of the organisation receiving the waste.
           example: 020 4756 XXXX
-        authorisationNumbers:
+        authorisationNumber:
            type: array
            minItems: 1
            items:
@@ -1120,3 +1120,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
