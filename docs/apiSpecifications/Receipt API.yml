@@ -898,7 +898,7 @@ components:
       type: object
       required:
         - siteName
-        - authorisationNumbers
+        - authorisationNumber
       properties:
         siteName:
           type: string
@@ -912,11 +912,8 @@ components:
           description: The UK or Irish phone number of the organisation receiving the waste.
           example: 020 4756 XXXX
         authorisationNumber:
-           type: array
-           minItems: 1
-           items:
-             type: string
-           description: |
+          type: string
+          description: |
             This is the site's authorisation (permit) number that allows it to accept waste for intended recovery and disposal operation. Only one authorisation number is required per site.
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
@@ -967,7 +964,7 @@ components:
                 <li>All UK nation formats are accepted (no nation-specific validation)</li>
                 <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
               </ul>
-           example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34", "LN/13/02/M/V2", "PAC/2014/WCL001", "WML 04/38 PAC/2014/WCL001"]
+          example: HP3456XX
         regulatoryPositionStatements:
           type: array
           items:
@@ -1095,20 +1092,15 @@ components:
                        "message": "\"waste[0].wasteDescription\" is required"
                       },
                                            {
-                       "key": "receiver.authorisationNumbers",
+                       "key": "receiver.authorisationNumber",
                        "errorType": "Required",
                        "message": "Site authorisation number is required"
                       },
                      {
-                       "key": "receiver.authorisationNumbers[0]",
+                       "key": "receiver.authorisationNumber",
                        "errorType": "InvalidFormat",
                        "message": "Site authorisation number must be in a valid UK format"
                       },
-                     {
-                       "key": "receiver.authorisationNumbers",
-                       "errorType": "MinItems",
-                       "message": "At least one site authorisation number is required"
-                     }
                  ]
                 }
                 }
