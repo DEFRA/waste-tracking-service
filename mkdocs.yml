@@ -41,6 +41,7 @@ theme:
         name: Switch to light mode
 nav:
   - About Waste Tracking: 
+    - about-digital-waste-tracking.md
     - storyboards.md
     - use-cases.md
     - initial-scope.md
