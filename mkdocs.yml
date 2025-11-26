@@ -1,0 +1,95 @@
+site_name: Defra Digital Waste Tracking (DWT)
+site_url: https://defra.github.io/waste-tracking-service
+repo_url: https://github.com/DEFRA/waste-tracking-service
+remote_branch: gh-pages
+theme:
+  name: material
+  custom_dir: 'tech_docs_template/'
+  logo: logos/moj.png
+  favicon: favicons/moj.ico
+  features:
+    #- navigation.tabs
+    #- navigation.tabs.sticky
+    #- navigation.indexes 
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+    - toc.integrate # uncomment to merge TOC with navigation bar
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    admonition:
+      quote: octicons/quote-16
+    tag:
+      draft: material/sticker-outline
+      accepted: material/sticker-check-outline
+      proposed: material/sticker-plus-outline
+      deprecated: material/sticker-minus-outline
+      superseded: material/sticker-alert-outline
+      rejected: material/sticker-remove-outline
+  palette: 
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+nav:
+  - About Waste Tracking: 
+    - about-digital-waste-tracking.md
+    - storyboards.md
+    - use-cases.md
+    - initial-scope.md
+  - Phase 1 Receipt of Waste:
+    - api-landing-page.md
+    - api-codes-for-testing-and-production.md
+    - receivers-process-diagram.md
+    - api-specification.md
+    - receipt-data-definitions.md 
+    - api-authentication-guide.md
+    - production-approval-tests.md
+    - api-testing-and-examples.md
+    - roadmap.md
+    - private-beta-comms-sign-up.md
+    - api-terms-of-service.md
+    - faq.md
+extra_css:
+  - stylesheets/tags-color.css
+  - stylesheets/extra.css
+edit_uri: edit/main/docs/
+plugins:
+  - material/search
+  #- git-revision-date-localized
+#      type: custom
+ #     custom_format: "%d %B %Y"
+  #- document-dates:
+   #   type: date
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - attr_list
+  - toc:
+      toc_depth: 1
+extra:
+  social:
+    - icon: fontawesome/solid/paper-plane 
+      link: mailto:wasteuserresearch@defra.gov.uk
+    - icon: fontawesome/brands/github
+      link: https://github.com/defra/waste-tracking-service
+  tags:
+    Draft: draft
+    Accepted: accepted
+    Proposed: proposed
+    Superseded: superseded
+    Deprecated: deprecated
+    Rejected: rejected
+#  analytics:
+#    provider: google
+#    property: G-SKK1DY4NVV
