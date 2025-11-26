@@ -14,7 +14,7 @@ theme:
     - content.code.copy
     #- content.action.edit
     - content.action.view
-    #- toc.integrate 
+    - toc.integrate 
     # uncomment to merge TOC with navigation bar
   font:
     text: Roboto
@@ -93,4 +93,5 @@ extra:
     Rejected: rejected
 #  analytics:
 #    provider: google
+
 #    property: G-SKK1DY4NVV
