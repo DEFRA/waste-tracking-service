@@ -359,11 +359,6 @@ components:
                               </tr>
                           </tbody>
                       </table>
-                  <ul>
-                      <li>"Non-Haz Waste Transfer"</li>
-                      <li>"Carrier did not provide documentation"</li>
-                      <li>"Household Waste Recycling Centre Receipt"</li>
-                  </ul>
                   <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
@@ -834,7 +829,7 @@ components:
           example: info@wastecarrierselite.co.uk
         phoneNumber:
           type: string
-          description: The UK or internationl phone number of the carrier.
+          description: The UK or international phone number of the carrier.
           example: 020 4756 XXXX
         vehicleRegistration:
           type: string
@@ -873,7 +868,7 @@ components:
           example: info@wastecarrierselite.co.uk
         phoneNumber:
           type: string
-          description: The UK or internationl phone number of the carrier.
+          description: The UK or international phone number of the carrier.
           example: 020 4756 XXXX
         registrationNumber:
           type: string
@@ -902,12 +897,12 @@ components:
     receiver:
       type: object
       required:
-        - organisationName
-        - authorisationNumbers
+        - siteName
+        - authorisationNumber
       properties:
-        organisationName:
+        siteName:
           type: string
-          description: The name of the organisation receiving the waste.
+          description: The name of the site receiving the waste.
         emailAddress:
           type: string
           description: The email address of the organisation receiving the waste.
@@ -916,13 +911,10 @@ components:
           type: string
           description: The UK or Irish phone number of the organisation receiving the waste.
           example: 020 4756 XXXX
-        authorisationNumbers:
-           type: array
-           minItems: 1
-           items:
-             type: string
-           description: |
-            This is an array of the site's authorisation (permit) numbers that allows it to accept waste for intended recovery and disposal operation. At least one authorisation number is required.
+        authorisationNumber:
+          type: string
+          description: |
+            This is the site's authorisation (permit) number that allows it to accept waste for intended recovery and disposal operation. Only one authorisation number is required per site.
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
@@ -967,12 +959,12 @@ components:
               </ul>
               <p><font color="green"><b>Business Rules:</b></font></p>
               <ul>
-                <li>At least one authorisation number is required</li>
+                <li>Only one authorisation number is required per site</li>
                 <li>Must match a valid UK format pattern (case-insensitive)</li>
                 <li>All UK nation formats are accepted (no nation-specific validation)</li>
                 <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
               </ul>
-           example: ["HP3456XX", "EPR/AB1234CD/D5678", "PPC/A/1234567", "WPPC 12/34", "LN/13/02/M/V2", "PAC/2014/WCL001", "WML 04/38 PAC/2014/WCL001"]
+          example: HP3456XX
         regulatoryPositionStatements:
           type: array
           items:
@@ -1100,20 +1092,15 @@ components:
                        "message": "\"waste[0].wasteDescription\" is required"
                       },
                                            {
-                       "key": "receiver.authorisationNumbers",
+                       "key": "receiver.authorisationNumber",
                        "errorType": "Required",
                        "message": "Site authorisation number is required"
                       },
                      {
-                       "key": "receiver.authorisationNumbers[0]",
+                       "key": "receiver.authorisationNumber",
                        "errorType": "InvalidFormat",
                        "message": "Site authorisation number must be in a valid UK format"
                       },
-                     {
-                       "key": "receiver.authorisationNumbers",
-                       "errorType": "MinItems",
-                       "message": "At least one site authorisation number is required"
-                     }
                  ]
                 }
                 }
@@ -1125,7 +1112,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
-
-
 
