@@ -8,13 +8,14 @@ theme:
   logo: logos/moj.png
   favicon: favicons/moj.ico
   features:
-    #- navigation.tabs
-    #- navigation.tabs.sticky
-    #- navigation.indexes 
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes 
     - content.code.copy
-    - content.action.edit
+    #- content.action.edit
     - content.action.view
-    - toc.integrate # uncomment to merge TOC with navigation bar
+    - toc.integrate 
+    # uncomment to merge TOC with navigation bar
   font:
     text: Roboto
     code: Roboto Mono
@@ -47,11 +48,11 @@ nav:
     - initial-scope.md
   - Phase 1 Receipt of Waste:
     - api-landing-page.md
-    - api-codes-for-testing-and-production.md
     - receivers-process-diagram.md
     - api-specification.md
     - receipt-data-definitions.md 
     - api-authentication-guide.md
+    - api-codes-for-testing-and-production.md
     - production-approval-tests.md
     - api-testing-and-examples.md
     - roadmap.md
@@ -92,4 +93,6 @@ extra:
     Rejected: rejected
 #  analytics:
 #    provider: google
+
 #    property: G-SKK1DY4NVV
+
