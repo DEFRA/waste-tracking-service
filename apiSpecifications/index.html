@@ -1,0 +1,60 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" />
+    <link rel="stylesheet" type="text/css" href="dist/index.css" />
+    <link rel="icon" type="image/png" href="dist/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="dist/favicon-16x16.png" sizes="16x16" />
+    <style>
+      #propertyDescriptions {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        font-family: sans-serif;
+      }
+      #propertyDescriptions th {
+        background-color: #1b1b1b;
+        color: white;
+        text-align: left;
+        padding: 10px;
+      }
+      #propertyDescriptions td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+      #propertyDescriptions tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      .container {
+        max-width: 1460px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      h2 {
+        font-family: sans-serif;
+        color: #3b4151;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="swagger-ui"></div>
+      <h2>Property Descriptions</h2>
+      <table id="propertyDescriptions">
+        <tr>
+          <th>Data Field</th>
+          <th>Mandatory or Optional</th>
+          <th>Description</th>
+        </tr>
+      </table>
+    </div>
+    <script src="dist/swagger-ui-bundle.js" charset="UTF-8"> </script>
+    <script src="dist/swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
+    <script src="dist/swagger-initializer.js" charset="UTF-8"> </script>
+  </body>
+</html>
