@@ -1,0 +1,74 @@
+name: Deploy Release Docs
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref to deploy (commit hash, tag, or branch)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine ref to deploy
+        id: ref
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            REF="${{ github.event.release.tag_name }}"
+          else
+            REF="${{ github.event.inputs.ref }}"
+          fi
+          echo "ref=$REF" >> $GITHUB_OUTPUT
+
+      - name: Validate ref exists
+        run: |
+          REF="${{ steps.ref.outputs.ref }}"
+          if ! git rev-parse "$REF" >/dev/null 2>&1; then
+            echo "::error::Ref '$REF' not found"
+            exit 1
+          fi
+          echo "Deploying from: $REF ($(git rev-parse $REF))"
+
+      - name: Configure Git credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+
+      - run: pip install mkdocs-material mike
+
+      - name: Checkout ref
+        run: git checkout ${{ steps.ref.outputs.ref }}
+
+      - name: Deploy to current
+        run: |
+          mike deploy --push --update-aliases current
+          mike set-default --push current
+
+      - name: List deployed versions
+        run: |
+          git fetch origin gh-pages
+          mike list
