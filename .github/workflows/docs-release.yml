@@ -5,8 +5,8 @@ on:
     types: [published]
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Version tag to deploy (e.g., v1.2.3)'
+      ref:
+        description: 'Git ref to deploy (commit hash, tag, or branch)'
         required: true
         type: string
 
@@ -14,45 +14,31 @@ permissions:
   contents: write
 
 jobs:
-  validate-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Extract version
-        id: version
+      - name: Determine ref to deploy
+        id: ref
         run: |
           if [[ "${{ github.event_name }}" == "release" ]]; then
-            VERSION="${{ github.event.release.tag_name }}"
+            REF="${{ github.event.release.tag_name }}"
           else
-            VERSION="${{ github.event.inputs.version }}"
+            REF="${{ github.event.inputs.ref }}"
           fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "version_clean=${VERSION#v}" >> $GITHUB_OUTPUT
+          echo "ref=$REF" >> $GITHUB_OUTPUT
 
-      - name: Validate version format
+      - name: Validate ref exists
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "::error::Invalid version format: '$VERSION'. Expected v*.*.* (e.g., v1.2.3)"
+          REF="${{ steps.ref.outputs.ref }}"
+          if ! git rev-parse "$REF" >/dev/null 2>&1; then
+            echo "::error::Ref '$REF' not found"
             exit 1
           fi
-
-      - name: Verify tag is on main branch
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          TAG_COMMIT=$(git rev-list -n 1 "$VERSION" 2>/dev/null || echo "")
-          if [[ -z "$TAG_COMMIT" ]]; then
-            echo "::error::Tag $VERSION not found"
-            exit 1
-          fi
-          git fetch origin main
-          if ! git merge-base --is-ancestor "$TAG_COMMIT" origin/main; then
-            echo "::error::Tag '$VERSION' is not on main branch. Tags must be created from main."
-            exit 1
-          fi
+          echo "Deploying from: $REF ($(git rev-parse $REF))"
 
       - name: Configure Git credentials
         run: |
@@ -74,12 +60,11 @@ jobs:
 
       - run: pip install mkdocs-material mike
 
-      - name: Checkout at tag
-        run: git checkout ${{ steps.version.outputs.version }}
+      - name: Checkout ref
+        run: git checkout ${{ steps.ref.outputs.ref }}
 
-      - name: Deploy to current alias
+      - name: Deploy to current
         run: |
-          # Deploy only to 'current' alias - no separate version numbers in dropdown
           mike deploy --push --update-aliases current
           mike set-default --push current
 
