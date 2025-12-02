@@ -1,0 +1,222 @@
+:root > * {
+  --md-primary-fg-color: #000000;
+  --md-default-fg-color--light: #000000;
+  --md-typeset-a-color: #1d70b8;
+  --md-accent-fg-color: 	#003078;
+  --md-footer-bg-color:    #f8f8f8;
+  --md-footer-bg-color--dark:    #f8f8f8;
+  --md-footer-fg-color: #505a5f;
+  --md-footer-fg-color--light: #505a5f;
+  --md-footer-fg-color--lighter: #505a5f;
+}
+
+/* Configure the fonts */
+.md-typeset {
+  font-size: 0.85rem;
+}
+
+.md-typeset h1 {
+  font-size: 45px;
+  font-weight: 700;
+}
+
+.md-typeset h2 {
+  font-weight: 700;
+}
+
+.md-typeset h3 {
+  font-weight: 700;
+}
+
+.md-typeset a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Configure the header */
+.md-header{
+  box-shadow: none;
+  border-bottom: 10px solid; 
+  border-bottom-color:  #1d70b8;
+}
+
+.md-header__title{
+  font-size: 25px;
+}
+
+.md-header__topic:first-child{
+  font-weight: 400;
+}
+
+/* Configure the footer */
+.md-footer{
+  padding-top: 40px;
+  padding-bottom: 25px;
+  border-top: 1px solid;
+  border-color: #b1b4b6;
+}
+
+/* Configure the copyright */
+.md-copyright{
+  font-size: 15px;
+  color:#000000;
+}
+
+.md-copyright a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Configures the navigation bar */
+.md-nav {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.md-nav--primary {
+  color: #1d70b8;
+}
+
+.md-nav__link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 2px;
+}
+
+.md-nav__link--active {
+  font-weight: 700;
+}
+
+.md-nav__link:focus-within {
+  background-color:	#ffdd00 !important;
+}
+
+.md-nav--primary > .md-nav__list > .md-nav__item--active > .md-nav > .md-nav__list > .md-nav__item--active {
+  padding-left: 10px;
+  border-left: 4px solid;
+  border-left-color: #1d70b8;
+}
+
+.md-nav--secondary .md-nav__item::before {
+  content: '—';
+  font-size: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  color: #505a5f;
+}
+
+.md-nav--secondary .md-nav__link {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  line-height: 2;
+}
+
+.md-nav--secondary .md-nav__list {
+  margin-top: 5px;
+}
+
+.md-nav__item .md-nav__link--passed {
+  color: var(--md-typeset-a-color);
+}
+
+.md-nav__item .md-nav__link--active {
+  color: var(--md-typeset-a-color);
+}
+
+[dir=ltr] .md-nav--secondary .md-nav__item {
+  padding-left: 0;
+}
+
+[dir=ltr] .md-nav--integrated > .md-nav__list > .md-nav__item--active .md-nav--secondary {
+  border-left: none;
+}
+
+/* Configures the tabs below the header */
+.md-tabs {
+  color: #1d70b8;
+  background-color: #f8f8f8;
+  border-top: 10px solid;
+  border-top-color:  #1d70b8;
+  border-bottom: 1px solid;
+  border-bottom-color:  #b1b4b6;
+  margin-bottom: -10px;  /* Hide the border on .md-header */
+  line-height: 1;
+}
+
+.md-tabs__link {
+  font-size: 18px;
+  font-weight: 700;
+  opacity: 1;
+}
+
+.md-tabs__link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
+  color: #003078;
+  text-decoration-color: #003078;
+}
+
+.md-tabs__item--active {
+  border-bottom: 4px solid;
+  border-bottom-color:   #1d70b8;
+}
+
+.md-tabs__item--active:hover {
+  border-color: #f8f8f8
+}
+
+.md-tabs__link:focus-within {
+  background-color:	#ffdd00 !important;
+}
+
+/* Configure the adminitions */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: 0.85rem;
+  border: 3px solid;
+  box-shadow: none;
+  border-radius: 0px;
+  /* border-width: 0;  */
+  /* border-left-width: 4px; */
+}
+
+/* Create a new banner admonition */
+.md-typeset .admonition.banner,
+.md-typeset details.banner {
+  border-color: #1d70b8;
+}
+.md-typeset .banner > .admonition-title,
+.md-typeset .banner > .admonition-title a,
+.md-typeset .banner > summary {
+  font-size: 30px;
+  background-color: #1d70b8;
+  color: white;
+  border-radius: 0px;
+}
+.md-typeset .banner > .admonition-title::before,
+.md-typeset .banner > summary::before {
+  background-color: white;
+}
+
+/* Configure the primary button */
+.md-typeset .md-button--primary{
+  background-color:  var(--md-typeset-a-color);
+  border-color:  var(--md-typeset-a-color);
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 0px;   
+  padding: 2px 10px;
+}
+
+/* Configure the tags */
+.md-typeset .md-tag {
+  border-radius: 0px;
+  font-size: 16px;
+  width: 20%;
+}
+
+.md-typeset .md-tag-icon::before {
+  background-color: white;
+}
