@@ -1065,12 +1065,12 @@
 <tr>
 <td><strong>On Premises Systems and auth tokens</strong></td>
 <td>Our software is predominantly on premises, do we need a separate auth token for each site?</td>
-<td>If your on-prem software has no connectivity to any centralised APIs managed by your company then yes, each deployment would need it’s own credentials.  It is however possible to create a centralised web hosted token service which could be used to manage your credentials and use them to generate tokens as and when required.  You could then either pass the tokens back to each on prem deployment and call our APIs or proxy all calls through your servers and do the authentication as part of the proxy.</td>
+<td>If your on-prem software has no connectivity to any centralised APIs managed by your company then yes, each deployment would need its own credentials.  It is however possible to create a centralised web hosted token service which could be used to manage your credentials and use them to generate tokens as and when required.  You could then either pass the tokens back to each on prem deployment and call our APIs or proxy all calls through your servers and do the authentication as part of the proxy.</td>
 </tr>
 <tr>
 <td><strong>Timing for submission</strong></td>
 <td>When does a waste receiver need to submit waste movement data?</td>
-<td>The policy expectation is within 2 working days beginning with the day after the waste is received; so if waste was received at 9:00am on Monday morning, the waste receipt record must be posted before midnight on the Wednesday.If the waste is being received by pipeline then the 2 working days begins the day after the period specified on the consignment note for that piped waste movement ends.  So if the consignment note covers a week's worth of piped waste movement and that week ends on a Tuesday, then the receipt record must be posted before midnight on the Thursday.</td>
+<td>The policy expectation is within 2 working days beginning with the day after the waste is received; so if waste was received at 9:00am on Monday morning, the waste receipt record must be posted before midnight on the Wednesday. If the waste is being received by pipeline then the 2 working days begins the day after the period specified on the consignment note for that piped waste movement ends.  So if the consignment note covers a week's worth of piped waste movement and that week ends on a Tuesday, then the receipt record must be posted before midnight on the Thursday.</td>
 </tr>
 <tr>
 <td><strong>Can submissions be for any waste receiver</strong></td>
@@ -1094,8 +1094,8 @@
 </tr>
 <tr>
 <td><strong>Intra-site waste transfers</strong></td>
-<td>If you have a physical site that has two permit numbers because it has two processing areas within it. You would be moving materials from one to the other, so they may move between permit numbers. Would that require a submission when they're not physically moving site? And in that scenario there wouldn't be a carrier involved because you're physically moving it yourself within your own site, but within two areas within the same site.</td>
-<td>Yes, a waste movement record is required moving the waste within a site, between two distinct permits. Because the obligations of each permit require you to record the waste input and output.If no Carrier was used then provide Null carrierRegistration and provide the reason in reasonForNoCarrierRegistration</td>
+<td>If you have a physical site that has two permit numbers because it has two processing areas within it. You would be moving materials from one to the other, so they may move between permit numbers. Would that require a submission when they're not physically moving site? And in that scenario there would not be a carrier involved because you're physically moving it yourself within your own site, but within two areas within the same site.</td>
+<td>Yes, a waste movement record is required moving the waste within a site, between two distinct permits. Because the obligations of each permit require you to record the waste input and output. If no Carrier was used then provide Null carrierRegistration and provide the reason in reasonForNoCarrierRegistration</td>
 </tr>
 <tr>
 <td><strong>Text field size limit</strong></td>
