@@ -325,9 +325,7 @@ components:
                      <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
                      </ul>
                 example: |
-                  Company name: CJTILE Ltd → Code prefix: CJTILE/
-                  Unique ID: A0001
-                  Full code: CJTILE/A0001
+                  CJTILE/A0001
               reasonForNoConsignmentCode:
                 type: string
                 enum:
@@ -1280,4 +1278,5 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
