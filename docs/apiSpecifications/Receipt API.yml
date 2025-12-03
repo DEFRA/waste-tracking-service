@@ -796,8 +796,7 @@ components:
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>General Format</b> where 9 is a digit 0-9</p>
-          example:
-             CBDL6, CBDU45, CBDU84916, CBDL1, CBDU33, CBDU84916, WCR/522048, ROC UT 36, ROC LT 5432
+          example: CBDL6
         reasonForNoRegistrationNumber:
           type: string
           description: |
@@ -891,7 +890,7 @@ components:
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>Note:</b> where 9 is a digit 0-9</p>
-          example: CBDL6, CBDU45, CBDU84916, CBDL1, CBDU33, WCR/R/522048, ROC UT 36, ROC LT 5432
+          example: CBDL6
     receiver:
       type: object
       required:
@@ -1278,3 +1277,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
