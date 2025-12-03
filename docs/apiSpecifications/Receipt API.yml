@@ -678,7 +678,7 @@ components:
                       <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p>
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, it must be a valid POP code from the reference list above. The code is validated against reference data to ensure accuracy.
-                    example: PFHXS, HBB, END, PCDD_PCDF
+                    example: PFHXS
                   concentration:
                     type: number
                     minimum: 0
@@ -737,7 +737,7 @@ components:
                 <b>Note:</b> The field is case-sensitive, please use the case specified in the links, also see example field.
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
-              example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
+              example: HP 5, HP 10
               items:
                 type: string
             components:
@@ -752,7 +752,7 @@ components:
                     description: Name of the hazardous material, e.g. Mercury.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a valid chemical or biological component name.
-                    example: lead, mercury
+                    example: lead
                   concentration:
                     type: number
                     minimum: 0
@@ -760,7 +760,7 @@ components:
                     description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a positive numeric value (greater than 0).
-                    example: 50, 12.5, 25.5
+                    example: 25.5
         disposalOrRecoveryCodes:
           type: array
           items:
@@ -797,7 +797,7 @@ components:
                 ROCLT9999<p></p><p></p>
                 <p><b>General Format</b> where 9 is a digit 0-9</p>
           example:
-            England - CBDL6, CBDU45, CBDU84916, Wales - CBDL1, CBDU33, CBDU84916, Scotland - WCR/522048, Northern Ireland - ROC UT 36, ROC LT 5432
+             CBDL6, CBDU45, CBDU84916, CBDL1, CBDU33, CBDU84916, WCR/522048, ROC UT 36, ROC LT 5432
         reasonForNoRegistrationNumber:
           type: string
           description: |
@@ -891,7 +891,7 @@ components:
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>Note:</b> where 9 is a digit 0-9</p>
-          example: CBDL6, CBDU45, CBDU84916, Wales - CBDL1, CBDU33, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432
+          example: CBDL6, CBDU45, CBDU84916, CBDL1, CBDU33, WCR/R/522048, ROC UT 36, ROC LT 5432
     receiver:
       type: object
       required:
@@ -962,7 +962,7 @@ components:
                 <li>All UK nation formats are accepted (no nation-specific validation)</li>
                 <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
               </ul>
-          example: EPR/DD2522BF, 
+          example: EPR/DD2522BF
         regulatoryPositionStatements:
           type: array
           items:
@@ -1278,5 +1278,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
 
