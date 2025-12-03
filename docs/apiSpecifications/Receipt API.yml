@@ -333,7 +333,7 @@ components:
                 enum:
                   [
                     "Non-Haz Waste Transfer",
-                    "Carrier did not provide documentation",
+                    "No documentation provided with Waste",
                     "Household Waste Recycling Centre Receipt"
                   ]
                 description: Reason provided for not having a consignment code. There are three codes you can choose to provide.
@@ -350,7 +350,7 @@ components:
                                   <td>NON_HAZ_WASTE_TRANSFER</td>
                               </tr>
                               <tr>
-                                  <td>Carrier did not provide documentation</td>
+                                  <td>No documentation provided with Waste</td>
                                   <td>NO_DOC_WITH_WASTE</td>
                               </tr>
                               <tr>
@@ -363,9 +363,9 @@ components:
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
                   <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Household Waste Recycling Centre Receipt”. </li>
+                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “No documentation provided with Waste” or “Household Waste Recycling Centre Receipt”. </li>
                   </ul>
-                example: Carrier did not provide documentation
+                example: No documentation provided with Waste
               yourUniqueReference:
                 type: string
                 description: This could be a unique weighbridge ticket number, waste transfer note number etc.
@@ -1280,3 +1280,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
