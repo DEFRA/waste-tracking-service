@@ -1,5 +1,4 @@
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
-
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 # Service vision – storyboard
 
