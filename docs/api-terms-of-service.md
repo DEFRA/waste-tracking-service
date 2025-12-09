@@ -1,7 +1,6 @@
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 # Receipt API Terms Of Service
-
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
 
 ## Terms of Service for Software Services Integrating with the Digital Waste Tracking API
 
