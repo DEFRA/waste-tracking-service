@@ -1,4 +1,4 @@
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 
 # Initial scope - Mandatory for Waste Receivers from October 2026
@@ -12,12 +12,12 @@ The first phase of the roll-out of the Waste Tracking Service is concerned with 
 The waste industry involves a large number and complex array of operators. This includes approximately:
 
 - 12,000 waste site operators
-- 150,000 registered waste exemption holders 
+- 150,000 registered waste exemption holders
 - 300,000 registered waste carriers, brokers and dealers
 
 These work across the UK in a wide variety of sectors with varying levels of digital capability.  
 
-To build a stable, effective and user-friendly service we need to build it incrementally. This starts with the creation of a firm foundation which delivers some of the intended benefits. Additional aspects can be added as we learn from testing the core elements of the service. This will allow us to refine and adjust our approach as we move towards a more complete end-to-end waste tracking service. 
+To build a stable, effective and user-friendly service we need to build it incrementally. This starts with the creation of a firm foundation which delivers some of the intended benefits. Additional aspects can be added as we learn from testing the core elements of the service. This will allow us to refine and adjust our approach as we move towards a more complete end-to-end waste tracking service.
 
 You may wish to browse the 
 [Defra Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
