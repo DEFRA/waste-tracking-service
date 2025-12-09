@@ -1,4 +1,4 @@
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 
 # Apply to test the service in beta
