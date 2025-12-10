@@ -1,9 +1,9 @@
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
-
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 # Receipt of Waste - data Definitions
 
 <b>Private Beta</b>
+
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
 These draft data definition tables describe the information we expect to be recorded by the future waste tracking service when a receiving site accepts or rejects waste.
@@ -78,7 +78,7 @@ They are a draft and may be updated to reflect changes to policy, legislation an
 
 | Data field                                  | Mandatory or optional | Description                                                                                                                                                                                                                                   |
 | ------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Receiver organisation name   | Optional              | The receiver's organisation name who arranged this transfer. |
+| Receiver site name   | Optional              | The receiver's site name who arranged this transfer. |
 | Receiver email               | Optional              | The receiver's email address.                                |
 | Receiver phone number        | Optional              | The receiver's business contact number.                      |
 | Receiver’s authorisation number             | Mandatory             | This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation.                                                                                                    |

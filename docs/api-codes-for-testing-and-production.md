@@ -1,4 +1,4 @@
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 # Testing and Production API Codes
 
@@ -6,7 +6,7 @@ This document explains what API Codes are and where to use them.
 
 ## What are the Testing and Production API Codes?
 
-The API Code (apiCode) is a mandatory (uuid) field used in the Request Body (receiveMovementRequest) of a  Receipt API POST or PUT request. Below is a snippet from the API Specification.
+The API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. Below is a snippet from the API Specification.
 
 [![API Code listed in API Specifaction](api-apiCode.png)](api-apiCode.png)
 #### Using the API Code
@@ -62,5 +62,3 @@ There are ten dummy codes to choose from (see below). There are no restrictions,
 
 10. 75ff9140-8617-406e-9163-2ba4907e645b2
 ```
-
-

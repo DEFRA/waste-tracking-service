@@ -1,12 +1,13 @@
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 
 # Receipt of Waste - API Production Approval Tests
 
 When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. 
 
-!!! Note "Sending Production Approval Tests"
-    Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
+<b>Sending Production Approval Tests</b>
+
+Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
   
 
 The scenarios to be demonstrated are:<br>
@@ -15,14 +16,13 @@ The scenarios to be demonstrated are:<br>
 - <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
 - <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
 - <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
-- <b>R06</b> Basic waste Receipt - with multiple receiver authorisation numbers<br> 
 - <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
 - <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
 - <b>C02</b> Basic waste Receipt - with no Carrier details and reason<br> 
 - <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
 - <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
-- <b>H01</b> Hazardous Waste Receipt - multiple hazardouse components<br>
-- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason<br>
+- <b>H01</b> Hazardous Waste Receipt - multiple hazaradous components<br>
+- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason (ERROR)<br>
 - <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason<br>
 - <b>X01</b> Hazardous & POPs Waste Receipt<br>
 
@@ -89,14 +89,6 @@ When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
 And I should receive a Waste Tracking ID<br>
 
-### Scenario: Submit basic receipt of waste with multiple receiver authorisation numbers (R06)
-
-Given I have authenticated<br>
-And I have a basic waste movement<br>
-And there are multiple receiver authorisation numbers<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID
 ### Scenario: Submit basic receipt of waste with Mirror EWC codes (R07)
 
 Given I have authenticated<br>
@@ -232,3 +224,6 @@ The following scenarios may be exempted if the integrating system doesn’t hand
 If your circumstances change at any point, you will need to: <br>
 a) Let us know immediately. <br>
 b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant.
+
+
+

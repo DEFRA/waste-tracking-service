@@ -1,5 +1,3 @@
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
-
 
 # About digital waste tracking
 
@@ -35,4 +33,4 @@ We are inviting waste receivers to start testing the service we are designing fr
 
 We are also planning further user research and other opportunities for people in the waste industry to give feedback and test the solutions we're looking to develop. To register interest in taking part, [sign up for the waste tracking user panel](https://defragroup.eu.qualtrics.com/jfe/form/SV_9QqfQNqEnI7ecDQ).
 
-Page last updated on 9 July 2025\.
+

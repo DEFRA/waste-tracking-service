@@ -1,8 +1,8 @@
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
-
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 # Service vision - process diagram
 <b>Private Beta</b>
+
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 ## Moving and receiving waste - high level digital waste tracking process
 The Waste Tracking ID (WT-ID) is created in advance of the waste being moved and is subsequently passed downstream.

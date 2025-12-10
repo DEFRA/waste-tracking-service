@@ -1,8 +1,8 @@
 
-[← Back](https://defra.github.io/waste-tracking-service){ .md-button }
+[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
 
 
-# Receipt of Waste - API authentication Guide
+# Receipt of Waste - API Authentication Guide
 
 To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. 
 
@@ -76,4 +76,3 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
 ```
 
 <br/>Page last updated on November 20th 2025.
-
