@@ -89,14 +89,6 @@ When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
 And I should receive a Waste Tracking ID<br>
 
-### Scenario: Submit basic receipt of waste with multiple receiver authorisation numbers (R06)
-
-Given I have authenticated<br>
-And I have a basic waste movement<br>
-And there are multiple receiver authorisation numbers<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID
 ### Scenario: Submit basic receipt of waste with Mirror EWC codes (R07)
 
 Given I have authenticated<br>
@@ -232,4 +224,5 @@ The following scenarios may be exempted if the integrating system doesn’t hand
 If your circumstances change at any point, you will need to: <br>
 a) Let us know immediately. <br>
 b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant.
+
 
