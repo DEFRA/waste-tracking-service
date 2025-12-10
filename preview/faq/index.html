@@ -654,7 +654,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction to the Receipt of Waste API
+    Introduction to Phase 1 the Receipt of Waste API
   
 
     
@@ -682,7 +682,7 @@
   <span class="md-ellipsis">
     
   
-    Receipt of Waste - process diagram
+    Receivers process diagram
   
 
     
@@ -710,7 +710,7 @@
   <span class="md-ellipsis">
     
   
-    Receipt of Waste - draft API specification
+    Api specification
   
 
     
@@ -934,7 +934,7 @@
   <span class="md-ellipsis">
     
   
-    Receipt API Terms Of Service
+    Api terms of service
   
 
     
@@ -1021,7 +1021,7 @@
   
 
 
-<p><a class="md-button" href="https://defra.github.io/waste-tracking-service">← Back</a></p>
+<p><a class="md-button" href="https://defra.github.io/waste-tracking-service">← Back to Top</a></p>
 <h1 id="receipt-of-waste-api-frequently-asked-questions-faqs">Receipt of Waste API - Frequently asked questions (FAQs)</h1>
 <table>
 <thead>
@@ -1086,6 +1086,11 @@
 <td><strong>Recording waste rejection</strong></td>
 <td>Waste rejection was in an earlier draft of the spec, but now it has gone? Do we need to record waste rejection?</td>
 <td>In the V1 of the Receipt of Waste dataset there were some data items in this spec for waste rejection, however there are a lot of complexities around the regulatory processes that would need to trigger. For example hazardous waste consignment rejections; involves a stringent process of linking the waste movement that was rejected to the new subsequent waste movement, all of which cannot be achieved with the receipt of waste dataset alone. Therefore, currently we do not see much value in bringing those waste rejection fields into this data set if it cannot trigger the correct rejection process.</td>
+</tr>
+<tr>
+<td><strong>API Service Rate Limit</strong></td>
+<td>What is the Service Rate limit for the API?</td>
+<td>200 hits per second soft limit. This means if a user bursts over 200 hits per second for short time this is acceptable. If they stay above the limit for a significant time they will start receiving Rate Limit Exceeded 429 status codes.</td>
 </tr>
 <tr>
 <td><strong>Intra-company waste transfers</strong></td>
