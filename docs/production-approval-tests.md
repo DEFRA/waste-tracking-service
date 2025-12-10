@@ -16,7 +16,6 @@ The scenarios to be demonstrated are:<br>
 - <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
 - <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
 - <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
-- <b>R06</b> Basic waste Receipt - with single receiver authorisation number<br> 
 - <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
 - <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
 - <b>C02</b> Basic waste Receipt - with no Carrier details and reason<br> 
@@ -233,3 +232,4 @@ The following scenarios may be exempted if the integrating system doesn’t hand
 If your circumstances change at any point, you will need to: <br>
 a) Let us know immediately. <br>
 b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant.
+
