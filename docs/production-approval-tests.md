@@ -21,7 +21,7 @@ The scenarios to be demonstrated are:<br>
 - <b>C02</b> Basic waste Receipt - with no Carrier details and reason<br> 
 - <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
 - <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
-- <b>H01</b> Hazardous Waste Receipt - multiple hazardouse components<br>
+- <b>H01</b> Hazardous Waste Receipt - multiple hazaradous components<br>
 - <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason (ERROR)<br>
 - <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason<br>
 - <b>X01</b> Hazardous & POPs Waste Receipt<br>
@@ -224,5 +224,6 @@ The following scenarios may be exempted if the integrating system doesn’t hand
 If your circumstances change at any point, you will need to: <br>
 a) Let us know immediately. <br>
 b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant.
+
 
 
