@@ -11,7 +11,7 @@ info:
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
      <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
-     <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</p></li>
+     <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous property codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
      <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
      <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
@@ -397,7 +397,7 @@ components:
               specialHandlingRequirements:
                 type: string
                 maxLength: 5000
-                description: Usually required only for abnormal hazardous waste that might contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm.
+                description: Required for abnormal hazardous waste and some non-hazardous waste that contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm.
                 example: The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.
               wasteItems:
                 type: array
@@ -431,27 +431,23 @@ components:
             type: string
           maxItems: 5
           description: |
-            An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK.  
-            The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them. 
-            To find an EWC code for a particular waste item, use the <i>Dsposal</i>
-            <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">waste thesaurus.</a><p></p>
-            <font color="red"><b>The official EWC legislation decision EUR-Lex from the European Union 2000/532 is contained</b></font> 
-            <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">here.</a><p></p>
-            <font color="red"><b>The list of Waste Regulations 2005 for the UK (specifically England) can be found</b></font>
-            <a href="https://www.legislation.gov.uk/uksi/2005/895/schedule/1/made">here.</a><p></p>
-            More information on EWC codes can also be found in the European Waste Catalogue (produced by CSG) which can be found
-              <a href="https://www.csg.co.uk/resources/ewc-codes#:~:text=This%20European%20Waste%20Catalogue%20checker%20helps%20you%20find, either%20by%20waste%20stream%20or%20by%20list%20view">here.</a>
-              <p><font color="green"><b>Business Rule:</b></font></p> 
-              Must be six digits (no spaces) and in the official wasteItem.ewcCode EWC catalog EUR-Lex. 
+            An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK. 
+            The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them.<br><br>
+            Note that users must already know their correct code before using the API. The GET EWC code method returns a reference for all EWC codes.<br>
+            To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.<br><br>
+            Note: POPs can also be present in hazardous and non-hazardous waste. See wasteItem.containsPops and wasteItem.pops for more information.<br>
+              <p><font color="green"><b>Business Rules:</b></font></p> 
+              - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
+              - From one to a maximum of five codes per movement can be provided.
           example: 200108, 150109
         wasteDescription:
           type: string
-          description: A detailed description of a specific waste material, including its physical characteristics, composition and any potential hazards associated with it. It's essentially a classification of the waste that helps determine how it should be managed and disposed of safely.
+          description: A detailed description of a specific waste material including its physical characteristics, composition and any potential hazards associated with it. 
           example: Basic mixed construction and demolition waste, this includes recyclable house bricks, gypsum plaster and slates.
         physicalForm:
           type: string
           enum: [Gas, Liquid, Solid, Powder, Sludge, Mixed]
-          description: This is the form of the waste. This could be a gas, liquid, solid, powder, sludge or mixed. 
+          description: This is the form of the waste. This could be a Gas, Liquid, Solid, Powder, Sludge or Mixed. 
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be “Gas”, “Liquid”, “Solid”, Powder”, “Sludge” or “Mixed”.
             <b>Note:</b> The field is case-sensitive, please use the case specified in the description.
@@ -468,7 +464,7 @@ components:
           type: string
           nullable: false
           description: |
-            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
+            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in  various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
             <p> Possible types are:</p> 
             <ul>
               <li>[BAG] Bag / Sack e.g.(rubble bag, refuse sack)</li>
@@ -498,11 +494,7 @@ components:
           type: boolean
           description: |
             Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
-                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. You can find more information in the 
-                <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a>
-                <p>More information on POPs can be found here:</p>
-                <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
-                <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p
+                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. 
           example: true
         pops:
           type: object
@@ -673,9 +665,7 @@ components:
                               </tr>
                           </tbody>
                       </table>
-                      <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found 
-                      <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">here.</a></p>
-                      <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p>
+                      <p>To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.</p>
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, it must be a valid POP code from the reference list above. The code is validated against reference data to ensure accuracy.
                     example: PFHXS
@@ -725,16 +715,10 @@ components:
             hazCodes:
               type: array
               description: |
-                Hazardous waste codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15. 
-                To find a code for a potential hazardous waste item, use the following waste thesaurus:
-                <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Petrol+Containing+Acidum+Salis&type=low">Waste Thesaurus</a></p>         
-                 <p>The official EWC code legislation decision EUR-Lex from the European Union 2000/532 is contained here: </p>
-                   <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32006R1013&qid=1763042900354#anx_%C2%A0III">in Annex III.</a>
-                <p>Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
-                 <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
-                <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p>
-                <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guidance Hazardous Waste Returns</a><br><br>
-                <b>Note:</b> The field is case-sensitive, please use the case specified in the links, also see example field.
+                Hazardous property codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15.       
+                 <p>The official hazardous code list is found here in Appendix C:
+                 <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 document.</a></p>
+                <p><b>Note:</b> The field is case-sensitive, please use the case specified in the links, also see example field.</p>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP 5, HP 10
@@ -743,13 +727,13 @@ components:
             components:
               type: array
               items:
-                type: object
+                type: object 
                 required:
                   - name
                 properties:
                   name:
                     type: string
-                    description: Name of the hazardous material, e.g. Mercury.
+                    description: Name of the hazardous component, e.g. Mercury.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a valid chemical or biological component name.
                     example: lead
@@ -757,7 +741,7 @@ components:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
+                    description: The concentration of the hazardous component in milligrams per kilo, e.g. 30mg per kg.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a positive numeric value (greater than 0).
                     example: 25.5
@@ -1187,7 +1171,7 @@ components:
           exclusiveMinimum: true
           description: Total weight of the waste in a unit specified - Grams - Kilograms - Tonnes
             <p><font color="green">Business Rule:</font></p>
-            Must be a positive number (greater than 0). <p><font color="red"><b>Note-</b></font></p> <p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
+            Must be a positive number (greater than 0). <b>Note-</b><p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
           example: 150
         isEstimate:
           type: boolean
@@ -1217,7 +1201,7 @@ components:
           example: 26a Oil Drum Lane, London, UK
         postcode:
           type: string
-          description: A valid postcode must be included. <p><font color="red"><b>Note-</b></font></p> Carriers, Brokers/Dealers accept UK and Irish post codes. 
+          description: A valid postcode must be included. <p><b>Note-</b></p> Carriers, Brokers/Dealers accept UK and Irish post codes. 
           example: W12 7ZL
     receiptAddress:
       type: object
@@ -1277,4 +1261,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-

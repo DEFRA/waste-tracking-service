@@ -25,7 +25,7 @@
     
     
       
-        <title>Introduction to the Receipt of Waste API - Defra Digital Waste Tracking (DWT)</title>
+        <title>Introduction to Phase 1 the Receipt of Waste API - Defra Digital Waste Tracking (DWT)</title>
       
     
     
@@ -117,8 +117,6 @@
       
     
     
-      <link rel="stylesheet" href="../stylesheets/tags-color.css">
-    
       <link rel="stylesheet" href="../stylesheets/extra.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
@@ -185,7 +183,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction to the Receipt of Waste API
+              Introduction to Phase 1 the Receipt of Waste API
             
           </span>
         </div>
@@ -665,7 +663,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction to the Receipt of Waste API
+    Introduction to Phase 1 the Receipt of Waste API
   
 
     
@@ -694,7 +692,7 @@
   <span class="md-ellipsis">
     
   
-    Receipt of Waste - process diagram
+    Receivers process diagram
   
 
     
@@ -722,7 +720,7 @@
   <span class="md-ellipsis">
     
   
-    Receipt of Waste - draft API specification
+    Api specification
   
 
     
@@ -946,7 +944,7 @@
   <span class="md-ellipsis">
     
   
-    Receipt API Terms Of Service
+    Api terms of service
   
 
     
@@ -1023,14 +1021,14 @@
   
 
 
-<p><a class="md-button" href="https://defra.github.io/waste-tracking-service">← Back</a></p>
+<p><a class="md-button" href="../">← Back to Top</a></p>
 <p>Version 1.0 issued November 2025</p>
 <h1 id="welcome-to-phase-1-receipt-of-waste-api">Welcome to Phase 1 - Receipt of Waste API</h1>
 <h2 id="introduction">Introduction</h2>
 <p>This page introduces waste receivers, software developers and third party software providers to the Defra Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.</p>
 <p><strong>Note:</strong> During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Defra Waste Tracking Service (DWT) Receipt API <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog">Changelog</a>.</p>
 <h2 id="receipt-api-overview">Receipt API Overview</h2>
-<p>The latest version of the Receipt of Waste API OAS Specification is available <a href="https://github.com/DEFRA/waste-tracking-service/blob/main/docs/apiSpecifications/Receipt%20API.yml">here</a>.</p>
+<p>The latest version of the Receipt of Waste API OAS Specification is available <a href="../apiSpecifications/">here</a>.</p>
 <h4 id="receipt-of-waste-process-flow">Receipt of Waste Process Flow</h4>
 <p><a href="../initial-scope-receivers-only.png"><img alt="receivers only" src="../initial-scope-receivers-only.png" /></a></p>
 <p>The API is based on REST principles and currently has seven endpoints. They return data in JSON format and use standard HTTP error response codes, see the table below.</p>
@@ -1080,7 +1078,7 @@
 <li>a roadmap to the Receipt API <a href="../roadmap/">can be found here.</a></li>
 </ul>
 <h2 id="related-api-documentation">Related API Documentation</h2>
-<p><a href="../apiSpecifications/Receipt%20API.yml">Receipt of Waste - API v1.0 Reference Guide</a></p>
+<p><a href="../apiSpecifications/">Receipt of Waste - API v1.0 Reference Guide</a></p>
 <p><a href="../production-approval-tests/">Receipt of Waste - API Production Approval Tests</a></p>
 <p><a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service">Defra Receipt of Waste Policy Website</a></p>
 <p><a href="../roadmap/">Receipt of Waste Roadmap</a></p>
@@ -1092,9 +1090,10 @@
 <p>Work through these short sections on practical preparation and use of the API:</p>
 <ul>
 <li><a href="#getting-started">Getting started</a></li>
-<li><a href="#Authentication">Authentication</a></li>
+<li><a href="#authentication">Authentication</a></li>
 <li><a href="#making-api-requests">Making API Requests</a></li>
 <li><a href="#validating-a-collection-of-requests-and-responses">Validating a Collection of Requests and Responses</a></li>
+<li><a href="#getting-help-by-email">Getting help from the API support team</a></li>
 </ul>
 <h4 id="prequisite-steps-developers">Prequisite Steps (Developers)</h4>
 <p>To develop using the Receipt of Waste API, you must:</p>
@@ -1110,18 +1109,18 @@
 </li>
 <li>
 <p>Gain access to the test environment. The URL is shown below:
-   <div class="highlight"><pre><span></span><code>https://waste-tracking.integration.api.defra.gov.uk/
+   <div class="highlight"><pre><span></span><code>http://waste-tracking.integration.api.defra.gov.uk/
 </code></pre></div></p>
 </li>
 <li>
-<p>Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See <a href="#Authentication">Authentication</a>.</p>
+<p>Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See <a href="#authentication">Authentication</a>.</p>
 </li>
 <li>
-<p>For testing, you also need a <font color="orange"><b>Dummy API Code</b></font> to begin testing. See <a href="../api-codes-for-testing-and-production/#dummy-test-codes">API Codes for Testing and Production</a>.</p>
+<p>To begin testing, you also need a <font color="orange"><b>Dummy API Code</b></font>. See <a href="../api-codes-for-testing-and-production/#dummy-test-codes">API Codes for Testing and Production</a>.</p>
 </li>
 <li>
 <p>Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have <a href="../production-approval-tests/">implemented the specification in its entirety</a>. Ensure that all scenarios have been implemented. Some useful test scripts can <a href="../api-testing-and-examples/">be found here</a>. </p>
-<p>When you’ve completed developing and testing your integration, please <a href="WasteTracking_Developers@defra.gov.uk">email</a> a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review.</p>
+<p>When you’ve completed developing and testing your integration, please <a href="mailto:WasteTracking_Developers@defra.gov.uk">email</a> a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. See the support email links listed <a href="#getting-help-by-email">below</a>.</p>
 </li>
 <li>
 <p>Following approval of the test submission and acknowledgement of the <a href="../api-terms-of-service/">Terms of Service</a>, you will receive a client ID and secret for the production environment. </p>
@@ -1140,14 +1139,14 @@
 <h2 id="making-api-requests">Making API requests</h2>
 <p>Before sending any requests to the Receipt of Waste API, make sure that you are addressing the following points in your software:</p>
 <p>The base URLs of the test and production environments are as follows:</p>
-<div class="highlight"><pre><span></span><code>Test:  https://waste-tracking.integration.api.defra.gov.uk/
+<div class="highlight"><pre><span></span><code>Test: http://waste-tracking.integration.api.defra.gov.uk/
 
-Production: https://waste-tracking.api.defra.gov.uk/
+Production: http://waste-tracking.api.defra.gov.uk/
 </code></pre></div>
-<h3 id="what-makes-up-a-receive-waste-movement-request">What makes up a Receive Waste Movement Request?</h3>
+<h3 id="what-makes-up-a-receive-waste-movement-request">What Makes up a Receive Waste Movement Request?</h3>
 <p>A request starts with a command and a URL specifying the method and the API endpoint or server you want to interact with, in this case the Waste Tracking Service. An example is shown below.</p>
 <div class="highlight"><pre><span></span><code>curl --request POST \
-  --url https://waste-tracking.integration.api.defra.gov.uk/
+  --url http://waste-tracking.api.defra.gov.uk/
   --header &#39;authorization: Bearer eyJraWQiOiJQYnJiZXZ \
   --header &#39;content-type: application/json&#39; \
   --data &#39;{
@@ -1160,7 +1159,7 @@ Production: https://waste-tracking.api.defra.gov.uk/
 <li>The cURL command and URL</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="err">curl</span><span class="w"> </span><span class="mi">--</span><span class="err">reques</span><span class="kc">t</span><span class="w"> </span><span class="err">POST</span><span class="w"> </span><span class="err">\</span>
-<span class="w">  </span><span class="mi">--</span><span class="err">url</span><span class="w"> </span><span class="err">h</span><span class="kc">tt</span><span class="err">ps</span><span class="p">:</span><span class="c1">//waste-tracking.integration.api.defra.gov.uk/</span>
+<span class="w">  </span><span class="mi">--</span><span class="err">url</span><span class="w"> </span><span class="err">h</span><span class="kc">tt</span><span class="err">p</span><span class="p">:</span><span class="c1">//waste-tracking.api.defra.gov.uk/</span>
 </code></pre></div>
 <ul>
 <li>The header information containing the Bearer Token and the content type</li>
@@ -1316,15 +1315,14 @@ Production: https://waste-tracking.api.defra.gov.uk/
 <span class="w">    </span><span class="s">&quot;siteName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Receiver</span><span class="nv"> </span><span class="s">Ltd&quot;</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;receiver@test.com&quot;</span><span class="p p-Indicator">,</span>
 <span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;01234567890&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;authorisationNumbers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">      </span><span class="s">&quot;PPC/A/9999999&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;PPC/A/SEPA9999-9999&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">],</span>
+<span class="w">    </span><span class="s">&quot;authorisationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PPC/A/9999999&quot;</span>
+<span class="w">             </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="p p-Indicator">}</span><span class="err">,</span>
 <span class="w">    </span><span class="s">&quot;regulatoryPositionStatements&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">      </span><span class="nv">123</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="nv">456</span>
 <span class="w">    </span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="p p-Indicator">},</span>
+<span class="w"> </span><span class="w w-Error"> </span><span class="p p-Indicator">{,</span>
 <span class="w">  </span><span class="s">&quot;receipt&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
 <span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;123</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">Street,</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">City&quot;</span><span class="p p-Indicator">,</span>
@@ -1337,11 +1335,14 @@ A description of each of the fields contained in the API Specification <a href="
 <h3 id="validating-a-collection-of-requests-and-responses">Validating a Collection of Requests and Responses</h3>
 <p>We have assembled a collection of Bruno test scripts to help you learn about working with the Receipt API. These scripts can <a href="../api-testing-and-examples/">be found here</a>.</p>
 <h2 id="error-responses">Error Responses</h2>
-<p>A detailed description of the error responses for this API can be found in the <a href="../apiSpecifications/Receipt%20API.yml">Receipt API v1.0 Reference Guide</a>.</p>
+<p>A detailed description of the error responses for this API can be found in the <a href="../apiSpecifications/">Receipt API v1.0 Reference Guide</a>.</p>
+<h2 id="service-rate-limits">Service Rate Limits</h2>
+<p>200 hits per second soft limit.</p>
+<p>This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving <font color="red"><b>Rate Limit Exceeded</b></font> 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.</p>
 <h2 id="getting-help-by-email">Getting help by email</h2>
 <ul>
 <li>
-<p>For developers: <font color="light blue"><b>WasteTracking_Developers@defra.gov.uk</b></font></p>
+<p>For developers: <font color="blue"><b>WasteTracking_Developers@defra.gov.uk</b></font></p>
 </li>
 <li>
 <p>For receivers: <font color="blue"><b>WasteTracking_Testing@defra.gov.uk</b></font></p>
