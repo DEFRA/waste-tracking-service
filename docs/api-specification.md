@@ -1,4 +1,4 @@
-[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
+[← Back to Top](README.md){ .md-button }
 
 # Receipt of Waste - draft API specification
 
@@ -17,7 +17,7 @@ We are designing waste tracking APIs to be flexible and accommodate differences 
 ##Draft Open API specifications
 The following draft specifications is published on the Swagger API hub:
 
-- [receipt of waste API specification](https://defra.github.io/waste-tracking-service/current/apiSpecifications/)
+- [receipt of waste API specification](../apiSpecifications/)
 
 [![image](defra-spec.png)](defra-spec.png)
 

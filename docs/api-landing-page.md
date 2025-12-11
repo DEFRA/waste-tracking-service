@@ -2,7 +2,7 @@
 title: Introduction to Phase 1 the Receipt of Waste API
 ---
 
-[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
+[← Back to Top](README.md){ .md-button }
 
 
 Version 1.0 issued November 2025
@@ -16,7 +16,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 ## Receipt API Overview
 
-The latest version of the Receipt of Waste API OAS Specification is available [here](https://defra.github.io/waste-tracking-service/current/apiSpecifications/#/).
+The latest version of the Receipt of Waste API OAS Specification is available [here](../apiSpecifications/).
 
 #### Receipt of Waste Process Flow
 
@@ -46,7 +46,7 @@ This version of the Receipt of Waste API:
 - a roadmap to the Receipt API [can be found here.](roadmap.md)
 
 ## Related API Documentation
-[Receipt of Waste - API v1.0 Reference Guide](https://defra.github.io/waste-tracking-service/current/apiSpecifications/#/)
+[Receipt of Waste - API v1.0 Reference Guide](../apiSpecifications/)
 
 [Receipt of Waste - API Production Approval Tests](production-approval-tests.md)
 
@@ -90,7 +90,7 @@ These are the necessary steps:
    http://waste-tracking.integration.api.defra.gov.uk/
    ```
 
-3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#Authentication).
+3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#authentication).
 
 
 4. To begin testing, you also need a <font color="orange"><b>Dummy API Code</b></font>. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
@@ -333,7 +333,7 @@ We have assembled a collection of Bruno test scripts to help you learn about wor
 
 ## Error Responses
 
-A detailed description of the error responses for this API can be found in the [Receipt API v1.0 Reference Guide](https://defra.github.io/waste-tracking-service/current/apiSpecifications/#/).
+A detailed description of the error responses for this API can be found in the [Receipt API v1.0 Reference Guide](../apiSpecifications/).
 
 ## Service Rate Limits
 

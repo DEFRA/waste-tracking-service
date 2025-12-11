@@ -60,7 +60,6 @@ nav:
     - api-terms-of-service.md
     - faq.md
 extra_css:
-  - stylesheets/tags-color.css
   - stylesheets/extra.css
 edit_uri: edit/main/docs/
 plugins:
