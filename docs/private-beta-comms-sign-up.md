@@ -1,4 +1,4 @@
-[← Back to Top](https://defra.github.io/waste-tracking-service){ .md-button }
+[← Back to Top](README.md){ .md-button }
 
 
 # Apply to test the service in beta
@@ -10,7 +10,7 @@ A private beta is a way of testing a service or product with a select group of c
 Our aims are to:
 
 * help software developers and waste receivers prepare for the mandatory changes to the reporting of waste movements (coming into effect from October 2026\)  
-* give software developers (including third-party and internal development teams) as much time as possible to integrate their products and systems with the [Defra Receipt of Waste API](https://defra.github.io/waste-tracking-service/api-specification/)   
+* give software developers (including third-party and internal development teams) as much time as possible to integrate their products and systems with the [Defra Receipt of Waste API](api-specification.md)   
 * test that our APIs, processes and documentation meet the needs of waste receivers and software developers  
 * ensure the data we collect meets the needs of waste regulators  
 * test and refine our registration, onboarding and support processes
@@ -20,7 +20,7 @@ Our aims are to:
 To be eligible to take part, your organisation must:
 
 * operate one or more licensed or permitted waste receiving sites in the UK  
-* be able to work with your external software developers or internal development team so you can provide data about the waste you receive via the [Receipt of Waste API](https://defra.github.io/waste-tracking-service/api-specification/)  
+* be able to work with your external software developers or internal development team so you can provide data about the waste you receive via the [Receipt of Waste API](api-specification.md)  
 * agree for data provided during private beta to be reviewed by regulators and policy analysts for testing purposes  
 * be willing to provide regular feedback on your experiences of using the service, including through surveys, user research sessions, diary studies etc.
 
@@ -55,7 +55,7 @@ If you have any questions, require further information or need help or support t
 
 ## How to prepare for waste tracking if you’re unable to take part
 
-We have published [documentation about waste tracking on GitHub](https://defra.github.io/waste-tracking-service/) which we will continue to update regularly. 
+We have published [documentation about waste tracking on GitHub](README.md) which we will continue to update regularly. 
 
 We will continue to do user research with people in the waste industry at the same time as running the private beta service. To register an interest, [sign up for the waste tracking user panel](https://defragroup.eu.qualtrics.com/jfe/form/SV_9QqfQNqEnI7ecDQ).
 
