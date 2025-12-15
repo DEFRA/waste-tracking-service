@@ -431,10 +431,9 @@ components:
             type: string
           maxItems: 5
           description: |
-            An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK. 
+            An EWC code is a six digit code listed in both the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK. 
             The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them.<br><br>
-            Note that users must already know their correct code before using the API. The GET EWC code method returns a reference for all EWC codes.<br>
-            To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.<br><br>
+            <b>Note:</b> users must already know their correct code before using the API. To receive a list of EWC codes for a particular waste item, use the GET EWC codes method.<br>
             Note: POPs can also be present in hazardous and non-hazardous waste. See wasteItem.containsPops and wasteItem.pops for more information.<br>
               <p><font color="green"><b>Business Rules:</b></font></p> 
               - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
@@ -665,9 +664,9 @@ components:
                               </tr>
                           </tbody>
                       </table>
-                      <p>To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.</p>
+                      <p>To find a POP code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.</p>
                       <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, it must be a valid POP code from the reference list above. The code is validated against reference data to ensure accuracy.
+                      Optional field. If provided, it must be a valid POP code from the reference table above. The code is validated against reference data to ensure accuracy.
                     example: PFHXS
                   concentration:
                     type: number
@@ -972,8 +971,9 @@ components:
         code:
           type: string
           description: |
-             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
-             Here’s the full list of Recovery (R) and Disposal (D) Codes used in environmental waste management:
+             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.<br>
+             A full list of these codes is also available from the GET method.<br>
+             Below is table of Recovery (R) and Disposal (D) Codes used in environmental waste management:
               <table border="1">
                           <thead>
                               <tr>
