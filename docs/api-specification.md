@@ -21,10 +21,11 @@ The following Private Beta specification is published on the Swagger API hub:
 
 [![image](defra-spec.png)](defra-spec.png)
 
-##API Change Log
+## API Change Log
 The following page lists all of the changes to the API specification since it was first published:
 
 - [receipt of waste API change log](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog)
 
 <br/>Page last updated December 22 2025.
+
 
