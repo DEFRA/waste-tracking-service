@@ -16,9 +16,10 @@ We have emailed client IDs and secrets to all developer participants in the priv
 ## What’s next
 
 ### Process for going into production
-The [Phase 1 the Receipt of Waste pages](api-landing-page.md) provide detail on the steps developers need to go through to get your integration with the Receipt of Waste service approved.
+The [Phase 1 the Receipt of Waste pages](api-landing-page.md) provide detail on the steps developers need to go through to get their integration with the Receipt of Waste service approved.
 
 ### Onboarding first Waste Receivers to private beta
 We will invite Waste Receivers to onboard to private beta once their software provider/internal development team has integrated with Receipt of Waste. We will start with a small cohort of Waste Receivers and then gradually invite more into the service.
 As part of of onboarding Waste Receivers will need to provide some details to their software provider or internal development team so that the software can be configured to report waste movement data for their receiving sites. 
+
 
