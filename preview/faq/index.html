@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../favicons/moj.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -28,7 +28,7 @@
     
     
   
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1041,17 +1041,17 @@
 <tr>
 <td><strong>Identity management (OAuth)</strong></td>
 <td>How are identities being managed? If the assumption is that the organization ID is the waste holder producer, how is IDM handled for the system submitting?</td>
-<td>The software system would be authenticated using OAuth 2.0. Each software system would get a client ID and secret follow the standard OAuth2 process to get a token and then pass that token in the header of any API calls.</td>
+<td>The software system is authenticated using OAuth 2.0. Each software system gets a client ID and secret and follows the standard OAuth2 process to receive a bearer token. This token is then passed in the header of any API calls.</td>
 </tr>
 <tr>
 <td><strong>On Premises Systems and auth tokens</strong></td>
 <td>Our software is predominantly on premises, do we need a separate auth token for each site?</td>
-<td>If your on-prem software has no connectivity to any centralised APIs managed by your company then yes, each deployment would need its own credentials.  It is however possible to create a centralised web hosted token service which could be used to manage your credentials and use them to generate tokens as and when required.  You could then either pass the tokens back to each on prem deployment and call our APIs or proxy all calls through your servers and do the authentication as part of the proxy.</td>
+<td>If your on-prem software has no connectivity to any centralised APIs managed by your company then yes, each deployment would need its own credentials. It is however possible to create a centralised web hosted token service which could be used to manage your credentials and use them to generate tokens as and when required. You could then either pass the tokens back to each on prem deployment and call our APIs or proxy all calls through your servers and do the authentication as part of the proxy.</td>
 </tr>
 <tr>
 <td><strong>Timing for submission</strong></td>
 <td>When does a waste receiver need to submit waste movement data?</td>
-<td>The policy expectation is within 2 working days beginning with the day after the waste is received; so if waste was received at 9:00am on Monday morning, the waste receipt record must be posted before midnight on the Wednesday. If the waste is being received by pipeline then the 2 working days begins the day after the period specified on the consignment note for that piped waste movement ends.  So if the consignment note covers a week's worth of piped waste movement and that week ends on a Tuesday, then the receipt record must be posted before midnight on the Thursday.</td>
+<td>The policy expectation is within two working days beginning with the day after the waste is received; so if waste was received at 9:00am on Monday morning, the waste receipt record must be posted before midnight on the Wednesday. If the waste is being received by pipeline then the two working days begins the day after the period specified on the consignment note for that piped waste movement ends.  So if the consignment note covers a week's worth of piped waste movement and that week ends on a Tuesday, then the receipt record must be posted before midnight on the Thursday.</td>
 </tr>
 <tr>
 <td><strong>Can submissions be for any waste receiver</strong></td>
@@ -1181,10 +1181,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "current", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "current", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
