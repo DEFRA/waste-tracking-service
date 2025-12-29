@@ -18,7 +18,7 @@ The scenarios to be demonstrated are:<br>
 - <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
 - <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
 - <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
-- <b>C02</b> Basic waste Receipt - with no Carrier details and reason<br> 
+- <b>C02</b> Basic waste Receipt - with no Carrier registration number and reason<br> 
 - <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
 - <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
 - <b>H01</b> Hazardous Waste Receipt - multiple hazaradous components<br>
@@ -114,12 +114,12 @@ When I attempt to submit the waste movement receipt<br>
 Then the waste movement receipt should be rejected<br>
 And I should receive an error message<br>
 
-### Scenario: Submit receipt of waste with no carrier details but with reason (C02)
+### Scenario: Submit receipt of waste with no carrier registration number and reason (C02)
 
 Given I have authenticated<br>
 And I have a basic waste movement<br>
-And there are no carrier details<br>
-And a reason is provided<br>
+And there is no carrier registration number<br>
+And a reason for no registration number is provided<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
 And I should receive a Waste Tracking ID<br>
@@ -224,6 +224,9 @@ The following scenarios may be exempted if the integrating system doesn’t hand
 If your circumstances change at any point, you will need to: <br>
 a) Let us know immediately. <br>
 b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant.
+
+
+
 
 
 

@@ -43,9 +43,7 @@ You will need to:
 * give basic details about your organisation, including contact details, type of waste and size of your organisation  
 * give details of any waste management software you currently use
 
-## To apply, please complete our online form: [apply to voluntarily test the report receipt of waste service](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U). 
-
-## 
+<b>To apply, please complete our online form: [apply to voluntarily test the report receipt of waste service](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U).</b>
 
 ## If you need further information or support
 
@@ -60,3 +58,4 @@ We have published [documentation about waste tracking on GitHub](README.md) whic
 We will continue to do user research with people in the waste industry at the same time as running the private beta service. To register an interest, [sign up for the waste tracking user panel](https://defragroup.eu.qualtrics.com/jfe/form/SV_9QqfQNqEnI7ecDQ).
 
 We are also holding regular webinars and engagement events. [Sign up to the circular economy newsletter](https://confirmsubscription.com/h/t/EBFF97EEADC3DECE) to get updates about these.
+

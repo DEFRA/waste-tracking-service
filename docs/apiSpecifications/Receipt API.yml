@@ -16,7 +16,7 @@ info:
      <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
      <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
      </ul>
-     <b>Note-</b> This API specification is currently in draft stage and is subject to change.
+     <b>Note-</b> This API specification is currently in Private Beta stage.
   termsOfService: https://defra.github.io/waste-tracking-service/api-terms-of-service
   contact:
     name: Reciept of Waste API Support
@@ -1261,3 +1261,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
