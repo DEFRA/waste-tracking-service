@@ -114,7 +114,7 @@ When I attempt to submit the waste movement receipt<br>
 Then the waste movement receipt should be rejected<br>
 And I should receive an error message<br>
 
-### Scenario: Submit receipt of waste with no carrier details but with reason (C02)
+### Scenario: Submit receipt of waste with no Carrier registration number and reason (C02)
 
 Given I have authenticated<br>
 And I have a basic waste movement<br>
@@ -224,6 +224,7 @@ The following scenarios may be exempted if the integrating system doesn’t hand
 If your circumstances change at any point, you will need to: <br>
 a) Let us know immediately. <br>
 b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant.
+
 
 
 
