@@ -11,7 +11,7 @@ info:
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
      <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
-     <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous property codes (called Special Waste Codes in Scotland).</p></li>
+     <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of Hazardous Property Codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
      <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
      <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
@@ -89,28 +89,55 @@ paths:
   /reference-data/ewc-codes:
     get:
       description: |
-        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code or code list and a boolean value for the waste type, i.e. Hazardous equals true/false on success, or a <b>401</b> on failure.<br><br>
+        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code list including a boolean value for the waste type, i.e. Hazardous equals true/false. It returns a <b>401</b> on failure.<br><br>        
         Example Request
         ```json
         curl --request GET \ --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/ewc-codes \
-          --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX
+          --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX...
         ```
       responses:
         "200":
           description: |
-            Success
+            A truncated list of EWC codes obtained using the GET ewc-codes method<br><br>
             ```json
-            [  
+            [       
             {
-              "code": "010102",
-              "isHazardous": false
+              "code": "010101",
+              "isHazardous": false,
+              "entryTypeDesc": "Absolute non-hazardous",
+              "chapter": "Wastes resulting from exploration, mining, quarrying, and physical and chemical treatment of minerals",
+              "subChapter": "Wastes from mineral excavation",
+              "description": "Wastes from mineral metalliferous excavation"
             },
             {
-              "code": "010304",
-               "isHazardous": true
-            }
-            ]
+              "code": "010102",
+              "isHazardous": false,
+              "entryTypeDesc": "Absolute non-hazardous",
+              "chapter": "Wastes resulting from exploration, mining, quarrying, and physical and chemical treatment of minerals",
+              "subChapter": "Wastes from mineral excavation",
+              "description": "Wastes from mineral non-metalliferous excavation"
+            }, ... cont
+
             ```
+            The response fields: "isHazardous", "entryTypeDescription", "chapter" and "subChapter" correspond directly to the hierarchical structure of the waste classification system for EWC codes.<br><br>
+            <p><b>isHazardous</b><br>
+            This boolean field indicates whether the waste code is classified as hazardous waste (true) or non-hazardous waste (false). This classification is crucial for regulatory compliance and handling procedures.<br><br>
+            <b>entryTypeDesc</b><br>
+            This describes the type of entry for the waste code. It indicates whether the entry is:<br>
+            - Absolute hazardous (always hazardous, marked with *)<br>
+            - Absolute non-hazardous (never hazardous)<br>
+            Mirror entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
+            <p><b>chapter</b><br>
+            Refers to the first two digits of the six-digit List of Waste (LoW) code. It defines the main category of waste, usually based on the industry or process generating the waste.<br><br>
+            Example:<br><br>
+            01 – Wastes from mining and physical/chemical treatment of minerals<br>
+            10 – Wastes from thermal processes<br><br>
+            </p>
+            <p><b>subChapter</b><br>
+            Corresponds to the third and fourth digits of the LoW code. It narrows down the category to a more specific process or material within the chapter.<br><br>
+            Example:<br><br>
+            10 02 – Wastes from the iron and steel industry<br><br>
+
           content:
             application/json:
               schema:
@@ -120,7 +147,8 @@ paths:
                   properties:
                     code:
                       type: string
-                      description: The EWC code.
+                      description: |
+                        The EWC code.<br>
                       example: 010101
                     isHazardous:
                       type: boolean
@@ -129,29 +157,42 @@ paths:
   /reference-data/hazardous-property-codes:
     get:
       description: |
-        Endpoint used to get a list of hazardous property codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Endpoint used to get a list of hazardous property codes. It returns a code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/hazardous-property-codes \
-        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN...
         ```
       responses:
         "200":
           description: |
-            Success
+            A truncated list of hazardous property codes obtained using the GET hazardous-property-codes method<br><br>
             ```json
             [
             {
-              "code": "HP_1"
+              "code": "HP_1",
+              "shortDesc": "Explosive",
+              "longDesc": "Waste that can cause dangerous chemical reactions, producing gas that can damage surroundings (e.g., pyrotechnic or self-reactive waste)."
             },
             {
-              "code": "HP_2"
-            },
-            {
-              "code": "HP_3"
-            }
-            ]
+              "code": "HP_2",
+              "shortDesc": "Oxidizing",
+              "longDesc": "Waste that can provide oxygen, causing or contributing to the combustion of other materials."
+            }, ... cont
+
             ```
+            The response fields: "shortDesc" and "longDesc" <br><br>
+            <p><b>shortDesc</b> (Short Description)<br><br>
+            - A concise label or summary of the hazardous property.<br>
+            - Usually just a few words or a short phrase.<br>
+            - Intended for quick identification in tables, lists, or UI elements.<br><br>
+            Example: "Flammable Liquid" or "Acute Toxicity".<br><br>
+            </p>
+            <p><b>longDesc</b> (Long Description)<br><br>
+            - A more detailed explanation of the hazardous property.<br>
+            - Provides context, definitions, or conditions under which the hazard applies.<br>
+            - Often includes regulatory references or clarifications.
+            </p>
           content:
             application/json:
               schema:
@@ -171,25 +212,28 @@ paths:
         Example Request
         ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/disposal-or-recovery-codes \
-        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9...
         ```
       responses:
         "200":
           description: |
+            A truncated list of disposal or recovery codes obtained using the GET disposal-or-recovery Codes method<br><br>
             Success
             ```json
             [
             {
-             "code": "R1"
+              "code": "R1",
+              "isNotRecoveryToFinalProduct": true,
+              "description": "Use principally as a fuel or other means to generate energy"
             },
             {
-             "code": "R2"
-            },
-            {
-             "code": "R3"
-            }
-            ]
+              "code": "R2",
+              "isNotRecoveryToFinalProduct": false,
+              "description": "Solvent reclamation/regeneration"                                  
+            }, ... cont
             ```
+            The field <b>isNotRecoveryToFinalProduct</b> is a boolean flag that indicates whether a specific recovery operation does not result in the manufacture of a new final product.<br><br>
+            If the value is true, it means that the recovery process is focused on reclaiming materials or energy without producing a new marketable product. If false, it indicates that the recovery operation leads to the creation of a new final product that can be used or sold.<br><br>
           content:
             application/json:
               schema:
@@ -204,28 +248,33 @@ paths:
   /reference-data/container-types:
     get:
       description: | 
-        Endpoint used to get a list of container types. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br>        
-          Note: The field in the specification is case-sensitive, please use the case specified for the code.<br><br>
+        Endpoint used to get a list of container types. It returns a code list on <b>200</b> success, or a <b>401</b> on failure.<br>        
+          Note: The field returned by the method is case-sensitive, please use the case specified for the code.<br><br>
         Example Request
          ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/container-types \
-        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw...
+        ```
       responses:
         "200": 
           description: |
+            A truncated list of container type codes obtained using the GET container-types method<br><br>
+            
             Success
             ```json
             [
-             {
-                "code": "BAG" 
-             },
-             {
-                "code:"PAL"
-            },
-            {
-                "code": "SKI"
-             }
-            ]
+              {
+                "code": "BAG",
+                "description": "Bag / Sack (e.g. rubble bag, refuse sack)"
+              },
+              {
+                "code": "BAL",
+                "description": "Bale"
+              },
+              {
+                "code": "BOX",
+                "description": "Box / Carton / Crate"
+              }, ... cont
             ```
           content:
             application/json:
@@ -237,35 +286,35 @@ paths:
                     code:
                       type: string
                       description: The container type.
-                      example:  BAG, PAL, SKI
+                      example: WBI
   /reference-data/pop-names:
     get:
       description: |
-        Endpoint used to get a list of POP (Persistent Organic Pollutant) name codes. It returns a code or code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Endpoint used to get a list of POP (Persistent Organic Pollutant) name codes. It returns a code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
         Example Request
          ```json
         curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/pop-names \
-        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9...
         ```
       responses:
         "200":
           description: |
-            Success
+            A truncated list of POP names obtained using the GET pop-names method<br><br>
+            Success<br><br>
             ```json
             [
-             {
-                "code": "END"
-             },
-             {
-                "code": "HCBD"
+            {
+              "code": "END",
+              "chemicalName": "Endosulfan"
             },
             {
-                "code": "PCNS"
-             },
+              "code": "HCBD",
+              "chemicalName": "Hexachlorobutadiene"
+            },
             {
-                "code": "SCCPS"
-             }
-            ]
+              "code": "PCNS",
+              "chemicalName": "Polychlorinated naphthalenes"
+            }, ... cont
             ```
           content:
             application/json:
@@ -275,7 +324,6 @@ paths:
                   type: object
                   properties:
                     code:
-                      type: string
                       description: The POP code. See the full list of valid POP codes in the wasteItem.pops.components section below.
                       example: PFOS, END, HCBD, PCNS, SCCPS
 components:
@@ -433,12 +481,14 @@ components:
           description: |
             An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK. 
             The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them.<br><br>
-            Note that users must already know their correct code before using the API. The GET EWC code method returns a reference for all EWC codes.<br>
-            To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.<br><br>
-            Note: POPs can also be present in hazardous and non-hazardous waste. See wasteItem.containsPops and wasteItem.pops for more information.<br>
+            Notes:<br> 
+            - users must already know their correct code before using the API <br>
+            - the GET ewc-codes method returns a reference for all EWC codes<br><br>
+            <p>Alternatively, to find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.<br><br>
+            POPs can also be present in hazardous and non-hazardous waste. See wasteItem.containsPops and wasteItem.pops for more information.<br>
               <p><font color="green"><b>Business Rules:</b></font></p> 
               - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
-              - From one to a maximum of five codes per movement can be provided.
+              - From one to a maximum of five codes per movement can be provided.</p>
           example: 200108, 150109
         wasteDescription:
           type: string
@@ -464,27 +514,11 @@ components:
           type: string
           nullable: false
           description: |
-            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in  various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
-            <p> Possible types are:</p> 
-            <ul>
-              <li>[BAG] Bag / Sack e.g.(rubble bag, refuse sack)</li>
-              <li>[BAL] Bale</li>
-              <li>[BOX] Box, Carton, Crate</li>
-              <li>[CAN] Can/Jerrycan</li>
-              <li>[CAR] Carrier (e.g. pallet cage)</li>
-              <li>[CAS] Cask</li>
-              <li>[CON] Container (unspecified)</li>
-              <li>[DRU] Drum (typically 205L)</li>
-              <li>[FIB] Fibre drum</li>
-              <li>[IBC] Intermediate Bulk Container (e.g. 1000L)</li>
-              <li>[LOO] Loose (no container)</li>
-              <li>[PAL] Pallet (e.g. shrink‑wrapped items)</li>
-              <li>[ROR] Roll‑on Roll‑off container (RoRo)</li>
-              <li>[SKI] Skip</li>
-              <li>[TAN] Tanker/Tank</li>
-              <li>[WBI] Wheelie Bin (any size)</li>
-            </ul>
-            <b>Note:</b> The field is case-sensitive, please use the case specified for the code in the list.
+            Containers are receptacles used for 2storing, transporting and disposing of waste materials. They come in  various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.<br><br>
+            <b>Notes:</b><br>
+            - A list of all container types can be obtained using the GET container-types method.<br>
+            - The field is case-sensitive, please use the case specified for the code returned by the GET method.
+            <br>
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be in typeOfContainers list.
           example: SKI
@@ -529,145 +563,12 @@ components:
                   code:
                     type: string
                     description: |
-                      The code of the POP (Persistent Organic Pollutant) component. This must be a valid POP code from the reference table below.
-                        <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the table below:<p>
-                      <table border="1">
-                          <thead>
-                              <tr>
-                                  <th>POP Name</th>
-                                  <th>POP Code</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>Endosulfan</td>
-                                  <td>END</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexachlorobutadiene</td>
-                                  <td>HCBD</td>
-                              </tr>
-                              <tr>
-                                  <td>Polychlorinated naphthalenes</td>
-                                  <td>PCNS</td>
-                              </tr>
-                              <tr>    
-                                  <td>Short-chain chlorinated paraffins</td>
-                                  <td>SCCPS</td>
-                              </tr>
-                              <tr>
-                                  <td>Tetrabromodiphenyl ether</td>
-                                  <td>TETRABDE</td>
-                              </tr>
-                              <tr>
-                                  <td>Pentabromodiphenyl ether</td>
-                                  <td>PENTABDE</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexabromodiphenyl ether</td>
-                                  <td>HEXABDE</td>
-                              </tr>
-                              <tr>
-                                  <td>Heptabromodiphenyl ether</td>
-                                  <td>HEPTABDE</td>
-                              </tr>
-                              <tr>
-                                  <td>Decabromodiphenyl ether</td>
-                                  <td>DECABDE</td>
-                              </tr>
-                              <tr>
-                                  <td>Tetra-, penta-, hexa-, hepta- deca- BDEs</td>
-                                  <td>PBDES</td>
-                              </tr>
-                              <tr>
-                                  <td>Perfluorooctane sulfonic acid (and derivatives)</td>
-                                  <td>PFOS</td>
-                              </tr>
-                              <tr>
-                                  <td>Polychlorinated dibenzo-p-dioxins/furans</td>
-                                  <td>PCDD_PCDF</td>
-                              </tr>
-                              <tr>
-                                  <td>Dichlorodiphenyltrichloroethane</td>
-                                  <td>DDT</td>
-                              </tr>
-                              <tr>
-                                  <td>Chlordane</td>
-                                  <td>CHL</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexachlorocyclohexanes (including lindane)</td>
-                                  <td>HCH</td>
-                              </tr>
-                              <tr>
-                                  <td>Dieldrin</td>
-                                  <td>DLD</td>
-                              </tr>
-                              <tr>
-                                  <td>Endrin</td>
-                                  <td>ENDN</td>
-                              </tr>
-                              <tr>
-                                  <td>Heptachlor</td>
-                                  <td>HPT</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexachlorobenzene</td>
-                                  <td>HCB</td>
-                              </tr>
-                              <tr>
-                                  <td>Chlordecone</td>
-                                  <td>CLD</td>
-                              </tr>
-                              <tr>
-                                  <td>Aldrin</td>
-                                  <td>ALD</td>
-                              </tr>
-                              <tr>
-                                  <td>Pentachlorobenzene</td>
-                                  <td>PECBZ</td>
-                              </tr>
-                              <tr>
-                                  <td>Polychlorinated biphenyls</td>
-                                  <td>PCB</td>
-                              </tr>
-                              <tr>
-                                  <td>Mirex</td>
-                                  <td>MRX</td>
-                              </tr>
-                              <tr>
-                                  <td>Toxaphene</td>
-                                  <td>TOX</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexabromobiphenyl</td>
-                                  <td>HBB</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexabromocyclododecane</td>
-                                  <td>HBCD</td>
-                              </tr>
-                              <tr>
-                                  <td>Pentachlorophenol</td>
-                                  <td>PCP</td>
-                              </tr>
-                              <tr>
-                                  <td>Perfluorooctanoic acid</td>
-                                  <td>PFOA</td>
-                              </tr>
-                              <tr>
-                                  <td>Dicofol</td>
-                                  <td>DCF</td>
-                              </tr>
-                              <tr>
-                                  <td>Perfluorohexane sulfonic acid</td>
-                                  <td>PFHXS</td>
-                              </tr>
-                          </tbody>
-                      </table>
-                      <p>To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.</p>
+                      The code of the POP (Persistent Organic Pollutant) component. 
+                      <b>Notes:</b><br>
+                      - A list of POP names and codes can be obtained using the GET POP Names method.<br>
+                      - The field is case-sensitive, please use the case specified for the code returned by the GET method.
                       <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, it must be a valid POP code from the reference list above. The code is validated against reference data to ensure accuracy.
+                      Optional field. If provided, it must be a valid POP code from the reference list returned by the GET method. The code is validated against reference data to ensure accuracy.
                     example: PFHXS
                   concentration:
                     type: number
@@ -688,7 +589,7 @@ components:
                 </ul>
         containsHazardous:
               type: boolean
-              description: Does the waste consignment contain <b>Hazardous Properties</b>, true or false?. This is a mandatory indication. This is a boolean value, i.e. true (contains hazardous properties) or false (does not contain hazourdous properties).
+              description: Does the waste consignment contain <b>Hazardous Properties</b>, true or false?. This is a mandatory indication. This is a boolean value, i.e. true (contains hazardous properties) or false (does not contain hazardous properties).
               example: true        
         hazardous:
           type: object
@@ -718,7 +619,11 @@ components:
                 Hazardous property codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15.       
                  <p>The official hazardous code list is found here in Appendix C:
                  <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 document.</a></p>
-                <p><b>Note:</b> The field is case-sensitive, please use the case specified in the links, also see example field.</p>
+                 <b>Notes:</b><br>
+                <ul>
+                - A list of all Hazardous Property Codes can be obtained using the GET hazardous-property-codes method.<br>
+                - The field is case-sensitive, please use the case specified for the code returned by the GET method.
+                </ul>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
               example: HP 5, HP 10
@@ -839,7 +744,7 @@ components:
         organisationName:
           type: string
           description: The broker or dealer organisation name who arranged this transfer.
-          example: Waste Desposal Ltd
+          example: Waste Disposal Ltd
         address:
           $ref: "#/components/schemas/address"
         emailAddress:
@@ -972,179 +877,13 @@ components:
         code:
           type: string
           description: |
-             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
-             Here’s the full list of Recovery (R) and Disposal (D) Codes used in environmental waste management:
-              <table border="1">
-                          <thead>
-                              <tr>
-                                  <th>Description</th>
-                                  <th>Codes</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>Used principally as a fuel or other means to generate energy</td>
-                                  <td>R1</td>
-                              </tr>
-                              <tr>
-                                  <td>Solvent reclamation/regeneration</td>
-                                  <td>R2</td>
-                              </tr>
-                              <tr>
-                                  <td>Recycling/reclamation of organic substances not used as solvents</td>
-                                  <td>R3</td>
-                              </tr>
-                              <tr>    
-                                  <td>Recycling/reclamation of metals and metal compounds</td>
-                                  <td>R4</td>
-                              </tr>
-                              <tr>
-                                  <td>Recycling/reclamation of other inorganic materials</td>
-                                  <td>R5</td>
-                              </tr>
-                              <tr>
-                                  <td>Regeneration of acids or bases</td>
-                                  <td>R6</td>
-                              </tr>
-                              <tr>
-                                  <td>Recovery of components used for pollution abatement</td>
-                                  <td>R7</td>
-                              </tr>
-                              <tr>
-                                  <td>Recovery of components from catalysts</td>
-                                  <td>R8</td>
-                              </tr>
-                              <tr>
-                                  <td>Oil re-refining or other reuses of oil</td>
-                                  <td>R9</td>
-                              </tr>
-                              <tr>
-                                  <td>Land treatment resulting in benefit to agriculture or ecological improvement</td>
-                                  <td>R10</td>
-                              </tr>
-                              <tr>
-                                  <td>Use of waste obtained from any of the above recovery operations</td>
-                                  <td>R11</td>
-                              </tr>
-                              <tr>
-                                  <td>Exchange of waste for submission to any of the above recovery operations</td>
-                                  <td>R12</td>
-                              </tr>
-                              <tr>
-                                  <td>Storage of waste pending any of the above recovery operations</td>
-                                  <td>R13</td>
-                              </tr>
-                              <tr>
-                                  <td>Deposit into or onto land (e.g., landfill)</td>
-                                  <td>D1</td>
-                              </tr>
-                              <tr>
-                                  <td>Land treatment (e.g., biodegradation of liquid or sludge waste in soils)</td>
-                                  <td>D2</td>
-                              </tr>
-                              <tr>
-                                  <td>Deep injection (e.g., pumping into wells, salt domes)</td>
-                                  <td>D3</td>
-                              </tr>
-                              <tr>    
-                                  <td>Surface impoundment (e.g., placement of liquid waste in ponds)</td>
-                                  <td>D4</td>
-                              </tr>
-                              <tr>
-                                  <td>Specially engineered landfill (e.g., lined and covered cells)</td>
-                                  <td>D5</td>
-                              </tr>
-                              <tr>
-                                  <td>Release into a water body except seas/oceans</td>
-                                  <td>D6</td>
-                              </tr>
-                              <tr>
-                                  <td>Release into seas/oceans including seabed insertion</td>
-                                  <td>D7</td>
-                              </tr>
-                              <tr>
-                                  <td>Biological treatment not specified elsewhere (resulting in final compounds disposed of by any D-code)</td>
-                                  <td>D8</td>
-                              </tr>
-                              <tr>
-                                  <td>Physico-chemical treatment not specified elsewhere (resulting in final compounds disposed of by any D-code)</td>
-                                  <td>D9</td>
-                              </tr>
-                              <tr>
-                                  <td>Incineration on land</td>
-                                  <td>D10</td>
-                              </tr>
-                              <tr>
-                                  <td>Incineration at sea</td>
-                                  <td>D11</td>
-                              </tr>
-                              <tr>
-                                  <td>Permanent storage (e.g., containers in a mine)</td>
-                                  <td>D12</td>
-                              </tr>
-                              <tr>
-                                  <td>Blending or mixing prior to disposal</td>
-                                  <td>D13</td>
-                              </tr>
-                              <tr>
-                                  <td>Repackaging prior to disposal</td>
-                                  <td>D14</td>
-                              </tr>
-                              <tr>
-                                  <td>Storage pending any of the above disposal operations</td>
-                                  <td>D15</td>
-                              </tr>
-                              <tr>
-                                  <td>Dieldrin</td>
-                                  <td>DLD</td>
-                              </tr>
-                              <tr>
-                                  <td>Endrin</td>
-                                  <td>ENDN</td>
-                              </tr>
-                              <tr>
-                                  <td>Heptachlor</td>
-                                  <td>HPT</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexachlorobenzene</td>
-                                  <td>HCB</td>
-                              </tr>
-                              <tr>
-                                  <td>Chlordecone</td>
-                                  <td>CLD</td>
-                              </tr>
-                              <tr>
-                                  <td>Aldrin</td>
-                                  <td>ALD</td>
-                              </tr>
-                              <tr>
-                                  <td>Pentachlorobenzene</td>
-                                  <td>PECBZ</td>
-                              </tr>
-                              <tr>
-                                  <td>Polychlorinated biphenyls</td>
-                                  <td>PCB</td>
-                              </tr>
-                              <tr>
-                                  <td>Mirex</td>
-                                  <td>MRX</td>
-                              </tr>
-                              <tr>
-                                  <td>Toxaphene</td>
-                                  <td>TOX</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexabromobiphenyl</td>
-                                  <td>HBB</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexabromocyclododecane</td>
-                                  <td>HBCD</td>
-                              </tr>
-                          </tbody>
-                      </table>
-               <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the link<p>
+             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes (Recovery (R) and Disposal (D)) serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
+             
+               <p><b>Notes:</b> 
+               <ul>
+               - The field is case-sensitive, please use the case specified for the code returned by the GET method.<br>
+               - A complete list of Disposal and Recovery Codes can be obtained using the GET Disposal and Recovery Codes method.<br>
+              </ul>
               <p><font color="green"><b>Business Rule:</b></font></p> 
               If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code listed in EUR-Lex. 
           example: |
