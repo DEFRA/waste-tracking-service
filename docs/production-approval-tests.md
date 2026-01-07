@@ -208,25 +208,5 @@ Then the waste movement receipt should be created<br>
 And I should receive a Waste Tracking ID<br>
 
 ## Technical Exemptions
-
-The following scenarios may be exempted if the integrating system doesn’t handle these specific waste types or business processes, you will need to provide rationale/evidence for any of these exemptions when applying to go into production:
-
-| Scenario |  Technical Exemption |
-|----------|-------------|
-|R02|If all entities that use the software only handle one waste item per receipt |
-|R05|If all entities that use the software only record one DoR per receipt|
-|R07|If all entities that use the software only receive non-hazardous waste|
-|B01|If all entities that use the software never receive waste from brokers/dealers|
-|P01|If all entities that use the software never receive waste containing POP’s|
-|H01, H02|If all entities that use the software never receive hazardous waste|
-|X01|If all entities that use the software never receive both types of waste|
-
-If your circumstances change at any point, you will need to: <br>
-a) Let us know immediately. <br>
-b) Test your software against the additional categories otherwise your users may not be able to fulfil their obligations and may be at risk of being non-compliant.
-
-
-
-
-
-
+If during testing, software developers find that the scenarios do not fit their software package, they should contact the developer support team at:<br><br>
+<font color="blue"><b>WasteTracking_Developers@defra.gov.uk</b></font>
