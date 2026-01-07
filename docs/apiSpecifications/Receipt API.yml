@@ -565,7 +565,7 @@ components:
                     description: |
                       The code of the POP (Persistent Organic Pollutant) component. 
                       <b>Notes:</b><br>
-                      - A list of POP names and codes can be obtained using the GET POP Names method.<br>
+                      - A list of POP names and codes can be obtained using the GET pop-names method.<br>
                       - The field is case-sensitive, please use the case specified for the code returned by the GET method.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, it must be a valid POP code from the reference list returned by the GET method. The code is validated against reference data to ensure accuracy.
@@ -1000,4 +1000,5 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
