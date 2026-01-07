@@ -124,7 +124,7 @@ paths:
             This boolean field indicates whether the waste code is classified as hazardous waste (true) or non-hazardous waste (false). This classification is crucial for regulatory compliance and handling procedures.<br><br>
             <b>entryTypeDesc</b><br>
             This describes the type of entry for the waste code. It indicates whether the entry is:<br>
-            - Absolute hazardous (always hazardous)<br>
+            - Absolute hazardous (always hazardous, marked with *)<br>
             - Absolute non-hazardous (never hazardous)<br>
             - Mirror entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
             <p><b>chapter</b><br>
@@ -152,7 +152,7 @@ paths:
                       example: 010101
                     isHazardous:
                       type: boolean
-                      description: True if the EWC code is for hazardous waste, otherwise False.
+                      description: True if the EWC code is for hazardous waste, otherwise False. The full list of valid EWC codes is returned by the GET ewc-codes method.
                       example: true
   /reference-data/hazardous-property-codes:
     get:
@@ -202,7 +202,7 @@ paths:
                   properties:
                     code:
                       type: string
-                      description: The hazardous property code.
+                      description: The hazardous property code. The full list of valid hazardous property codes is returned by the GET hazardous-property-codes method.
                       example: HP_1
   /reference-data/disposal-or-recovery-codes:
     get:
@@ -243,7 +243,9 @@ paths:
                   properties:
                     code:
                       type: string
-                      description: The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations). 
+                      description: |
+                        The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations). 
+                        The full list of valid disposal or recovery codes is returned by the GET disposal-or-recovery-codesmethod.
                       example: D3, R1, R11
   /reference-data/container-types:
     get:
@@ -285,7 +287,7 @@ paths:
                   properties:
                     code:
                       type: string
-                      description: The container type.
+                      description: The container type. The full list of valid container type codes is returned by the GET container-types method
                       example: WBI
   /reference-data/pop-names:
     get:
@@ -324,7 +326,8 @@ paths:
                   type: object
                   properties:
                     code:
-                      description: The POP code. See the full list of valid POP codes in the wasteItem.pops.components section below.
+                      type: string
+                      description: The POP name. The full list of valid POP names is returned by the GET pop-names method.
                       example: PFOS, END, HCBD, PCNS, SCCPS
 components:
   requestBodies:
@@ -1000,6 +1003,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
-
 
