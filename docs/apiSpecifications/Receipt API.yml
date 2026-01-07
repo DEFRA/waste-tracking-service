@@ -124,9 +124,9 @@ paths:
             This boolean field indicates whether the waste code is classified as hazardous waste (true) or non-hazardous waste (false). This classification is crucial for regulatory compliance and handling procedures.<br><br>
             <b>entryTypeDesc</b><br>
             This describes the type of entry for the waste code. It indicates whether the entry is:<br>
-            - Absolute hazardous (always hazardous, marked with *)<br>
+            - Absolute hazardous (always hazardous)<br>
             - Absolute non-hazardous (never hazardous)<br>
-            Mirror entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
+            - Mirror entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
             <p><b>chapter</b><br>
             Refers to the first two digits of the six-digit List of Waste (LoW) code. It defines the main category of waste, usually based on the industry or process generating the waste.<br><br>
             Example:<br><br>
@@ -1000,5 +1000,6 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
 
 
