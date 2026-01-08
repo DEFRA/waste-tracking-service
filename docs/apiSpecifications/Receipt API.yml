@@ -154,6 +154,22 @@ paths:
                       type: boolean
                       description: True if the EWC code is for hazardous waste, otherwise False. The full list of valid EWC codes is returned by the GET ewc-codes method.
                       example: true
+                    entryTypeDesc:
+                      type: string
+                      description: The EWC code entry type description.
+                      example: Absolute non-hazardous
+                    chapter:
+                      type: string
+                      description: The EWC code chapter.
+                      example: Wastes resulting from exploration, mining, quarrying, and physical and chemical treatment of minerals
+                    subChapter:
+                      type: string
+                      description: The EWC code sub-chapter.
+                      example: Wastes from mineral excavation
+                    description:
+                      type: string
+                      description: The EWC code description.
+                      example: Wastes from mineral metalliferous excavation
   /reference-data/hazardous-property-codes:
     get:
       description: |
@@ -204,6 +220,14 @@ paths:
                       type: string
                       description: The hazardous property code. The full list of valid hazardous property codes is returned by the GET hazardous-property-codes method.
                       example: HP_1
+                    shortDesc:
+                      type: string
+                      description: The hazardous property code short description.
+                      example: Explosive
+                    longDesc:
+                      type: string
+                      description: The hazardous property code long description.
+                      example: Waste that can cause dangerous chemical reactions, producing gas that can damage surroundings (e.g., pyrotechnic or self-reactive waste)
   /reference-data/disposal-or-recovery-codes:
     get:
       description: |
@@ -246,7 +270,15 @@ paths:
                       description: |
                         The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations). 
                         The full list of valid disposal or recovery codes is returned by the GET disposal-or-recovery-codesmethod.
-                      example: D3, R1, R11
+                      example: R1
+                    isNotRecoveryToFinalProduct:
+                      type: boolean
+                      description: True if the disposal or recovery code is not considered recovery to a final product, otherwise False.
+                      example: true
+                    description:
+                      type: string
+                      description: The disposal or recovery code description.
+                      example: Use principally as a fuel or other means to generate energy
   /reference-data/container-types:
     get:
       description: | 
@@ -289,6 +321,10 @@ paths:
                       type: string
                       description: The container type. The full list of valid container type codes is returned by the GET container-types method
                       example: WBI
+                    description:
+                      type: string
+                      description: The container type description.
+                      example: Wheelie Bin (any size)
   /reference-data/pop-names:
     get:
       description: |
@@ -328,7 +364,11 @@ paths:
                     code:
                       type: string
                       description: The POP name. The full list of valid POP names is returned by the GET pop-names method.
-                      example: PFOS, END, HCBD, PCNS, SCCPS
+                      example: END
+                    chemicalName:
+                      type: string
+                      description: The POP chemical name.
+                      example: Endosulfan
 components:
   requestBodies:
     receiveMovementRequest:
@@ -1003,4 +1043,3 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
-
