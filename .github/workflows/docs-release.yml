@@ -65,6 +65,11 @@ jobs:
             mike set-default --push production
           fi
 
+      - name: Tag commit as ${{ github.event.inputs.environment }}
+        run: |
+          git tag -f ${{ github.event.inputs.environment }} ${{ github.event.inputs.ref }}
+          git push -f origin ${{ github.event.inputs.environment }}
+
       - name: List deployed versions
         run: |
           git fetch origin gh-pages
