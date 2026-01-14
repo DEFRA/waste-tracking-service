@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../favicons/moj.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -30,7 +30,7 @@
     
     
   
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -117,6 +117,8 @@
       
     
     
+      <link rel="stylesheet" href="../stylesheets/tags-color.css">
+    
       <link rel="stylesheet" href="../stylesheets/extra.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
@@ -152,10 +154,6 @@
     <div data-md-component="announce">
       
     </div>
-    
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-      </div>
     
     
       
@@ -654,7 +652,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction to Phase 1 the Receipt of Waste API
+    Introduction to the Receipt of Waste API
   
 
     
@@ -682,7 +680,7 @@
   <span class="md-ellipsis">
     
   
-    Receivers process diagram
+    Receipt of Waste - process diagram
   
 
     
@@ -710,7 +708,7 @@
   <span class="md-ellipsis">
     
   
-    Api specification
+    Receipt of Waste - draft API specification
   
 
     
@@ -944,7 +942,7 @@
   <span class="md-ellipsis">
     
   
-    Api terms of service
+    Receipt API Terms Of Service
   
 
     
@@ -1021,24 +1019,27 @@
   
 
 
-<p><a class="md-button" href="../">← Back to Top</a></p>
+<p><a class="md-button" href="https://defra.github.io/waste-tracking-service">← Back</a></p>
 <h1 id="receipt-of-waste-api-production-approval-tests">Receipt of Waste - API Production Approval Tests</h1>
 <p>When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. </p>
-<p><b>Sending Production Approval Tests</b></p>
+<div class="admonition note">
+<p class="admonition-title">Sending Production Approval Tests</p>
 <p>Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.</p>
+</div>
 <p>The scenarios to be demonstrated are:<br>
 - <b>R01</b> Basic Waste receipt - single waste item<br>
 - <b>R02</b> Basic waste receipt - with multiple waste items<br>
 - <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
 - <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
 - <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
+- <b>R06</b> Basic waste Receipt - with multiple receiver authorisation numbers<br> 
 - <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
 - <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
 - <b>C02</b> Basic waste Receipt - with no Carrier details and reason<br> 
 - <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
 - <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
-- <b>H01</b> Hazardous Waste Receipt - multiple hazaradous components<br>
-- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason (ERROR)<br>
+- <b>H01</b> Hazardous Waste Receipt - multiple hazardouse components<br>
+- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason<br>
 - <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason<br>
 - <b>X01</b> Hazardous &amp; POPs Waste Receipt<br></p>
 <p>Below are a list of Gherkin style Scenarios outlining, in a behavioural sense, the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:<br>
@@ -1090,6 +1091,13 @@ And there are multiple accompanying ‘Disposal or Recovery’ codes<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
 And I should receive a Waste Tracking ID<br></p>
+<h3 id="scenario-submit-basic-receipt-of-waste-with-multiple-receiver-authorisation-numbers-r06">Scenario: Submit basic receipt of waste with multiple receiver authorisation numbers (R06)</h3>
+<p>Given I have authenticated<br>
+And I have a basic waste movement<br>
+And there are multiple receiver authorisation numbers<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID</p>
 <h3 id="scenario-submit-basic-receipt-of-waste-with-mirror-ewc-codes-r07">Scenario: Submit basic receipt of waste with Mirror EWC codes (R07)</h3>
 <p>Given I have authenticated<br>
 And I have a basic waste movement<br>
@@ -1313,10 +1321,10 @@ b) Test your software against the additional categories otherwise your users may
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "current", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

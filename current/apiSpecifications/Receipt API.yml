@@ -11,7 +11,7 @@ info:
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
      <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
-     <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous property codes (called Special Waste Codes in Scotland).</p></li>
+     <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
      <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
      <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
@@ -325,13 +325,15 @@ components:
                      <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
                      </ul>
                 example: |
-                  CJTILE/A0001
+                  Company name: CJTILE Ltd → Code prefix: CJTILE/
+                  Unique ID: A0001
+                  Full code: CJTILE/A0001
               reasonForNoConsignmentCode:
                 type: string
                 enum:
                   [
                     "Non-Haz Waste Transfer",
-                    "No documentation provided with Waste",
+                    "Carrier did not provide documentation",
                     "Household Waste Recycling Centre Receipt"
                   ]
                 description: Reason provided for not having a consignment code. There are three codes you can choose to provide.
@@ -348,7 +350,7 @@ components:
                                   <td>NON_HAZ_WASTE_TRANSFER</td>
                               </tr>
                               <tr>
-                                  <td>No documentation provided with Waste</td>
+                                  <td>Carrier did not provide documentation</td>
                                   <td>NO_DOC_WITH_WASTE</td>
                               </tr>
                               <tr>
@@ -361,9 +363,9 @@ components:
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
                   <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “No documentation provided with Waste” or “Household Waste Recycling Centre Receipt”. </li>
+                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “Carrier did not provide documentation” or “Household Waste Recycling Centre Receipt”. </li>
                   </ul>
-                example: No documentation provided with Waste
+                example: Carrier did not provide documentation
               yourUniqueReference:
                 type: string
                 description: This could be a unique weighbridge ticket number, waste transfer note number etc.
@@ -397,7 +399,7 @@ components:
               specialHandlingRequirements:
                 type: string
                 maxLength: 5000
-                description: Required for abnormal hazardous waste and some non-hazardous waste that contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm.
+                description: Usually required only for abnormal hazardous waste that might contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm.
                 example: The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.
               wasteItems:
                 type: array
@@ -431,23 +433,27 @@ components:
             type: string
           maxItems: 5
           description: |
-            An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK. 
-            The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them.<br><br>
-            Note that users must already know their correct code before using the API. The GET EWC code method returns a reference for all EWC codes.<br>
-            To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.<br><br>
-            Note: POPs can also be present in hazardous and non-hazardous waste. See wasteItem.containsPops and wasteItem.pops for more information.<br>
-              <p><font color="green"><b>Business Rules:</b></font></p> 
-              - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
-              - From one to a maximum of five codes per movement can be provided.
-          example: 200108, 150109
+            An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK.  
+            The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them. 
+            To find an EWC code for a particular waste item, use the <i>Dsposal</i>
+            <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">waste thesaurus.</a><p></p>
+            <font color="red"><b>The official EWC legislation decision EUR-Lex from the European Union 2000/532 is contained</b></font> 
+            <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">here.</a><p></p>
+            <font color="red"><b>The list of Waste Regulations 2005 for the UK (specifically England) can be found</b></font>
+            <a href="https://www.legislation.gov.uk/uksi/2005/895/schedule/1/made">here.</a><p></p>
+            More information on EWC codes can also be found in the European Waste Catalogue (produced by CSG) which can be found
+              <a href="https://www.csg.co.uk/resources/ewc-codes#:~:text=This%20European%20Waste%20Catalogue%20checker%20helps%20you%20find, either%20by%20waste%20stream%20or%20by%20list%20view">here.</a>
+              <p><font color="green"><b>Business Rule:</b></font></p> 
+              Must be six digits (no spaces) and in the official wasteItem.ewcCode EWC catalog EUR-Lex. 
+          example: 200108 biodegradable kitchen and canteen waste, 150109 textile packaging
         wasteDescription:
           type: string
-          description: A detailed description of a specific waste material including its physical characteristics, composition and any potential hazards associated with it. 
+          description: A detailed description of a specific waste material, including its physical characteristics, composition and any potential hazards associated with it. It's essentially a classification of the waste that helps determine how it should be managed and disposed of safely.
           example: Basic mixed construction and demolition waste, this includes recyclable house bricks, gypsum plaster and slates.
         physicalForm:
           type: string
           enum: [Gas, Liquid, Solid, Powder, Sludge, Mixed]
-          description: This is the form of the waste. This could be a Gas, Liquid, Solid, Powder, Sludge or Mixed. 
+          description: This is the form of the waste. This could be a gas, liquid, solid, powder, sludge or mixed. 
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be “Gas”, “Liquid”, “Solid”, Powder”, “Sludge” or “Mixed”.
             <b>Note:</b> The field is case-sensitive, please use the case specified in the description.
@@ -459,12 +465,12 @@ components:
           description: Number of containers for storing, transporting and disposing of waste materials. 
             <p><font color="green"><b>Business Rule:</b></font></p> 
             This must be a non-negative integer (0 or greater).
-          example: 2
+          example: 2, 3
         typeOfContainers:
           type: string
           nullable: false
           description: |
-            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in  various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
+            Containers are receptacles used for storing, transporting and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.
             <p> Possible types are:</p> 
             <ul>
               <li>[BAG] Bag / Sack e.g.(rubble bag, refuse sack)</li>
@@ -487,14 +493,18 @@ components:
             <b>Note:</b> The field is case-sensitive, please use the case specified for the code in the list.
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be in typeOfContainers list.
-          example: SKI
+          example: BAG, PAL, SKI
         weight:
           $ref: "#/components/schemas/weight"
         containsPops:
           type: boolean
           description: |
             Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
-                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. 
+                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. You can find more information in the 
+                <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">Waste Thesaurus</a>
+                <p>More information on POPs can be found here:</p>
+                <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">All POPs listed in the Stockholm Convention</a>
+                <p><a href="https://www.gov.uk/government/collections/classify-different-types-of-waste#hazardous-waste-and-pops>www.gov.uk">Classify Different Types of Waste</a></p
           example: true
         pops:
           type: object
@@ -665,10 +675,12 @@ components:
                               </tr>
                           </tbody>
                       </table>
-                      <p>To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.</p>
+                      <p> A full list is provided in the Stockholm Convention on Persistent Organic Pollutants (POPs) which can be found 
+                      <a href="https://www.pops.int/TheConvention/ThePOPs/AllPOPs/tabid/2509/Default.aspx">here.</a></p>
+                      <p>See also Annex B and Annex C in the linked document for Restricted and Unintentional releases of chemicals respectively.</p>
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, it must be a valid POP code from the reference list above. The code is validated against reference data to ensure accuracy.
-                    example: PFHXS
+                    example: PFHXS, HBB, END, PCDD_PCDF
                   concentration:
                     type: number
                     minimum: 0
@@ -715,36 +727,42 @@ components:
             hazCodes:
               type: array
               description: |
-                Hazardous property codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15.       
-                 <p>The official hazardous code list is found here in Appendix C:
-                 <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 document.</a></p>
-                <p><b>Note:</b> The field is case-sensitive, please use the case specified in the links, also see example field.</p>
+                Hazardous waste codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15. 
+                To find a code for a potential hazardous waste item, use the following waste thesaurus:
+                <p><a href="https://dsposal.uk/your/waste-thesaurus?keyword=Petrol+Containing+Acidum+Salis&type=low">Waste Thesaurus</a></p>         
+                 <p>The official EWC code legislation decision EUR-Lex from the European Union 2000/532 is contained here: </p>
+                   <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32006R1013&qid=1763042900354#anx_%C2%A0III">in Annex III.</a>
+                <p>Below you can find the hazcodes (HP1 - HP15) for each of the common waste types. In this document refer to Table 2.1 Hazardous properties and hazard statement codes, Page 11.</font></p>
+                 <p><a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1021051/Waste_classification_technical_guidance_WM3.pdf">Waste_classification_technical_guidance</a></p><p></p><p></p>
+                <p>For more information refer to the waste support website at:</p>  <p><a href="https://www.wastesupport.co.uk/hazard-codes/Hazzard Codes></a></p> <p>More information on hazardous waste codes and classification is available below.</p>
+                <a href="https://www.gov.uk/guidance/hazardous-waste-returns-supplementary-guidance#consignments-from-wales-scotland-and-northern-ireland>UK Guidance Hazardous Waste Returns</a><br><br>
+                <b>Note:</b> The field is case-sensitive, please use the case specified in the links, also see example field.
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
-              example: HP 5, HP 10
+              example: HP 5 - Wastes from petroleum refining, Natural Gas Purification and pyrolitic treatment of coal, HP 10 - Wastes from Thermal Processes</p>
               items:
                 type: string
             components:
               type: array
               items:
-                type: object 
+                type: object
                 required:
                   - name
                 properties:
                   name:
                     type: string
-                    description: Name of the hazardous component, e.g. Mercury.
+                    description: Name of the hazardous material, e.g. Mercury.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a valid chemical or biological component name.
-                    example: lead
+                    example: lead, mercury
                   concentration:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the hazardous component in milligrams per kilo, e.g. 30mg per kg.
+                    description: The concentration of the hazardous material in milligrams per kilo, e.g. 30mg per kg.
                       <p><font color="green"><b>Business Rule:</b></font></p>
                       Optional field. If provided, must be a positive numeric value (greater than 0).
-                    example: 25.5
+                    example: 50, 12.5, 25.5
         disposalOrRecoveryCodes:
           type: array
           items:
@@ -780,7 +798,8 @@ components:
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>General Format</b> where 9 is a digit 0-9</p>
-          example: CBDL6
+          example:
+            England - CBDL6, CBDU45, CBDU84916, Wales - CBDL1, CBDU33, CBDU84916, Scotland - WCR/522048, Northern Ireland - ROC UT 36, ROC LT 5432
         reasonForNoRegistrationNumber:
           type: string
           description: |
@@ -874,7 +893,7 @@ components:
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>Note:</b> where 9 is a digit 0-9</p>
-          example: CBDL6
+          example: CBDL6, CBDU45, CBDU84916, Wales - CBDL1, CBDU33, Scotland - WCR/R/522048, Northern Ireland - ROC UT 36, ROC LT 5432
     receiver:
       type: object
       required:
@@ -945,7 +964,7 @@ components:
                 <li>All UK nation formats are accepted (no nation-specific validation)</li>
                 <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
               </ul>
-          example: EPR/DD2522BF
+          example: HP3456XX
         regulatoryPositionStatements:
           type: array
           items:
@@ -973,177 +992,9 @@ components:
           type: string
           description: |
              Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
-             Here’s the full list of Recovery (R) and Disposal (D) Codes used in environmental waste management:
-              <table border="1">
-                          <thead>
-                              <tr>
-                                  <th>Description</th>
-                                  <th>Codes</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>Used principally as a fuel or other means to generate energy</td>
-                                  <td>R1</td>
-                              </tr>
-                              <tr>
-                                  <td>Solvent reclamation/regeneration</td>
-                                  <td>R2</td>
-                              </tr>
-                              <tr>
-                                  <td>Recycling/reclamation of organic substances not used as solvents</td>
-                                  <td>R3</td>
-                              </tr>
-                              <tr>    
-                                  <td>Recycling/reclamation of metals and metal compounds</td>
-                                  <td>R4</td>
-                              </tr>
-                              <tr>
-                                  <td>Recycling/reclamation of other inorganic materials</td>
-                                  <td>R5</td>
-                              </tr>
-                              <tr>
-                                  <td>Regeneration of acids or bases</td>
-                                  <td>R6</td>
-                              </tr>
-                              <tr>
-                                  <td>Recovery of components used for pollution abatement</td>
-                                  <td>R7</td>
-                              </tr>
-                              <tr>
-                                  <td>Recovery of components from catalysts</td>
-                                  <td>R8</td>
-                              </tr>
-                              <tr>
-                                  <td>Oil re-refining or other reuses of oil</td>
-                                  <td>R9</td>
-                              </tr>
-                              <tr>
-                                  <td>Land treatment resulting in benefit to agriculture or ecological improvement</td>
-                                  <td>R10</td>
-                              </tr>
-                              <tr>
-                                  <td>Use of waste obtained from any of the above recovery operations</td>
-                                  <td>R11</td>
-                              </tr>
-                              <tr>
-                                  <td>Exchange of waste for submission to any of the above recovery operations</td>
-                                  <td>R12</td>
-                              </tr>
-                              <tr>
-                                  <td>Storage of waste pending any of the above recovery operations</td>
-                                  <td>R13</td>
-                              </tr>
-                              <tr>
-                                  <td>Deposit into or onto land (e.g., landfill)</td>
-                                  <td>D1</td>
-                              </tr>
-                              <tr>
-                                  <td>Land treatment (e.g., biodegradation of liquid or sludge waste in soils)</td>
-                                  <td>D2</td>
-                              </tr>
-                              <tr>
-                                  <td>Deep injection (e.g., pumping into wells, salt domes)</td>
-                                  <td>D3</td>
-                              </tr>
-                              <tr>    
-                                  <td>Surface impoundment (e.g., placement of liquid waste in ponds)</td>
-                                  <td>D4</td>
-                              </tr>
-                              <tr>
-                                  <td>Specially engineered landfill (e.g., lined and covered cells)</td>
-                                  <td>D5</td>
-                              </tr>
-                              <tr>
-                                  <td>Release into a water body except seas/oceans</td>
-                                  <td>D6</td>
-                              </tr>
-                              <tr>
-                                  <td>Release into seas/oceans including seabed insertion</td>
-                                  <td>D7</td>
-                              </tr>
-                              <tr>
-                                  <td>Biological treatment not specified elsewhere (resulting in final compounds disposed of by any D-code)</td>
-                                  <td>D8</td>
-                              </tr>
-                              <tr>
-                                  <td>Physico-chemical treatment not specified elsewhere (resulting in final compounds disposed of by any D-code)</td>
-                                  <td>D9</td>
-                              </tr>
-                              <tr>
-                                  <td>Incineration on land</td>
-                                  <td>D10</td>
-                              </tr>
-                              <tr>
-                                  <td>Incineration at sea</td>
-                                  <td>D11</td>
-                              </tr>
-                              <tr>
-                                  <td>Permanent storage (e.g., containers in a mine)</td>
-                                  <td>D12</td>
-                              </tr>
-                              <tr>
-                                  <td>Blending or mixing prior to disposal</td>
-                                  <td>D13</td>
-                              </tr>
-                              <tr>
-                                  <td>Repackaging prior to disposal</td>
-                                  <td>D14</td>
-                              </tr>
-                              <tr>
-                                  <td>Storage pending any of the above disposal operations</td>
-                                  <td>D15</td>
-                              </tr>
-                              <tr>
-                                  <td>Dieldrin</td>
-                                  <td>DLD</td>
-                              </tr>
-                              <tr>
-                                  <td>Endrin</td>
-                                  <td>ENDN</td>
-                              </tr>
-                              <tr>
-                                  <td>Heptachlor</td>
-                                  <td>HPT</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexachlorobenzene</td>
-                                  <td>HCB</td>
-                              </tr>
-                              <tr>
-                                  <td>Chlordecone</td>
-                                  <td>CLD</td>
-                              </tr>
-                              <tr>
-                                  <td>Aldrin</td>
-                                  <td>ALD</td>
-                              </tr>
-                              <tr>
-                                  <td>Pentachlorobenzene</td>
-                                  <td>PECBZ</td>
-                              </tr>
-                              <tr>
-                                  <td>Polychlorinated biphenyls</td>
-                                  <td>PCB</td>
-                              </tr>
-                              <tr>
-                                  <td>Mirex</td>
-                                  <td>MRX</td>
-                              </tr>
-                              <tr>
-                                  <td>Toxaphene</td>
-                                  <td>TOX</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexabromobiphenyl</td>
-                                  <td>HBB</td>
-                              </tr>
-                              <tr>
-                                  <td>Hexabromocyclododecane</td>
-                                  <td>HBCD</td>
-                              </tr>
-                          </tbody>
-                      </table>
+              To find a code for a particular waste item, use the following 
+             <a href="https://dsposal.uk/your/waste-thesaurus?keyword=Sludge&type=low">waste thesaurus:</a></p>
+              <b>For the offical source of information, refer to the EU Directive in Annex I and Annex II where it defines Disposal and Recovery Codes on page 312/23</b></font> <a href="https://eu-west-1.protection.sophos.com/?d=europa.eu&u=aHR0cHM6Ly9ldXItbGV4LmV1cm9wYS5ldS9lbGkvZGVjLzIwMDAvNTMyL29qL2VuZw==&i=NjU1NTQ1ZDA2MjBmMmMyMzA0ZGU5OWE0&t=dndtSlJYTVNkNERFS2d2UnNFNngwalE3V0tRQjkwT1B5RU1xMXZZYjRaQT0=&h=f9ea9cc09d6c410680eff4844744d130&s=AVNPUEhUT0NFTkNSWVBUSVbCUuLW1BJQM24jxeEUkI7MFw6mlbrW6RR5p-gchkg9NA">in this link above.</a>
                <p><b>Note:</b> The field is case-sensitive, please use the case specified for the code in the link<p>
               <p><font color="green"><b>Business Rule:</b></font></p> 
               If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code listed in EUR-Lex. 
@@ -1171,7 +1022,7 @@ components:
           exclusiveMinimum: true
           description: Total weight of the waste in a unit specified - Grams - Kilograms - Tonnes
             <p><font color="green">Business Rule:</font></p>
-            Must be a positive number (greater than 0). <b>Note-</b><p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
+            Must be a positive number (greater than 0). <p><font color="red"><b>Note-</b></font></p> <p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
           example: 150
         isEstimate:
           type: boolean
@@ -1201,7 +1052,7 @@ components:
           example: 26a Oil Drum Lane, London, UK
         postcode:
           type: string
-          description: A valid postcode must be included. <p><b>Note-</b></p> Carriers, Brokers/Dealers accept UK and Irish post codes. 
+          description: A valid postcode must be included. <p><font color="red"><b>Note-</b></font></p> Carriers, Brokers/Dealers accept UK and Irish post codes. 
           example: W12 7ZL
     receiptAddress:
       type: object
@@ -1261,3 +1112,4 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+
