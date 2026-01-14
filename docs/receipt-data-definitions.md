@@ -1,0 +1,101 @@
+[← Back to Top](README.md){ .md-button }
+
+# Receipt of Waste - data Definitions
+
+<b>Private Beta</b>
+
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
+
+These draft data definition tables describe the information we expect to be recorded by the future waste tracking service when a receiving site accepts or rejects waste.
+
+They are a draft and may be updated to reflect changes to policy, legislation and feedback received from those in the waste industry.
+
+## Movement details
+
+| Data field                                           | Mandatory or optional | Description                                                                                                                                                      |
+| ---------------------------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| API Code                                     | Mandatory             | This is the unique identifier of the organisation, provided during registration.                                                                                 |
+| Date/time received                                   | Mandatory             | This is the date and exact time waste was received at the site.                                                                                                  |
+| Hazardous waste consignment code                     | Optional              | Hazardous waste consignment code (If EWC is Haz, then mandatory)                                                                                               |
+| Reasons provided for not having a consignment number | Optional              | Reasons provided for not having a consignment number                                                                                                             |
+| Your unique reference ID                                  | Optional              | This could be a unique weighbridge ticket number, waste transfer note number etc.                                                                                |
+| Other references                                     | Optional              | Other references for this movement                                                                                                                               |
+| Special handling requirement                         | Optional              | Usually required for waste that might contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm. |
+
+## Waste items
+
+| Data field                                                                                                  | Mandatory or optional | Description                                                                                                                                                                                                                                                                              |
+| ----------------------------------------------------------------------------------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| EWC code (could be multiple EWC codes for one load)                                                         | Mandatory             | An EWC code is a 6 digit code listed in the European Waste Catalogue (EWC). The EWC is a list of waste types which categorises waste based on a combination of what they are, and the process or activity that produces them.                                                            |
+| Waste description (proper description of actual waste not EWC description)                                  | Mandatory             | A detailed description of a specific waste material, including its physical characteristics, composition, and any potential hazards associated with it. It's essentially a classification of the waste that helps determine how it should be managed and disposed of safely.             |
+| Physical form                                                                                               | Mandatory             | This is the form of the waste. This could be a gas, liquid, solid, powder, sludge or mixed etc.                                                                                                                                                                                          |
+| Number of containers                                                                                        | Mandatory             | Number of containers for storing, transporting and disposing of waste materials                                                                                                                                                                                                          |
+| Type of containers                                                                                          | Mandatory             | Containers are receptacles used for storing, transporting, and disposing of waste materials. They come in various sizes and types, ranging from small desk-side bins to large industrial skips.                                                                                          |
+| Weight - unit of measurement                                                                                 | Mandatory             | Unit of measurements of waste being accepted either Grams, Kilograms or Tonnes                                                                                                                                                                                                                                             |
+| Weight - amount                                                                                              | Mandatory             | Total weight of the waste being accepted                                                                                                                                                                                                                                                 |
+| Is the waste weight estimated?                                                                             | Mandatory             | Specifies whether the quantity of waste is estimated.                                                                                                                                                                                                                          |
+| **POPs data:**                                                                                              |
+| Does the waste contain persistent organic pollutants (POPs)?                                                | Mandatory             | Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous _and_ non-hazardous waste.If "Y" then following properties are mandatory.                                                              |
+| POP name                                                                                                    | Optional             | E.g. Aldrin, Chlordane, Dieldrin etc.                                                                                                                                                                                                                                                    |
+| POP concentration value                                                                                     | Optional             | E.g. 50mg per kg of Chlordane.                                                                                                                                                                                                                                                           |
+| **Hazardous waste data:**                                                                                   |
+| Is the waste hazardous?                                                                                     | Mandatory             | Hazardous waste is any waste that is potentially harmful to human health or the environment. If "Y" then following properties are mandatory. |
+| Hazardous property codes (Haz code)                                                                         | Optional             | Hazard property (HP) codes are used to classify hazardous waste. E.g. HP 1 - Explosive Waste, HP 2 - Oxidising Waste, HP 3 - Flammable Waste etc. [Waste classification technical guidance - GOV.UK](https://www.gov.uk/government/publications/waste-classification-technical-guidance) |
+| Chemical or biological component                                                                            | Optional             | E.g. Mercury.                                                                                                                                                                                                                                                                            |
+| Component concentration value                                                                               | Optional             | E.g. 30mg per kg.                                                                                                                                                                                                                                                                        |
+| **Disposal or Recovery Codes:**                                                                                   |
+| Disposal / recovery code | Mandatory             | Waste disposal and recovery codes are for categorising waste and determining the most appropriate treatment and recovery options. For each EWC (choose one or more R/D codes per EWC and weight/quantity for each code) |
+| Weight - unit of measurement                                                                                 | Mandatory             | Unit of measurements of waste being accepted either Grams, Kilograms or Tonnes                                                                                                                                                                                                                                             |
+| Weight - amount                                                                                              | Mandatory             | Total weight of the waste for this disposal or recover code.                                                                                                                                                                                                                                                |
+| Is the waste weight estimated?                                                                             | Mandatory             | Specifies whether the quantity of waste is estimated.                                                                                                                                                                                                                          |
+
+## Carrier details
+
+| Data field                                                               | Mandatory or optional | Description                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |                                                                                         
+| Carrier registration number                                              | Mandatory             | A waste carrier registration number is a legal requirement for businesses that transport, buy, sell, or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner. |
+| If Carrier registration number not applicable, give reason(s)            | Mandatory             | Provide reasons for not having the carrier registration number                                                                                                                                                                             |
+| Carrier organisation name                                                | Mandatory             | The business name of the carrier.                                                                                                                                                                                                          |
+| Carrier address                                                          | Optional              | The full business location address of the carrier.                                                                                                                                                                                              |
+| Carrier post code                                                        | Optional              | The business location post code of the carrier.                                                                                                                                                                                              |
+| Carrier contact email address                                            | Optional              | The email address of the carrier.                                                                                                                                                                                                          |
+| Carrier contact phone number                                             | Optional              | The waste carrier business contact number.                                                                                                                                                                                                 |
+| Vehicle registration number                                              | Optional             | The vehicle registration number of the carrier. Mandatory when Means of Transport is "Road"                                                                                                                                              |
+| Means of transport (road, rail, air, sea, inland waterway, pipe, others) | Mandatory             | This describes how the waste is transported.                                                                                                                                                                                               |
+
+## Broker or dealer details
+
+| Data field                           | Mandatory or optional | Description                                                        |
+| ------------------------------------ | --------------------- | ------------------------------------------------------------------ |
+| Broker or dealer organisation name   | Optional              | The broker or dealer organisation name who arranged this transfer. |
+| Broker or dealer address             | Optional              | The business location address of the broker or dealer.             |
+| Broker or dealer post code           | Optional              | The business location post code of the broker or dealer.           |
+| Broker or dealer email               | Optional              | The email address of the broker or dealer.                         |
+| Broker or dealer phone number        | Optional              | The broker or dealer business contact number.                     |
+| Broker or dealer registration number | Optional              | The Registration number of the broker or dealer.                   |
+
+## Receiver's details
+
+| Data field                                  | Mandatory or optional | Description                                                                                                                                                                                                                                   |
+| ------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Receiver site name   | Optional              | The receiver's site name who arranged this transfer. |
+| Receiver email               | Optional              | The receiver's email address.                                |
+| Receiver phone number        | Optional              | The receiver's business contact number.                      |
+| Receiver’s authorisation number             | Mandatory             | This is the site's authorisation (permit or exemption) number that allows it to accept waste for intended recovery and disposal operation.                                                                                                    |
+| Regulatory position statement               | Optional             | A regulatory position statement (RPS) is issued when the Environment Agency don’t require you to have a permit to carry out certain activities that they regulate. The statement will state which activities you do not require a permit for. |
+
+## Receipt
+
+| Data field                                                                                                      | Mandatory or optional | Description                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Receipt address            |  Mandatory              | This is the address the waste is received at.            |
+| Receipt post code          | Mandatory               | Post code if the address the waste is received at.          |
+<br><br>
+
+
+## Changelog
+
+You can find the changelog for this document in the [Receipt API v1.0 Data Definitions](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Data-Definitions) GitHub wiki.
+<br/>
+
+Page last updated on 14th January 2026.
