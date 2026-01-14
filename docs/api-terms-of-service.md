@@ -106,12 +106,19 @@ As a developer or operator of a service consuming the Defra Digital Waste Tracki
 
 - **Report Breaches Promptly:** In the event of a data breach involving personal data obtained via the API, notify the Information Commissioner’s Office (ICO), [Defra Security Team](mailto:security.team@defra.gov.uk) and affected individuals as required by law.
 
-Failure to comply with these obligations may result in suspension of API access.
-
+Failure to comply with these obligations may result in suspension of API access.<br><br>
 
 
 ### Reference Material
 
 Terms of use -[Defra API Developer Portal - GOV.UK](https://developer-portal.trade.defra.gov.uk/documentation/terms-of-use)
 
-Also HMRC Terms Of Use - [HMRC Developer Hub - GOV.UK](https://developer.service.hmrc.gov.uk/api-documentation/docs/terms-of-use#introduction)
+Also HMRC Terms Of Use - [HMRC Developer Hub - GOV.UK](https://developer.service.hmrc.gov.uk/api-documentation/docs/terms-of-use#introduction)<br><br>
+
+## Changelog
+
+You can find the changelog for this document in the [Receipt API v1.0 Terms of Service](https://github.com/DEFRA/waste-tracking-service/wiki/Terms-of-Service-Changelog) GitHub wiki.
+
+
+Page last updated on January 14th 2026
+

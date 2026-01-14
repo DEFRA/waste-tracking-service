@@ -20,7 +20,12 @@
 |**Intra-site waste transfers**|If you have a physical site that has two permit numbers because it has two processing areas within it. You would be moving materials from one to the other, so they may move between permit numbers. Would that require a submission when they're not physically moving site? And in that scenario there would not be a carrier involved because you're physically moving it yourself within your own site, but within two areas within the same site.|Yes, a waste movement record is required moving the waste within a site, between two distinct permits. Because the obligations of each permit require you to record the waste input and output. If no Carrier was used then provide Null carrierRegistration and provide the reason in reasonForNoCarrierRegistration|
 |**Text field size limit**|What is the size limit for free text fields, such as “Waste Description”?|Size limit is 5,000 characters maximum.|
 
-If you have a question that isn't on this list, then you can post it in the [discussion forum](https://github.com/DEFRA/waste-tracking-service/discussions) - requires a GitHub account.
+If you have a question that isn't on this list, then you can post it in the [discussion forum](https://github.com/DEFRA/waste-tracking-service/discussions) - requires a GitHub account.2<br><br>
+## Changelog
+
+You can find the changelog for this document in the [Receipt API v1.0 FAQs](https://github.com/DEFRA/waste-tracking-service/wiki/API-FAQs-Changelog) GitHub wiki.
+
+<br/>Page last updated on January 14th 2026.
 
 
 

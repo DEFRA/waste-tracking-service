@@ -90,6 +90,12 @@ They are a draft and may be updated to reflect changes to policy, legislation an
 | --------------------------------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | Receipt address            |  Mandatory              | This is the address the waste is received at.            |
 | Receipt post code          | Mandatory               | Post code if the address the waste is received at.          |
+<br><br>
 
 
-Page last updated on 29 August 2025.
+## Changelog
+
+You can find the changelog for this document in the [Receipt API v1.0 Data Definitions](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Data-Definitions) GitHub wiki.
+<br/>
+
+Page last updated on 14th January 2026.

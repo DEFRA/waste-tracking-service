@@ -33,9 +33,14 @@ We provide a comprehensive Bruno collection that includes:
 - **Validate responses**: Compare responses against expected schemas
 - **Debug issues**: Use Bruno's debugging tools to troubleshoot API problems
 - **Share with team**: Export and share test results with your development team
-- **OAuth2 Integration**: Automatic token management and refresh
+- **OAuth2 Integration**: Automatic token management and refresh<br><br>
 
-!!! Note "Bruno Collection Available"
+Note "Bruno Collection Available"
     The Bruno collection is available in the repository at [docs/bruno/digitalWasteTrackingExternalAPI](https://github.com/DEFRA/waste-tracking-service/tree/main/docs/bruno/digitalWasteTrackingExternalAPI).
 
-Page last updated on November 2025.
+## Changelog
+
+You can find the changelog for this document in the [Receipt API v1.0 Testing and Examples](https://github.com/DEFRA/waste-tracking-service/wiki/API-Testing-and-Examples) GitHub wiki.
+
+
+<br/>Page last updated on January 14th 2026.

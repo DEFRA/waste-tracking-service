@@ -75,4 +75,7 @@ Production: https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncogni
 Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com 
 ```
 
-<br/>Page last updated on November 20th 2025.
+## Changelog
+
+You can find the changelog for this document in the [Receipt API v1.0 Authentication Guide](https://github.com/DEFRA/waste-tracking-service/wiki/Authentication-Guide-Changelog) GitHub wiki.
+<br/>Page last updated on January 14th 2026.
