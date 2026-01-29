@@ -17,7 +17,7 @@ The scenarios to be demonstrated are:<br>
 - <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
 - <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
 - <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
-- <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
+- <b>C01</b> C01 Basic waste Receipt - with no Carrier registration number and no reason (ERROR)<br>
 - <b>C02</b> Basic waste Receipt - with no Carrier registration number and reason<br> 
 - <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
 - <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
@@ -104,15 +104,15 @@ As a user,<br>
 I want to submit a receipt of waste with appropriate carrier information,<br>
 so that the movement is properly documented and compliant.<br>
 
-### Scenario: Submit receipt of waste with no carrier details and no reason (C01)
+### Scenario: Submit Basic waste Receipt - with no Carrier registration number and no reason (C01)
 
-Given I have authenticated<br>
-And I have a basic waste movement<br>
-And there are no carrier details<br>
-And no reason is provided<br>
-When I attempt to submit the waste movement receipt<br>
-Then the waste movement receipt should be rejected<br>
-And I should receive an error message<br>
+Given I have authenticated
+And I have a basic waste movement
+And there is no carrier registration number
+And a reason for no registration number is NOT provided
+When I attempt to submit the waste movement receipt
+Then the waste movement receipt should be rejected
+And I should receive an error message
 
 ### Scenario: Submit receipt of waste with no carrier registration number and reason (C02)
 
