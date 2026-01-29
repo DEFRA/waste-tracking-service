@@ -577,6 +577,8 @@
       
         
       
+        
+      
     
     
     
@@ -666,6 +668,34 @@
     
   
     Receivers process diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-software-developer-onboarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Api software developer onboarding
   
 
     
@@ -1016,7 +1046,7 @@
 - <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
 - <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
 - <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
-- <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
+- <b>C01</b> C01 Basic waste Receipt - with no Carrier registration number and no reason (ERROR)<br>
 - <b>C02</b> Basic waste Receipt - with no Carrier registration number and reason<br> 
 - <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
 - <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
@@ -1084,14 +1114,14 @@ And I should receive a Waste Tracking ID<br></p>
 <p>As a user,<br>
 I want to submit a receipt of waste with appropriate carrier information,<br>
 so that the movement is properly documented and compliant.<br></p>
-<h3 id="scenario-submit-receipt-of-waste-with-no-carrier-details-and-no-reason-c01">Scenario: Submit receipt of waste with no carrier details and no reason (C01)</h3>
-<p>Given I have authenticated<br>
-And I have a basic waste movement<br>
-And there are no carrier details<br>
-And no reason is provided<br>
-When I attempt to submit the waste movement receipt<br>
-Then the waste movement receipt should be rejected<br>
-And I should receive an error message<br></p>
+<h3 id="scenario-submit-basic-waste-receipt-with-no-carrier-registration-number-and-no-reason-c01">Scenario: Submit Basic waste Receipt - with no Carrier registration number and no reason (C01)</h3>
+<p>Given I have authenticated
+And I have a basic waste movement
+And there is no carrier registration number
+And a reason for no registration number is NOT provided
+When I attempt to submit the waste movement receipt
+Then the waste movement receipt should be rejected
+And I should receive an error message</p>
 <h3 id="scenario-submit-receipt-of-waste-with-no-carrier-registration-number-and-reason-c02">Scenario: Submit receipt of waste with no carrier registration number and reason (C02)</h3>
 <p>Given I have authenticated<br>
 And I have a basic waste movement<br>
