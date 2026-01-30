@@ -11,7 +11,7 @@
 ### 1. Register for the Receipt of Waste (RoW) API  Private Beta
 Software providers must first register for the Receipt of Waste (RoW) private beta.
 
-The sign-up link for this registration is available on the project’s [ACTUAL LINK] -> GitHub page and the government guidance page.
+The sign-up link for this registration is available on the project’s GitHub page available here: [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md) and the  [government guidance page](https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking).
 
 ### 2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team
 Following registration, software developers receive test credentials from the DWT team.
