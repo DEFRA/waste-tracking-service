@@ -155,6 +155,10 @@
       
     </div>
     
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
     
       
 
@@ -1032,7 +1036,6 @@
 - <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
 - <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
 - <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
-- <b>R06</b> Basic waste Receipt - with multiple receiver authorisation numbers<br> 
 - <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
 - <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
 - <b>C02</b> Basic waste Receipt - with no Carrier details and reason<br> 
@@ -1091,13 +1094,6 @@ And there are multiple accompanying ‘Disposal or Recovery’ codes<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
 And I should receive a Waste Tracking ID<br></p>
-<h3 id="scenario-submit-basic-receipt-of-waste-with-multiple-receiver-authorisation-numbers-r06">Scenario: Submit basic receipt of waste with multiple receiver authorisation numbers (R06)</h3>
-<p>Given I have authenticated<br>
-And I have a basic waste movement<br>
-And there are multiple receiver authorisation numbers<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID</p>
 <h3 id="scenario-submit-basic-receipt-of-waste-with-mirror-ewc-codes-r07">Scenario: Submit basic receipt of waste with Mirror EWC codes (R07)</h3>
 <p>Given I have authenticated<br>
 And I have a basic waste movement<br>
@@ -1321,7 +1317,7 @@ b) Test your software against the additional categories otherwise your users may
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "production", "provider": "mike"}}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
