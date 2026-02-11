@@ -15,7 +15,6 @@ The scenarios to be demonstrated are:<br>
 - <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
 - <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
 - <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
-- <b>R06</b> Basic waste Receipt - with multiple receiver authorisation numbers<br> 
 - <b>R07</b> Basic waste Receipt - with Mirror EWC codes<br>
 - <b>C01</b> Basic waste Receipt - with no Carrier details and no reason (ERROR)<br>
 - <b>C02</b> Basic waste Receipt - with no Carrier details and reason<br> 
@@ -89,14 +88,6 @@ When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
 And I should receive a Waste Tracking ID<br>
 
-### Scenario: Submit basic receipt of waste with multiple receiver authorisation numbers (R06)
-
-Given I have authenticated<br>
-And I have a basic waste movement<br>
-And there are multiple receiver authorisation numbers<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID
 ### Scenario: Submit basic receipt of waste with Mirror EWC codes (R07)
 
 Given I have authenticated<br>
