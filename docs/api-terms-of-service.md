@@ -24,6 +24,10 @@ You must:
 
 - **Ensure alignment with the API specification:** This will ensure validation of the submitted waste tracking data.
 
+- **Understand that GET endpoint code descriptions** are designed to help software developers cross-reference the codes for there own internal use, and not for use on User Interfaces (UIs).
+
+- **Understand that warning and error messages** are designed to help software developers with there own internal use, and not for use on User Interfaces (UIs).
+
 - **Maintain Security:** Implement robust security measures including OAuth 2.0 authentication, encryption, and secure storage of credentials.
 
 - **Avoid Client-Side API Calls:** The API does not support CORS; do not attempt to call it directly from browser-based applications.
