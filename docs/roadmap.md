@@ -6,13 +6,13 @@
 ## Recently released
 
 ### Updated API specification
-We have published a [revised API specification](https://defra.github.io/waste-tracking-service/api-specification/) based on the feedback we gathered from waste operators, regulators and software developers during Alpha.
+We have published a [revised API specification](../api-specification/) based on the feedback we gathered from waste operators, regulators and software developers during Alpha.
 
 ### Enabling developers to test their integration with the API
-We have provided a [test environment and set of test scenarios](https://defra.github.io/waste-tracking-service/api-testing-and-examples/) for the Receipt of Waste API.
+We have provided a [test environment and set of test scenarios](../api-testing-and-examples/) for the Receipt of Waste API.
 
 ### Credentials for test environment issued
-We have emailed client IDs and secrets to all developer participants in the private beta. Refer [authentication guide](https://defra.github.io/waste-tracking-service/api-authentication-guide/) for information on how to authenticate with the test environment.
+We have emailed client IDs and secrets to all developer participants in the private beta. Refer [authentication guide](../api-authentication-guide/) for information on how to authenticate with the test environment.
 
 
 ## What’s next

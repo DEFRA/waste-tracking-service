@@ -10,7 +10,7 @@ A private beta is a way of testing a service or product with a select group of c
 Our aims are to:
 
 * help software developers and waste receivers prepare for the mandatory changes to the reporting of waste movements (coming into effect from October 2026\)  
-* give software developers (including third-party and internal development teams) as much time as possible to integrate their products and systems with the [Defra Receipt of Waste API](https://defra.github.io/waste-tracking-service/api-specification/)   
+* give software developers (including third-party and internal development teams) as much time as possible to integrate their products and systems with the [Defra Receipt of Waste API](../apiSpecifications/)
 * test that our APIs, processes and documentation meet the needs of waste receivers and software developers  
 * ensure the data we collect meets the needs of waste regulators  
 * test and refine our registration, onboarding and support processes
@@ -20,7 +20,7 @@ Our aims are to:
 To be eligible to take part, your organisation must:
 
 * operate one or more licensed or permitted waste receiving sites in the UK  
-* be able to work with your external software developers or internal development team so you can provide data about the waste you receive via the [Receipt of Waste API](https://defra.github.io/waste-tracking-service/api-specification/)  
+* be able to work with your external software developers or internal development team so you can provide data about the waste you receive via the [Receipt of Waste API](../apiSpecifications/)
 * agree for data provided during private beta to be reviewed by regulators and policy analysts for testing purposes  
 * be willing to provide regular feedback on your experiences of using the service, including through surveys, user research sessions, diary studies etc.
 
