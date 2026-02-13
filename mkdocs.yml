@@ -49,7 +49,7 @@ nav:
   - Phase 1 Receipt of Waste:
     - api-landing-page.md
     - receivers-process-diagram.md
-    - api-software-developer-onboarding.md
+    - api-software-developer-onboarding-process.md
     - api-specification.md
     - receipt-data-definitions.md 
     - api-authentication-guide.md
@@ -98,5 +98,6 @@ extra:
 #    provider: google
 
 #    property: G-SKK1DY4NVV
+
 
 

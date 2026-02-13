@@ -6,12 +6,12 @@
 
 [![Steps involved in onboarding software developers](api-software_developer_onboarding_steps.png)](api-software_developer_onboarding_steps)
 
-### Follow the steps in the above diagram using the corresponding steps below:
+### Follow the steps in the above diagram with the corresponding steps below:
 
 ### 1. Register for the Receipt of Waste (RoW) API  Private Beta
-Software providers must first register for the Receipt of Waste (RoW) private beta.
+Software developers must first register for the Receipt of Waste (RoW) private beta.
 
-The sign-up link for this registration is available on the project’s [ACTUAL LINK] -> GitHub page and the government guidance page.
+The sign-up link for this registration is available on both the project’s GitHub page available here: [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md) and the  [government guidance page](https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking).
 
 ### 2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team
 Following registration, software developers receive test credentials from the DWT team.
@@ -24,7 +24,7 @@ Using the provided test credentials, software developers begin building the inte
 Developers can use the available GET reference data endpoints to retrieve necessary codes for container types, hazardous properties, and other required data.
 
 ### 4. Execute the Production Approval Test (PAT) Scenarios
-Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. See: https://defra.github.io/waste-tracking-service/current/production-approval-tests/ 
+Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. See [Production Approval Tests](production-approval-tests.md). 
 
 These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.
 
@@ -42,7 +42,7 @@ The software developer receives a formal acceptance from the DWT team once their
 ### 8. Agree to the API Terms of Use
 Following acceptance, developers must read and agree to the API terms of service.
 
-The full terms are available on GitHub for review in advance. See: https://defra.github.io/waste-tracking-service/current/api-terms-of-service/ 
+The full terms are available on GitHub for review in advance. See [Terms of Service](api-terms-of-service.md).
 
 ### 9. Receive Production Credentials from the DWT Team
 Once the terms of service are agreed to, the DWT team issues the production credentials to the software developer.
