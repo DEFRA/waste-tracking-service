@@ -137,7 +137,6 @@ paths:
             Corresponds to the third and fourth digits of the LoW code. It narrows down the category to a more specific process or material within the chapter.<br><br>
             Example:<br><br>
             10 02 – Wastes from the iron and steel industry<br><br>
-
           content:
             application/json:
               schema:
@@ -425,7 +424,7 @@ components:
                     "No documentation provided with Waste",
                     "Household Waste Recycling Centre Receipt"
                   ]
-                description: Reason provided for not having a consignment code. There are three codes you can choose to provide.
+                description: If you have not provided a hazardous waste consignment code, then there are three reason codes you can choose to provide. See the table below.
                   <table border="1">
                           <thead>
                               <tr>
@@ -454,7 +453,7 @@ components:
                   <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
                   <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “No documentation provided with Waste” or “Household Waste Recycling Centre Receipt”. </li>
                   </ul>
-                example: No documentation provided with Waste
+                example: NO_DOC_WITH_WASTE
               yourUniqueReference:
                 type: string
                 description: This could be a unique weighbridge ticket number, waste transfer note number etc.
@@ -659,7 +658,7 @@ components:
             hazCodes:
               type: array
               description: |
-                Hazardous property codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15.       
+                Hazardous property codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP_1 - HP_15. The format of the code to be entered is HP_'number', e.g. HP_1 for Explosive, HP_2 for Oxidizing, etc.     
                  <p>The official hazardous code list is found here in Appendix C:
                  <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 document.</a></p>
                  <b>Notes:</b><br>
@@ -669,7 +668,7 @@ components:
                 </ul>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
-              example: HP 5, HP 10
+              example: HP_5, HP_10
               items:
                 type: string
             components:
@@ -732,7 +731,7 @@ components:
         reasonForNoRegistrationNumber:
           type: string
           description: |
-            Provide reasons for not having the carrier registration number. Given reasons are:
+            If you have not provided a registration number, then here you must provide an appropriate reason code from the list below:
             <ul>
             <li><b>ON_SITE - Movement within the same premises</b> (e.g. waste transferred between different areas or authorisations on the same site)</li>
             <li><b>HOUSEHOLD - Householder transporting own waste</b> (e.g. individual taking personal or household waste to a HWRC, not for profit)</li>
@@ -744,7 +743,7 @@ components:
             <li>If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required.</li>
             <li>If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.</li>
             </ul>
-          example: Waste carrier did not provide a carrier registration number.
+          example: ON_SITE
         organisationName:
           type: string
           description: The business name of the carrier. 
