@@ -43,9 +43,13 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 nav:
-  - Phase 1 Receipt of Waste:
+  - About Waste Tracking: 
     - README.md
+    - storyboards.md
+    - use-cases.md
     - initial-scope.md
+  - Phase 1 Receipt of Waste:
+    - api-landing-page.md
     - receivers-process-diagram.md
     - api-software-developer-onboarding-process.md
     - api-specification.md
@@ -57,8 +61,6 @@ nav:
     - roadmap.md
     - private-beta-comms-sign-up.md
     - api-terms-of-service.md
-    - storyboards.md
-    - use-cases.md
     - faq.md
 extra_css:
   - stylesheets/extra.css
@@ -101,4 +103,5 @@ extra:
 #    provider: google
 
 #    property: G-SKK1DY4NVV
+
 
