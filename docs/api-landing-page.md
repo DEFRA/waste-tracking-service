@@ -27,13 +27,13 @@ The API is based on REST principles and currently has seven endpoints. They retu
 
 | Endpoint |  Description|
 |----------|-------------|
-| <font color="green"><b>POST</b></font> | is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. |
-| <font color="red"><b>PUT</b></font> |is used to update a waste tracking record using a waste tracking ID query parameter to identify the movement. It returns a validation result.|
-|<font color="blue"><b>GET</b></font>| is used to retrieve a list of European Waste Codes (EWC).|
-|<font color="blue"><b>GET</b></font>|is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).|
-|<font color="blue"><b>GET</b></font>|is used to retrieve a list of Disposal or Recovery codes.|
-|<font color="blue"><b>GET</b></font>|is used to retrieve a list of Container Types.|
-|<font color="blue"><b>GET</b></font>|is used to retrieve a list of Waste POP Codes.|
+|<b>POST</b> | is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. |
+|<b>PUT</b>|is used to update a waste tracking record using a waste tracking ID query parameter to identify the movement. It returns a validation result.|
+|<b>GET</b>| is used to retrieve a list of European Waste Codes (EWC).|
+|<b>GET</b>|is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).|
+|<b>GET</b>|is used to retrieve a list of Disposal or Recovery codes.|
+|<b>GET</b>|is used to retrieve a list of Container Types.|
+|<b>GET</b>|is used to retrieve a list of Waste POP Codes.|
 
     
 **Note:** At present the API endpoints relate only to Great Britain and Northern Ireland.
@@ -107,7 +107,7 @@ You can now begin sending waste movements to the Waste Tracking Service.
 
 1. Waste Receivers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
-3. Get the [Production API Code](api-codes-for-testing-and-production.md)</b></font>. After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.
+3. Get the [Production API Code](api-codes-for-testing-and-production.md). After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.
 
 ### Authentication
 
@@ -165,11 +165,10 @@ curl --request POST \
 -- data '{
   "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
-  "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc
-  }
+  "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE"
 ```
 
-The Request Body is the essential part of an API <font color="green"><b>POST</b></font> or <font color="red"><b>PUT</b></font> request, it contains important data fields that a waste receiver needs to report about a waste movement. 
+The Request Body is the essential part of an API <b>POST</b> or <b>PUT</b> request, it contains important data fields that a waste receiver needs to report about a waste movement. 
 
 An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:
 
@@ -339,7 +338,8 @@ A detailed description of the error responses for this API can be found in the [
 
 200 hits per second soft limit.
  
-This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving <font color="red"><b>Rate Limit Exceeded</b></font> 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.
+This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving 
+<b>Rate Limit Exceeded</b> 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.
  
 ## Getting help by email
 
