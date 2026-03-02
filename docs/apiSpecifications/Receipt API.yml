@@ -771,9 +771,9 @@ components:
           example: RNT 493
         meansOfTransport:
           type: string
-          enum: [Road, Rail, Air, Sea, Inland Waterway, Pipe, Other]
+          enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
           description: |
-            This describes how the waste is transported (road, rail, air, sea, inland waterway, other)
+            This describes how the waste is transported (road, rail, air, sea, piped, inland waterway, other)
             <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
@@ -1041,4 +1041,5 @@ components:
                   errors:
                     type: array
                     items:
+
                       $ref: "#/components/schemas/validationResult"
