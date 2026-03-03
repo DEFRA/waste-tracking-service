@@ -126,7 +126,7 @@ paths:
             This describes the type of entry for the waste code. It indicates whether the entry is:<br>
             - Absolute hazardous (always hazardous, marked with *)<br>
             - Absolute non-hazardous (never hazardous)<br>
-            - Mirror entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
+            - Dual code entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
             <p><b>chapter</b><br>
             Refers to the first two digits of the six-digit List of Waste (LoW) code. It defines the main category of waste, usually based on the industry or process generating the waste.<br><br>
             Example:<br><br>
@@ -451,7 +451,7 @@ components:
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
                   <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “No documentation provided with Waste” or “Household Waste Recycling Centre Receipt”. </li>
+                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “NON_HAZ_WASTE_TRANSFER”, “NO_DOC_WITH_WASTE” or “HWRC_RECEIPT”. </li>
                   </ul>
                 example: NO_DOC_WITH_WASTE
               yourUniqueReference:
@@ -771,9 +771,9 @@ components:
           example: RNT 493
         meansOfTransport:
           type: string
-          enum: [Road, Rail, Air, Sea, Inland Waterway, Pipe, Other]
+          enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
           description: |
-            This describes how the waste is transported (road, rail, air, sea, inland waterway, other)
+            This describes how the waste is transported (road, rail, air, sea, piped, inland waterway, other)
             <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
@@ -1041,4 +1041,5 @@ components:
                   errors:
                     type: array
                     items:
+
                       $ref: "#/components/schemas/validationResult"
