@@ -5,7 +5,7 @@ title: Introduction to Phase 1 the Receipt of Waste API
 [← Back to Top](README.md){ .md-button }
 
 
-Version 1.0 issued November 2025
+Version 1.1 issued February 2026
 
 # Welcome to Phase 1 - Receipt of Waste API
 
@@ -18,7 +18,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 The latest version of the Receipt of Waste API OAS Specification is available [here](../apiSpecifications/).
 
-#### Receipt of Waste Process Flow
+### Receipt of Waste Process Flow
 
 [![receivers only](initial-scope-receivers-only.png)](initial-scope-receivers-only.png)
 
@@ -27,13 +27,13 @@ The API is based on REST principles and currently has seven endpoints. They retu
 
 | Endpoint |  Description|
 |----------|-------------|
-| <font color="green"><b>POST</b></font> | is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. |
-| <font color="orange"><b>PUT</b></font> |is used to update a waste tracking record using a waste tracking ID query parameter to identify the movement. It returns a validation result.|
-|<font color="blue"><b>GET</b></font>| is used to retrieve a list of European Waste Codes (EWC).|
-|<font color="blue"><b>GET</b></font>|is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).|
-|<font color="blue"><b>GET</b></font>|is used to retrieve a list of Disposal or Recovery codes.|
-|<font color="blue"><b>GET</b></font>|is used to retrieve a list of Container Types.|
-|<font color="blue"><b>GET</b></font>|is used to retrieve a list of Waste POP Codes.|
+|<b>POST</b> | is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. |
+|<b>PUT</b>|is used to update a waste tracking record using a waste tracking ID query parameter to identify the movement. It returns a validation result.|
+|<b>GET</b>| is used to retrieve a list of European Waste Codes (EWC).|
+|<b>GET</b>|is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).|
+|<b>GET</b>|is used to retrieve a list of Disposal or Recovery codes.|
+|<b>GET</b>|is used to retrieve a list of Container Types.|
+|<b>GET</b>|is used to retrieve a list of Waste POP Codes.|
 
     
 **Note:** At present the API endpoints relate only to Great Britain and Northern Ireland.
@@ -73,7 +73,7 @@ Work through these short sections on practical preparation and use of the API:
 - [Getting help from the API support team](#getting-help-by-email)
 
 
-#### Prequisite Steps (Developers)
+### Prequisite Steps (Developers)
 
 To develop using the Receipt of Waste API, you must:
 
@@ -93,7 +93,7 @@ These are the necessary steps:
 3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#authentication).
 
 
-4. To begin testing, you also need a <font color="orange"><b>Dummy API Code</b></font>. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
+4. To begin testing, you also need a Dummy API Code. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
 
 5. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
 
@@ -103,11 +103,11 @@ These are the necessary steps:
 
 You can now begin sending waste movements to the Waste Tracking Service.
 
-#### Prequisite Steps (Receivers)
+### Prequisite Steps (Receivers)
 
 1. Waste Receivers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
-3. Get the [Production API Code](api-codes-for-testing-and-production.md)</b></font>. After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.
+3. Get the [Production API Code](api-codes-for-testing-and-production.md). After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.
 
 ### Authentication
 
@@ -165,11 +165,10 @@ curl --request POST \
 -- data '{
   "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
-  "reasonForNoConsignmentCode": "Carrier did not provide documentation", ...etc
-  }
+  "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE"
 ```
 
-The Request Body is the essential part of an API <font color="green"><b>POST</b></font> or <font color="orange"><b>PUT</b></font> request, it contains important data fields that a waste receiver needs to report about a waste movement. 
+The Request Body is the essential part of an API <b>POST</b> or <b>PUT</b> request, it contains important data fields that a waste receiver needs to report about a waste movement. 
 
 An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:
 
@@ -194,7 +193,7 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
       },
       "containsPops": true,
       "pops": {
-        "sourceOfComponents": "CARRIER_PROVIDED",
+        "sourceOfComponents": "PROVIDED_WITH_WASTE",
         "components": [
           {
             "code": "CHL",
@@ -221,7 +220,7 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
           "HP_3",
           "HP_6"
         ],
-        "sourceOfComponents": "CARRIER_PROVIDED",
+        "sourceOfComponents": "PROVIDED_WITH_WASTE",
         "components": [
           {
             "name": "Mercury",
@@ -274,7 +273,7 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
         "hazCodes": [
           "HP_6"
         ],
-        "sourceOfComponents": "CARRIER_PROVIDED",
+        "sourceOfComponents": "PROVIDED_WITH_WASTE",
         "components": [
           {
             "name": "Arsenic",
@@ -339,7 +338,8 @@ A detailed description of the error responses for this API can be found in the [
 
 200 hits per second soft limit.
  
-This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving <font color="red"><b>Rate Limit Exceeded</b></font> 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.
+This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving 
+<b>Rate Limit Exceeded</b> 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.
  
 ## Getting help by email
 
@@ -352,3 +352,5 @@ This means that if a user bursts over 200 hits per second for a short time - thi
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+
+<br/>Page last updated on March 2nd 2026.

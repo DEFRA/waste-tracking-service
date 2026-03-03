@@ -1,4 +1,4 @@
-site_name: Defra Digital Waste Tracking (DWT)
+site_name: Defra Digital Waste Tracking Developer Guide
 site_url: https://defra.github.io/waste-tracking-service
 repo_url: https://github.com/DEFRA/waste-tracking-service
 remote_branch: gh-pages
@@ -12,9 +12,11 @@ theme:
     - navigation.tabs.sticky
     - navigation.indexes 
     - content.code.copy
+    - search.suggest
+    - search.share
     #- content.action.edit
     - content.action.view
-    - toc.integrate 
+    - toc.integrate
     # uncomment to merge TOC with navigation bar
   font:
     text: Roboto
@@ -74,6 +76,7 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.magiclink
   - tables
   - attr_list
   - toc:
@@ -85,8 +88,10 @@ extra:
   social:
     - icon: fontawesome/solid/paper-plane 
       link: mailto:wasteuserresearch@defra.gov.uk
+      name: "Contact us here"
     - icon: fontawesome/brands/github
       link: https://github.com/defra/waste-tracking-service
+      name: "Our DWT service is available here"
   tags:
     Draft: draft
     Accepted: accepted
@@ -98,6 +103,5 @@ extra:
 #    provider: google
 
 #    property: G-SKK1DY4NVV
-
 
 

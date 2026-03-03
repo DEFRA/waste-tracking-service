@@ -1,6 +1,6 @@
 [← Back to Top](README.md){ .md-button }
 
-# Receipt of Waste - draft API specification
+# Receipt of Waste - API Specification
 
 <b>Private Beta</b>
 
@@ -15,7 +15,7 @@ We are designing waste tracking APIs to be flexible and accommodate differences 
 - data to be submitted in any order (e.g. receipt before collection)
 
 ## Open API specification
-The following Private Beta specification is published on the Swagger API hub:
+The following Beta specification is published on the Swagger API hub:
 
 - [receipt of waste API specification](../apiSpecifications/)
 
@@ -26,6 +26,5 @@ The following page lists all of the changes to the API specification since it wa
 
 - [receipt of waste API change log](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog)
 
-<br/>Page last updated December 22 2025.
-
+<br/>Page last updated on January 12th 2026.
 

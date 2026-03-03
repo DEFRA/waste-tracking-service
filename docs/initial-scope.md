@@ -39,3 +39,5 @@ We will consider over the next few months whether there are any specific sectors
 As previously announced Household Waste Recycling Centre operators will not need to record household waste received in the waste tracking service.
 
 We will engage with local authorities regarding the feasibility of recording commercial waste accepted at these sites during the initial phase.
+
+
