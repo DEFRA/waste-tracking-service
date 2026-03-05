@@ -414,8 +414,7 @@ components:
                     <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
                      <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
                      </ul>
-                example: |
-                  CJTILE/A0001
+                example: CJTILE/A0001
               reasonForNoConsignmentCode:
                 type: string
                 enum:
@@ -531,7 +530,9 @@ components:
               <p><font color="green"><b>Business Rules:</b></font></p> 
               - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
               - From one to a maximum of five codes per movement can be provided.</p>
-          example: 200108, 150109
+          example:
+            - 200108
+            - 150109
         wasteDescription:
           type: string
           description: A detailed description of a specific waste material including its physical characteristics, composition and any potential hazards associated with it. 
@@ -619,7 +620,7 @@ components:
                     description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
                       <p><font color="green"><b>Business Rule:</b></font></p> 
                       Optional field. If provided, must be a positive decimal number (greater than 0)
-                    example: 12.5, 9,21234, 500
+                    example: 12.5
               description: |
                 The list of POP components.
                 <p><font color="green"><b>Business Rules:</b></font></p>
@@ -668,7 +669,9 @@ components:
                 </ul>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
-              example: HP_5, HP_10
+              example:
+                - HP_5
+                - HP_10
               items:
                 type: string
             components:
@@ -754,7 +757,7 @@ components:
           type: string
           format: email
           description: The email address of the carrier.
-          example: info@wastecarrierselite.co.uk
+          example: mailbox@example.co.uk
         phoneNumber:
           type: string
           description: The UK or international phone number of the carrier.
@@ -793,7 +796,7 @@ components:
           type: string
           format: email
           description: The email address of the carrier.
-          example: info@wastecarrierselite.co.uk
+          example: mailbox@example.co.uk
         phoneNumber:
           type: string
           description: The UK or international phone number of the carrier.
@@ -834,7 +837,7 @@ components:
         emailAddress:
           type: string
           description: The email address of the organisation receiving the waste.
-          example: info@wastecarrierselite.co.uk
+          example: mailbox@example.co.uk
         phoneNumber:
           type: string
           description: The UK or Irish phone number of the organisation receiving the waste.
@@ -902,7 +905,10 @@ components:
             An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
             <p><font color="green"><b>Business Rule:</b></font></p>
             Must be positive integers (greater than 0).
-          example: [343, 456, 789]
+          example:
+            - 343
+            - 456
+            - 789
     receipt:
       type: object
       required:
