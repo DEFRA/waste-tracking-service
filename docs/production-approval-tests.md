@@ -117,7 +117,7 @@ Then the waste movement receipt should be rejected
 
 Given I have authenticated<br>
 And I have a basic waste movement<br>
-And there is no carrier registration number<br>
+And there is no carrier registration number, i.e. **registrationNumber** is null<br>
 And a reason for no registration number is provided<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
@@ -173,7 +173,7 @@ And I should receive a Waste Tracking ID<br>
 Given I have authenticated<br>
 And I have a basic waste movement<br>
 And it contains Hazardous Components<br>
-And there is no Consignment Note Code<br>
+And there is no Consignment Note Code, i.e. **hazardousWasteConsignmentCode** is null<br>
 And no reason is provided<br>
 When I attempt to submit the waste movement receipt<br>
 Then the waste movement receipt should be rejected<br>
