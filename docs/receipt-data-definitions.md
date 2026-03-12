@@ -96,7 +96,6 @@ They are a draft and may be updated to reflect changes to policy, legislation an
 | --------------------------------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | Receipt address            |  Mandatory              | Not needed           |
 | Receipt post code          | Mandatory               | Not needed          |
-<br><br>
 
 
 ## Changelog
@@ -105,3 +104,4 @@ You can find the changelog for this document in the [Receipt API v1.0 Data Defin
 <br/>
 
 Page last updated on March 6th 2026.
+
