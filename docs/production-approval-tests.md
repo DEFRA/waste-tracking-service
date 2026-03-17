@@ -84,6 +84,7 @@ And I should receive a warning about missing codes<br>
 
 Given I have authenticated<br>
 And I have a basic waste movement<br>
+And there is a single waste item<br>
 And there are multiple accompanying ‘Disposal or Recovery’ codes<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
