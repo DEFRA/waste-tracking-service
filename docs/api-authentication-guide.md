@@ -51,7 +51,7 @@ Sequence Diagram for Authentication Flow
     </script>
 </head>
 <body>
-    <h2></h2>
+    <h2>Authentication sequence diagram</h2>
     <div class="mermaid">
 
  sequenceDiagram
