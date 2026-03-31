@@ -126,7 +126,7 @@ paths:
             This describes the type of entry for the waste code. It indicates whether the entry is:<br>
             - Absolute hazardous (always hazardous, marked with *)<br>
             - Absolute non-hazardous (never hazardous)<br>
-            - Mirror entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
+            - Dual code entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
             <p><b>chapter</b><br>
             Refers to the first two digits of the six-digit List of Waste (LoW) code. It defines the main category of waste, usually based on the industry or process generating the waste.<br><br>
             Example:<br><br>
@@ -137,7 +137,6 @@ paths:
             Corresponds to the third and fourth digits of the LoW code. It narrows down the category to a more specific process or material within the chapter.<br><br>
             Example:<br><br>
             10 02 – Wastes from the iron and steel industry<br><br>
-
           content:
             application/json:
               schema:
@@ -415,8 +414,7 @@ components:
                     <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
                      <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
                      </ul>
-                example: |
-                  CJTILE/A0001
+                example: CJTILE/A0001
               reasonForNoConsignmentCode:
                 type: string
                 enum:
@@ -425,7 +423,7 @@ components:
                     "No documentation provided with Waste",
                     "Household Waste Recycling Centre Receipt"
                   ]
-                description: Reason provided for not having a consignment code. There are three codes you can choose to provide.
+                description: If you have not provided a hazardous waste consignment code, then there are three reason codes you can choose to provide. See the table below.
                   <table border="1">
                           <thead>
                               <tr>
@@ -452,9 +450,9 @@ components:
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
                   <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “Non Hazardous Waste Transfer”, “No documentation provided with Waste” or “Household Waste Recycling Centre Receipt”. </li>
+                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “NON_HAZ_WASTE_TRANSFER”, “NO_DOC_WITH_WASTE” or “HWRC_RECEIPT”. </li>
                   </ul>
-                example: No documentation provided with Waste
+                example: NO_DOC_WITH_WASTE
               yourUniqueReference:
                 type: string
                 description: This could be a unique weighbridge ticket number, waste transfer note number etc.
@@ -532,7 +530,9 @@ components:
               <p><font color="green"><b>Business Rules:</b></font></p> 
               - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
               - From one to a maximum of five codes per movement can be provided.</p>
-          example: 200108, 150109
+          example:
+            - 200108
+            - 150109
         wasteDescription:
           type: string
           description: A detailed description of a specific waste material including its physical characteristics, composition and any potential hazards associated with it. 
@@ -620,7 +620,7 @@ components:
                     description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
                       <p><font color="green"><b>Business Rule:</b></font></p> 
                       Optional field. If provided, must be a positive decimal number (greater than 0)
-                    example: 12.5, 9,21234, 500
+                    example: 12.5
               description: |
                 The list of POP components.
                 <p><font color="green"><b>Business Rules:</b></font></p>
@@ -659,7 +659,7 @@ components:
             hazCodes:
               type: array
               description: |
-                Hazardous property codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP 1 - HP 15.       
+                Hazardous property codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP_1 - HP_15. The format of the code to be entered is HP_'number', e.g. HP_1 for Explosive, HP_2 for Oxidizing, etc.     
                  <p>The official hazardous code list is found here in Appendix C:
                  <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 document.</a></p>
                  <b>Notes:</b><br>
@@ -669,7 +669,9 @@ components:
                 </ul>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
-              example: HP 5, HP 10
+              example:
+                - HP_5
+                - HP_10
               items:
                 type: string
             components:
@@ -732,7 +734,7 @@ components:
         reasonForNoRegistrationNumber:
           type: string
           description: |
-            Provide reasons for not having the carrier registration number. Given reasons are:
+            If you have not provided a registration number, then here you must provide an appropriate reason code from the list below:
             <ul>
             <li><b>ON_SITE - Movement within the same premises</b> (e.g. waste transferred between different areas or authorisations on the same site)</li>
             <li><b>HOUSEHOLD - Householder transporting own waste</b> (e.g. individual taking personal or household waste to a HWRC, not for profit)</li>
@@ -744,7 +746,7 @@ components:
             <li>If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required.</li>
             <li>If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.</li>
             </ul>
-          example: Waste carrier did not provide a carrier registration number.
+          example: ON_SITE
         organisationName:
           type: string
           description: The business name of the carrier. 
@@ -755,7 +757,7 @@ components:
           type: string
           format: email
           description: The email address of the carrier.
-          example: info@wastecarrierselite.co.uk
+          example: mailbox@example.co.uk
         phoneNumber:
           type: string
           description: The UK or international phone number of the carrier.
@@ -772,9 +774,9 @@ components:
           example: RNT 493
         meansOfTransport:
           type: string
-          enum: [Road, Rail, Air, Sea, Inland Waterway, Pipe, Other]
+          enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
           description: |
-            This describes how the waste is transported (road, rail, air, sea, inland waterway, other)
+            This describes how the waste is transported (road, rail, air, sea, piped, inland waterway, other)
             <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
@@ -794,7 +796,7 @@ components:
           type: string
           format: email
           description: The email address of the carrier.
-          example: info@wastecarrierselite.co.uk
+          example: mailbox@example.co.uk
         phoneNumber:
           type: string
           description: The UK or international phone number of the carrier.
@@ -835,7 +837,7 @@ components:
         emailAddress:
           type: string
           description: The email address of the organisation receiving the waste.
-          example: info@wastecarrierselite.co.uk
+          example: mailbox@example.co.uk
         phoneNumber:
           type: string
           description: The UK or Irish phone number of the organisation receiving the waste.
@@ -903,7 +905,10 @@ components:
             An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
             <p><font color="green"><b>Business Rule:</b></font></p>
             Must be positive integers (greater than 0).
-          example: [343, 456, 789]
+          example:
+            - 343
+            - 456
+            - 789
     receipt:
       type: object
       required:
@@ -1042,4 +1047,5 @@ components:
                   errors:
                     type: array
                     items:
+
                       $ref: "#/components/schemas/validationResult"
