@@ -22,7 +22,7 @@ info:
     name: Reciept of Waste API Support
     email: WasteTracking_Developers@defra.gov.uk 
 servers:
-  - url: https://api.waste-tracking.defra.gov.uk
+  - url: https://waste-tracking.defra.gov.uk
     description: Production environment
 paths:
   /movements/receive:
