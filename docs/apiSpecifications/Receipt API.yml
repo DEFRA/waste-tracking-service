@@ -531,8 +531,8 @@ components:
               <p><font color="green"><b>Business Rules:</b></font></p> 
               - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
               - From one to a maximum of five codes per movement can be provided.</p>
-          example: 
-            - 200108 
+          example:
+            - 200108
             - 150109
         wasteDescription:
           type: string
@@ -670,8 +670,8 @@ components:
                 </ul>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
                  If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
-              example: 
-                - HP_5 
+              example:
+                - HP_5
                 - HP_10
               items:
                 type: string
