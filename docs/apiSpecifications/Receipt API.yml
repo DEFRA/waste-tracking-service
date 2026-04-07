@@ -1027,7 +1027,7 @@ components:
                        "key": "waste.0.wasteDescription",
                        "errorType": "NotProvided",
                        "message": "\"waste[0].wasteDescription\" is required"
-                      },e
+                      },
                                            {
                        "key": "receiver.authorisationNumber",
                        "errorType": "Required",
