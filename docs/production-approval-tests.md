@@ -207,8 +207,7 @@ When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
 And I should receive a Waste Tracking ID<br>
 
-## Technical Exemptions
-If during testing, software developers find that the scenarios do not fit their software package, they should contact the developer support team at:<br><br>
+**Note**: If during testing, software developers find that the scenarios do not fit their software package, they should contact the developer support team at:<br><br>
 <font color="blue"><b>WasteTracking_Developers@defra.gov.uk</b></font><br>
 
 
