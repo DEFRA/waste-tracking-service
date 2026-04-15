@@ -403,8 +403,8 @@ components:
                 type: string
                 description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
                     <p><font color="red">England & Wales:</font></p>
-                    <p><i>Format-</i>  XXXXXX/YYYYY</p>
-                    <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six letters and must be followed by a forward slash /<p> The YYYYY part is a five character unique identifier of the users' choice using letters or numbers (no spaces or symbols).</p>
+                    <p><i>Format-</i>  XXXXXX/YYYYY</p> Where XXXXXX can be a mixture of letters and/or numbers, i.e. alphanumeric.
+                    <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six alphanumeric characters and must be followed by a forward slash /<p> The YYYYY part is a five alphanumeric character unique identifier of the users' choice (no spaces or symbols).</p>
                     <p><font color="red">Scotland</font></p>
                     <p><i>Format-</i>  SA, SB or SC followed by a 7-digit number (e.g. SB1234567). Also known as Special Waste Consignment Note</p>
                     <p><font color="red">Northern Ireland and Eire:</font></p>
@@ -415,7 +415,7 @@ components:
                     <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
                      <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
                      </ul>
-                example: CJTILE/A0001
+                example: CJ32LE/A0001
               reasonForNoConsignmentCode:
                 type: string
                 enum:
@@ -487,7 +487,8 @@ components:
               specialHandlingRequirements:
                 type: string
                 maxLength: 5000
-                description: Required for abnormal hazardous waste and some non-hazardous waste that contain harmful chemical, biological or physical characteristics. These may require some special handling to prevent harm.
+                description: |
+                  Required when abnormal hazardous waste and some non-hazardous waste contains harmful chemical, biological or physical characteristics that require some special handling to prevent harm.
                 example: The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.
               wasteItems:
                 type: array
@@ -525,8 +526,9 @@ components:
             The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them.<br><br>
             Notes:<br> 
             - users must already know their correct code before using the API <br>
-            - the GET ewc-codes method returns a reference for all EWC codes<br><br>
-            <p>Alternatively, to find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.<br><br>
+            - the GET ewc-codes method returns a reference for all EWC codes<br>
+            - there is <b>no maximum</b> number of waste items that can be entered per movement, but there is a maximum of <b>five</b> EWC codes that can be applied to each waste item, thus allowing for multiple EWC codes on some edge cases e.g. Clinical Waste<br><br>
+            To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.<br><br>
             POPs can also be present in hazardous and non-hazardous waste. See wasteItem.containsPops and wasteItem.pops for more information.<br>
               <p><font color="green"><b>Business Rules:</b></font></p> 
               - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
