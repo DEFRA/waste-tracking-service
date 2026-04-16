@@ -22,7 +22,8 @@ info:
     name: Reciept of Waste API Support
     email: WasteTracking_Developers@defra.gov.uk 
 servers:
-  - url: https://api.server.test/v1
+  - url: https://waste-tracking.api.defra.gov.uk/
+    description: Production environment
 paths:
   /movements/receive:
     post:
@@ -92,7 +93,7 @@ paths:
         Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code list including a boolean value for the waste type, i.e. Hazardous equals true/false. It returns a <b>401</b> on failure.<br><br>        
         Example Request
         ```json
-        curl --request GET \ --url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/ewc-codes \
+        curl --request GET \ --url https://waste-tracking.api.defra.gov.uk/reference-data/ewc-codes \
           --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX...
         ```
       responses:
@@ -175,7 +176,7 @@ paths:
         Endpoint used to get a list of hazardous property codes. It returns a code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
         Example Request
         ```json
-        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/hazardous-property-codes \
+        curl --request GET \--url https://waste-tracking.api.defra.gov.uk/reference-data/hazardous-property-codes \
         --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN...
         ```
       responses:
@@ -234,7 +235,7 @@ paths:
         Note: The field in the specification is case-sensitive, please use the case specified for the code.<br><br>
         Example Request
         ```json
-        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/disposal-or-recovery-codes \
+        curl --request GET \--url https://waste-tracking.api.defra.gov.uk/reference-data/disposal-or-recovery-codes \
         --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9...
         ```
       responses:
@@ -285,7 +286,7 @@ paths:
           Note: The field returned by the method is case-sensitive, please use the case specified for the code.<br><br>
         Example Request
          ```json
-        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/container-types \
+        curl --request GET \--url https://waste-tracking.api.defra.gov.uk/reference-data/container-types \
         --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw...
         ```
       responses:
@@ -330,7 +331,7 @@ paths:
         Endpoint used to get a list of POP (Persistent Organic Pollutant) name codes. It returns a code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
         Example Request
          ```json
-        curl --request GET \--url https://waste-movement-external-api.api.dev.cdp-int.defra.cloud/reference-data/pop-names \
+        curl --request GET \--url https://waste-tracking.api.defra.gov.uk/reference-data/pop-names \
         --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9...
         ```
       responses:
@@ -1047,5 +1048,4 @@ components:
                   errors:
                     type: array
                     items:
-
                       $ref: "#/components/schemas/validationResult"

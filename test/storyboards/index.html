@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../favicons/moj.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1332,8 +1332,8 @@
       >
         <img
           src="../assets/images/govuk-crest-2x.png"
-          width="125px"
-          height="102px;"
+          width="125"
+          height="102"
           alt="Gov UK Crest"
         />
         <br />
@@ -1361,29 +1361,151 @@
     
   <script>
     (function () {
-      function ensureSearchDialogName() {
+      function fixAccessibility() {
+        // 1. Search dialog accessible name (AXE fix)
         var dlg = document.querySelector('.md-search[role="dialog"]');
-        if (!dlg) return;
-        var hasName = dlg.hasAttribute('aria-label') || dlg.hasAttribute('aria-labelledby');
-        if (hasName) return;
-        // Create an invisible heading and associate it
-        var h = document.createElement('h2');
-        h.id = 'search-dialog-title';
-        h.className = 'visually-hidden';
-        h.textContent = 'Search this site';
+        if (dlg) {
+          var hasName = dlg.hasAttribute('aria-label') || dlg.hasAttribute('aria-labelledby');
+          if (!hasName) {
+            dlg.setAttribute('aria-label', 'Search this site');
+          }
+        }
 
-        dlg.setAttribute('aria-labelledby', h.id);
-        dlg.prepend(h);
+        // 2. Empty form labels — add visually-hidden text to icon-only labels
+        function addLabelText(selector, text) {
+          document.querySelectorAll(selector).forEach(function (label) {
+            if (label.querySelector('.visually-hidden')) return;
+            var span = document.createElement('span');
+            span.className = 'visually-hidden';
+            span.textContent = text;
+            label.appendChild(span);
+          });
+        }
+
+        addLabelText('label[for="__drawer"]', 'Toggle navigation');
+        addLabelText('label[for="__search"]', 'Toggle search');
+
+        // Palette toggle labels
+        document.querySelectorAll('label[for^="__palette"]').forEach(function (label) {
+          if (label.querySelector('.visually-hidden')) return;
+          var title = label.getAttribute('title') || 'Toggle colour scheme';
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = title;
+          label.appendChild(span);
+        });
+
+        // Navigation section toggle labels
+        document.querySelectorAll('label[for^="__nav"], label[for^="nav-"]').forEach(function (label) {
+          if (label.querySelector('.visually-hidden')) return;
+          var nav = label.closest('.md-nav__item');
+          var link = nav ? nav.querySelector('.md-nav__link') : null;
+          var text = link ? 'Toggle ' + link.textContent.trim() : 'Toggle section';
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = text;
+          label.appendChild(span);
+        });
+
+        // Catch any remaining labels that only contain SVG/icons
+        document.querySelectorAll('label[for]').forEach(function (label) {
+          if (label.querySelector('.visually-hidden')) return;
+          var clone = label.cloneNode(true);
+          var els = clone.querySelectorAll('svg, img, .md-icon');
+          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
+          if (!clone.textContent.trim()) {
+            var span = document.createElement('span');
+            span.className = 'visually-hidden';
+            span.textContent = label.getAttribute('title') || 'Toggle';
+            label.appendChild(span);
+          }
+        });
+
+        // Catch any inputs/selects without any label (missing form label)
+        document.querySelectorAll('input, select, textarea').forEach(function (input) {
+          if (input.type === 'hidden') return;
+          if (input.getAttribute('aria-label') || input.getAttribute('aria-labelledby')) return;
+          var id = input.id;
+          if (id && document.querySelector('label[for="' + id + '"]')) return;
+          // No label found — add aria-label
+          var name = input.getAttribute('name') || input.getAttribute('placeholder') || input.type || 'input';
+          input.setAttribute('aria-label', name.charAt(0).toUpperCase() + name.slice(1));
+        });
+
+        // 3. Multiple form labels — replace duplicate labels with spans
+        var labelsByFor = {};
+        document.querySelectorAll('label[for]').forEach(function (label) {
+          var forId = label.getAttribute('for');
+          if (!labelsByFor[forId]) labelsByFor[forId] = [];
+          labelsByFor[forId].push(label);
+        });
+        Object.keys(labelsByFor).forEach(function (forId) {
+          var labels = labelsByFor[forId];
+          if (labels.length > 1) {
+            for (var i = 1; i < labels.length; i++) {
+              var span = document.createElement('span');
+              span.innerHTML = labels[i].innerHTML;
+              span.className = labels[i].className;
+              span.setAttribute('aria-hidden', 'true');
+              labels[i].parentNode.replaceChild(span, labels[i]);
+            }
+          }
+        });
+
+        // 6. Empty links — add aria-label to social icon links
+        document.querySelectorAll('.md-social__link').forEach(function (link) {
+          if (!link.textContent.trim() && !link.getAttribute('aria-label')) {
+            var href = link.getAttribute('href') || '';
+            if (href.indexOf('mailto:') !== -1) {
+              link.setAttribute('aria-label', 'Send email');
+            } else if (href.indexOf('github') !== -1) {
+              link.setAttribute('aria-label', 'GitHub repository');
+            } else {
+              link.setAttribute('aria-label', 'External link');
+            }
+          }
+        });
+
+        // 7. Missing fieldset — wrap palette toggles in a fieldset
+        var palette = document.querySelector('.md-header__option');
+        if (palette && palette.tagName !== 'FIELDSET' && !palette.querySelector('fieldset')) {
+          var fieldset = document.createElement('fieldset');
+          fieldset.className = palette.className;
+          fieldset.style.border = 'none';
+          fieldset.style.padding = '0';
+          fieldset.style.margin = '0';
+          var legend = document.createElement('legend');
+          legend.className = 'visually-hidden';
+          legend.textContent = 'Colour scheme';
+          fieldset.appendChild(legend);
+          while (palette.firstChild) {
+            fieldset.appendChild(palette.firstChild);
+          }
+          palette.parentNode.replaceChild(fieldset, palette);
+        }
+
+        // 8. Palette toggle labels — remove title to avoid redundant title text
+        document.querySelectorAll('.md-header__option label, fieldset label').forEach(function (el) {
+          if (el.getAttribute('title') && el.querySelector('.visually-hidden')) {
+            el.removeAttribute('title');
+          }
+        });
+
+        // 9. Suspicious alt text — fix theme logo if generic
+        document.querySelectorAll('.md-header__button img, .md-logo img').forEach(function (img) {
+          var alt = img.getAttribute('alt') || '';
+          if (!alt || /^(logo|image|img|icon|picture)$/i.test(alt.trim())) {
+            img.setAttribute('alt', 'Defra Digital Waste Tracking home');
+          }
+        });
       }
-      // Run when DOM is ready (covers dev & static)
+
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', ensureSearchDialogName);
+        document.addEventListener('DOMContentLoaded', fixAccessibility);
       } else {
-        ensureSearchDialogName();
+        fixAccessibility();
       }
-      // If your site uses client-side navigation (instant loading),
-      // re-apply after content swaps:
-      document.addEventListener('navigationend', ensureSearchDialogName);
+      document.addEventListener('navigationend', fixAccessibility);
     })();
   </script>
 
