@@ -2,17 +2,21 @@
 title: Introduction to Phase 1 the Receipt of Waste API
 ---
 
+!!! Information
+    The Private Beta Phase has ended. The service is now in **Public Beta**
+
+
 [← Back to Top](README.md){ .md-button }
 
 
-Version 1.1 issued February 2026
+Version 1.1 issued April 10th 2026
 
 # Welcome to Phase 1 - Receipt of Waste API
 
 ## Introduction
-This page introduces waste receivers, software developers and third party software providers to the Defra Waste Tracking Service (DWT) Receipt API. Learn here about how receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
+This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
 
-**Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Defra Waste Tracking Service (DWT) Receipt API [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
+**Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Waste Tracking Service (DWT) Receipt API [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
 
 ## Receipt API Overview
 
@@ -29,7 +33,7 @@ The API is based on REST principles and currently has seven endpoints. They retu
 |----------|-------------|
 |<b>POST</b> | is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. |
 |<b>PUT</b>|is used to update a waste tracking record using a waste tracking ID query parameter to identify the movement. It returns a validation result.|
-|<b>GET</b>| is used to retrieve a list of European Waste Codes (EWC).|
+|<b>GET</b>|is used to retrieve a list of European Waste Codes (EWC).|
 |<b>GET</b>|is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).|
 |<b>GET</b>|is used to retrieve a list of Disposal or Recovery codes.|
 |<b>GET</b>|is used to retrieve a list of Container Types.|
@@ -42,7 +46,7 @@ The API is based on REST principles and currently has seven endpoints. They retu
 
 This version of the Receipt of Waste API:
 
-- supports **only** the API v1.0 Receipt of Waste API for Private Beta customers.
+- supports **only** the API v1.0 Receipt of Waste API for Public Beta customers.
 - a roadmap to the Receipt API [can be found here.](roadmap.md)
 
 ## Related API Documentation
@@ -50,7 +54,7 @@ This version of the Receipt of Waste API:
 
 [Receipt of Waste - API Production Approval Tests](production-approval-tests.md)
 
-[Defra Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
+[Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
 
 [Receipt of Waste Roadmap](roadmap.md)
 
@@ -78,12 +82,12 @@ Work through these short sections on practical preparation and use of the API:
 To develop using the Receipt of Waste API, you must:
 
 - Be familiar with HTTP, RESTful services and JSON and OAuth.
-- Have received your client id and secret. These will be sent to the developer after signing up for Private Beta.
+- Have received your client id and secret. These will be sent to the developer after signing up for the service.
 - Be familiar with the API's [terms of service](api-terms-of-service.md).
 
 These are the necessary steps:
 
-1. Developers need to [sign-up for Private Beta](private-beta-comms-sign-up.md) using the on-boarding form. They will then be issued a client id and secret.
+1. Developers need to [sign-up for the service](api-software-developer-onboarding-process.md) using the on-boarding form. They will then be issued a client id and secret.
 
 2. Gain access to the test environment. The URL is shown below:
    ```code
@@ -105,7 +109,7 @@ You can now begin sending waste movements to the Waste Tracking Service.
 
 ### Prequisite Steps (Receivers)
 
-1. Waste Receivers need to [sign-up for private beta](private-beta-comms-sign-up.md) using the on-boarding form.
+1. Waste Receivers need to [sign-up for the service](api-software-developer-onboarding-process.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
 3. Get the [Production API Code](api-codes-for-testing-and-production.md). After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.
 
