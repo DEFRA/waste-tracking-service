@@ -3,11 +3,8 @@
 
 # Initial scope - Mandatory for Waste Receivers from October 2026
 
-<b>Private Beta</b>
-
-Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md).
-
-The first phase of the roll-out of the Waste Tracking Service is concerned with the Receipt of Waste only. Click here to see our [user documentation for Phase 1,](api-landing-page.md) beginning with our Phase 1- Receipt of Waste page.
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-software-developer-onboarding-process.md).
+This first phase of the roll-out of the Waste Tracking Service is concerned with the Receipt of Waste only. Click here to see our [user documentation for Phase 1,](api-landing-page.md) beginning with our Phase 1- Receipt of Waste page.
 
 The waste industry involves a large number and complex array of operators. This includes approximately:
 
@@ -29,8 +26,6 @@ Following assessment of the options and international best practice, the first e
 Those required to hold a permit or licence to receive waste will be mandated to record details of waste received on the digital waste tracking service from October 2026.  
 
 We recognise that waste can also be received under other types of authorisations, such as registered exemptions. But the numbers of operators of these are much larger and more diverse in terms of scale and types of operation.
-
-We will consider over the next few months whether there are any specific sectors or categories of operation within this group. It would be prudent to mandate use of the service alongside permit and licence holders. We will confirm by September 2025, if this is the case. 
 
 [![receivers only](initial-scope-receivers-only.png)](initial-scope-receivers-only.png)
 
