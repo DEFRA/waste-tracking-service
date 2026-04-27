@@ -2,9 +2,8 @@
 
 # Receipt of Waste - process diagram
 
-<b>Private Beta</b>
+Are you a waste receiver or software provider and want to get involved? Register for the Receipt of Waste (RoW). The sign-up link for this registration is available on the [government guidance page](https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking).
 
-Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md)
 
 The waste arrangement and collection stays As-Is, using the current Consignment Note or Waste Transfer Note, when the waste is received a digital record is created.
 This first phase of the digital waste tracking rollout will focus on capturing all the data of the waste movement at the point of receipt. We believe that receiving sites are more technologically mature and therefore more likely to be able to achieve this by October '26. This then gives an additional year for carriers to onboard. The process outlined below utilises half of the as-is process with a digital record being created at the weightbridge (or receiving site).
