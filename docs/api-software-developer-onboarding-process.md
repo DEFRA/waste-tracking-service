@@ -8,10 +8,11 @@
 
 ### Follow the steps in the above diagram with the corresponding steps below:
 
-### 1. Register for the Receipt of Waste (RoW) API  Private Beta
-Software developers must first register for the Receipt of Waste (RoW) private beta.
+### 1. Register for the Receipt of Waste (RoW) API Service
+#### a. Register for the Receipt of Waste (RoW). The sign-up link for this registration is available on the [government guidance page](https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking).
 
-The sign-up link for this registration is available on both the project’s GitHub page available here: [Sign up for our Digital Waste Tracking Private Beta test](private-beta-comms-sign-up.md) and the  [government guidance page](https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking).
+#### b. Read the [API Terms of Service](api-terms-of-service.md) and acknowledge this by [clicking the checkbox](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U) on the survey pages.
+
 
 ### 2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team
 Following registration, software developers receive test credentials from the DWT team.
@@ -23,7 +24,7 @@ Using the provided test credentials, software developers begin building the inte
 
 Developers can use the available GET reference data endpoints to retrieve necessary codes for container types, hazardous properties, and other required data.
 
-### 4. Execute the Production Approval Test (PAT) Scenarios
+8ls -l
 Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. See [Production Approval Tests](production-approval-tests.md). 
 
 These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.
@@ -39,19 +40,14 @@ The DWT team reviews the submitted IDs for the production approval test scenario
 ### 7. Receive Acceptance of PATs from the DWT Team
 The software developer receives a formal acceptance from the DWT team once their PAT scenarios have been successfully reviewed.
 
-### 8. Agree to the API Terms of Use
-Following acceptance, developers must read and agree to the API terms of service.
-
-The full terms are available on GitHub for review in advance. See [Terms of Service](api-terms-of-service.md).
-
-### 9. Receive Production Credentials from the DWT Team
+### 8. Receive Production Credentials from the DWT Team
 Once the terms of service are agreed to, the DWT team issues the production credentials to the software developer.
 
-### 10. Connect to the Production Environment
+### 9. Connect to the Production Environment
 The software developer uses the production credentials to establish a connection to the live production environment.
 
-### 11. The DWT Team Onboards Receivers (that have signed up for Private Beta)
-The DWT team then onboards waste receivers of the software developer who have already registered their interest in the private beta.
+### 10. The DWT Team Onboards Receivers 
+The DWT team then onboards waste receivers of the software developer who have already registered their interest in the service.
 
 Receivers accept terms and conditions manually via email, after which they receive their own API codes to share with their software teams to begin submitting real waste movement data.
 
@@ -60,4 +56,4 @@ Receivers accept terms and conditions manually via email, after which they recei
 You can find the changelog for this document in the [Onboarding Software Developers](https://github.com/DEFRA/waste-tracking-service/wiki/Software-Developer-Onboarding-Process) GitHub wiki page
 
 
-<br/>Page last updated on January 19th 2026.
+<br/>Page last updated on April 10th 2026.

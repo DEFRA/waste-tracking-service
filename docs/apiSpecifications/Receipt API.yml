@@ -16,13 +16,13 @@ info:
      <li><p>The fourth <font color="blue"><b>GET</b></font> method is used to retrieve a list of Container Types.</p></li>
      <li><p>The fifth <font color="blue"><b>GET</b></font> method is used to retrieve a list of POP (Persistent Organic Pollutant) name codes.</p></li>
      </ul>
-     <b>Note-</b> This API specification is currently in Private Beta stage.
-  termsOfService: https://defra.github.io/waste-tracking-service/api-terms-of-service
+     <b>Note-</b> This API specification is currently in Public Beta stage.
+  termsOfService: https://defra.github.io/waste-tracking-service/production/api-terms-of-service/
   contact:
     name: Reciept of Waste API Support
     email: WasteTracking_Developers@defra.gov.uk 
 servers:
-  - url: https://waste-tracking.api.defra.gov.uk/
+  - url: https://waste-tracking.api.defra.gov.uk
     description: Production environment
 paths:
   /movements/receive:
@@ -488,7 +488,7 @@ components:
                 type: string
                 maxLength: 5000
                 description: |
-                  Required when abnormal hazardous waste and some non-hazardous waste contains harmful chemical, biological or physical characteristics that require some special handling to prevent harm.
+                  Required when abnormal hazardous waste and some non-hazardous waste contains harmful chemical, biological or physical characteristics that require some special handling to prevent harm. 
                 example: The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.
               wasteItems:
                 type: array
@@ -975,6 +975,15 @@ components:
           example: wasteItems[0].disposalOrRecoveryCodes
         errorType:
           type: string
+          description: |
+            can be one of the following type:
+            - NotProvided: A required field was not provided
+            - NotAllowed: The value provided is not allowed
+            - InvalidType: The value provided is of the wrong type
+            - InvalidFormat: The value provided is not in the correct format
+            - InvalidValue: The value provided is not valid based on the business rules
+            - OutOfRange: The value provided is outside the allowed range
+            - BusinessRuleViolation: The value provided violates a specific business rule.
           example: NotProvided
         message:
           type: string
