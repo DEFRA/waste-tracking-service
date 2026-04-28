@@ -24,7 +24,6 @@ Using the provided test credentials, software developers begin building the inte
 
 Developers can use the available GET reference data endpoints to retrieve necessary codes for container types, hazardous properties, and other required data.
 
-8ls -l
 Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. See [Production Approval Tests](production-approval-tests.md). 
 
 These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.
