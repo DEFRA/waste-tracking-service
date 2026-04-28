@@ -4,10 +4,11 @@ repo_url: https://github.com/DEFRA/waste-tracking-service
 remote_branch: gh-pages
 theme:
   name: material
-  custom_dir: 'tech_docs_template/'
+  custom_dir: tech_docs_template
   logo: logos/moj.png
   favicon: favicons/moj.ico
   features:
+    - announce.dismiss  
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.indexes 
@@ -18,6 +19,8 @@ theme:
     - content.action.view
     - toc.integrate
     # uncomment to merge TOC with navigation bar
+  announce: >
+    **Private Beta service has ended, the service is now in Public Beta**
   font:
     text: Roboto
     code: Roboto Mono
@@ -59,7 +62,6 @@ nav:
     - production-approval-tests.md
     - api-testing-and-examples.md
     - roadmap.md
-    - private-beta-comms-sign-up.md
     - api-terms-of-service.md
     - faq.md
 extra_css:
