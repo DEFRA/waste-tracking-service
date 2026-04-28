@@ -144,7 +144,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#receipt-api-terms-of-service" class="md-skip">
+        <a href="#digital-waste-tracking-api-terms-of-service" class="md-skip">
           Skip to content
         </a>
       
@@ -1042,10 +1042,10 @@
 
 
 <p><a class="md-button" href="../">← Back to Top</a></p>
-<h1 id="receipt-api-terms-of-service">Receipt API Terms Of Service</h1>
-<h2 id="terms-of-service-for-software-services-integrating-with-the-digital-waste-tracking-api">Terms of Service for Software Services Integrating with the Digital Waste Tracking API</h2>
+<h1 id="digital-waste-tracking-api-terms-of-service">Digital Waste Tracking API Terms Of Service</h1>
+<h2 id="terms-of-service-for-software-services-integrating-with-the-digital-waste-tracking-receipt-of-waste-api">Terms of Service for Software Services Integrating with the Digital Waste Tracking Receipt of Waste API</h2>
 <h3 id="introduction">Introduction</h3>
-<p>This document outlines the terms and conditions for developers and organisations creating software services that consume the Digital Waste Tracking (DWT) API. By accessing or using the API, you agree to comply with these terms and all applicable laws and regulations.</p>
+<p>This document outlines the terms and conditions for developers and organisations creating software services (referenced below as Software developers) that consume the Digital Waste Tracking (DWT) API. By accessing or using the API, you agree to comply with these terms and all applicable laws and regulations.</p>
 <h3 id="purpose">Purpose</h3>
 <p>The DWT API is designed to support the UK’s transition to a circular economy and to help tackle waste crime by enabling accurate, and timely submission of data on waste movements. Your software must contribute to this goal by ensuring data integrity, compliance, and transparency.</p>
 <h3 id="eligibility-and-access">Eligibility and Access</h3>
@@ -1056,13 +1056,14 @@
 <li>
 <p>Only authorised users may access the production API environment; access to the sandbox environment is available for testing.</p>
 </li>
+<li>
+<p>Before accessing the production API environment, software developers are expected to review the technical documentation in full to ensure that you have integrated as per the technical specification. </p>
+</li>
 </ul>
-<h3 id="developer-responsibilities">Developer Responsibilities</h3>
+<h3 id="software-developers-responsibilities">Software Developers' Responsibilities</h3>
 <p>You must:</p>
 <ul>
-<li>
-<p><strong>Ensure alignment with the API specification:</strong> This will ensure validation of the submitted waste tracking data.</p>
-</li>
+<li><strong>Ensure alignment with the API specification:</strong> This will ensure validation of the submitted waste tracking data.</li>
 <li>
 <p><strong>Understand that GET endpoint code descriptions</strong> are designed to help software developers cross-reference the codes for there own internal use, and not for use on User Interfaces (UIs).</p>
 </li>
@@ -1076,7 +1077,7 @@
 <p><strong>Avoid Client-Side API Calls:</strong> The API does not support CORS; do not attempt to call it directly from browser-based applications.</p>
 </li>
 <li>
-<p><strong>Support your users:</strong> Ensure your software supports your users in meeting their legal obligations.</p>
+<p><strong>Support your users and customers:</strong> Ensure your software supports your users in meeting their legal obligations.</p>
 </li>
 <li>
 <p><strong>Handle reaching the service rate limits:</strong> If the limit is reached (indicated by a 429 response code) handle the response using best development practices like exponential back-offs and retries.</p>
@@ -1088,7 +1089,10 @@
 <p><strong>Hold the master copy of data:</strong> The API must not be relied on as a copy or source of waste tracking data.</p>
 </li>
 <li>
-<p><strong>Allow your customers to change, export or delete their data</strong> if they want to.</p>
+<p><strong>Allow your  users and customers to change, export or delete their data</strong> if they want to. </p>
+</li>
+<li>
+<p><strong>Exemptions:</strong> you must clearly communicate with your users and customers any PAT exemptions you have been granted and the effects those exemptions have on the services you are able to provide. </p>
 </li>
 </ul>
 <h3 id="our-responsibilities">Our Responsibilities</h3>
@@ -1119,19 +1123,22 @@
 <p>You must not misuse or repurpose data obtained through the API for unauthorised commercial or analytical purposes.</p>
 </li>
 <li>
-<p>You cannot advertise your software as ‘Defra accredited’, ‘Defra endorsed’, ‘Defra certified’ or similar.</p>
+<p>You cannot advertise your software as ‘Defra accredited’, ‘Defra endorsed’, ‘Defra certified’, ‘Defra approved’ or similar.</p>
 </li>
 <li>
 <p>You cannot use our Defra brand in any way including logo placement on your application.</p>
 </li>
 </ul>
+<h3 id="publication">Publication</h3>
+<p>Defra will publish and keep up to date a list of commercially available software providers (and products) that have successfully integrated with the DWT API which will be published on gov.uk.  </p>
+<p>This list will be reviewed and updated fortnightly. </p>
 <h3 id="enforcement-and-penalties">Enforcement and Penalties</h3>
 <ul>
 <li>
 <p>Defra will adopt an education-first approach to enforcement in regards to these terms.</p>
 </li>
 <li>
-<p>Continued non-compliance with these terms of use may result in temporary or permanent suspension of API access.</p>
+<p>Continued non-compliance with these terms of use may result in temporary or permanent suspension of API access and removal from the published list as appropriate.</p>
 </li>
 </ul>
 <h3 id="updates-and-versioning">Updates and Versioning</h3>
@@ -1143,31 +1150,37 @@
 <p>We may update these Terms of Use as our service evolves. Users will be notified of changes and may be required to re-accept the updated terms.</p>
 </li>
 <li>
-<p>Subscribe to Defra’s developer updates for notifications on changes and other information about the API implementation which can be found at <a href="https://github.com/DEFRA/waste-tracking-service">DEFRA waste tracking service</a> on GitHub.</p>
+<p>Subscribe to Defra’s developer updates for notifications on changes and other information about the API implementation which can be found at DEFRA waste tracking service on <a href="https://github.com/DEFRA/waste-tracking-service">GitHub</a>.</p>
 </li>
 </ul>
 <h2 id="termination">Termination</h2>
 <ul>
-<li>Defra reserves the right to revoke access to the API at any time for breach of these terms or for operational reasons.</li>
+<li>Defra reserves the right to revoke access to the API at any time for breach of these terms or for operational reasons and to remove any listing from the published list as appropriate.</li>
 </ul>
 <h2 id="contact-and-support">Contact and Support</h2>
 <p>For technical support, integration queries, contact <a href="mailto:WasteTracking_Developers@defra.gov.uk">Defra Waste Tracking Technical Support</a>.</p>
 <h2 id="liability">Liability</h2>
 <ul>
-<li>Defra cannot accept any responsibility for any loss, disruption or damage to your data or your computer system using the WTS API or if access to the service is revoked.</li>
+<li>
+<p>Defra cannot accept any responsibility for any loss, disruption or damage to your data or your computer system using the WTS API or if access to the service is revoked.</p>
+</li>
+<li>
+<p>You are responsible for any defaults, errors or omissions arising from the customer’s use of your service.  </p>
+</li>
 </ul>
+<p>You will indemnify Defra against any legal claims or actions that may arise when users and customers rely on your services or information published on the software developer list.</p>
 <h2 id="user-data-protection">User Data Protection</h2>
 <p>We are committed to ensuring that all personal and sensitive data handled through your software service is protected in accordance with UK data protection laws, including the UK GDPR and the Data Protection Act 2018.</p>
-<p>As a developer or operator of a service consuming the Defra Digital Waste Tracking API, you must:</p>
+<p>As a software developer or operator of a service consuming the Defra Digital Waste Tracking API, you must:</p>
 <ul>
 <li>
-<p><strong>Implement Appropriate Safeguards:</strong> Use encryption, access controls, and secure storage to protect user data both in transit and at rest.</p>
+<p><strong>Implement Appropriate Safeguards:</strong> Use encryption, access controls, and secure storage to protect user  and customer data both in transit and at rest.</p>
 </li>
 <li>
 <p><strong>Minimise Data Collection:</strong> Only collect and process data that is strictly necessary for the operation of your service and compliance with waste tracking regulations.</p>
 </li>
 <li>
-<p><strong>Obtain Consent Where Required:</strong> Ensure that users are informed about how their data will be used and obtain explicit consent where necessary.</p>
+<p><strong>Obtain Consent Where Required:</strong> Ensure that users and customers are informed about how their data will be used and obtain explicit consent where necessary.</p>
 </li>
 <li>
 <p><strong>Provide Transparency:</strong> Maintain a clear and accessible privacy policy that outlines your data handling practices, including retention periods and third-party sharing.</p>
@@ -1177,15 +1190,17 @@
 </li>
 <li>
 <p><strong>Report Breaches Promptly:</strong> In the event of a data breach involving personal data obtained via the API, notify the Information Commissioner’s Office (ICO), <a href="mailto:security.team@defra.gov.uk">Defra Security Team</a> and affected individuals as required by law.</p>
+<p>Failure to comply with these obligations may result in suspension of API access.<br><br>
+<strong>Communication with your users and customers</strong> </p>
+<p>You are encouraged to take responsibility for keeping your users and customers up to date with your implementation timescales and progress to aid their planning and adoption. </p>
 </li>
 </ul>
-<p>Failure to comply with these obligations may result in suspension of API access.<br><br></p>
 <h3 id="reference-material">Reference Material</h3>
 <p>Terms of use -<a href="https://developer-portal.trade.defra.gov.uk/documentation/terms-of-use">Defra API Developer Portal - GOV.UK</a></p>
 <p>Also HMRC Terms Of Use - <a href="https://developer.service.hmrc.gov.uk/api-documentation/docs/terms-of-use#introduction">HMRC Developer Hub - GOV.UK</a><br><br></p>
 <h2 id="changelog">Changelog</h2>
 <p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Terms-of-Service-Changelog">Receipt API v1.0 Terms of Service</a> GitHub wiki.</p>
-<p>Page last updated on January 14th 2026</p>
+<p>Page last updated on April 27th 2026</p>
 
 
 
