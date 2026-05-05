@@ -13,7 +13,6 @@
 
 #### b. Read the [API Terms of Service](api-terms-of-service.md) and acknowledge this by [clicking the checkbox](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U) on the survey pages.
 
-
 ### 2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team
 Following registration, software developers receive test credentials from the DWT team.
 
@@ -23,6 +22,8 @@ These credentials consist of a client ID and a client secret, sent via an encryp
 Using the provided test credentials, software developers begin building the integration between their software and the Receipt of Waste API.
 
 Developers can use the available GET reference data endpoints to retrieve necessary codes for container types, hazardous properties, and other required data.
+
+### 4. Execute the Production Approval Test (PAT) Scenarios
 
 Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. See [Production Approval Tests](production-approval-tests.md). 
 
