@@ -1,23 +1,37 @@
 # Data model
 
-Entities, identifiers, and state transitions for the extended waste-movement model.
+The entities, identifiers, and state transitions underlying the extended
+API.
 
 ## Status
 
-Not started. Will be worked on **after** the scenarios workstream lands, because
-the model is driven by what the scenarios need to record at each event.
+Not yet started. This workstream follows once the
+[API spec](../api/README.md) has stabilised, because the model is driven
+by what the API needs to record at each step rather than the other way
+round.
 
-## Layout (to be defined)
+## What will be here
 
-To be agreed once scenarios are in place. Likely contents:
+When the workstream begins, this folder is expected to contain:
 
-- ERDs per aggregate (Movement, Collection, Drop-off, Receipt, plus reference data)
-- A journey state diagram showing the four events and any cycles
-- A glossary disambiguating Movement ID, Transfer ID, and the legacy WT-ID
+- An entity-relationship view of the main aggregates — Movement,
+  Collection, Drop-off, Receipt — and the reference data they depend on.
+- A journey state diagram showing how events transition a Movement
+  between states (planned → in-collection → in-transit → dropped-off →
+  accepted / rejected / returned), reconciled against the four terminal
+  states named in the [glossary](../glossary.md).
+- A reconciliation view of how Phase 1 receipt entities (`wasteItem`,
+  `wasteReceiver`, etc.) map to the entities introduced by the new
+  endpoints.
 
-## Source material to incorporate
+The OpenAPI spec defines the wire shapes; this workstream will define
+the storage and lifecycle shape that backs them.
 
-The existing ERDs in the project (`CARRIER_DETAILS.mermaid`, `WASTE_ITEMS.mermaid`,
-`COLLECTION_MOVEMENT_DETAILS.mermaid`, `CREATION_MOVEMENT_DETAILS.mermaid`, etc.)
-are the starting point. They were drawn against the receiver-first model and need
-to be reconciled with the four-event journey.
+## Working assumption
+
+The relationship between Movement IDs and the per-event identifiers —
+Movement ID is durable and immutable; Creation, Collection, Drop-off and
+Receive IDs are event-level and can multiply per Movement; Transfer ID
+links one or more Movements at a single drop-off — is treated as
+established. The data model elaborates on it but is not expected to
+change it.

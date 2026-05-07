@@ -1,33 +1,47 @@
 # Scenarios
 
 Journey scenarios describing how waste moves through the system end-to-end.
-These are the **first** workstream: until we know what scenarios we have to
-support, the data model and API are speculative.
+This is the first workstream in the collections section: the data model
+and API spec are validated against the scenarios, so the scenarios are
+where the design starts.
 
-Two sets of scenarios live here:
+Two sets of scenarios live here.
 
-- **Curated scenarios** — a small set selected for User Research with Carriers,
-  Receivers, Drivers, Brokers and Producers, and for vendor conversations.
-  Each is rich enough to walk through with a participant.
-- **Corpus** — the wider machine-enumerated set, used as a regression / test
-  corpus. Every change to the data model or API must leave the corpus replayable.
+The **corpus** is the wider machine-enumerated set — currently 282
+scenarios, mechanically extracted from the BA's flow chart and tagged
+against a seven-axis taxonomy. Every change to the data model or API has
+to leave the corpus replayable; the corpus is the regression set.
+
+The **curated scenarios** will be a smaller set selected for User Research
+with carriers, receivers, drivers, brokers and producers, and for vendor
+conversations. Each curated scenario is intended to be rich enough to
+walk through with a participant in a single sitting. The curated set is
+not yet started.
+
+## What is here
+
+- [Process](process.md) — how the corpus is generated from the Mural
+  flow chart, including the seven-axis taxonomy and what is deliberately
+  not in it.
+- `corpus.yaml` — the 282 extracted scenarios, regenerated whenever the
+  Mural chart changes.
+- `scenario.schema.json` — the JSON Schema corpus entries are validated
+  against. Both `corpus.yaml` and any future curated scenario file
+  conform to this schema.
 
 ## Status
 
-Not started. Source material to be added before scenarios are written.
+| Item | Status |
+|---|---|
+| Corpus extraction pipeline | In place. Import app produces `corpus.yaml`. |
+| Corpus | 282 scenarios, schema-validated. |
+| Schema | Stable for the corpus. May extend when curated scenarios add per-step detail. |
+| Curated set | Not yet started. Will follow once the API spec stabilises. |
 
-## Layout (to be defined)
+## How re-extraction works
 
-To be agreed once the source material is in. Likely contents:
-
-- A schema describing what a scenario is
-- The curated set, one file per scenario
-- The corpus, in a single bulk format
-- Shared fixtures (organisations, sites, waste items) referenced by scenarios
-
-## Working order
-
-1. Drop in the source material (flow diagrams, scenario recap, extracted corpus)
-2. Agree the scenario schema (what fields, what's required)
-3. Convert the curated scenarios to the schema
-4. Land the corpus in the same shape
+The corpus is regenerated whenever the Mural chart changes. The Import
+app is extraction-only — it walks the chart, enumerates paths, tags each
+against the seven axes, and writes a fresh `corpus.yaml`. The decision
+to keep curation out of the app is recorded in
+[the import app changes note](../docs/import-app-changes.md).

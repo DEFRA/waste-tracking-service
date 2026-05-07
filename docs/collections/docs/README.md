@@ -1,16 +1,21 @@
-# Docs
+# Notes
 
-Cross-cutting notes that don't belong to a single workstream.
+Cross-cutting notes that do not belong to a single workstream. Use this
+folder for design memos, change records, and any other material that
+applies across scenarios, data model, and API.
 
-## Status
+## What is here
 
-Not started. Will accumulate as the workstreams progress.
+- [Import app changes](import-app-changes.md) — record of the decision
+  to narrow the Import app's responsibility to extraction-only, and
+  the corpus pipeline that follows from it.
 
-## Likely contents
+## What is not here
 
-- `context.md` — why this project exists, what it's extending
-- `glossary.md` — Movement ID vs Transfer ID vs WT-ID, actor terminology, etc.
-- `adr/` — Architecture Decision Records for design decisions that need a
-  written rationale (e.g. how Transfer ID is derived, what happens to a
-  Movement ID on rejection-retry)
-- `open-questions.md` — running list of things not yet decided
+- **Decisions about the design of the API or the scenario taxonomy**
+  live in the [decisions register](../decisions.md), one level up. This
+  folder is for self-contained notes; the decisions register is for
+  short, structured entries.
+- **Glossary terms** live in the [glossary](../glossary.md). New terms
+  go there rather than in a notes file, so readers always know where
+  to find them.
