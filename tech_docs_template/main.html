@@ -1,0 +1,213 @@
+{% extends "base.html" %} 
+
+{# append our extra stylesheets#} 
+
+{# keep default content #}
+{% block content %}{{ super() }}{% endblock %}
+
+{# add our patch after all scripts so the DOM is ready #}
+{% block scripts %}
+  {{ super() }}
+  <script>
+    (function () {
+      function fixAccessibility() {
+        // 1. Search dialog accessible name (AXE fix)
+        var dlg = document.querySelector('.md-search[role="dialog"]');
+        if (dlg) {
+          var hasName = dlg.hasAttribute('aria-label') || dlg.hasAttribute('aria-labelledby');
+          if (!hasName) {
+            dlg.setAttribute('aria-label', 'Search this site');
+          }
+        }
+
+        // 2. Empty form labels — add visually-hidden text to icon-only labels
+        function addLabelText(selector, text) {
+          document.querySelectorAll(selector).forEach(function (label) {
+            if (label.querySelector('.visually-hidden')) return;
+            var span = document.createElement('span');
+            span.className = 'visually-hidden';
+            span.textContent = text;
+            label.appendChild(span);
+          });
+        }
+
+        addLabelText('label[for="__drawer"]', 'Toggle navigation');
+        addLabelText('label[for="__search"]', 'Toggle search');
+
+        // Palette toggle labels
+        document.querySelectorAll('label[for^="__palette"]').forEach(function (label) {
+          if (label.querySelector('.visually-hidden')) return;
+          var title = label.getAttribute('title') || 'Toggle colour scheme';
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = title;
+          label.appendChild(span);
+        });
+
+        // Navigation section toggle labels
+        document.querySelectorAll('label[for^="__nav"], label[for^="nav-"]').forEach(function (label) {
+          if (label.querySelector('.visually-hidden')) return;
+          var nav = label.closest('.md-nav__item');
+          var link = nav ? nav.querySelector('.md-nav__link') : null;
+          var text = link ? 'Toggle ' + link.textContent.trim() : 'Toggle section';
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = text;
+          label.appendChild(span);
+        });
+
+        // Catch any remaining labels that only contain SVG/icons
+        document.querySelectorAll('label[for]').forEach(function (label) {
+          if (label.querySelector('.visually-hidden')) return;
+          var clone = label.cloneNode(true);
+          var els = clone.querySelectorAll('svg, img, .md-icon');
+          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
+          if (!clone.textContent.trim()) {
+            var span = document.createElement('span');
+            span.className = 'visually-hidden';
+            span.textContent = label.getAttribute('title') || 'Toggle';
+            label.appendChild(span);
+          }
+        });
+
+        // Catch any inputs/selects without any label (missing form label)
+        document.querySelectorAll('input, select, textarea').forEach(function (input) {
+          if (input.type === 'hidden') return;
+          if (input.getAttribute('aria-label') || input.getAttribute('aria-labelledby')) return;
+          var id = input.id;
+          if (id && document.querySelector('label[for="' + id + '"]')) return;
+          // No label found — add aria-label
+          var name = input.getAttribute('name') || input.getAttribute('placeholder') || input.type || 'input';
+          input.setAttribute('aria-label', name.charAt(0).toUpperCase() + name.slice(1));
+        });
+
+        // 3. Multiple form labels — replace duplicate labels with spans
+        var labelsByFor = {};
+        document.querySelectorAll('label[for]').forEach(function (label) {
+          var forId = label.getAttribute('for');
+          if (!labelsByFor[forId]) labelsByFor[forId] = [];
+          labelsByFor[forId].push(label);
+        });
+        Object.keys(labelsByFor).forEach(function (forId) {
+          var labels = labelsByFor[forId];
+          if (labels.length > 1) {
+            for (var i = 1; i < labels.length; i++) {
+              var span = document.createElement('span');
+              span.innerHTML = labels[i].innerHTML;
+              span.className = labels[i].className;
+              span.setAttribute('aria-hidden', 'true');
+              labels[i].parentNode.replaceChild(span, labels[i]);
+            }
+          }
+        });
+
+        // 6. Empty links — add aria-label to social icon links
+        document.querySelectorAll('.md-social__link').forEach(function (link) {
+          if (!link.textContent.trim() && !link.getAttribute('aria-label')) {
+            var href = link.getAttribute('href') || '';
+            if (href.indexOf('mailto:') !== -1) {
+              link.setAttribute('aria-label', 'Send email');
+            } else if (href.indexOf('github') !== -1) {
+              link.setAttribute('aria-label', 'GitHub repository');
+            } else {
+              link.setAttribute('aria-label', 'External link');
+            }
+          }
+        });
+
+        // 7. Missing fieldset — wrap palette toggles in a fieldset
+        var palette = document.querySelector('.md-header__option');
+        if (palette && palette.tagName !== 'FIELDSET' && !palette.querySelector('fieldset')) {
+          var fieldset = document.createElement('fieldset');
+          fieldset.className = palette.className;
+          fieldset.style.border = 'none';
+          fieldset.style.padding = '0';
+          fieldset.style.margin = '0';
+          var legend = document.createElement('legend');
+          legend.className = 'visually-hidden';
+          legend.textContent = 'Colour scheme';
+          fieldset.appendChild(legend);
+          while (palette.firstChild) {
+            fieldset.appendChild(palette.firstChild);
+          }
+          palette.parentNode.replaceChild(fieldset, palette);
+        }
+
+        // 8. Palette toggle labels — remove title to avoid redundant title text
+        document.querySelectorAll('.md-header__option label, fieldset label').forEach(function (el) {
+          if (el.getAttribute('title') && el.querySelector('.visually-hidden')) {
+            el.removeAttribute('title');
+          }
+        });
+
+        // 9. Suspicious alt text — fix theme logo if generic
+        document.querySelectorAll('.md-header__button img, .md-logo img').forEach(function (img) {
+          var alt = img.getAttribute('alt') || '';
+          if (!alt || /^(logo|image|img|icon|picture)$/i.test(alt.trim())) {
+            img.setAttribute('alt', 'Defra Digital Waste Tracking home');
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixAccessibility);
+      } else {
+        fixAccessibility();
+      }
+      document.addEventListener('navigationend', fixAccessibility);
+    })();
+  </script>
+{% endblock %}
+{% block styles %}
+  {{ super() }}
+<link rel="stylesheet" href="{{ 'assets/stylesheets/extra.css' | url }}" />
+{% endblock %} 
+{% block footer %}
+  <footer class="md-footer">
+    <div class="md-footer-meta__inner md-grid">
+       <div class="md-copyright">
+      {% if config.extra.social %} {% include "partials/social.html" %} {% endif
+      %} Made with
+      <a
+        href="https://squidfunk.github.io/mkdocs-material/"
+        target="_blank"
+        rel="noopener"
+      >
+        Material for MkDocs
+      </a>
+      <br /><br />
+      <img
+        src="{{ 'assets/images/ogl.png' |url }}"
+        alt="Open Government Licence logo"
+      />
+      All content is available under the
+      <a
+        href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+        target="_blank"
+        rel="noopener"
+      >
+        Open Government Licence v3.0</a
+      >
+      , except where otherwise stated <br><br><br>
+      <a href="/waste-tracking-service/api-accessibility-statement" target="_blank" rel="noopener">Accessibility Statement</a>
+    </div>
+
+    <div class="md-copyright">
+      <a
+        href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+        target="_blank"
+        rel="noopener"
+      >
+        <img
+          src="{{ 'assets/images/govuk-crest-2x.png' | url }}"
+          width="125"
+          height="102"
+          alt="Gov UK Crest"
+        />
+        <br />
+        © Crown copyright
+      </a>
+    </div>
+  </div>
+</footer>
+{% endblock %}
