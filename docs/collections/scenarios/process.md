@@ -38,7 +38,7 @@ start to end, including every decision branch taken and every state visited.
 Two rules constrain the enumeration to keep the corpus finite and meaningful:
 
 - **Loops are bounded.** Each loop edge — *[More collections]*, *[More drop off and/or collections]*, *[Can be sent to another site]* — may be traversed at most a small number of times. In the current run, each loop is traversed at most once, which captures the qualitative difference between "no loop" and "loop taken" without producing arbitrarily long paths.
-- **Cycle exclusivity.** A single scenario traverses at most one of the three loop edges. A path that simultaneously loops on collections *and* on drop-offs *and* on rejection-retry exists in theory but is not enumerated, because it represents an unrealistic compound trajectory rather than a distinct journey shape.
+- **Cycle combinations.** A single scenario may traverse none of the loop edges, exactly one of them, or specifically the combination of `multi-collection` and `multi-drop-off`. Combinations involving `rejection-retry` are not enumerated, on the basis that a driver picking up from multiple producers, getting rejected at a receiver, and rerouting the rejected portion is an unrealistic compound trajectory. The combined `multi-collection + multi-drop-off` is realistic — a milk-round style pickup followed by multi-site delivery — and is enumerated.
 
 The current extraction produces **282 scenarios**, evenly split between the
 two start nodes (141 each).
@@ -85,7 +85,7 @@ The result is seven axes.
 | **Receipt outcome** | `acceptAll`, `rejectAll`, `acceptPart-accepted`, `acceptPart-rejected`, `na` | What the receiver decides at the gate. `acceptPart` produces two parallel flows — accepted portion and rejected portion — and both have to be tracked. `na` applies when no receipt event occurs (producer-tracking-only paths). |
 | **Receipt recording** | `realtime`, `deferred`, `na` | Mirror of collection recording, on the receipt side. `na` applies when no receipt event occurs (full rejection, producer-tracking only). |
 | **Final state** | `AWR/R`, `AWR/C`, `AWR/P`, `WWR/P` | The terminal state: accepted-at-receiver, reconciled-by-carrier, observed-by-producer, or rejected-and-returned. |
-| **Cycles traversed** | `multi-collection`, `multi-drop-off`, `rejection-retry` (or none) | Whether the movement involves a driver loop. At most one cycle per scenario, by the cycle-exclusivity rule above. |
+| **Cycles traversed** | `multi-collection`, `multi-drop-off`, `rejection-retry` (or none, or the `multi-collection + multi-drop-off` combination) | Whether the movement involves a driver loop. Combinations are constrained: see the cycle-combinations rule above. |
 | **Compliance** | `compliant`, `non-compliant` | Whether all events are recorded as required. Deferring collection or receipt without ever reconciling produces a non-compliant trajectory. |
 
 ### Why these axes

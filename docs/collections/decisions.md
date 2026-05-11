@@ -228,14 +228,111 @@ about independently. See the
 [Import app changes note](docs/import-app-changes.md) for the full
 pipeline.
 
+### Hazardous waste cannot be merged across Movements at drop-off
+
+**Context.** A drop-off can cover one or more Movements delivered
+together at the same receiver site (multi-collection runs). For
+hazardous waste, regulatory and audit constraints make merging
+multiple Movements under a single Transfer ID inappropriate — each
+hazardous Movement needs its own Transfer ID for traceability.
+
+**Decision.** When any of the Movements named in a `POST
+/movements/drop-off` request carries hazardous waste, the request
+must contain exactly one Movement ID. Multi-Movement drop-offs are
+permitted only when all linked Movements are non-hazardous.
+
+The constraint is data-dependent (depends on properties of the linked
+Movements that the request body does not carry). It is therefore not
+expressed in the OpenAPI schema, but documented on the endpoint and
+validated server-side. Violations return a 400 with a clear validation
+error.
+
+**Consequences.** Multi-collection runs remain a first-class concept
+for non-hazardous waste. Carriers handling hazardous waste record one
+drop-off per Movement, even if the loads physically arrive together.
+
+### Static and transit collection collapsed into a single endpoint
+
+**Context.** The original endpoint catalogue distinguished
+`POST /movements/static-collection` (producer to driver) from
+`POST /movements/transit-collection` (driver to driver). When the BA
+clarified that transit collection continues the same Movement ID and
+captures the same shape of data (date-time, driver, location), the
+distinction at the URL level stopped earning its keep.
+
+**Decision.** Replace both with `POST /movements/collection`. Whether
+a collection is the first one on a Movement (static-equivalent) or a
+subsequent driver-to-driver handover (transit-equivalent) is derivable
+from context — earlier collections on the same Movement, location of
+the event — rather than encoded in the URL.
+
+`movementId` is carried explicitly in the request body, even though
+it continues from prior events. This is defensive: it makes each
+request self-describing and avoids ambiguity in PUT and GET cases.
+
+**Consequences.** One endpoint instead of two. One schema instead of
+two. The API is simpler for vendors to integrate against. The
+distinction static-vs-transit lives in the data (event order and
+location) rather than the URL. Supersedes the earlier "transit
+collection parked" decision below.
+
+### Carrier always required on movement creation
+
+**Context.** Following BA discussion of hazardous-waste handling,
+there was a question about whether the carrier requirement on
+`POST /movements/create` should be relaxed for non-hazardous waste.
+
+**Decision.** Carrier remains always required at creation, regardless
+of hazardous status. Reaffirms the existing
+"Carrier always required; broker optional" decision above.
+
+**Consequences.** No spec change. Recorded explicitly so that the
+question does not need to be re-litigated.
+
+### Cycle combinations — multi-collection + multi-drop-off permitted
+
+**Context.** The corpus originally enforced strict cycle exclusivity:
+each scenario could traverse at most one of the three loop edges
+(`multi-collection`, `multi-drop-off`, `rejection-retry`). The rule
+was justified at the time as keeping the corpus to "distinct journey
+shapes." On review of the curated set, the team noticed that the
+combination of *multi-collection and multi-drop-off in the same
+scenario* is a perfectly realistic journey — a driver picking up
+from several producers and dropping at several receivers in one run
+— and the corpus contained no example of it.
+
+**Decision.** Relax cycle exclusivity to permit one specific
+additional combination: `multi-collection + multi-drop-off`. All
+other combinations remain excluded — `rejection-retry` in particular
+is still single-loop only. Each loop is still traversed at most once
+per scenario, so the new combination produces paths with two
+collections and two drop-offs.
+
+Encoded in the schema as a `oneOf` listing the five allowed values
+of the `cycles` array (empty, each of the three single loops, and
+the combined `[multi-collection, multi-drop-off]` tuple).
+
+**Consequences.** The corpus grows. The Import app's extraction
+logic relaxes the cycle-exclusivity rule for this one combination
+only. Earlier corpus snapshots remain valid against the new schema
+(no scenario carrying an old single-loop tuple is invalidated). New
+scenarios appear with `cycles: ['multi-collection', 'multi-drop-off']`.
+
+The `[multi-collection, multi-drop-off]` tuple must be emitted in
+alphabetical order to match the schema's `const`-based constraint;
+the Import app's extraction code is responsible for sorting.
+
 ## Open
 
-### Transit collection
+### Transit collection — superseded
 
-When does a transit collection happen, what does the API endpoint
-look like, what data does it carry? Currently parked pending BA
-confirmation. Static collection (producer to driver) is in the spec;
-transit collection (driver to driver, at a transit point) is not.
+Originally listed as open ("when does a transit collection happen,
+what does the API endpoint look like, what data does it carry?"),
+then parked. Superseded by the
+[static and transit collapsed into a single endpoint](#static-and-transit-collection-collapsed-into-a-single-endpoint)
+decision above. Transit collection is now modelled as a second
+collection event on the same Movement, through the unified
+`POST /movements/collection` endpoint.
 
 ### Drop-off PUT semantics in multi-collection cases
 

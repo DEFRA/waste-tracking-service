@@ -18,7 +18,7 @@ The current draft covers fourteen paths:
 | Area | Paths |
 |---|---|
 | Movement lifecycle | `POST /movements/create`, `PUT /movements/{id}/create` |
-| Static collection | `POST /movements/static-collection`, `PUT /movements/{id}/static-collection`, `GET /movements/{id}/static-collection` |
+| Collection | `POST /movements/collection`, `PUT /movements/{id}/collection`, `GET /movements/{id}/collection` |
 | Drop-off | `POST /movements/drop-off`, `PUT /movements/{id}/drop-off` |
 | Receipt (Phase 1) | `POST /movements/receive`, `PUT /movements/{id}/receive` |
 | Producer query | `GET /movements/{id}/fate-of-waste` |

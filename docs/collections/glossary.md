@@ -94,18 +94,21 @@ The party who creates the movement and, in doing so, mints the Movement
 ID. In the scenario taxonomy the value is either `carrier` or `broker`
 (see "Broker" above for what `broker` covers).
 
-### Static collection
+### Collection
 
-A collection event where waste passes from a producer to a driver, at a
-producer site. This is the standard kind of collection and the only one
-modelled in the current API.
+A collection event is the act of waste passing into a driver's care.
+The API has a single collection endpoint (`POST /movements/collection`)
+covering both kinds:
 
-### Transit collection
+- **First collection** — waste passes from a producer to a driver, at
+  a producer site. The classification of the waste is recorded here.
+- **Driver-to-driver handover** — a subsequent collection event on the
+  same Movement, where waste passes from one driver to another at a
+  transit point such as a depot, transfer station, or layby.
 
-A collection event where waste passes from one driver to another at a
-transit point — for example a depot, transfer station, or layby. Not
-modelled in the current API. The endpoint shape is parked pending BA
-confirmation.
+Earlier drafts distinguished these as "static collection" and "transit
+collection" with separate endpoints. The terms still appear in some
+process documents but the API treats them as the same event shape.
 
 ### Producer-tracking
 

@@ -23,7 +23,7 @@ tags:
   - name: Movement
     description: Create and manage a waste movement record.
   - name: Collection
-    description: Record a collection event — waste passing from a producer to a driver.
+    description: Record a collection event — waste passing into a driver's care, whether from a producer at first collection or from another driver at a subsequent handover.
   - name: Drop-off
     description: Record a drop-off event at a receiver site, generating a Transfer ID.
   - name: Receipt
@@ -328,11 +328,13 @@ components:
 
     # Collection event.
     #
-    # Currently models static collection only — waste passing from a
-    # producer to a driver at a producer site. Transit collection
-    # (driver to driver) is parked pending BA confirmation.
+    # A single endpoint handles all collection events on a Movement —
+    # the first collection from a producer (was: "static collection")
+    # and any subsequent driver-to-driver handovers (was: "transit
+    # collection"). The distinction lives in the data (event order on
+    # the Movement, location), not in the URL.
 
-    StaticCollectionRequest:
+    CollectionRequest:
       type: object
       required:
         - movementId
@@ -350,15 +352,17 @@ components:
           $ref: '#/components/schemas/CarrierDetails'
         collectionAddress:
           $ref: '#/components/schemas/address'
-          description: Address where collection took place. Typically a producer site.
+          description: Address where the collection took place. A producer site for the first collection on a Movement; a transit point (depot, transfer station, layby) for subsequent driver-to-driver handovers.
         driverDetails:
           $ref: '#/components/schemas/DriverDetails'
         actualWaste:
           $ref: '#/components/schemas/WasteClassification'
           description: |
-            Actual waste collected, as observed by the driver. May
-            differ from the planned waste classification on the
-            Movement (e.g. quantity adjustment).
+            Actual waste collected, as observed by the driver. Typically
+            populated at the first collection on a Movement (when waste
+            enters the system from the producer); not normally populated
+            at subsequent driver-to-driver handovers, where the
+            classification is unchanged. Optional in either case.
 
     RecordCollectionResponse:
       type: object
@@ -376,9 +380,9 @@ components:
               items:
                 $ref: '#/components/schemas/ValidationResult'
 
-    StaticCollectionResource:
+    CollectionResource:
       description: |
-        A static collection as stored. The request body fields plus the
+        A collection event as stored. The request body fields plus the
         server-assigned `collectionId`.
       allOf:
         - type: object
@@ -386,7 +390,7 @@ components:
           properties:
             collectionId:
               $ref: '#/components/schemas/CollectionId'
-        - $ref: '#/components/schemas/StaticCollectionRequest'
+        - $ref: '#/components/schemas/CollectionRequest'
 
     # Fate of waste — producer-facing read-only projection.
     #
@@ -475,6 +479,18 @@ components:
 
     DropOffRequest:
       type: object
+      description: |
+        A drop-off may cover one or more Movements delivered together
+        at the same receiver site, identified in `movementIds`. There
+        is one constraint on multi-Movement drop-offs:
+
+        **If any of the linked Movements carries hazardous waste, the
+        drop-off must cover exactly one Movement.** Multi-Movement
+        drop-offs are permitted only when all linked Movements are
+        non-hazardous. This is enforced server-side because the rule
+        depends on properties of the linked Movements that the request
+        body does not carry; violations return a 400 with a clear
+        validation error.
       required:
         - dropOffDateTime
         - movementIds
@@ -1282,22 +1298,29 @@ paths:
         "400":
           $ref: '#/components/responses/400'
 
-  /movements/static-collection:
+  /movements/collection:
     post:
       tags: [Collection]
-      summary: Record a static collection (producer to driver)
+      summary: Record a collection
       description: |
-        Record a collection event at a producer site, where waste passes
-        from the producer to the driver. Mints a new Collection ID.
-        A single Movement may have multiple static collection events
-        (multi-collection runs).
-      operationId: recordStaticCollection
+        Record a collection event — the act of waste passing into a
+        driver's care. This endpoint covers both the first collection
+        on a Movement (waste picked up from a producer) and any
+        subsequent driver-to-driver handovers (the same Movement
+        continuing under a new driver). The distinction is derivable
+        from event order on the Movement and from the collection
+        address; it is not encoded in the URL.
+
+        Mints a new Collection ID. A single Movement may have multiple
+        collection events (multi-collection runs, or a multi-leg
+        journey involving driver handovers).
+      operationId: recordCollection
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StaticCollectionRequest'
+              $ref: '#/components/schemas/CollectionRequest'
       responses:
         "201":
           description: Collection recorded. Body carries the new Collection ID and any validation warnings.
@@ -1308,22 +1331,22 @@ paths:
         "400":
           $ref: '#/components/responses/400'
 
-  /movements/{id}/static-collection:
+  /movements/{id}/collection:
     parameters:
       - $ref: '#/components/parameters/MovementIdPath'
     put:
       tags: [Collection]
-      summary: Update a static collection
+      summary: Update a collection
       description: |
-        Update one or more static collection records for a Movement.
-        Behaves consistently with the Phase 1 Receipt API PUT pattern.
-      operationId: updateStaticCollection
+        Update one or more collection records for a Movement. Behaves
+        consistently with the Phase 1 Receipt API PUT pattern.
+      operationId: updateCollection
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StaticCollectionRequest'
+              $ref: '#/components/schemas/CollectionRequest'
       responses:
         "200":
           description: Collection updated.
@@ -1335,21 +1358,23 @@ paths:
           $ref: '#/components/responses/400'
     get:
       tags: [Collection]
-      summary: List static collections for a Movement
+      summary: List collections for a Movement
       description: |
-        Returns all static collection events recorded against the given
-        Movement ID. Multi-collection runs may produce multiple entries;
-        single-collection movements return an array of one.
-      operationId: listStaticCollections
+        Returns all collection events recorded against the given
+        Movement ID, in event order. A single-collection movement
+        returns an array of one. Multi-collection runs and
+        multi-leg journeys (with driver handovers) return multiple
+        entries.
+      operationId: listCollections
       responses:
         "200":
-          description: Static collections for the Movement.
+          description: Collections for the Movement.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/StaticCollectionResource'
+                  $ref: '#/components/schemas/CollectionResource'
         "404":
           description: Movement not found.
 
@@ -1394,7 +1419,7 @@ paths:
       summary: Update a drop-off
       description: |
         Update the drop-off record associated with a Movement. Mirrors
-        the static-collection PUT pattern. Note that in multi-collection
+        the collection PUT pattern. Note that in multi-collection
         cases a single drop-off may cover several Movements — updating
         via any one of those Movement IDs updates the same underlying
         drop-off record.
