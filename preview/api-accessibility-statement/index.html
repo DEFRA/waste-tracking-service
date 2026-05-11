@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/preview/api-authentication-guide/">
+        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/preview/api-accessibility-statement/">
       
       
-        <link rel="prev" href="../receipt-data-definitions/">
-      
-      
-        <link rel="next" href="../api-codes-for-testing-and-production/">
       
       
         
@@ -25,7 +21,7 @@
     
     
       
-        <title>Api authentication guide - Defra Digital Waste Tracking Developer Guide</title>
+        <title>Api accessibility statement - Defra Digital Waste Tracking Developer Guide</title>
       
     
     
@@ -144,7 +140,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#receipt-of-waste-api-authentication-guide" class="md-skip">
+        <a href="#accessibility-statement" class="md-skip">
           Skip to content
         </a>
       
@@ -183,7 +179,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Api authentication guide
+              Api accessibility statement
             
           </span>
         </div>
@@ -315,12 +311,10 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../api-landing-page/" class="md-tabs__link">
           
   
@@ -553,10 +547,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -588,20 +580,17 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -619,7 +608,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -774,19 +763,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api-authentication-guide/" class="md-nav__link">
         
   
   
@@ -802,7 +782,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1004,7 +983,7 @@
     
       
     
-    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-authentication-guide.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-accessibility-statement.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
@@ -1012,73 +991,69 @@
 
 
 <p><a class="md-button" href="../">← Back to Top</a></p>
-<h1 id="receipt-of-waste-api-authentication-guide">Receipt of Waste - API Authentication Guide</h1>
-<p>To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. </p>
-<p>This process involves two steps: </p>
-<ol>
-    <li>Submit the client id and secret to the OAuth service to be granted an access token. See the python code snippet below.
-
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>  <span class="c1">#use requests library</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span> 
-<span class="k">def</span><span class="w"> </span><span class="nf">get_cognito_token</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">,</span> <span class="n">token_url</span><span class="p">):</span> <span class="c1"># your clientID, Client Secret and OAuth URL</span>
-    <span class="n">client_credentials</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">client_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">client_secret</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">encoded_credentials</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">client_credentials</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> 
-    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Basic </span><span class="si">{</span><span class="n">encoded_credentials</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-www-form-urlencoded&quot;</span> <span class="p">}</span>
-    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;grant_type&quot;</span><span class="p">:</span> <span class="s2">&quot;client_credentials&quot;</span><span class="p">,</span> <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">client_id</span><span class="p">,</span> <span class="s2">&quot;client_secret&quot;</span><span class="p">:</span> <span class="n">client_secret</span><span class="p">,</span> <span class="p">}</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">token_url</span><span class="si">}</span><span class="s2">/oauth2/token&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span> 
-    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span> 
-    <span class="n">token_response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> 
-    <span class="k">return</span> <span class="n">token_response</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]</span>
-</code></pre></div>
-</li>
-<li>Submit the access/bearer token to use the API. See the python code snippet below.
-
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span> 
-<span class="k">def</span><span class="w"> </span><span class="nf">make_api_request</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">api_url</span><span class="p">):</span> <span class="c1"># your access token and the api url here</span>
-    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span> 
-    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span> 
-    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> 
-</code></pre></div>
-</li>
-</ol>
-<p>Sequence Diagram for Authentication Flow</p>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mermaid Diagram Example</title>
-    <!-- Load Mermaid from CDN -->
-    <script type="module">
-        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
-        // Initialize Mermaid
-        mermaid.initialize({ startOnLoad: true });
-    </script>
-</head>
-<body>
-    <h2>Authentication sequence diagram</h2>
-    <div class="mermaid">
-
- sequenceDiagram
-    participant Third Party Software
-    participant OAuth
-    participant Receipt API
-    Third Party Software->>OAuth: Client ID + Secret
-    OAuth-->>Third Party Software: Bearer Token
-    Third Party Software->>Receipt API: POST Receipt API + Bearer Token
-    Receipt API -->>Third Party Software: Result of Waste Movement Request (Success/Failure)
-    </div>
-</body>
-</html>
-
-<h2 id="what-is-the-oauth-login-url-for-my-api">What is the OAuth login URL for my API?</h2>
-<div class="highlight"><pre><span></span><code>Production: https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com
-
-Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com 
-</code></pre></div>
-<h2 id="changelog">Changelog</h2>
-<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Authentication-Guide-Changelog">Receipt API v1.0 Authentication Guide</a> GitHub wiki.
-<br/>Page last updated on January 14th 2026.</p>
+<h1 id="accessibility-statement">Accessibility Statement</h1>
+<p>This accessibility statement applies to the Digital Waste Tracking API documentation website, available at <a href="https://defra.github.io/waste-tracking-service/production">https://defra.github.io/waste-tracking-service/production</a>
+This website is run by Defra. We want as many people as possible to be able to use this website. For example, that means you should be able to:</p>
+<ul>
+<li>change colour, contrast and fonts using browser or device settings </li>
+<li>zoom in up to 400% without the text spilling off the screen</li>
+<li>navigate most of the website using just a keyboard</li>
+<li>listen to most of the website using a screen reader (including the most recent versions of NVDA, JAWS and VoiceOver).</li>
+</ul>
+<p>We have also made the website text as simple as possible to understand.
+<a href="https://mcmw.abilitynet.org.uk/">AbilityNet</a> has advice on making your device easier to use if you have a disability.</p>
+<h2 id="how-accessible-this-website-is">How accessible this website is</h2>
+<p>We know some parts of this website are not fully accessible. For example:</p>
+<ul>
+<li>some users may not be able to understand the structure and relationship of the information that is not in a table format</li>
+<li>some of the links have insufficient colour contrast</li>
+<li>pages may not be able to have a change of colour</li>
+<li>some API reference tables may be difficult to navigate using a screen reader</li>
+<li>some code examples may not reflow cleanly when zoomed or viewed on small screens</li>
+<li>interactive API testing tools (for example, Swagger UI) may have limited keyboard support.</li>
+</ul>
+<h2 id="feedback-and-contact-information">Feedback and contact information</h2>
+<p>Contact us if you:</p>
+<ul>
+<li>find any problems not listed on this page</li>
+<li>think we are not meeting accessibility requirements</li>
+<li>need information on this website in a different format such as accessible PDF, large print, easy read, audio recording or braille.</li>
+</ul>
+<p>Telephone: 03000 203 781
+We’ll consider your request and get back to you within a timescale, e.g. 5 working days.</p>
+<h2 id="enforcement-procedure">Enforcement procedure</h2>
+<p>The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint, you can contact the Equality Advisory and Support Service (EASS).</p>
+<p>Website: <a href="https://www.equalityadvisoryservice.com/">https://www.equalityadvisoryservice.com/</a>
+Telephone: 0808 800 0082
+Textphone: 0808 800 0084
+Text relay: 18001 0808 800 0082</p>
+<h2 id="technical-information-about-this-websites-accessibility">Technical information about this website’s accessibility</h2>
+<p>Defra is committed to making its websites accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.</p>
+<h2 id="compliance-status">Compliance status</h2>
+<p>This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines version 2.2</a> AA, due to the non-compliances listed below.</p>
+<h3 id="non-accessible-content">Non-accessible content</h3>
+<p>The content listed below is non-accessible for the following reasons.
+Non-compliance with the accessibility regulations</p>
+<h4 id="api-reference-tables">API reference tables</h4>
+<p>Some tables generated from OpenAPI specifications do not have correctly associated table headers.
+This does not meet WCAG 2.1 success criterion 1.3.1 (Info and Relationships).</p>
+<h4 id="interactive-api-consoles-eg-swagger-ui">Interactive API consoles (e.g. Swagger UI)</h4>
+<p>Some interactive controls are not fully operable using a keyboard.
+This does not meet WCAG 2.1 success criterion 2.1.1 (Keyboard).</p>
+<h2 id="what-were-doing-to-improve-accessibility">What we’re doing to improve accessibility</h2>
+<p>We are taking the following steps to improve accessibility:</p>
+<ul>
+<li>reviewing third‑party API tooling for accessibility improvements</li>
+<li>ensure users can understand the structure and relationship of table content by implementing a table format that includes descriptive headers</li>
+<li>help users identify the subject or purpose of a document by adding headers</li>
+<li>improve contrast between text and the background in accordance with WCAG 2.2 recommendations</li>
+</ul>
+<p>We aim to fix these issues by the end of December 2026.</p>
+<h2 id="preparation-of-this-accessibility-statement">Preparation of this accessibility statement</h2>
+<p>This statement was prepared on 17/04/2026.
+It was last reviewed on 07/05/2026.
+This website was last tested for accessibility on 14/04/2026.
+The test was carried out by our DWT in‑house team, using: WAVE and axe DevTools v4.126.2</p>
 
 
 
