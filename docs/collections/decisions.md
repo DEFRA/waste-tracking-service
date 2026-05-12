@@ -322,6 +322,46 @@ The `[multi-collection, multi-drop-off]` tuple must be emitted in
 alphabetical order to match the schema's `const`-based constraint;
 the Import app's extraction code is responsible for sorting.
 
+### Per-event IDs not exposed in the public API
+
+**Context.** Earlier conversations specified per-event identifiers
+(`CreationId`, `CollectionId`, `DropOffId`, plus the legacy `ReceiveId`
+as `wasteTrackingId`) returned alongside Movement ID and Transfer ID
+in API responses. On review with the team, this was identified as a
+conflation of two separate concerns: server-side storage identifiers
+(every event needs a unique row internally) and public API contract
+identifiers (values vendors store and pass around).
+
+**Decision.** Only Movement ID and Transfer ID are exposed in the
+API contract. The per-event identifiers — for creation, collection,
+drop-off, and receipt — remain in the server's storage layer but are
+not returned in API responses. The Phase 1 `wasteTrackingId` is
+preserved as it is (it is the Movement ID, named for backward
+compatibility).
+
+**Consequences.** Three response schemas slim down:
+
+- `CreateMovementResponse` returns `movementId` and `validation` only.
+- `RecordCollectionResponse` returns `validation` only.
+- `DropOffResponse` returns `transferId` and `validation` only.
+
+The four placeholder schemas (`CreationId`, `CollectionId`,
+`DropOffId`, `ReceiveId`) are removed from `components.schemas`.
+`CollectionResource` (the GET response item) loses its `collectionId`
+field; collections within a Movement are not separately addressable by
+ID in the public API.
+
+The corpus's step `expect.returns` lists need refreshing to drop the
+internal IDs — `[movementId, creationId, validation]` becomes
+`[movementId, validation]`, and so on. This is a follow-up for the
+Import app prompt; the schema's `expect.returns` enum can be tightened
+at the same time.
+
+Vendors integrating against the API have two values to track per
+journey: Movement ID (durable, addresses a Movement) and Transfer ID
+(addresses a drop-off across one or more Movements). Anything else
+is the server's business.
+
 ## Open
 
 ### Transit collection — superseded

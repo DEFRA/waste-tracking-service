@@ -77,25 +77,12 @@ components:
         on `POST /movements/drop-off`.
       example: TR-2026-000005678
 
-    CreationId:
-      type: string
-      description: Unique identifier for the creation event itself, distinct from the Movement ID.
-      example: CR-2026-000001234
-
-    CollectionId:
-      type: string
-      description: Unique identifier for a single collection event. Each collection in a multi-collection run has its own.
-      example: CO-2026-000009876
-
-    DropOffId:
-      type: string
-      description: Unique identifier for a drop-off event, distinct from the Transfer ID.
-      example: DO-2026-000004321
-
-    ReceiveId:
-      type: string
-      description: Unique identifier for a receipt event, distinct from the Movement ID and Transfer ID. Carried over from the Phase 1 Receipt API as `wasteTrackingId`.
-      example: RC-2026-000007654
+    # Note on internal identifiers
+    #
+    # Each event (creation, collection, drop-off, receipt) has its own
+    # unique identifier in the server's storage, but these are internal
+    # to the implementation and not exposed in the API. The two IDs
+    # exposed in the contract are MovementId and TransferId.
 
     Weight:
       type: object
@@ -301,8 +288,6 @@ components:
       properties:
         movementId:
           $ref: '#/components/schemas/MovementId'
-        creationId:
-          $ref: '#/components/schemas/CreationId'
         validation:
           type: object
           properties:
@@ -367,11 +352,10 @@ components:
     RecordCollectionResponse:
       type: object
       description: |
-        Returned on successful collection record. Carries the new
-        Collection ID and a validation envelope with any warnings.
+        Returned on successful collection record. The collection is
+        addressable through the Movement ID; no per-collection identifier
+        is exposed in the API.
       properties:
-        collectionId:
-          $ref: '#/components/schemas/CollectionId'
         validation:
           type: object
           properties:
@@ -382,14 +366,11 @@ components:
 
     CollectionResource:
       description: |
-        A collection event as stored. The request body fields plus the
-        server-assigned `collectionId`.
+        A collection event as stored. The GET response returns a list
+        of these, in event order, for a given Movement ID. Individual
+        collection events are not separately addressable by ID — the
+        Movement ID is the public addressing key.
       allOf:
-        - type: object
-          required: [collectionId]
-          properties:
-            collectionId:
-              $ref: '#/components/schemas/CollectionId'
         - $ref: '#/components/schemas/CollectionRequest'
 
     # Fate of waste — producer-facing read-only projection.
@@ -529,13 +510,11 @@ components:
       type: object
       description: |
         Returned on successful drop-off. Carries the new Transfer ID
-        (which links all Movement IDs in this drop-off), the Drop-off ID
-        (the event itself), and a validation envelope with any warnings.
+        (which links all Movement IDs in this drop-off) and a validation
+        envelope with any warnings.
       properties:
         transferId:
           $ref: '#/components/schemas/TransferId'
-        dropOffId:
-          $ref: '#/components/schemas/DropOffId'
         validation:
           type: object
           properties:
@@ -1311,9 +1290,9 @@ paths:
         from event order on the Movement and from the collection
         address; it is not encoded in the URL.
 
-        Mints a new Collection ID. A single Movement may have multiple
-        collection events (multi-collection runs, or a multi-leg
-        journey involving driver handovers).
+        A single Movement may have multiple collection events
+        (multi-collection runs, or a multi-leg journey involving
+        driver handovers).
       operationId: recordCollection
       requestBody:
         required: true
@@ -1323,7 +1302,7 @@ paths:
               $ref: '#/components/schemas/CollectionRequest'
       responses:
         "201":
-          description: Collection recorded. Body carries the new Collection ID and any validation warnings.
+          description: Collection recorded. Body carries any validation warnings.
           content:
             application/json:
               schema:
@@ -1403,7 +1382,7 @@ paths:
               $ref: '#/components/schemas/DropOffRequest'
       responses:
         "201":
-          description: Drop-off recorded. Body carries the new Transfer ID, Drop-off ID, and any validation warnings.
+          description: Drop-off recorded. Body carries the new Transfer ID and any validation warnings.
           content:
             application/json:
               schema:
