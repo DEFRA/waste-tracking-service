@@ -856,7 +856,8 @@ components:
               </ul>
               <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
               <ul>
-                <li>PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999, EAS/P/999999</li>
+                <li>PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999, WML/L/9999999/99, WML/W/9999999/99, 
+                WML/N/9999999/99, WML/E/9999999/99, EAS/P/999999</li>
               </ul>
               <p><font color="blue"><b>Wales (NRW):</b></font></p>
               <ul>
