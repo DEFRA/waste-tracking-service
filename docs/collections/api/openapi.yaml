@@ -24,10 +24,10 @@ tags:
     description: Create and manage a waste movement record.
   - name: Collection
     description: Record a collection event — waste passing into a driver's care, whether from a producer at first collection or from another driver at a subsequent handover.
-  - name: Drop-off
-    description: Record a drop-off event at a receiver site, generating a Transfer ID.
+  - name: Transfer
+    description: Record a drop-off event at a receiver site, minting a Transfer ID, and the subsequent receipt against it.
   - name: Receipt
-    description: Record receipt of waste at a receiver site (Phase 1).
+    description: Record receipt of waste at a receiver site against a Transfer.
   - name: Fate of waste
     description: Producer-facing read-only query of a movement's status and outcome.
   - name: Reference data
@@ -41,12 +41,20 @@ components:
   parameters:
 
     MovementIdPath:
-      name: id
+      name: movementId
       in: path
       required: true
-      description: Movement ID minted by `POST /movements/create`.
+      description: Movement ID minted by `POST /movements`.
       schema:
         $ref: '#/components/schemas/MovementId'
+
+    TransferIdPath:
+      name: transferId
+      in: path
+      required: true
+      description: Transfer ID minted by `POST /transfers`.
+      schema:
+        $ref: '#/components/schemas/TransferId'
 
   # ----------------------------------------------------------------------
   # Schemas
@@ -74,7 +82,7 @@ components:
       description: |
         Unique identifier for a drop-off, covering one or more Movement IDs
         delivered together at a single receiver site. Minted by the server
-        on `POST /movements/drop-off`.
+        on `POST /transfers`.
       example: TR-2026-000005678
 
     # Note on internal identifiers
@@ -311,6 +319,33 @@ components:
               items:
                 $ref: '#/components/schemas/ValidationResult'
 
+    MovementResource:
+      description: |
+        A Movement as stored. Used as the GET response for
+        `GET /movements/{movementId}`. Carries the Movement ID plus
+        the creation-time payload (waste classification, parties, etc.)
+        and any subsequent updates.
+      allOf:
+        - type: object
+          required: [movementId]
+          properties:
+            movementId:
+              $ref: '#/components/schemas/MovementId'
+        - $ref: '#/components/schemas/CreateMovementRequest'
+
+    TransferResource:
+      description: |
+        A Transfer as stored. Used as the GET response for
+        `GET /transfers/{transferId}`. Carries the Transfer ID plus
+        the drop-off payload.
+      allOf:
+        - type: object
+          required: [transferId]
+          properties:
+            transferId:
+              $ref: '#/components/schemas/TransferId'
+        - $ref: '#/components/schemas/DropOffRequest'
+
     # Collection event.
     #
     # A single endpoint handles all collection events on a Movement —
@@ -322,13 +357,9 @@ components:
     CollectionRequest:
       type: object
       required:
-        - movementId
         - collectionDateTime
         - carrierDetails
       properties:
-        movementId:
-          $ref: '#/components/schemas/MovementId'
-          description: The Movement this collection contributes to.
         collectionDateTime:
           type: string
           format: date-time
@@ -1081,7 +1112,7 @@ components:
               transferId:
                 type: string
                 description: |
-                  Optional. The Transfer ID returned by `POST /movements/drop-off`, identifying the drop-off this receipt corresponds to. When supplied, the receipt is linked to the drop-off and through it to the originating Movement IDs. When omitted, the receipt is recorded standalone — used when the receiving site is permitted to accept the waste without an upstream record (e.g. paperwork missing, carrier not on the system).
+                  Optional. The Transfer ID returned by `POST /transfers`, identifying the drop-off this receipt corresponds to. When supplied, the receipt is linked to the drop-off and through it to the originating Movement IDs. When omitted, the receipt is recorded standalone — used when the receiving site is permitted to accept the waste without an upstream record (e.g. paperwork missing, carrier not on the system).
 
                   When a Transfer ID is supplied, the carrier and waste details in this request will be cross-checked against the linked drop-off; mismatches return a validation warning.
                 example: TR-2026-000005678
@@ -1223,7 +1254,7 @@ components:
 # ======================================================================
 paths:
 
-  /movements/create:
+  /movements:
     post:
       tags: [Movement]
       summary: Create a waste movement
@@ -1232,8 +1263,7 @@ paths:
         Broker details are required only when the movement is
         broker-initiated. The Movement ID returned in the response
         should be stored by the caller and used for any subsequent
-        updates or related events (collection, drop-off,
-        fate-of-waste query).
+        events (collection, drop-off, fate-of-waste query).
       operationId: createMovement
       requestBody:
         required: true
@@ -1251,16 +1281,28 @@ paths:
         "400":
           $ref: '#/components/responses/400'
 
-  /movements/{id}/create:
+  /movements/{movementId}:
+    parameters:
+      - $ref: '#/components/parameters/MovementIdPath'
+    get:
+      tags: [Movement]
+      summary: Get a movement
+      description: Retrieve the Movement record by its ID.
+      operationId: getMovement
+      responses:
+        "200":
+          description: The Movement record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementResource'
+        "404":
+          description: Movement not found.
     put:
       tags: [Movement]
       summary: Update a waste movement
-      description: |
-        Update an existing movement using its Movement ID. Mirrors the
-        Phase 1 Receipt API PUT pattern.
+      description: Update an existing movement record.
       operationId: updateMovement
-      parameters:
-        - $ref: '#/components/parameters/MovementIdPath'
       requestBody:
         required: true
         content:
@@ -1277,22 +1319,19 @@ paths:
         "400":
           $ref: '#/components/responses/400'
 
-  /movements/collection:
+  /movements/{movementId}/collection:
+    parameters:
+      - $ref: '#/components/parameters/MovementIdPath'
     post:
       tags: [Collection]
-      summary: Record a collection
+      summary: Record the collection for a Movement
       description: |
         Record a collection event — the act of waste passing into a
-        driver's care. This endpoint covers both the first collection
-        on a Movement (waste picked up from a producer) and any
-        subsequent driver-to-driver handovers (the same Movement
-        continuing under a new driver). The distinction is derivable
-        from event order on the Movement and from the collection
-        address; it is not encoded in the URL.
-
-        A single Movement may have multiple collection events
-        (multi-collection runs, or a multi-leg journey involving
-        driver handovers).
+        driver's care. A Movement has exactly one collection event;
+        each pickup is a separate Movement. Multi-collection runs
+        therefore involve multiple Movements at the drop-off stage
+        (see `POST /transfers`), not multiple collections on one
+        Movement.
       operationId: recordCollection
       requestBody:
         required: true
@@ -1309,16 +1348,10 @@ paths:
                 $ref: '#/components/schemas/RecordCollectionResponse'
         "400":
           $ref: '#/components/responses/400'
-
-  /movements/{id}/collection:
-    parameters:
-      - $ref: '#/components/parameters/MovementIdPath'
     put:
       tags: [Collection]
-      summary: Update a collection
-      description: |
-        Update one or more collection records for a Movement. Behaves
-        consistently with the Phase 1 Receipt API PUT pattern.
+      summary: Update the collection for a Movement
+      description: Update the collection record for a Movement.
       operationId: updateCollection
       requestBody:
         required: true
@@ -1337,42 +1370,34 @@ paths:
           $ref: '#/components/responses/400'
     get:
       tags: [Collection]
-      summary: List collections for a Movement
-      description: |
-        Returns all collection events recorded against the given
-        Movement ID, in event order. A single-collection movement
-        returns an array of one. Multi-collection runs and
-        multi-leg journeys (with driver handovers) return multiple
-        entries.
-      operationId: listCollections
+      summary: Get the collection for a Movement
+      description: Retrieve the collection record for a Movement.
+      operationId: getCollection
       responses:
         "200":
-          description: Collections for the Movement.
+          description: The collection record.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CollectionResource'
+                $ref: '#/components/schemas/CollectionResource'
         "404":
-          description: Movement not found.
+          description: Movement or collection not found.
 
-  /movements/drop-off:
+  /transfers:
     post:
-      tags: [Drop-off]
+      tags: [Transfer]
       summary: Record a drop-off
       description: |
-        Record a drop-off event at a receiver site. Mints a new
+        Record a drop-off event at a receiver site, minting a new
         Transfer ID covering one or more Movement IDs delivered
-        together. In a single-collection run, `movementIds` is an
-        array of one; in a multi-collection run, it carries every
-        Movement being delivered.
+        together. In a single-collection journey, `movementIds`
+        carries one entry; in a multi-collection run, it carries
+        every Movement being delivered.
 
         The Transfer ID returned in the response is intended to be
         passed on to the receiving site (typically by the driver,
-        on paper or digitally). The receiver then supplies it on
-        `POST /movements/receive` to link the receipt to this drop-off
-        and to the upstream Movements.
+        on paper or digitally). The receiver then records the receipt
+        against this Transfer via `POST /transfers/{transferId}/receipt`.
       operationId: recordDropOff
       requestBody:
         required: true
@@ -1390,18 +1415,27 @@ paths:
         "400":
           $ref: '#/components/responses/400'
 
-  /movements/{id}/drop-off:
+  /transfers/{transferId}:
     parameters:
-      - $ref: '#/components/parameters/MovementIdPath'
+      - $ref: '#/components/parameters/TransferIdPath'
+    get:
+      tags: [Transfer]
+      summary: Get a transfer
+      description: Retrieve the Transfer record by its ID.
+      operationId: getTransfer
+      responses:
+        "200":
+          description: The Transfer record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferResource'
+        "404":
+          description: Transfer not found.
     put:
-      tags: [Drop-off]
+      tags: [Transfer]
       summary: Update a drop-off
-      description: |
-        Update the drop-off record associated with a Movement. Mirrors
-        the collection PUT pattern. Note that in multi-collection
-        cases a single drop-off may cover several Movements — updating
-        via any one of those Movement IDs updates the same underlying
-        drop-off record.
+      description: Update the drop-off record for a Transfer.
       operationId: updateDropOff
       requestBody:
         required: true
@@ -1430,15 +1464,33 @@ paths:
   # exactly as published.
   # ----------------------------------------------------------------------
 
+  # ----------------------------------------------------------------------
+  # Phase 1 receipt endpoints, preserved.
+  #
+  # These remain functional for Phase 1 backward compatibility but are
+  # superseded by the new `POST /transfers/{transferId}/receipt` and
+  # `PUT /transfers/{transferId}/receipt` endpoints below, which fit the
+  # Level 2 resource model. New integrations should use the Transfer-scoped
+  # endpoints. The Phase 1 endpoints are marked deprecated; a removal date
+  # will be communicated separately.
+  #
+  # Path parameter renamed from {wasteTrackingId} to {id} for consistency
+  # with the rest of this spec. The semantic is unchanged — it is the
+  # same Movement ID used elsewhere.
+  # ----------------------------------------------------------------------
+
   /movements/receive:
     post:
       tags: [Receipt]
-      summary: Record receipt of waste at a receiver site (Phase 1)
+      summary: Record receipt of waste at a receiver site (Phase 1, deprecated)
+      deprecated: true
       description: |
+        **Deprecated.** Use `POST /transfers/{transferId}/receipt` instead.
+
         Endpoint used when waste is received but the receiver has not yet recorded the waste movement. Generally at this stage, the receiver does not have or use the waste tracking ID. The waste tracking ID will be returned in the 201 response if the movement is successfully stored.
 
-        The request body may optionally include a `transferId` linking the receipt to an upstream drop-off (see `POST /movements/drop-off`). When a Transfer ID is supplied, the receipt is associated with the drop-off and the Movement IDs it covers, and the carrier and waste details in the request are cross-checked against the linked drop-off — mismatches return a validation warning. When omitted, the receipt is treated as standalone — used when the receiving site is permitted to accept the waste but no Transfer ID is available.
-      operationId: recordReceipt
+        The request body may optionally include a `transferId` linking the receipt to an upstream drop-off (see `POST /transfers`). When a Transfer ID is supplied, the receipt is associated with the drop-off and the Movement IDs it covers, and the carrier and waste details in the request are cross-checked against the linked drop-off — mismatches return a validation warning. When omitted, the receipt is treated as standalone — used when the receiving site is permitted to accept the waste but no Transfer ID is available.
+      operationId: recordReceiptLegacy
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
@@ -1478,12 +1530,15 @@ paths:
           type: string
     put:
       tags: [Receipt]
-      summary: Update a receipt of waste record (Phase 1)
+      summary: Update a receipt of waste record (Phase 1, deprecated)
+      deprecated: true
       description: |
+        **Deprecated.** Use `PUT /transfers/{transferId}/receipt` instead.
+
         Endpoint to be used when waste is received and the waste record is to be updated. The carrier has a Movement ID (Phase 1: `wasteTrackingId`) and this parameter must be used in the URL path.
 
         As with `POST /movements/receive`, the request body may optionally include a `transferId` linking the receipt to an upstream drop-off. When supplied, the carrier and waste details in the request are cross-checked against the linked drop-off; mismatches return a validation warning.
-      operationId: updateReceipt
+      operationId: updateReceiptLegacy
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
@@ -1505,13 +1560,100 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "404":
-          description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
+          description: Movement not found.
+
+  # ----------------------------------------------------------------------
+  # Receipt endpoints (Level 2 resource model).
+  #
+  # Each Transfer has exactly one Receipt. The Receipt is addressable via
+  # its parent Transfer ID — no separate Receipt ID is exposed.
+  # ----------------------------------------------------------------------
+
+  /transfers/{transferId}/receipt:
+    parameters:
+      - $ref: '#/components/parameters/TransferIdPath'
+    post:
+      tags: [Receipt]
+      summary: Record the receipt for a Transfer
+      description: |
+        Record the receipt of waste at a receiver site, against the
+        Transfer ID minted by the upstream drop-off. The carrier and
+        waste details in the request are cross-checked against the
+        linked drop-off; mismatches return a validation warning.
+
+        Each Transfer has exactly one Receipt. A second call against
+        the same Transfer ID is treated as an update — use
+        `PUT /transfers/{transferId}/receipt` for that explicitly.
+      operationId: recordReceipt
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "201":
+          description: Receipt recorded.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Transfer not found.
+    put:
+      tags: [Receipt]
+      summary: Update the receipt for a Transfer
+      description: Update the receipt record for a Transfer.
+      operationId: updateReceipt
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "200":
+          description: Receipt updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Transfer or Receipt not found.
+    get:
+      tags: [Receipt]
+      summary: Get the receipt for a Transfer
+      description: Retrieve the Receipt record for a Transfer.
+      operationId: getReceipt
+      responses:
+        "200":
+          description: The Receipt record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/requestBodies/receiveMovementRequest"
+        "404":
+          description: Transfer or Receipt not found.
 
   # ----------------------------------------------------------------------
   # Producer-facing read-only query.
   # ----------------------------------------------------------------------
 
-  /movements/{id}/fate-of-waste:
+  /movements/{movementId}/fate-of-waste:
     parameters:
       - $ref: '#/components/parameters/MovementIdPath'
     get:

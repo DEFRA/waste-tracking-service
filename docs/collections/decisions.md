@@ -362,6 +362,95 @@ journey: Movement ID (durable, addresses a Movement) and Transfer ID
 (addresses a drop-off across one or more Movements). Anything else
 is the server's business.
 
+### Movement ↔ Collection and Transfer ↔ Receipt are 1:1
+
+**Context.** While working through the Level 2 restructure (see next
+entry), it became important to be precise about the relationships
+between the four core concepts: Movement, Collection, Transfer, Receipt.
+
+**Decision.** Each Movement has exactly one Collection event, and
+each Transfer has exactly one Receipt event. The relationships are
+1:1, not 1:many.
+
+- A driver picking up from multiple producers on a run creates
+  *multiple Movements* — each pickup is its own Movement, with its
+  own Movement ID.
+- A driver dropping at multiple receivers in a run mints *multiple
+  Transfer IDs* — each drop-off event is its own Transfer.
+- A Movement is on exactly one Transfer (Movement ↔ Transfer is
+  many-to-one: many Movements aggregated under one Transfer at a
+  single drop-off, but each Movement only ever appears on one
+  Transfer).
+- If a load is split at the receiver via partial rejection, that is
+  modelled in the receipt's `outcome` (`acceptPart-accepted` /
+  `acceptPart-rejected`), not by splitting the Movement.
+
+**Consequences.** This is the structural assumption underlying the
+Level 2 restructure. The endpoint `GET /movements/{movementId}/collection`
+returns a single Collection record, not a list. The endpoint
+`GET /transfers/{transferId}/receipt` returns a single Receipt record.
+Multi-collection scenarios in the corpus correspond to multi-Movement
+journeys at the drop-off; multi-drop-off scenarios correspond to a
+driver minting multiple Transfer IDs in one run.
+
+### Level 2 (Richardson Maturity Model) resource model
+
+**Context.** The original API spec used verb-shaped URL segments
+(`/movements/create`, `/movements/collection`, `/movements/drop-off`,
+`/movements/receive`) with every operation as POST. After a sequence
+of architectural reviews, the team agreed the spec should adopt
+Richardson Level 2: URLs as resource paths, HTTP methods as the verbs.
+
+The journey was:
+- A colleague raised that the `/movements/` vs `/transfers/` split was
+  the natural Level 2 instinct.
+- Another colleague pointed out that going further — events as
+  first-class addressable resources — would unlock cacheable GETs and
+  make the contract cleaner.
+- The 1:1 cardinality (see previous decision) made it possible to
+  adopt Level 2 without introducing additional public IDs for
+  `collectionId` and `receiptId` — each sub-resource is uniquely
+  addressed by its parent.
+
+**Decision.** Adopt Level 2:
+
+- Resources are plural collections: `/movements`, `/transfers`.
+- Individual resources: `/movements/{movementId}`, `/transfers/{transferId}`.
+- Sub-resources are singular (1:1): `/movements/{movementId}/collection`,
+  `/transfers/{transferId}/receipt`.
+- HTTP methods carry the action: `POST` creates, `GET` reads,
+  `PUT` updates.
+- `operationId`s stay verb-shaped (`createMovement`, `recordCollection`,
+  `recordDropOff`, `recordReceipt`, etc.) — they describe the business
+  event and remain stable across URL changes.
+
+**Consequences.** Substantial spec restructure (all path keys changed
+except the reference data GETs and `fate-of-waste`). GETs become
+cacheable; reads can be served by CDN, proxy, browser, client-side
+cache. Each event becomes an addressable resource with its own
+endpoint. The fate-of-waste endpoint is kept as a deliberate
+projection for the producer-facing view, alongside the resource-level
+GETs.
+
+Movement ID and Transfer ID remain the only public IDs. Per-event IDs
+(`creationId`, `collectionId`, etc.) stay internal to the server. The
+"Per-event IDs not exposed in the public API" decision is unchanged
+by this; the Level 2 adoption *would* have required them as URL
+parameters if the cardinality were 1:many, but at 1:1 the parent ID
+is sufficient.
+
+The Phase 1 receipt endpoints (`POST /movements/receive`,
+`PUT /movements/{id}/receive`) remain in the spec marked `deprecated:
+true`. Their operationIds were renamed to `recordReceiptLegacy` and
+`updateReceiptLegacy` to free up the canonical names for the new
+Transfer-scoped endpoints. A removal date for the deprecated endpoints
+is an open question — see below.
+
+This decision also resolves the earlier "Static and transit collection
+collapsed into a single endpoint" decision in a more elegant way:
+collection is now a 1:1 sub-resource of a Movement, and what was
+called multi-collection is now multi-Movement-under-one-Transfer.
+
 ## Open
 
 ### Transit collection — superseded
@@ -419,6 +508,19 @@ clearer statement of the rules once they are agreed.
 Phase 1 schemas use lowercase, the new schemas use PascalCase. The
 two coexist for now (see decided entry). Whether to converge to one
 style — and which — is an open call for when the spec is more stable.
+
+### Phase 1 receipt endpoint deprecation timeline
+
+The Level 2 restructure superseded `POST /movements/receive` and
+`PUT /movements/{id}/receive` with `POST /transfers/{transferId}/receipt`
+and `PUT /transfers/{transferId}/receipt`. The Phase 1 endpoints remain
+in the spec marked `deprecated: true` for backward compatibility, but
+no removal date has been set. Open: when do existing Phase 1 clients
+need to migrate, and how is that communicated to them? Options range
+from indefinite deprecation (Phase 1 endpoints stay forever) to a
+scheduled cutover with a removal window. A migration-by-redirect was
+considered but has known issues with non-GET methods across different
+HTTP client libraries.
 
 ## Parked
 

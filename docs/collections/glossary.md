@@ -9,7 +9,7 @@ similar and refer to different things.
 ### Movement ID
 
 The identifier of a waste movement, minted when a movement is created via
-`POST /movements/create`. It is immutable once issued and lives across the
+`POST /movements`. It is immutable once issued and lives across the
 whole journey of that movement, from creation through collection,
 drop-off, and receipt. Software vendors and integrators store and pass
 this value through their systems.
@@ -20,13 +20,13 @@ In Phase 1 documentation the same value is referred to as the
 ### Transfer ID
 
 The identifier of a drop-off event, minted when the carrier records a
-drop-off via `POST /movements/drop-off`. A single Transfer ID can cover
-one or more Movement IDs delivered together at the same receiver site,
-which is what makes multi-collection runs possible.
+drop-off via `POST /transfers`. A single Transfer ID covers one or
+more Movement IDs delivered together at the same receiver site, which
+is what makes multi-collection runs possible.
 
 The driver passes the Transfer ID on to the receiver — typically on
-paper, sometimes digitally — and the receiver supplies it on
-`POST /movements/receive` to link the receipt back to the drop-off.
+paper, sometimes digitally — and the receiver records the receipt
+against it via `POST /transfers/{transferId}/receipt`.
 
 ### Creation ID, Collection ID, Drop-off ID, Receive ID
 
@@ -44,6 +44,38 @@ Transfer ID at delivery, and a single Receive ID at the receiver site.
 A legacy term used in some early Phase 1 documentation. Synonymous with
 Movement ID and `wasteTrackingId`. Mentioned here so readers of older
 documents know they are looking at the same value.
+
+## Resource hierarchy
+
+The API is organised around two top-level resources — Movements and
+Transfers — each with a sub-resource that captures the event happening
+to it. The sub-resources are 1:1: each Movement has exactly one
+Collection, each Transfer has exactly one Receipt. A Movement is on
+exactly one Transfer; a Transfer can aggregate multiple Movements.
+
+```
+/movements/{movementId}/collection      ← 1:1 (the pickup)
+/transfers/{transferId}/receipt         ← 1:1 (the acceptance)
+/transfers/{transferId}                 ← contains a list of Movement IDs
+```
+
+This shape has two practical consequences worth knowing:
+
+- **Multi-collection runs are multi-Movement.** A driver picking up
+  from three producers in a single run creates three Movements, each
+  with its own Movement ID and its own Collection event. The
+  Movements are then aggregated under a single Transfer ID at the
+  drop-off.
+- **Multi-drop-off runs are multi-Transfer.** A driver dropping at
+  two receivers in a single run mints two Transfer IDs — one per
+  drop-off event. The Movements being delivered are split across the
+  two Transfers.
+
+If a load is partially rejected at the receiver, the split is
+captured in the Receipt's `outcome` field, not by creating new
+Movements. The single Movement ends with a `acceptPart-accepted`
+or `acceptPart-rejected` flag depending on which side of the split
+the record tracks.
 
 ## Actors and roles
 
@@ -96,19 +128,20 @@ ID. In the scenario taxonomy the value is either `carrier` or `broker`
 
 ### Collection
 
-A collection event is the act of waste passing into a driver's care.
-The API has a single collection endpoint (`POST /movements/collection`)
-covering both kinds:
+A collection event is the act of waste passing from a producer into a
+driver's care, recorded against a specific Movement. Each Movement has
+exactly one Collection event — a driver picking up multiple loads on a
+run is recording one Collection per Movement, not multiple Collections
+on a single Movement.
 
-- **First collection** — waste passes from a producer to a driver, at
-  a producer site. The classification of the waste is recorded here.
-- **Driver-to-driver handover** — a subsequent collection event on the
-  same Movement, where waste passes from one driver to another at a
-  transit point such as a depot, transfer station, or layby.
+Earlier drafts of the API distinguished "static collection" (producer
+to driver) from "transit collection" (driver-to-driver handover). The
+final model collapses this distinction: every collection is just the
+collection event for its Movement. A driver-to-driver handover is
+modelled by ending one Movement at a drop-off and creating a new
+Movement at the next pickup, rather than as a separate event type.
 
-Earlier drafts distinguished these as "static collection" and "transit
-collection" with separate endpoints. The terms still appear in some
-process documents but the API treats them as the same event shape.
+Endpoint: `POST /movements/{movementId}/collection`.
 
 ### Producer-tracking
 
