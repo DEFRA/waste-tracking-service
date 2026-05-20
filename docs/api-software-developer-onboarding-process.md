@@ -9,7 +9,7 @@
 ### Follow the steps in the above diagram with the corresponding steps below:
 
 ### 1. Register for the Receipt of Waste (RoW) API Service
-Register for the Receipt of Waste (RoW). The sign-up link for this registration is available from our [qualtrics survey pages](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U). Read the [API Terms of Service](api-terms-of-service.md) and acknowledge this by clicking the checkbox on the last page of the survey.
+The sign-up link for registration is available from our [qualtrics survey pages](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U). Read the [API Terms of Service](api-terms-of-service.md) and acknowledge this by clicking the checkbox on the last page of the survey.
 
 ### 2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team
 Following registration, software developers receive test credentials from the DWT team.
