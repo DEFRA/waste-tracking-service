@@ -8,7 +8,6 @@ When you’ve completed developing and testing your integration, please send a t
 <b>Sending Production Approval Tests</b>
 
 Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
-  
 
 The scenarios to be demonstrated are:<br>
 - <b>R01</b> Basic Waste receipt - single waste item<br>
@@ -37,13 +36,13 @@ The following is not an exhaustive set of tests and you will be expected to revi
 ## Feature: Basic Receipt of Waste Scenarios
 
 As a user,  
-I want to submit a basic waste movement receipt,<br> 
-so that I can record the receipt of non-hazardous waste.<br> 
+I want to submit a waste movement receipt,<br> 
+so that I can record the receipt of a waste item.<br> 
 
 ### Scenario: Submit basic receipt of waste with single waste item (R01)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And there is a single waste item<br>
 And there is an accompanying ‘Disposal or Recovery’ code<br>
 And there are no POPs properties<br>
@@ -55,7 +54,7 @@ And I should receive a Waste Tracking ID<br>
 ### Scenario: Submit basic receipt of waste with multiple waste items (R02)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And there are multiple waste items<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
@@ -64,7 +63,7 @@ And I should receive a Waste Tracking ID<br>
 ### Scenario: Submit basic receipt of waste with Road transport (R03)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And the means of transport is ‘Road’<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
@@ -73,7 +72,7 @@ And I should receive a Waste Tracking ID<br>
 ### Scenario: Submit basic receipt of waste with no Disposal or Recovery codes (R04)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And there are no accompanying ‘Disposal or Recovery’ codes<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
@@ -83,7 +82,7 @@ And I should receive a warning about missing codes<br>
 ### Scenario: Submit basic receipt of waste with multiple Disposal or Recovery codes (R05)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And there is a single waste item<br>
 And there are multiple accompanying ‘Disposal or Recovery’ codes<br>
 When I submit the waste movement receipt<br>
@@ -93,7 +92,7 @@ And I should receive a Waste Tracking ID<br>
 ### Scenario: Submit basic receipt of waste with multiple EWC codes (R07)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And there are at least two EWC codes<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
@@ -108,7 +107,7 @@ so that the movement is properly documented and compliant.<br>
 ### Scenario: Submit Basic waste Receipt - with no Carrier registration number and no reason (C01)
 
 Given I have authenticated
-And I have a basic waste movement
+And I have a waste movement
 And there is no carrier registration number
 And a reason for no registration number is NOT provided
 When I attempt to submit the waste movement receipt
@@ -117,7 +116,7 @@ Then the waste movement receipt should be rejected
 ### Scenario: Submit receipt of waste with no carrier registration number and reason (C02)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And there is no carrier registration number, i.e. **registrationNumber** is null<br>
 And a reason for no registration number is provided<br>
 When I submit the waste movement receipt<br>
@@ -133,7 +132,7 @@ so that all parties in the waste movement chain are properly recorded.<br>
 ### Scenario: Submit receipt of waste with Broker/Dealer involvement (B01)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And there is a Broker/Dealer involved in the movement<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
@@ -148,7 +147,7 @@ so that persistent organic pollutants are properly tracked and managed.<br>
 ### Scenario: Submit receipt of waste with multiple POPs components (P01)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And it contains multiple POPs Components<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
@@ -163,7 +162,7 @@ so that hazardous waste is properly classified and tracked.<br>
 ### Scenario: Submit receipt of waste with multiple hazardous components (H01)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And it contains multiple Hazardous Components<br>
 When I submit the waste movement receipt<br>
 Then the waste movement receipt should be created<br>
@@ -172,7 +171,7 @@ And I should receive a Waste Tracking ID<br>
 ### Scenario: Submit receipt of hazardous waste with no Consignment Note Code and no reason (H02)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And it contains Hazardous Components<br>
 And there is no Consignment Note Code, i.e. **hazardousWasteConsignmentCode** is null<br>
 And no reason is provided<br>
@@ -183,7 +182,7 @@ And I should receive an error message<br>
 ### Scenario: Submit receipt of hazardous waste with no Consignment Note Code but with reason (H03)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And it contains Hazardous Components<br>
 And there is no Consignment Note Code<br>
 And a reason is provided<br>
@@ -200,7 +199,7 @@ so that complex waste streams are properly classified and tracked.<br>
 ### Scenario: Submit receipt of  waste with both hazardous and POPs components (X01)
 
 Given I have authenticated<br>
-And I have a basic waste movement<br>
+And I have a waste movement<br>
 And it contains Hazardous Components<br>
 And it contains POPs components<br>
 When I submit the waste movement receipt<br>
@@ -214,4 +213,4 @@ And I should receive a Waste Tracking ID<br>
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Production Approval Tests](https://github.com/DEFRA/waste-tracking-service/wiki/Production-Approval-Tests) GitHub wiki.
-<br/>Page last updated on April 10th 2026.
+<br/>Page last updated on May 20th 2026.
