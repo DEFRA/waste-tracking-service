@@ -25,7 +25,7 @@ servers:
   - url: https://waste-tracking.api.defra.gov.uk
     description: Production environment
   - url: https://waste-tracking.integration.api.defra.gov.uk
-    description: External test environmen    
+    description: External test environment    
 paths:
   /movements/receive:
     post:
