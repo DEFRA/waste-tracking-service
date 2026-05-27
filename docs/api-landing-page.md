@@ -20,7 +20,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 ## Receipt API Overview
 
-The latest version of the Receipt of Waste API OAS Specification is available [here](../apiSpecifications/).
+The latest version of the Receipt of Waste [API OAS Specification](../apiSpecifications/) is available.
 
 ### Receipt of Waste Process Flow
 
@@ -77,7 +77,7 @@ Work through these short sections on practical preparation and use of the API:
 - [Getting help from the API support team](#getting-help-by-email)
 
 
-### Prequisite Steps (Developers)
+### Prerequisite Steps (Developers)
 
 To develop using the Receipt of Waste API, you must:
 
@@ -107,7 +107,7 @@ These are the necessary steps:
 
 You can now begin sending waste movements to the Waste Tracking Service.
 
-### Prequisite Steps (Receivers)
+### Prerequisite Steps (Receivers)
 
 1. Waste Receivers need to [sign-up for the service](api-software-developer-onboarding-process.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
