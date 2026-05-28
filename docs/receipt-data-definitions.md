@@ -104,5 +104,5 @@ They are a draft and may be updated to reflect changes to policy, legislation an
 You can find the changelog for this document in the [Receipt API v1.0 Data Definitions](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Data-Definitions) GitHub wiki.
 <br/>
 
-Page last updated on March 6th 2026.
+Page last updated on May 6th 2026.
 
