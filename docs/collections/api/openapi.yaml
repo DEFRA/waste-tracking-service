@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: Digital Waste Tracking API
-  version: 0.1.1-alpha
+  version: 0.1.2-alpha
   description: |
     Extension of the Phase 1 Receipt of Waste API toward a fuller
     waste-movement journey covering creation, collection, drop-off,
@@ -40,21 +40,21 @@ components:
   # ----------------------------------------------------------------------
   parameters:
 
-    MovementIdPath:
+    movementIdPath:
       name: movementId
       in: path
       required: true
       description: Movement ID minted by `POST /movements`.
       schema:
-        $ref: '#/components/schemas/MovementId'
+        $ref: '#/components/schemas/movementId'
 
-    TransferIdPath:
+    transferIdPath:
       name: transferId
       in: path
       required: true
       description: Transfer ID minted by `POST /transfers`.
       schema:
-        $ref: '#/components/schemas/TransferId'
+        $ref: '#/components/schemas/transferId'
 
   # ----------------------------------------------------------------------
   # Schemas
@@ -69,7 +69,7 @@ components:
 
     # --- 1. Identifiers and primitives ----------------------------------
 
-    MovementId:
+    movementId:
       type: string
       description: |
         Unique identifier for a waste movement. Minted by the server on
@@ -78,7 +78,7 @@ components:
         https://sqids.org/). Format is opaque to callers; do not parse.
       example: 25HRA0B2
 
-    TransferId:
+    transferId:
       type: string
       description: |
         Unique identifier for a drop-off, covering one or more Movement IDs
@@ -95,7 +95,7 @@ components:
     # addressed solely by their public identifiers: movementId and
     # transferId (and, on the deprecated Phase 1 path, wasteTrackingId).
 
-    WasteTrackingId:
+    wasteTrackingId:
       type: string
       format: uuid
       description: |
@@ -105,19 +105,6 @@ components:
         compatibility only.
       example: 9b2e4f1a-6c3d-4e8b-bf21-2a7c5d0e1f34
 
-    Weight:
-      type: object
-      required: [metric, amount, isEstimate]
-      properties:
-        metric:
-          type: string
-          enum: [Tonnes, Kilograms]
-        amount:
-          type: number
-          minimum: 0
-        isEstimate:
-          type: boolean
-          description: True if the figure is provisional (e.g. driver's estimate at kerbside); false if measured (e.g. weighbridge reading at receiver).
 
     # --- 2. Common composites -------------------------------------------
     #
@@ -125,7 +112,7 @@ components:
     # (intentionally lowercase, single canonical shape across both
     # generations of the API).
 
-    Organisation:
+    organisation:
       type: object
       required: [organisationName]
       properties:
@@ -146,28 +133,32 @@ components:
         address:
           $ref: '#/components/schemas/address'
 
-    ValidationResult:
+    notFoundError:
       type: object
       description: |
-        Single validation entry. Used inside the `errors` array on 4xx
-        responses and the `warnings` array on successful responses.
-        Field names match the Phase 1 Receipt API exactly so that
-        existing client code can be reused.
+        Body returned with a 404 on the collection and receipt reads/updates,
+        to distinguish a missing parent resource from a sub-resource that has
+        simply not been recorded yet. This lets a polling client tell a wrong
+        identifier (stop) from an event that has not happened yet (keep
+        polling).
+      required: [code]
       properties:
-        key:
+        code:
           type: string
-          description: Dotted path to the offending field, e.g. `producerDetails.address.postcode`.
-          example: producerDetails.address.postcode
-        errorType:
-          type: string
+          enum:
+            - MOVEMENT_NOT_FOUND
+            - COLLECTION_NOT_RECORDED
+            - TRANSFER_NOT_FOUND
+            - RECEIPT_NOT_RECORDED
           description: |
-            One of: `NotProvided`, `NotAllowed`, `InvalidType`,
-            `InvalidFormat`, `InvalidValue`, `OutOfRange`,
-            `BusinessRuleViolation`. Matches Phase 1 vocabulary.
-          example: NotProvided
+            `MOVEMENT_NOT_FOUND` / `TRANSFER_NOT_FOUND`: the parent resource
+            does not exist. `COLLECTION_NOT_RECORDED` / `RECEIPT_NOT_RECORDED`:
+            the parent exists but the event has not been recorded yet.
+          example: COLLECTION_NOT_RECORDED
         message:
           type: string
-          example: '"producerDetails.address.postcode" is required'
+          example: No collection has been recorded for this movement yet.
+
 
     # --- 3. Domain entities (placeholders) ------------------------------
     #
@@ -181,7 +172,7 @@ components:
     # When the canonical definitions land, every schema below will be
     # filled in without changing the surrounding paths or request bodies.
 
-    WasteClassification:
+    wasteClassification:
       type: object
       description: |
         Placeholder. Will carry EWC codes, waste description, physical
@@ -190,7 +181,7 @@ components:
         (`/ewc-codes`, `/container-types`).
       additionalProperties: true
 
-    HazardousDetails:
+    hazardousDetails:
       type: object
       description: |
         Placeholder. Will carry the hazardous-codes payload including
@@ -198,7 +189,7 @@ components:
         defined alongside the `/hazardous-codes` reference data endpoint.
       additionalProperties: true
 
-    PopsDetails:
+    popsDetails:
       type: object
       description: |
         Placeholder. Will carry POPs (Persistent Organic Pollutants)
@@ -206,42 +197,42 @@ components:
         `/pop-codes` reference data endpoint.
       additionalProperties: true
 
-    ProducerDetails:
+    producerDetails:
       type: object
       description: |
         Placeholder. Will extend `Organisation` with producer-specific
         fields (e.g. SIC code, premises type). Currently carries the
         organisation block only.
       allOf:
-        - $ref: '#/components/schemas/Organisation'
+        - $ref: '#/components/schemas/organisation'
 
-    CarrierDetails:
+    carrierDetails:
       type: object
       description: |
         Placeholder. Will extend `Organisation` with carrier-specific
         fields (e.g. registration tier, vehicle details). Currently
         carries the organisation block only.
       allOf:
-        - $ref: '#/components/schemas/Organisation'
+        - $ref: '#/components/schemas/organisation'
 
-    BrokerDetails:
+    brokerDetails:
       type: object
       description: |
         Placeholder. Will extend `Organisation` with broker-specific
         fields. Currently carries the organisation block only.
       allOf:
-        - $ref: '#/components/schemas/Organisation'
+        - $ref: '#/components/schemas/organisation'
 
-    ReceiverDetails:
+    receiverDetails:
       type: object
       description: |
         Placeholder. Will extend `Organisation` with receiver-specific
         fields (e.g. authorisation type, accepted waste streams).
         Currently carries the organisation block only.
       allOf:
-        - $ref: '#/components/schemas/Organisation'
+        - $ref: '#/components/schemas/organisation'
 
-    DriverDetails:
+    driverDetails:
       type: object
       description: |
         Placeholder. Will identify the driver performing a collection
@@ -261,7 +252,7 @@ components:
     # union) is deferred from this version of the spec; it will be
     # reintroduced once the operational details are agreed.
 
-    CreateMovementRequest:
+    createMovementRequest:
       type: object
       required:
         - wasteClassification
@@ -271,24 +262,34 @@ components:
         - carrierDetails
       properties:
         wasteClassification:
-          $ref: '#/components/schemas/WasteClassification'
+          $ref: '#/components/schemas/wasteClassification'
         hazardousDetails:
-          $ref: '#/components/schemas/HazardousDetails'
+          $ref: '#/components/schemas/hazardousDetails'
         popsDetails:
-          $ref: '#/components/schemas/PopsDetails'
+          $ref: '#/components/schemas/popsDetails'
         producerDetails:
-          $ref: '#/components/schemas/ProducerDetails'
+          $ref: '#/components/schemas/producerDetails'
         carrierDetails:
-          $ref: '#/components/schemas/CarrierDetails'
+          $ref: '#/components/schemas/carrierDetails'
         brokerDetails:
-          $ref: '#/components/schemas/BrokerDetails'
+          $ref: '#/components/schemas/brokerDetails'
           description: Required when the movement is broker-initiated; omitted otherwise.
         estimatedCollectionDetails:
-          $ref: '#/components/schemas/EstimatedCollectionDetails'
+          $ref: '#/components/schemas/estimatedCollectionDetails'
         estimatedReceiverDetails:
-          $ref: '#/components/schemas/ReceiverDetails'
+          $ref: '#/components/schemas/receiverDetails'
+        estimatedWeight:
+          allOf:
+            - $ref: '#/components/schemas/weight'
+          description: |
+            Provisional weight of the waste, estimated at the creation
+            event. Callers set `isEstimate: true`. Reuses the canonical
+            `weight` schema, so `metric` is Grams, Kilograms or Tonnes and
+            `amount` must be greater than 0. The actual (measured) weight is
+            captured later at receipt via `wasteItems[].weight`; the two may
+            differ.
 
-    EstimatedCollectionDetails:
+    estimatedCollectionDetails:
       type: object
       description: |
         Provisional details supplied at creation time. Actual values are
@@ -300,7 +301,7 @@ components:
         expectedCollectionAddress:
           $ref: '#/components/schemas/address'
 
-    CreateMovementResponse:
+    createMovementResponse:
       type: object
       description: |
         Returned on successful create. Mirrors the Phase 1 Receipt API
@@ -308,16 +309,16 @@ components:
         carrying any warnings.
       properties:
         movementId:
-          $ref: '#/components/schemas/MovementId'
+          $ref: '#/components/schemas/movementId'
         validation:
           type: object
           properties:
             warnings:
               type: array
               items:
-                $ref: '#/components/schemas/ValidationResult'
+                $ref: '#/components/schemas/validationResult'
 
-    UpdateMovementResponse:
+    updateMovementResponse:
       type: object
       description: |
         Returned on successful update. Mirrors the Phase 1 Receipt API
@@ -330,7 +331,7 @@ components:
             warnings:
               type: array
               items:
-                $ref: '#/components/schemas/ValidationResult'
+                $ref: '#/components/schemas/validationResult'
 
     # Collection event.
     #
@@ -338,7 +339,7 @@ components:
     # producer to a driver at a producer site. Transit collection
     # (driver to driver) is parked pending BA confirmation.
 
-    CollectionRequest:
+    collectionRequest:
       type: object
       required:
         - collectionDateTime
@@ -349,20 +350,20 @@ components:
           format: date-time
           description: When the collection actually happened (not when the record was created).
         carrierDetails:
-          $ref: '#/components/schemas/CarrierDetails'
+          $ref: '#/components/schemas/carrierDetails'
         collectionAddress:
           $ref: '#/components/schemas/address'
           description: Address where collection took place. Typically a producer site.
         driverDetails:
-          $ref: '#/components/schemas/DriverDetails'
+          $ref: '#/components/schemas/driverDetails'
         actualWaste:
-          $ref: '#/components/schemas/WasteClassification'
+          $ref: '#/components/schemas/wasteClassification'
           description: |
             Actual waste collected, as observed by the driver. May
             differ from the planned waste classification on the
             Movement (e.g. quantity adjustment).
 
-    RecordCollectionResponse:
+    recordCollectionResponse:
       type: object
       description: |
         Returned on successful collection record — a validation envelope
@@ -376,9 +377,9 @@ components:
             warnings:
               type: array
               items:
-                $ref: '#/components/schemas/ValidationResult'
+                $ref: '#/components/schemas/validationResult'
 
-    MovementResource:
+    movementResource:
       description: |
         A movement as stored. The create request body fields plus the
         public `movementId`.
@@ -387,10 +388,10 @@ components:
           required: [movementId]
           properties:
             movementId:
-              $ref: '#/components/schemas/MovementId'
-        - $ref: '#/components/schemas/CreateMovementRequest'
+              $ref: '#/components/schemas/movementId'
+        - $ref: '#/components/schemas/createMovementRequest'
 
-    DropOffResource:
+    dropOffResource:
       description: |
         A drop-off as stored. The request body fields plus the public
         `transferId`.
@@ -399,10 +400,10 @@ components:
           required: [transferId]
           properties:
             transferId:
-              $ref: '#/components/schemas/TransferId'
-        - $ref: '#/components/schemas/DropOffRequest'
+              $ref: '#/components/schemas/transferId'
+        - $ref: '#/components/schemas/dropOffRequest'
 
-    ReceiptResource:
+    receiptResource:
       type: object
       description: |
         A receipt event as stored: the submitted receipt payload (same
@@ -413,7 +414,7 @@ components:
       additionalProperties: true
       properties:
         transferId:
-          $ref: '#/components/schemas/TransferId'
+          $ref: '#/components/schemas/transferId'
 
     # Fate of waste — producer-facing read-only projection.
     #
@@ -424,7 +425,7 @@ components:
     # and receipt dateTimes, anything mixed with at transit, and the
     # treatment codes applied at the receiver.
 
-    FateOfWasteResponse:
+    fateOfWasteResponse:
       type: object
       description: |
         Producer-facing summary of a movement's outcome. All fields are
@@ -432,7 +433,7 @@ components:
         details, internal IDs etc.) beyond what the producer needs.
       properties:
         movementId:
-          $ref: '#/components/schemas/MovementId'
+          $ref: '#/components/schemas/movementId'
         wasteClassificationVersions:
           type: array
           description: |
@@ -440,7 +441,7 @@ components:
             Typically: as planned at creation, as observed at collection,
             and as received. Stages with no recorded change may be omitted.
           items:
-            $ref: '#/components/schemas/WasteClassificationVersion'
+            $ref: '#/components/schemas/wasteClassificationVersion'
         collectionDateTime:
           type: string
           format: date-time
@@ -463,7 +464,7 @@ components:
             producers see what their waste was mixed with by classification,
             but not whose waste it was.
           items:
-            $ref: '#/components/schemas/WasteClassification'
+            $ref: '#/components/schemas/wasteClassification'
         startTreatmentCode:
           type: string
           description: |
@@ -477,7 +478,7 @@ components:
             code (e.g. waste was sent on for further treatment).
           example: D1
 
-    WasteClassificationVersion:
+    wasteClassificationVersion:
       type: object
       description: |
         A snapshot of waste classification at a specific stage of the
@@ -489,7 +490,7 @@ components:
           enum: [planned, collected, received]
           description: Which point in the journey this snapshot is from.
         classification:
-          $ref: '#/components/schemas/WasteClassification'
+          $ref: '#/components/schemas/wasteClassification'
 
     # Drop-off event.
     #
@@ -500,7 +501,7 @@ components:
     #
     # No GET in v1; updates use PUT against the Movement ID.
 
-    DropOffRequest:
+    dropOffRequest:
       type: object
       required:
         - dropOffDateTime
@@ -515,7 +516,7 @@ components:
           type: array
           minItems: 1
           items:
-            $ref: '#/components/schemas/MovementId'
+            $ref: '#/components/schemas/movementId'
           description: |
             One or more Movement IDs delivered together at the same
             receiver site. A multi-collection run with one drop-off
@@ -528,15 +529,15 @@ components:
             receiver site associated with the Movements being delivered,
             and may be derivable from those records.
         carrierDetails:
-          $ref: '#/components/schemas/CarrierDetails'
+          $ref: '#/components/schemas/carrierDetails'
           description: |
             The carrier performing the drop-off. In multi-collection
             cases this is one carrier delivering all the Movements
             named in `movementIds`.
         driverDetails:
-          $ref: '#/components/schemas/DriverDetails'
+          $ref: '#/components/schemas/driverDetails'
 
-    DropOffResponse:
+    dropOffResponse:
       type: object
       description: |
         Returned on successful drop-off. Carries the new public Transfer ID
@@ -544,14 +545,14 @@ components:
         envelope with any warnings.
       properties:
         transferId:
-          $ref: '#/components/schemas/TransferId'
+          $ref: '#/components/schemas/transferId'
         validation:
           type: object
           properties:
             warnings:
               type: array
               items:
-                $ref: '#/components/schemas/ValidationResult'
+                $ref: '#/components/schemas/validationResult'
 
     # ------------------------------------------------------------------
     # Phase 1 schemas, preserved verbatim.
@@ -1229,7 +1230,7 @@ components:
                   errors:
                     type: array
                     items:
-                      $ref: '#/components/schemas/ValidationResult'
+                      $ref: '#/components/schemas/validationResult'
 
 # ======================================================================
 # Paths
@@ -1253,20 +1254,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateMovementRequest'
+              $ref: '#/components/schemas/createMovementRequest'
       responses:
         "201":
           description: Movement created. Body carries the new Movement ID and any validation warnings.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateMovementResponse'
+                $ref: '#/components/schemas/createMovementResponse'
         "400":
           $ref: '#/components/responses/400'
 
   /movements/{movementId}:
     parameters:
-      - $ref: '#/components/parameters/MovementIdPath'
+      - $ref: '#/components/parameters/movementIdPath'
     get:
       tags: [Movement]
       summary: Get a waste movement
@@ -1278,7 +1279,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MovementResource'
+                $ref: '#/components/schemas/movementResource'
         "404":
           description: Movement not found.
     put:
@@ -1293,14 +1294,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateMovementRequest'
+              $ref: '#/components/schemas/createMovementRequest'
       responses:
         "200":
           description: Movement updated.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateMovementResponse'
+                $ref: '#/components/schemas/updateMovementResponse'
         "400":
           $ref: '#/components/responses/400'
         "404":
@@ -1322,7 +1323,7 @@ paths:
 
   /movements/{movementId}/collection:
     parameters:
-      - $ref: '#/components/parameters/MovementIdPath'
+      - $ref: '#/components/parameters/movementIdPath'
     post:
       tags: [Collection]
       summary: Record the collection for a movement
@@ -1338,14 +1339,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CollectionRequest'
+              $ref: '#/components/schemas/collectionRequest'
       responses:
         "201":
           description: Collection recorded. Body carries any validation warnings.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecordCollectionResponse'
+                $ref: '#/components/schemas/recordCollectionResponse'
         "400":
           $ref: '#/components/responses/400'
         "404":
@@ -1361,9 +1362,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CollectionRequest'
+                $ref: '#/components/schemas/collectionRequest'
         "404":
-          description: Movement or collection not found.
+          description: |
+            Either the Movement does not exist (`MOVEMENT_NOT_FOUND`), or it
+            exists but no collection has been recorded yet
+            (`COLLECTION_NOT_RECORDED`). The `code` in the body distinguishes
+            the two, so a polling client can tell a wrong `movementId` from a
+            collection that has not happened yet.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFoundError'
     put:
       tags: [Collection]
       summary: Update the collection for a movement
@@ -1376,18 +1386,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CollectionRequest'
+              $ref: '#/components/schemas/collectionRequest'
       responses:
         "200":
           description: Collection updated.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateMovementResponse'
+                $ref: '#/components/schemas/updateMovementResponse'
         "400":
           $ref: '#/components/responses/400'
         "404":
-          description: Movement or collection not found.
+          description: |
+            Either the Movement does not exist (`MOVEMENT_NOT_FOUND`), or it
+            exists but no collection has yet been recorded to update
+            (`COLLECTION_NOT_RECORDED` — record it with `POST` first). The
+            `code` in the body distinguishes the two.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFoundError'
     delete:
       tags: [Collection]
       summary: Delete the collection for a movement (proposal)
@@ -1412,26 +1430,34 @@ paths:
         together (carried in `movementIds`). In a single-collection run
         `movementIds` is an array of one; in a multi-collection run it
         carries every Movement being delivered.
+
+        Hazardous waste cannot be aggregated across Movements: if any
+        Movement named in `movementIds` carries hazardous waste, the
+        request must contain exactly one Movement ID. Multi-Movement
+        drop-offs are permitted only when every linked Movement is
+        non-hazardous. This depends on properties of the linked Movements
+        that the request body does not carry, so it is enforced
+        server-side; a violation returns 400.
       operationId: recordDropOff
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DropOffRequest'
+              $ref: '#/components/schemas/dropOffRequest'
       responses:
         "201":
           description: Drop-off recorded. Body carries the new Transfer ID and any validation warnings.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DropOffResponse'
+                $ref: '#/components/schemas/dropOffResponse'
         "400":
           $ref: '#/components/responses/400'
 
   /transfers/{transferId}:
     parameters:
-      - $ref: '#/components/parameters/TransferIdPath'
+      - $ref: '#/components/parameters/transferIdPath'
     get:
       tags: [Drop-off]
       summary: Get a drop-off
@@ -1443,7 +1469,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DropOffResource'
+                $ref: '#/components/schemas/dropOffResource'
         "404":
           description: Transfer not found.
     put:
@@ -1460,14 +1486,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DropOffRequest'
+              $ref: '#/components/schemas/dropOffRequest'
       responses:
         "200":
           description: Drop-off updated.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateMovementResponse'
+                $ref: '#/components/schemas/updateMovementResponse'
         "400":
           $ref: '#/components/responses/400'
         "404":
@@ -1500,7 +1526,7 @@ paths:
 
   /transfers/{transferId}/receipt:
     parameters:
-      - $ref: '#/components/parameters/TransferIdPath'
+      - $ref: '#/components/parameters/transferIdPath'
     post:
       tags: [Receipt]
       summary: Record receipt of waste against a transfer
@@ -1511,6 +1537,11 @@ paths:
         body is the same shape as the Phase 1 `/movements/receive` payload;
         the `transferId` from the path is persisted on the stored receipt
         record. Replaces the deprecated `POST /movements/receive`.
+
+        Carrier and waste details on the receipt may be validated against
+        the linked drop-off; where they differ, the difference is returned
+        as an entry in `validation.warnings` rather than rejected. The exact
+        comparison rules are still being defined.
       operationId: recordReceipt
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
@@ -1549,9 +1580,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReceiptResource"
+                $ref: "#/components/schemas/receiptResource"
         "404":
-          description: Transfer or receipt not found.
+          description: |
+            Either the Transfer does not exist (`TRANSFER_NOT_FOUND`), or it
+            exists but no receipt has been recorded yet
+            (`RECEIPT_NOT_RECORDED`). The `code` in the body distinguishes the
+            two, so a polling client can tell a wrong `transferId` from a
+            receipt that has not happened yet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notFoundError"
     put:
       tags: [Receipt]
       summary: Update a receipt recorded against a transfer
@@ -1580,7 +1620,15 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "404":
-          description: Transfer or receipt not found.
+          description: |
+            Either the Transfer does not exist (`TRANSFER_NOT_FOUND`), or it
+            exists but no receipt has yet been recorded to update
+            (`RECEIPT_NOT_RECORDED`). The `code` in the body distinguishes the
+            two.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notFoundError"
     delete:
       tags: [Receipt]
       summary: Delete a receipt event (proposal)
@@ -1618,7 +1666,7 @@ paths:
         this stage, the receiver does not have or use the waste tracking ID.
         The waste tracking ID will be returned in the 201 response if the
         movement is successfully stored.
-      operationId: createReceiptMovement
+      operationId: createReceiptMovementLegacy
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
@@ -1632,7 +1680,7 @@ paths:
                 properties:
                   wasteTrackingId:
                     allOf:
-                      - $ref: "#/components/schemas/WasteTrackingId"
+                      - $ref: "#/components/schemas/wasteTrackingId"
                     description: |
                       Public Phase 1 tracking identifier. Store it and use
                       it to address the deprecated PUT
@@ -1657,7 +1705,7 @@ paths:
           `POST /movements/receive`. It is NOT the Movement ID.
         example: 9b2e4f1a-6c3d-4e8b-bf21-2a7c5d0e1f34
         schema:
-          $ref: '#/components/schemas/WasteTrackingId'
+          $ref: '#/components/schemas/wasteTrackingId'
     put:
       tags: [Receipt]
       summary: Update a receipt of waste record (Phase 1, deprecated)
@@ -1667,7 +1715,7 @@ paths:
         backward compatibility. Endpoint to be used when waste is received
         and the waste record is to be updated, using the receipt identifier
         (Phase 1 `wasteTrackingId`) in the URL path.
-      operationId: updateReceiptMovement
+      operationId: updateReceiptMovementLegacy
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
@@ -1697,7 +1745,7 @@ paths:
 
   /movements/{movementId}/fate-of-waste:
     parameters:
-      - $ref: '#/components/parameters/MovementIdPath'
+      - $ref: '#/components/parameters/movementIdPath'
     get:
       tags: [Fate of waste]
       summary: Producer query for the fate of their waste
@@ -1718,7 +1766,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FateOfWasteResponse'
+                $ref: '#/components/schemas/fateOfWasteResponse'
         "404":
           description: Movement not found.
 

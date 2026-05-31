@@ -35,22 +35,6 @@ alignment.
 **Consequences.** Both specs share a version; tooling reading one can
 read the other. Worth revisiting once the spec stabilises.
 
-### Phase 1 schemas preserved verbatim
-
-**Context.** The new endpoints introduced PascalCase schemas
-(`CarrierDetails`, `WasteClassification`, etc.) while Phase 1 uses
-lowercase (`carrier`, `wasteItem`, `address`). Mixing is not ideal but
-renaming Phase 1 schemas would change the contract that existing
-clients reason about.
-
-**Decision.** Keep Phase 1 schemas exactly as-published, lowercase
-naming included. The new schemas use PascalCase. Both coexist in the
-same file, distinguishable by convention.
-
-**Consequences.** Phase 1 client code keeps working. New endpoints
-follow standard OpenAPI conventions. Long-term, convergence to one
-naming style is on the table but not urgent.
-
 ### Address schema converged to lowercase `address`
 
 **Context.** A PascalCase `Address` was originally introduced for the
@@ -65,52 +49,84 @@ Phase 1's address only requires `postcode` (not `fullAddress`), so the
 new endpoints accept slightly looser address data than originally
 specified. The speculative `gridReference` field has been dropped.
 
-### Path parameter renamed `{wasteTrackingId}` → `{id}` on receipt endpoints
+### Validation envelope and weight schemas deduplicated
 
-**Context.** Phase 1 names the path parameter `{wasteTrackingId}`. The
-new spec uses `{id}` everywhere else. OpenAPI path parameter names do
-not appear in the actual URL, so the change is cosmetic.
+**Context.** The new endpoints had introduced their own `ValidationResult` and `Weight` schemas alongside the Phase 1 `validationResult` and `weight`. Two schemas per concept.
 
-**Decision.** Rename to `{id}` on the receipt endpoints. Add a sentence
-in the parameter description noting that the value is the same as
-Phase 1's `wasteTrackingId`.
+**Decision.** Converge, as was done for `address`. The new `ValidationResult` was a field-for-field duplicate of the Phase 1 envelope, so its references were repointed at `validationResult` and the duplicate removed. The new `Weight` was unreferenced (a dead near-duplicate of `weight`) and was deleted; if a movement-specific weight shape is ever needed it should be added under a distinct, descriptive name rather than colliding with `weight`.
 
-**Consequences.** Consistency across the spec. No breaking change to
-URLs or to client code.
+**Consequences.** One canonical validation envelope and one weight schema across both generations. No wire-format change. The deviations the deleted orphan carried (no `Grams`, zero amount allowed) were confirmed *not* wanted: Phase 2 weight allows Grams and requires amount > 0, exactly as canonical `weight` already does — see the weight placement entry below.
 
-### `transferId` is optional on `POST /movements/receive`
+### Weight captured at creation (estimated) and at receipt
 
-**Context.** When the receipt event is preceded by a drop-off recorded
-through the new API, the receiver should be able to link the receipt
-to that drop-off via the Transfer ID. But Phase 1 receivers may also
-record receipts without a Transfer ID — for example when the carrier
-is not on the system, or when paperwork is missing.
+**Context.** After the orphan `Weight` schema was removed, no Phase 2 request body captured weight. The BA confirmed weight is recorded at two points: at the creation event (an estimate) and at receipt (the measured figure).
 
-**Decision.** Add `transferId` as an optional field. All Phase 1
-required fields remain required. When `transferId` is supplied, the
-receipt is linked to the drop-off and through it to the originating
-Movement IDs. When omitted, the receipt is treated as standalone, the
-Phase 1 default behaviour.
+**Decision.** Reuse the canonical `weight` schema at both points rather than introduce a Phase 2-specific weight. At creation, `createMovementRequest.estimatedWeight` references `weight` with `isEstimate: true`. At receipt, weight is already captured by the existing `wasteItems[].weight` on the Phase 1 `receiveMovementRequest`, which the Phase 2 `POST /transfers/{transferId}/receipt` reuses — so no change was needed there. `estimatedWeight` is optional at creation.
 
-**Consequences.** Phase 1 backward compatibility absolute — existing
-client code keeps working unchanged. The new flow works without
-breaking the old one.
+**Consequences.** One weight schema across creation and receipt (Grams/Kilograms/Tonnes, amount > 0, `isEstimate` flag). The creation estimate and the measured receipt value may differ; both are recorded and `isEstimate` distinguishes them. Whether `estimatedWeight` should be mandatory at creation is left open for the BA.
 
-### Cross-check on Transfer ID
+### Receipt path parameter stays `{wasteTrackingId}`
 
-**Context.** When `transferId` is supplied on a receipt, the request
-will also carry carrier and waste details that are also derivable from
-the linked drop-off. These could either be required to match exactly,
-or treated as an opportunity to cross-check.
+**Context.** An earlier decision renamed the Phase 1 receipt path
+parameter to `{id}` for consistency with the rest of the spec. The Level 2
+restructure reversed this: with `{movementId}` and `{transferId}` now used
+as path parameters on the new resources, a bare `{id}` on the receipt
+endpoints would be ambiguous — and the value is specifically the Phase 1
+`wasteTrackingId`, which is distinct from the Movement ID.
 
-**Decision.** Carrier and waste details in the receipt request are
-cross-checked against the linked drop-off. Mismatches return validation
-warnings rather than hard errors.
+**Decision.** Keep the path parameter as `{wasteTrackingId}` on the
+deprecated receipt endpoints. The parameter description states explicitly
+that it is the Phase 1 `wasteTrackingId` returned by
+`POST /movements/receive`, and that it is NOT the Movement ID. Supersedes
+the earlier rename-to-`{id}` decision.
 
-**Consequences.** Receivers can still record receipts when paperwork
-has minor inconsistencies; the system surfaces the discrepancy without
-blocking the record. The exact granularity of the check (string match,
-field-by-field, etc.) is still to be defined — see open questions.
+**Consequences.** No `{id}` placeholder anywhere — every path parameter
+names the concrete identifier it carries (`movementId`, `transferId`,
+`wasteTrackingId`). Affects only how the deprecated legacy path reads.
+
+### Receipt is linked to a drop-off via the Transfer ID (path parameter)
+
+**Context.** A receipt should be linkable to the drop-off that preceded
+it, via the Transfer ID. An earlier decision added `transferId` as an
+optional field on the `POST /movements/receive` request body, so Phase 1
+receivers could omit it and new flows could supply it.
+
+**Decision.** Superseded by the Level 2 restructure. The canonical receipt
+is now `POST /transfers/{transferId}/receipt`, where the Transfer ID is a
+mandatory path parameter — so every receipt recorded through the new
+endpoint is linked to its drop-off by construction. The deprecated Phase 1
+`POST /movements/receive` keeps its original body unchanged (no
+`transferId` field), preserving backward compatibility for standalone
+receipts. The optional-body-field mechanism was not carried forward.
+
+**Consequences.** Linking is structural rather than an optional payload
+field: a receipt under a Transfer is always associated with that Transfer
+and, through it, the originating Movement IDs. Receivers not on the new
+flow continue to use the deprecated endpoint with no Transfer ID.
+
+### Cross-check of receipt details against the linked drop-off
+
+**Context.** A receipt recorded against a Transfer carries carrier and
+waste details that are also derivable from the linked drop-off. These
+could be required to match exactly, or treated as an opportunity to
+cross-check.
+
+**Decision.** Cross-check, surfacing mismatches as validation warnings
+rather than hard errors. Because the Transfer ID is now the path
+parameter on `POST /transfers/{transferId}/receipt` (see [receipt is
+linked to a drop-off via the Transfer ID](#receipt-is-linked-to-a-drop-off-via-the-transfer-id-path-parameter)),
+the cross-check is unconditional for every receipt recorded through the
+new endpoint — there is no longer a "when `transferId` is supplied"
+branch. It does not apply to the deprecated `POST /movements/receive`,
+which carries no Transfer ID.
+
+**Consequences.** Receivers can still record receipts when paperwork has
+minor inconsistencies; the system surfaces the discrepancy without
+blocking the record. The `recordReceipt` endpoint description notes that
+differences are returned in `validation.warnings`, without committing to
+specific comparison rules. The exact granularity of the check (string
+match, field-by-field, etc.) is still to be defined — see the
+cross-check granularity open question.
 
 ### Drop-off is many-to-one against Movement IDs
 
@@ -132,9 +148,9 @@ off this model.
 ### Carrier always required; broker optional
 
 **Context.** A movement may be initiated by a carrier or by a broker
-(or producer, or receiver, all rolled up under "broker" in the
-taxonomy). The carrier is always physically involved; the broker is
-not always involved.
+(or producer, or receiver — all acting in the broker role here). The
+carrier is always physically involved; the broker is not always
+involved.
 
 **Decision.** `carrierDetails` is required on movement creation.
 `brokerDetails` is required only when the movement is broker-initiated.
@@ -145,88 +161,31 @@ validates that `brokerDetails` is present when needed. Reintroducing
 the discriminated union is possible later without breaking clients
 that already supply both forms.
 
-### Movement deletion deferred from v1
+### Deletion exists as non-binding proposals at each stage
 
-**Context.** The endpoint catalogue originally listed
-`DELETE /movements/create`, but the URL was malformed (no `{id}`) and
-the semantics of deletion (soft vs. hard, audit, who can delete) had
-not been worked out.
+**Context.** An earlier decision deferred deletion entirely ("no deletion
+endpoint in this version"), partly because the original
+`DELETE /movements/create` URL was malformed and the semantics (soft vs.
+hard, audit, who can delete) were unresolved.
 
-**Decision.** No deletion endpoint in this version of the spec. Will
-be reintroduced as a separate piece of work.
+**Decision.** The spec now carries `DELETE` endpoints at each stage —
+`DELETE /movements/{movementId}`,
+`DELETE /movements/{movementId}/collection`, `DELETE /transfers/{transferId}`,
+and `DELETE /transfers/{transferId}/receipt` — each marked
+`x-stability: proposal`, with a description noting deletion rules are
+pending BA confirmation. They make the shape of the contract visible; they
+are not committed behaviour.
 
-**Consequences.** The current API is append-only with respect to
-movements. Whether and how to support deletion is an open design
-question for later.
+A substantive decision is still needed, per stage: when may a Movement,
+Collection, drop-off (Transfer), or Receipt be deleted; soft vs. hard
+delete; audit trail; and authorisation. Until that is taken the `DELETE`
+operations stay `x-stability: proposal` and must not be implemented as
+binding.
 
-### Initiator distinguished by start node in the corpus
-
-**Context.** The Mural flow chart has two start nodes —
-*Carrier has a requirement to move waste* and *Producer, Broker or
-Receiver has a requirement to move waste*. The `initiator` axis in the
-scenario corpus needs to derive its value from the path mechanically.
-
-**Decision.** Paths starting with the first node are tagged
-`initiator: carrier`; paths starting with the second are tagged
-`initiator: broker`. Producer-initiated and receiver-initiated
-movements share the second start node and are therefore included
-under `broker`.
-
-**Consequences.** The 282-scenario corpus splits 141/141. The
-simplification is documented in the [glossary](glossary.md). If the
-chart later distinguishes producer-initiated from broker-initiated
-journeys, the rule will need revisiting.
-
-### Multi-event roll-up rules in the corpus
-
-**Context.** Multi-collection and multi-drop-off scenarios contain
-more than one collection or receipt event, sometimes with different
-recording behaviours or outcomes. The corpus describes each scenario
-as a single point in the seven-axis taxonomy, so multi-event
-trajectories have to roll up to one value per axis.
-
-**Decision.** Worst-case wins. For collection and receipt recording,
-any deferred-and-not-reconciled event makes the scenario `deferred`;
-any retrospectively-reconciled event makes it `retrospective`;
-otherwise `realtime`. For receipt outcome, precedence is `rejectAll`
-> `acceptPart-rejected` > `acceptPart-accepted` > `acceptAll`.
-
-**Consequences.** The taxonomy stays compact and queryable. The
-detail of a multi-event scenario is still in the path; the axes
-capture the most consequential event because that is what UR
-participants and auditors will care most about.
-
-### `na` is a valid value on event-related axes
-
-**Context.** Producer-tracking scenarios — where a producer queries
-the fate of their waste without any collection or receipt event being
-recorded — appear in the corpus. The original axis enums had no value
-to describe "this event type does not occur".
-
-**Decision.** Add `na` to the `collectionRecording`, `receiptOutcome`,
-and `receiptRecording` enums. The semantics of `na` is "structurally
-absent, by design", distinct from "ambiguous" or "missing data".
-
-**Consequences.** Producer-tracking paths validate cleanly under the
-schema. They are kept in the corpus because they exercise the
-producer's read-only query path through the API.
-
-### Curated scenarios are editorial, separate from the corpus
-
-**Context.** The Import app originally produced both the full corpus
-and a curated subset for User Research. Mixing them in one tool meant
-editorial choices were invisible and hard to revise.
-
-**Decision.** Curation logic is removed from the Import app. The
-Import app is extraction-only. Curated scenarios for User Research
-are a separate, human-maintained selection that consumes the corpus
-and is diff-checked against it on each re-extraction.
-
-**Consequences.** The corpus is mechanically reproducible from the
-Mural chart. The curated set is owned by the team and can be reasoned
-about independently. See the
-[Import app changes note](docs/import-app-changes.md) for the full
-pipeline.
+**Consequences.** Vendors can see deletion is coming and where, but must
+not depend on it. The malformed `DELETE /movements/create` is gone,
+replaced by well-formed resource-scoped paths. Supersedes the earlier
+"no deletion endpoint" decision.
 
 ### Hazardous waste cannot be merged across Movements at drop-off
 
@@ -289,39 +248,6 @@ of hazardous status. Reaffirms the existing
 **Consequences.** No spec change. Recorded explicitly so that the
 question does not need to be re-litigated.
 
-### Cycle combinations — multi-collection + multi-drop-off permitted
-
-**Context.** The corpus originally enforced strict cycle exclusivity:
-each scenario could traverse at most one of the three loop edges
-(`multi-collection`, `multi-drop-off`, `rejection-retry`). The rule
-was justified at the time as keeping the corpus to "distinct journey
-shapes." On review of the curated set, the team noticed that the
-combination of *multi-collection and multi-drop-off in the same
-scenario* is a perfectly realistic journey — a driver picking up
-from several producers and dropping at several receivers in one run
-— and the corpus contained no example of it.
-
-**Decision.** Relax cycle exclusivity to permit one specific
-additional combination: `multi-collection + multi-drop-off`. All
-other combinations remain excluded — `rejection-retry` in particular
-is still single-loop only. Each loop is still traversed at most once
-per scenario, so the new combination produces paths with two
-collections and two drop-offs.
-
-Encoded in the schema as a `oneOf` listing the five allowed values
-of the `cycles` array (empty, each of the three single loops, and
-the combined `[multi-collection, multi-drop-off]` tuple).
-
-**Consequences.** The corpus grows. The Import app's extraction
-logic relaxes the cycle-exclusivity rule for this one combination
-only. Earlier corpus snapshots remain valid against the new schema
-(no scenario carrying an old single-loop tuple is invalidated). New
-scenarios appear with `cycles: ['multi-collection', 'multi-drop-off']`.
-
-The `[multi-collection, multi-drop-off]` tuple must be emitted in
-alphabetical order to match the schema's `const`-based constraint;
-the Import app's extraction code is responsible for sorting.
-
 ### Per-event IDs not exposed in the public API
 
 **Context.** Earlier conversations specified per-event identifiers
@@ -347,20 +273,45 @@ compatibility).
 
 The four placeholder schemas (`CreationId`, `CollectionId`,
 `DropOffId`, `ReceiveId`) are removed from `components.schemas`.
-`CollectionResource` (the GET response item) loses its `collectionId`
-field; collections within a Movement are not separately addressable by
-ID in the public API.
-
-The corpus's step `expect.returns` lists need refreshing to drop the
-internal IDs — `[movementId, creationId, validation]` becomes
-`[movementId, validation]`, and so on. This is a follow-up for the
-Import app prompt; the schema's `expect.returns` enum can be tightened
-at the same time.
+There is no dedicated collection resource schema and no public collection
+ID. The collection is addressed through its parent Movement
+(`GET /movements/{movementId}/collection`), and `getCollection` returns the
+collection event itself. Collections within a Movement are not separately
+addressable by ID in the public API.
 
 Vendors integrating against the API have two values to track per
 journey: Movement ID (durable, addresses a Movement) and Transfer ID
 (addresses a drop-off across one or more Movements). Anything else
 is the server's business.
+
+### Sub-resource reads return 404 until the event is recorded
+
+**Context.** Collection and receipt are 1:1 sub-resources that come into
+existence later than their parent: a Movement exists from creation but is
+not collected until later, and a Transfer is minted at drop-off but not
+received until later. So `GET /movements/{movementId}/collection` and
+`GET /transfers/{transferId}/receipt` each have a window where the parent
+exists but the sub-resource does not.
+
+**Decision.** The sub-resource is addressed purely by its parent ID in the
+URL and returns `200` with the event once recorded, `404` until then —
+the conventional REST shape for an absent sub-resource (preferred over a
+`200` with a "pending" status or a `204`). The `404` carries a
+`notFoundError` body whose `code` distinguishes two cases: the parent is
+missing (`MOVEMENT_NOT_FOUND` / `TRANSFER_NOT_FOUND`) versus the parent
+exists but the event is not recorded yet (`COLLECTION_NOT_RECORDED` /
+`RECEIPT_NOT_RECORDED`). The same applies to the `PUT` updates. Single
+resources (`getMovement`, `getDropOff`) have no such window and keep a
+plain `404`. The `DELETE` operations are left untouched as
+`x-stability: proposal` pending the deletion decision.
+
+**Consequences.** A polling client — the likely consumer, waiting for a
+collection or receipt to appear — can tell a wrong identifier (stop) from
+an event that simply has not happened yet (keep polling). This is the
+minimal resolution of the earlier `CollectionResource` question: no
+dedicated collection resource schema and no public collection ID. The
+collection read still returns the `collectionRequest` shape; splitting it
+into a separate read schema remains an option for later.
 
 ### Movement ↔ Collection and Transfer ↔ Receipt are 1:1
 
@@ -389,9 +340,9 @@ each Transfer has exactly one Receipt event. The relationships are
 Level 2 restructure. The endpoint `GET /movements/{movementId}/collection`
 returns a single Collection record, not a list. The endpoint
 `GET /transfers/{transferId}/receipt` returns a single Receipt record.
-Multi-collection scenarios in the corpus correspond to multi-Movement
-journeys at the drop-off; multi-drop-off scenarios correspond to a
-driver minting multiple Transfer IDs in one run.
+Multi-collection journeys correspond to multiple Movements aggregated
+at the drop-off; multi-drop-off journeys correspond to a driver minting
+multiple Transfer IDs in one run.
 
 ### Level 2 (Richardson Maturity Model) resource model
 
@@ -440,9 +391,9 @@ parameters if the cardinality were 1:many, but at 1:1 the parent ID
 is sufficient.
 
 The Phase 1 receipt endpoints (`POST /movements/receive`,
-`PUT /movements/{id}/receive`) remain in the spec marked `deprecated:
-true`. Their operationIds were renamed to `recordReceiptLegacy` and
-`updateReceiptLegacy` to free up the canonical names for the new
+`PUT /movements/{wasteTrackingId}/receive`) remain in the spec marked `deprecated:
+true`. Their operationIds were renamed to `createReceiptMovementLegacy` and
+`updateReceiptMovementLegacy` to free up the canonical names for the new
 Transfer-scoped endpoints. A removal date for the deprecated endpoints
 is an open question — see below.
 
@@ -503,16 +454,18 @@ strings? Same registration number, different address? Same EWC code,
 different quantity? The server validates this; the spec needs a
 clearer statement of the rules once they are agreed.
 
-### Parameter naming on the new spec — long-term convergence
+### Schema shape convergence between Phase 1 and new schemas
 
-Phase 1 schemas use lowercase, the new schemas use PascalCase. The
-two coexist for now (see decided entry). Whether to converge to one
-style — and which — is an open call for when the spec is more stable.
+Both Phase 1 and the new schemas use camelCase, so there is no naming
+*convention* left to reconcile. What remains open is whether to converge
+the *shapes* where the two generations model the same concept under
+different names (e.g. Phase 1 `carrier` vs the new `carrierDetails`).
+That is a contract-level change, not cosmetic, and is not a v1 priority.
 
 ### Phase 1 receipt endpoint deprecation timeline
 
 The Level 2 restructure superseded `POST /movements/receive` and
-`PUT /movements/{id}/receive` with `POST /transfers/{transferId}/receipt`
+`PUT /movements/{wasteTrackingId}/receive` with `POST /transfers/{transferId}/receipt`
 and `PUT /transfers/{transferId}/receipt`. The Phase 1 endpoints remain
 in the spec marked `deprecated: true` for backward compatibility, but
 no removal date has been set. Open: when do existing Phase 1 clients
@@ -523,12 +476,6 @@ considered but has known issues with non-GET methods across different
 HTTP client libraries.
 
 ## Parked
-
-### Curated scenarios
-
-Will follow once the corpus is stable enough to draw from with
-confidence and the API spec has stabilised enough that walking a UR
-participant through a scenario is realistic.
 
 ### Full data ERD
 
