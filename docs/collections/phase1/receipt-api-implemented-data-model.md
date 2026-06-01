@@ -269,7 +269,7 @@ Actual success response from the current handler:
 
 ```json
 {
-  "wasteTrackingId": "uuid",
+  "wasteTrackingId": "25ABC123",
   "validation": {
     "warnings": [
       {
@@ -285,8 +285,10 @@ Actual success response from the current handler:
 Notes:
 
 - `wasteTrackingId` is always returned on success.
+- The implemented `wasteTrackingId` format is `YY[A-Z0-9]{6}`, for example `25ABC123`.
 - `validation` is only returned when warnings exist.
 - The route Swagger schema also advertises `carrierMovementId`, but the current handler does not populate it.
+- The route Swagger schema declares `wasteTrackingId` as a UUID, but the implemented ID service generates a year-prefixed alphanumeric token instead.
 
 ### Update Response
 
@@ -425,8 +427,9 @@ Notes:
 3. The backend persists the payload under `receipt.movement`, not at the document root.
 4. The organisation identity may be stored either as `submittingOrganisation.defraCustomerOrganisationId` or as `orgId`, depending on whether enrichment happened before persistence.
 5. The create route Swagger schema documents `carrierMovementId`, but the current external handler does not return it.
-6. `carrier` is not marked required in the Joi schema even though it is part of the normal receipt payload shape.
-7. `otherMeansOfTransport` exists but is not currently enforced when `meansOfTransport` is `Other`.
+6. The create route Swagger schema declares `wasteTrackingId` as a UUID, but the implemented generator returns `YY[A-Z0-9]{6}`.
+7. `carrier` is not marked required in the Joi schema even though it is part of the normal receipt payload shape.
+8. `otherMeansOfTransport` exists but is not currently enforced when `meansOfTransport` is `Other`.
 
 ## Suggested Use Of This Model
 

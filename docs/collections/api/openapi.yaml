@@ -97,13 +97,14 @@ components:
 
     wasteTrackingId:
       type: string
-      format: uuid
+      pattern: '^[A-Z]{2}[A-Z0-9]{6}$'
       description: |
         Public Phase 1 tracking identifier returned by the deprecated
         `POST /movements/receive` and used to address the deprecated
         `PUT /movements/{wasteTrackingId}/receive`. Retained for backward
-        compatibility only.
-      example: 9b2e4f1a-6c3d-4e8b-bf21-2a7c5d0e1f34
+        compatibility only. An 8-character sqid: a two-letter prefix
+        followed by six alphanumeric characters.
+      example: YY3F7K2Q
 
 
     # --- 2. Common composites -------------------------------------------
@@ -1521,7 +1522,7 @@ paths:
   # Phase 1 receiveMovementRequest; the only field captured in addition is
   # the transferId, taken from the path and persisted on the receipt
   # record. The receipt identifier returned is the Phase 1 wasteTrackingId
-  # (now a UUID, semantically the receiptId).
+  # (now an 8-char sqid, semantically the receiptId).
   # ----------------------------------------------------------------------
 
   /transfers/{transferId}/receipt:
@@ -1648,7 +1649,7 @@ paths:
   #
   # Retained for backward compatibility only; superseded by
   # POST/PUT /transfers/{transferId}/receipt. The {wasteTrackingId} path
-  # parameter is the Phase 1 wasteTrackingId (now the receiptId / a UUID)
+  # parameter is the Phase 1 wasteTrackingId (now the receiptId / an 8-char sqid)
   # — it is NOT the Movement ID. Phase 1 schemas under #/components/schemas
   # keep their
   # lowercase naming (validationResult, wasteReceiver, etc.) as published.
@@ -1703,7 +1704,7 @@ paths:
         description: |
           The public Phase 1 `wasteTrackingId` returned by
           `POST /movements/receive`. It is NOT the Movement ID.
-        example: 9b2e4f1a-6c3d-4e8b-bf21-2a7c5d0e1f34
+        example: YY3F7K2Q
         schema:
           $ref: '#/components/schemas/wasteTrackingId'
     put:
