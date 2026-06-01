@@ -14,8 +14,22 @@ whole journey of that movement, from creation through collection,
 drop-off, and receipt. Software vendors and integrators store and pass
 this value through their systems.
 
-In Phase 1 documentation the same value is referred to as the
-`wasteTrackingId`. The two terms describe the same thing.
+Phase 1 had no creation event, so a movement was known only at receipt
+time and was identified by a `wasteTrackingId`. The Movement ID is
+**distinct** from the `wasteTrackingId` — they are minted by different
+events at different points in the lifecycle (creation vs receipt), and are
+not the same value. Both use sqids (sqids.org). How a Phase 1
+`wasteTrackingId` reconciles to a Phase 2 Movement ID is a
+migration-strategy question, not settled here.
+
+### `wasteTrackingId`
+
+Phase 1's identifier for a received waste movement, minted at receipt by
+`POST /movements/receive`. Phase 1 had no creation event, so this was the
+only handle on a movement. Retained on the deprecated receipt endpoints
+for backward compatibility. Distinct from the Phase 2 Movement ID (see
+above); reconciliation between the two is deferred to the migration
+strategy. Format: 8-character sqid, two-letter prefix.
 
 ### Transfer ID
 
@@ -41,9 +55,9 @@ Transfer ID at delivery, and a single Receive ID at the receiver site.
 
 ### WT-ID
 
-A legacy term used in some early Phase 1 documentation. Synonymous with
-Movement ID and `wasteTrackingId`. Mentioned here so readers of older
-documents know they are looking at the same value.
+A legacy term from early Phase 1 documentation for the `wasteTrackingId`
+(see its entry above). Mentioned here so readers of older documents
+recognise it. It is **not** another name for the Phase 2 Movement ID.
 
 ## Resource hierarchy
 
@@ -71,11 +85,10 @@ This shape has two practical consequences worth knowing:
   drop-off event. The Movements being delivered are split across the
   two Transfers.
 
-If a load is partially rejected at the receiver, the split is
-captured in the Receipt's `outcome` field, not by creating new
-Movements. The single Movement ends with a `acceptPart-accepted`
-or `acceptPart-rejected` flag depending on which side of the split
-the record tracks.
+If a load is partially rejected at the receiver, that is recorded on the
+single Receipt, not by creating new Movements — the Movement is unchanged.
+How the partial outcome is represented on the receipt is a data-model
+question still being worked through and is not yet in the API spec.
 
 ## Actors and roles
 
@@ -154,27 +167,11 @@ detail like the identity of the driver.
 
 ### Cross-check
 
-When a receipt is recorded with a Transfer ID supplied
-(`POST /movements/receive` with `transferId` in the body), the carrier
-and waste details in the receipt request are validated against the
-linked drop-off. Mismatches return validation warnings rather than
-hard errors, on the basis that the receipt should still be recorded
-even when the paperwork chain has minor inconsistencies. The granularity
-of the check is currently undefined and tracked in the
-[decisions register](decisions.md).
-
-## State codes
-
-The waste-movement journey terminates in one of four named states.
-The codes are used in the scenario corpus's `finalState` axis.
-
-| Code | Meaning |
-|---|---|
-| `AWR/R` | Accepted-at-Receiver, recorded by the Receiver. The standard happy path. |
-| `AWR/C` | Accepted-at-Receiver, reconciled by the Carrier later. The receipt happened but the carrier had to retrospectively reconcile a deferred collection. |
-| `AWR/P` | Accepted-at-Receiver, observed by the Producer. The producer-tracking lane: the producer has visibility of the journey end state. |
-| `WWR/P` | Waste Returned with Producer. The waste was rejected at the receiver and returned to the producer's site. |
-
-Intermediate states (`BWM/C`, `WWC/D`, `WWT/D`, etc.) appear in the
-scenario corpus paths but are not used as terminal states. The full
-list is part of the [scenario generation process](scenarios/process.md).
+The validation of a receipt's carrier and waste details against the
+linked drop-off. Mismatches return validation warnings rather than hard
+errors, so the receipt is still recorded when the paperwork chain has
+minor inconsistencies. The granularity of the check is undefined and
+tracked in the [decisions register](decisions.md). How the receipt links
+to the drop-off — and therefore whether the cross-check is unconditional
+or conditional on a supplied Transfer ID — depends on the open
+receipt-migration decision; see the register.

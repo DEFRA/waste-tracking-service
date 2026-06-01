@@ -319,12 +319,12 @@ components:
               items:
                 $ref: '#/components/schemas/validationResult'
 
-    updateMovementResponse:
+    updateResponse:
       type: object
       description: |
-        Returned on successful update. Mirrors the Phase 1 Receipt API
-        PUT response — validation envelope only, no identifier (it's
-        already in the URL).
+        Returned on a successful update (movement, collection or drop-off).
+        Mirrors the Phase 1 Receipt API PUT response — validation envelope
+        only, no identifier (it's already in the URL).
       properties:
         validation:
           type: object
@@ -405,17 +405,16 @@ components:
         - $ref: '#/components/schemas/dropOffRequest'
 
     receiptResource:
-      type: object
       description: |
-        A receipt event as stored: the submitted receipt payload (same
-        shape as the `receiveMovementRequest` body) plus its public
-        `transferId`. Fully typing the payload is a follow-up — the receive
-        request body would be extracted into a named schema and referenced
-        here.
-      additionalProperties: true
-      properties:
-        transferId:
-          $ref: '#/components/schemas/transferId'
+        A receipt event as stored. The receipt request body fields (same
+        shape as `receiveMovementRequest`) plus the public `transferId`.
+      allOf:
+        - type: object
+          required: [transferId]
+          properties:
+            transferId:
+              $ref: '#/components/schemas/transferId'
+        - $ref: '#/components/schemas/receiveMovementRequest'
 
     # Fate of waste — producer-facing read-only projection.
     #
@@ -1302,7 +1301,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateMovementResponse'
+                $ref: '#/components/schemas/updateResponse'
         "400":
           $ref: '#/components/responses/400'
         "404":
@@ -1394,7 +1393,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateMovementResponse'
+                $ref: '#/components/schemas/updateResponse'
         "400":
           $ref: '#/components/responses/400'
         "404":
@@ -1494,7 +1493,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateMovementResponse'
+                $ref: '#/components/schemas/updateResponse'
         "400":
           $ref: '#/components/responses/400'
         "404":
@@ -1703,7 +1702,8 @@ paths:
         required: true
         description: |
           The public Phase 1 `wasteTrackingId` returned by
-          `POST /movements/receive`. It is NOT the Movement ID.
+          `POST /movements/receive`, minted at receipt. It is a Phase 1
+          identifier — do not substitute a Phase 2 `movementId` here.
         example: YY3F7K2Q
         schema:
           $ref: '#/components/schemas/wasteTrackingId'
