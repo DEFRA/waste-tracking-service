@@ -275,6 +275,44 @@ Movement) and Transfer ID (addresses a drop-off across one or more
 Movements). On the deprecated Phase 1 path, `wasteTrackingId` is a third.
 Anything else is the server's business.
 
+### Identifier format and capacity (year-prefixed sqids)
+
+**Context.** Movement ID and Transfer ID are the public identifiers
+vendors store and pass around. They must be short, externally shareable,
+opaque, and collision-free at national volume (the service is estimated
+at >100,000 transactions/year).
+
+**Decision.** Both are generated with sqids (https://sqids.org/) in a
+fixed 8-character format: a two-character year prefix (`YY`) followed by
+six characters from the 36-symbol alphabet A–Z and 0–9. The deprecated
+Phase 1 `wasteTrackingId` uses the same format.
+
+Capacity per year: the six-character suffix over a 36-symbol alphabet
+gives 36^6 = **2,176,782,336** (~2.18 billion) unique IDs. The `YY`
+prefix partitions the space by year, so each year opens a fresh ~2.18
+billion namespace and total capacity across years is effectively
+unbounded. (sqids reserves a small set of combinations for its profanity
+blocklist, so the usable count is marginally below the theoretical
+maximum.)
+
+**Consequences.** ~2.18 billion IDs per year exceeds the national volume
+estimate by roughly four orders of magnitude — ample headroom. IDs are
+opaque; callers must not parse them (the schema descriptions say so).
+Movement ID and Transfer ID share the same format and are disambiguated
+by the endpoint/path they appear on, not by the string itself.
+
+Two follow-ups this surfaces, for the data/spec pass:
+
+- The current spec is inconsistent about the prefix: `movementId`'s
+  example is numeric (`25HRA0B2`, year "25") while the `wasteTrackingId`
+  pattern requires two letters (`^[A-Z]{2}[A-Z0-9]{6}$`, example `YY...`).
+  If the prefix is a numeric year, that regex is wrong; the canonical
+  format above needs a single agreed prefix definition and matching
+  patterns on all three identifier schemas.
+- Whether the two ID types are minted from a shared sequence or
+  partitioned per type (so a `movementId` and a `transferId` can never be
+  the same string) is a server concern to confirm.
+
 ### Sub-resource reads return 404 until the event is recorded
 
 **Context.** Collection and receipt are 1:1 sub-resources that come into
@@ -556,6 +594,22 @@ actors, and one organisation may hold several roles. Open: when a carrier
 is in the same organisation as a registered receiver, does it need separate
 credentials, or does one organisation-level registration cover all its
 roles? To bring forward with identity/onboarding — not yet explored.
+
+### Pre-generated Transfer IDs for offline drivers
+
+If a driver has no signal at the drop-off, they cannot call
+`POST /transfers` to mint a Transfer ID in the moment — yet they need one
+to hand to the receiver (typically on paper) so the receipt can be
+recorded against it. Open: can software vendors be issued a pool of
+pre-generated Transfer IDs that a driver's app assigns offline and
+reconciles/POSTs when signal returns? Sub-questions: how are pre-generated
+IDs reserved without collision; do they draw from the same per-year sqids
+space (see *Identifier format and capacity*); how long does a reservation
+stay valid; what happens to a reserved ID that is never used; and does the
+same need apply to Movement IDs (created earlier, usually with signal) or
+only to Transfer IDs (minted at the drop-off moment, the most likely
+offline point)? Connects to the deferred/retrospective collection-recording
+scenarios, which are the offline case generally.
 
 ## Parked
 
