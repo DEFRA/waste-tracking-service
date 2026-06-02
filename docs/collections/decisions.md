@@ -42,8 +42,8 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | Decided | Low | Spec structure |
 | D-003 | [OpenAPI 3.0.3, not 3.1](#openapi-303-not-31) | Decided | Low | Spec structure |
 | D-009 | [Deletion exists as non-binding proposals at each stage](#deletion-exists-as-non-binding-proposals-at-each-stage) | Decided | Low | Lifecycle |
-| D-011 | [Static and transit collection collapsed into a single endpoint — superseded](#static-and-transit-collection-collapsed-into-a-single-endpoint-superseded) | Superseded | Low | Collection |
-| D-017 | [Drop-off PUT semantics in multi-collection cases — resolved](#drop-off-put-semantics-in-multi-collection-cases-resolved) | Resolved | Low | Resource model |
+| D-011 | [Static and transit collection collapsed into a single endpoint](#static-and-transit-collection-collapsed-into-a-single-endpoint) | Superseded | Low | Collection |
+| D-017 | [Drop-off PUT semantics in multi-collection cases](#drop-off-put-semantics-in-multi-collection-cases) | Resolved | Low | Resource model |
 | D-022 | [Receipt migration: new endpoint vs extend Phase 1](#receipt-migration-new-endpoint-vs-extend-phase-1) | Open | High | Receipt |
 | D-025 | [Receipt acceptance / rejection outcome (new in Phase 2)](#receipt-acceptance-rejection-outcome-new-in-phase-2) | Open | High | Receipt |
 | D-018 | [Drop-off address derivability](#drop-off-address-derivability) | Open | Medium | Drop-off |
@@ -295,7 +295,7 @@ error.
 for non-hazardous waste. Carriers handling hazardous waste record one
 drop-off per Movement, even if the loads physically arrive together.
 
-### Static and transit collection collapsed into a single endpoint — superseded
+### Static and transit collection collapsed into a single endpoint
 
 **D-011** · Superseded · Impact: Low · Area: Collection · Related: D-016, D-029
 
@@ -513,7 +513,7 @@ collapsed into a single endpoint" decision in a more elegant way:
 collection is now a 1:1 sub-resource of a Movement, and what was
 called multi-collection is now multi-Movement-under-one-Transfer.
 
-### Drop-off PUT semantics in multi-collection cases — resolved
+### Drop-off PUT semantics in multi-collection cases
 
 **D-017** · Resolved · Impact: Low · Area: Resource model · Related: D-016
 
