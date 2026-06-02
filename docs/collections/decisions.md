@@ -27,42 +27,43 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 
 | ID | Decision | Status | Impact | Area |
 |---|---|---|---|---|
-| D-001 | [Extend the Phase 1 Receipt API into one end-to-end spec](#extend-the-phase-1-receipt-api-into-one-end-to-end-spec) | Decided | High | Spec scope |
-| D-005 | [Receipt is linked to a drop-off via the Transfer ID (path parameter)](#receipt-is-linked-to-a-drop-off-via-the-transfer-id-path-parameter) | Decided | High | Receipt |
-| D-007 | [Drop-off is many-to-one against Movement IDs](#drop-off-is-many-to-one-against-movement-ids) | Decided | High | Drop-off |
-| D-012 | [Per-event IDs not exposed in the public API](#per-event-ids-not-exposed-in-the-public-api) | Decided | High | Identifiers |
-| D-013 | [Identifier format and capacity (year-prefixed sqids)](#identifier-format-and-capacity-year-prefixed-sqids) | Decided | High | Identifiers |
-| D-015 | [Movement ↔ Collection and Transfer ↔ Receipt are 1:1](#movement-collection-and-transfer-receipt-are-11) | Decided | High | Resource model |
-| D-016 | [Level 2 (Richardson Maturity Model) resource model](#level-2-richardson-maturity-model-resource-model) | Decided | High | Resource model |
-| D-004 | [Receipt path parameter stays `{wasteTrackingId}`](#receipt-path-parameter-stays-wastetrackingid) | Decided | Medium | Identifiers |
-| D-006 | [Cross-check of receipt details against the linked drop-off](#cross-check-of-receipt-details-against-the-linked-drop-off) | Decided | Medium | Receipt |
-| D-008 | [Carrier always required; broker optional](#carrier-always-required-broker-optional) | Decided | Medium | Actors |
-| D-010 | [Hazardous waste cannot be merged across Movements at drop-off](#hazardous-waste-cannot-be-merged-across-movements-at-drop-off) | Decided | Medium | Drop-off |
-| D-014 | [Sub-resource reads return 404 until the event is recorded](#sub-resource-reads-return-404-until-the-event-is-recorded) | Decided | Medium | Lifecycle |
-| D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | Decided | Low | Spec structure |
-| D-003 | [OpenAPI 3.0.3, not 3.1](#openapi-303-not-31) | Decided | Low | Spec structure |
-| D-009 | [Deletion exists as non-binding proposals at each stage](#deletion-exists-as-non-binding-proposals-at-each-stage) | Decided | Low | Lifecycle |
-| D-011 | [Static and transit collection collapsed into a single endpoint](#static-and-transit-collection-collapsed-into-a-single-endpoint) | Superseded | Low | Collection |
-| D-017 | [Drop-off PUT semantics in multi-collection cases](#drop-off-put-semantics-in-multi-collection-cases) | Resolved | Low | Resource model |
-| D-022 | [Receipt migration: new endpoint vs extend Phase 1](#receipt-migration-new-endpoint-vs-extend-phase-1) | Open | High | Receipt |
-| D-025 | [Receipt acceptance / rejection outcome (new in Phase 2)](#receipt-acceptance-rejection-outcome-new-in-phase-2) | Open | High | Receipt |
-| D-018 | [Drop-off address derivability](#drop-off-address-derivability) | Open | Medium | Drop-off |
-| D-019 | [Fate-of-waste timestamps in multi-event scenarios](#fate-of-waste-timestamps-in-multi-event-scenarios) | Open | Medium | Fate-of-waste |
-| D-020 | [Treatment code split](#treatment-code-split) | Open | Medium | Fate-of-waste |
-| D-021 | [Cross-check granularity](#cross-check-granularity) | Open | Medium | Receipt |
-| D-023 | [Phase 1 receipt endpoint deprecation timeline](#phase-1-receipt-endpoint-deprecation-timeline) | Open | Medium | Receipt |
-| D-024 | [`wasteTrackingId` ↔ `movementId` reconciliation](#wastetrackingid-movementid-reconciliation) | Open | Medium | Identifiers |
-| D-026 | [Onward movement](#onward-movement) | Open | Medium | Fate-of-waste |
-| D-027 | [Per-organisation vs per-actor API credentials](#per-organisation-vs-per-actor-api-credentials) | Open | Medium | Onboarding |
-| D-028 | [Pre-generated Transfer IDs for offline drivers](#pre-generated-transfer-ids-for-offline-drivers) | Open | Medium | Identifiers |
-| D-029 | [Transit collection (driver-to-driver) — parked](#transit-collection-driver-to-driver-parked) | Parked | Low | Collection |
-| D-030 | [Carrier-vs-broker discriminated union on `POST /movements`](#carrier-vs-broker-discriminated-union-on-post-movements) | Parked | Low | Actors |
+| D-001 | [Extend the Phase 1 Receipt API into one end-to-end spec](#extend-the-phase-1-receipt-api-into-one-end-to-end-spec) | ✅ Decided | 🔴 High | **Spec scope** |
+| D-005 | [Receipt is linked to a drop-off via the Transfer ID (path parameter)](#receipt-is-linked-to-a-drop-off-via-the-transfer-id-path-parameter) | ✅ Decided | 🔴 High | **Receipt** |
+| D-007 | [Drop-off is many-to-one against Movement IDs](#drop-off-is-many-to-one-against-movement-ids) | ✅ Decided | 🔴 High | **Drop-off** |
+| D-012 | [Per-event IDs not exposed in the public API](#per-event-ids-not-exposed-in-the-public-api) | ✅ Decided | 🔴 High | **Identifiers** |
+| D-013 | [Identifier format and capacity (year-prefixed sqids)](#identifier-format-and-capacity-year-prefixed-sqids) | ✅ Decided | 🔴 High | **Identifiers** |
+| D-015 | [Movement ↔ Collection and Transfer ↔ Receipt are 1:1](#movement-collection-and-transfer-receipt-are-11) | ✅ Decided | 🔴 High | **Resource model** |
+| D-016 | [Level 2 (Richardson Maturity Model) resource model](#level-2-richardson-maturity-model-resource-model) | ✅ Decided | 🔴 High | **Resource model** |
+| D-004 | [Receipt path parameter stays `{wasteTrackingId}`](#receipt-path-parameter-stays-wastetrackingid) | ✅ Decided | 🟠 Medium | **Identifiers** |
+| D-006 | [Cross-check of receipt details against the linked drop-off](#cross-check-of-receipt-details-against-the-linked-drop-off) | ✅ Decided | 🟠 Medium | **Receipt** |
+| D-008 | [Carrier always required; broker optional](#carrier-always-required-broker-optional) | ✅ Decided | 🟠 Medium | **Actors** |
+| D-010 | [Hazardous waste cannot be merged across Movements at drop-off](#hazardous-waste-cannot-be-merged-across-movements-at-drop-off) | ✅ Decided | 🟠 Medium | **Drop-off** |
+| D-014 | [Sub-resource reads return 404 until the event is recorded](#sub-resource-reads-return-404-until-the-event-is-recorded) | ✅ Decided | 🟠 Medium | **Lifecycle** |
+| D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | ✅ Decided | 🟢 Low | **Spec structure** |
+| D-003 | [OpenAPI 3.0.3, not 3.1](#openapi-303-not-31) | ✅ Decided | 🟢 Low | **Spec structure** |
+| D-009 | [Deletion exists as non-binding proposals at each stage](#deletion-exists-as-non-binding-proposals-at-each-stage) | ✅ Decided | 🟢 Low | **Lifecycle** |
+| D-011 | [Static and transit collection collapsed into a single endpoint](#static-and-transit-collection-collapsed-into-a-single-endpoint) | ✅ Decided | 🟢 Low | **Collection** |
+| D-017 | [Drop-off PUT semantics in multi-collection cases](#drop-off-put-semantics-in-multi-collection-cases) | ✅ Decided | 🟢 Low | **Resource model** |
+| D-022 | [Receipt migration: new endpoint vs extend Phase 1](#receipt-migration-new-endpoint-vs-extend-phase-1) | ⏳ Open | 🔴 High | **Receipt** |
+| D-025 | [Receipt acceptance / rejection outcome (new in Phase 2)](#receipt-acceptance-rejection-outcome-new-in-phase-2) | ⏳ Open | 🔴 High | **Receipt** |
+| D-018 | [Drop-off address derivability](#drop-off-address-derivability) | ⏳ Open | 🟠 Medium | **Drop-off** |
+| D-019 | [Fate-of-waste timestamps in multi-event scenarios](#fate-of-waste-timestamps-in-multi-event-scenarios) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
+| D-020 | [Treatment code split](#treatment-code-split) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
+| D-021 | [Cross-check granularity](#cross-check-granularity) | ⏳ Open | 🟠 Medium | **Receipt** |
+| D-023 | [Phase 1 receipt endpoint deprecation timeline](#phase-1-receipt-endpoint-deprecation-timeline) | ⏳ Open | 🟠 Medium | **Receipt** |
+| D-024 | [`wasteTrackingId` ↔ `movementId` reconciliation](#wastetrackingid-movementid-reconciliation) | ⏳ Open | 🟠 Medium | **Identifiers** |
+| D-026 | [Onward movement](#onward-movement) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
+| D-027 | [Per-organisation vs per-actor API credentials](#per-organisation-vs-per-actor-api-credentials) | ⏳ Open | 🟠 Medium | **Onboarding** |
+| D-028 | [Pre-generated Transfer IDs for offline drivers](#pre-generated-transfer-ids-for-offline-drivers) | ⏳ Open | 🟠 Medium | **Identifiers** |
+| D-029 | [Transit collection (driver-to-driver) — parked](#transit-collection-driver-to-driver-parked) | ⏸️ Parked | 🟢 Low | **Collection** |
+| D-030 | [Carrier-vs-broker discriminated union on `POST /movements`](#carrier-vs-broker-discriminated-union-on-post-movements) | ⏸️ Parked | 🟢 Low | **Actors** |
 
 ## Decided
 
+<a id="d-001"></a>
 ### Extend the Phase 1 Receipt API into one end-to-end spec
 
-**D-001** · Decided · Impact: High · Area: Spec scope · Related: D-016, D-022
+**D-001** · ✅ Decided · Impact: 🔴 High · Area: **Spec scope** · Related: [D-016](#d-016), [D-022](#d-022)
 
 **Context.** Phase 1 delivered a receiver-first Receipt of Waste API
 (live/public beta). Phase 2 adds the rest of the journey — create
@@ -91,9 +92,10 @@ Phase 1 `address`); those trade-offs are recorded in their own entries. A
 removal timeline for the deprecated receipt endpoints *within* the
 extended spec is a separate open question (see below).
 
+<a id="d-002"></a>
 ### Single OpenAPI file, not `$ref`-split
 
-**D-002** · Decided · Impact: Low · Area: Spec structure
+**D-002** · ✅ Decided · Impact: 🟢 Low · Area: **Spec structure**
 
 **Context.** Given the decision to extend Phase 1 into one spec (above),
 that spec could live as one OpenAPI file or be split into `$ref`-linked
@@ -107,9 +109,10 @@ refactor cost is low if and when it's needed. The file is currently
 ~2,000 lines — comfortable as one file, and the threshold for splitting
 is a judgement call not yet reached.
 
+<a id="d-003"></a>
 ### OpenAPI 3.0.3, not 3.1
 
-**D-003** · Decided · Impact: Low · Area: Spec structure
+**D-003** · ✅ Decided · Impact: 🟢 Low · Area: **Spec structure**
 
 **Context.** The Phase 1 Receipt API is OpenAPI 3.0.3. The new spec
 could either match Phase 1 or move to 3.1, which has better JSON Schema
@@ -120,9 +123,10 @@ alignment.
 **Consequences.** Both specs share a version; tooling reading one can
 read the other. Worth revisiting once the spec stabilises.
 
+<a id="d-004"></a>
 ### Receipt path parameter stays `{wasteTrackingId}`
 
-**D-004** · Decided · Impact: Medium · Area: Identifiers · Related: D-024
+**D-004** · ✅ Decided · Impact: 🟠 Medium · Area: **Identifiers** · Related: [D-024](#d-024)
 
 **Context.** An earlier decision renamed the Phase 1 receipt path
 parameter to `{id}`. The Level 2 restructure reversed this: with
@@ -150,9 +154,10 @@ names the concrete identifier it carries (`movementId`, `transferId`,
 This entry no longer asserts a permanent identity relationship between
 `wasteTrackingId` and `movementId`; that is left to migration.
 
+<a id="d-005"></a>
 ### Receipt is linked to a drop-off via the Transfer ID (path parameter)
 
-**D-005** · Decided · Impact: High · Area: Receipt · Related: D-006, D-016, D-022
+**D-005** · ✅ Decided · Impact: 🔴 High · Area: **Receipt** · Related: [D-006](#d-006), [D-016](#d-016), [D-022](#d-022)
 
 **Context.** A receipt should be linkable to the drop-off that preceded
 it, via the Transfer ID. An earlier decision added `transferId` as an
@@ -173,9 +178,10 @@ and, through it, the originating Movement IDs. Receivers not on the new
 flow continue to use the deprecated endpoint with no Transfer ID.
 (Contingent on Option 1 of the receipt-migration decision — see Open.)
 
+<a id="d-006"></a>
 ### Cross-check of receipt details against the linked drop-off
 
-**D-006** · Decided · Impact: Medium · Area: Receipt · Related: D-005, D-021, D-022
+**D-006** · ✅ Decided · Impact: 🟠 Medium · Area: **Receipt** · Related: [D-005](#d-005), [D-021](#d-021), [D-022](#d-022)
 
 **Context.** A receipt recorded against a Transfer carries carrier and
 waste details that are also derivable from the linked drop-off. These
@@ -200,9 +206,10 @@ match, field-by-field, etc.) is still to be defined — see the
 cross-check granularity open question. (Contingent on Option 1 of the
 receipt-migration decision — see Open.)
 
+<a id="d-007"></a>
 ### Drop-off is many-to-one against Movement IDs
 
-**D-007** · Decided · Impact: High · Area: Drop-off · Related: D-015
+**D-007** · ✅ Decided · Impact: 🔴 High · Area: **Drop-off** · Related: [D-015](#d-015)
 
 **Context.** A multi-collection run delivers several Movements at once
 to the same receiver site. The drop-off endpoint could either be
@@ -219,9 +226,10 @@ aggregation point — one Transfer ID, one or more Movement IDs. The
 shape of the receipt and producer-query downstream both work cleanly
 off this model.
 
+<a id="d-008"></a>
 ### Carrier always required; broker optional
 
-**D-008** · Decided · Impact: Medium · Area: Actors · Related: D-030
+**D-008** · ✅ Decided · Impact: 🟠 Medium · Area: **Actors** · Related: [D-030](#d-030)
 
 **Context.** A movement may be initiated by a carrier or by a broker
 (or producer, or receiver — all acting in the broker role here). The
@@ -242,9 +250,10 @@ validates that `brokerDetails` is present when needed. Reintroducing
 the discriminated union is possible later without breaking clients
 that already supply both forms.
 
+<a id="d-009"></a>
 ### Deletion exists as non-binding proposals at each stage
 
-**D-009** · Decided · Impact: Low · Area: Lifecycle
+**D-009** · ✅ Decided · Impact: 🟢 Low · Area: **Lifecycle**
 
 **Context.** An earlier decision deferred deletion entirely ("no deletion
 endpoint in this version"), partly because the original
@@ -270,9 +279,10 @@ not depend on it. The malformed `DELETE /movements/create` is gone,
 replaced by well-formed resource-scoped paths. Supersedes the earlier
 "no deletion endpoint" decision.
 
+<a id="d-010"></a>
 ### Hazardous waste cannot be merged across Movements at drop-off
 
-**D-010** · Decided · Impact: Medium · Area: Drop-off · Related: D-007
+**D-010** · ✅ Decided · Impact: 🟠 Medium · Area: **Drop-off** · Related: [D-007](#d-007)
 
 **Context.** A drop-off can cover one or more Movements delivered
 together at the same receiver site (multi-collection runs). For
@@ -295,9 +305,10 @@ error.
 for non-hazardous waste. Carriers handling hazardous waste record one
 drop-off per Movement, even if the loads physically arrive together.
 
+<a id="d-011"></a>
 ### Static and transit collection collapsed into a single endpoint
 
-**D-011** · Superseded · Impact: Low · Area: Collection · Related: D-016, D-029
+**D-011** · ✅ Decided · Impact: 🟢 Low · Area: **Collection** · Related: [D-016](#d-016), [D-029](#d-029)
 
 **Original decision.** Merge the separate static- and transit-collection
 endpoints into one.
@@ -309,9 +320,10 @@ Collection is 1:1*). Transit collection (driver-to-driver) is out of scope
 for v1 and parked (see Parked). With transit deferred there are no two
 endpoints to collapse, so the original framing is moot.
 
+<a id="d-012"></a>
 ### Per-event IDs not exposed in the public API
 
-**D-012** · Decided · Impact: High · Area: Identifiers · Related: D-016
+**D-012** · ✅ Decided · Impact: 🔴 High · Area: **Identifiers** · Related: [D-016](#d-016)
 
 **Context.** Earlier conversations specified per-event identifiers
 (creation, collection, drop-off, plus the legacy receive ID) returned
@@ -346,9 +358,10 @@ Movement) and Transfer ID (addresses a drop-off across one or more
 Movements). On the deprecated Phase 1 path, `wasteTrackingId` is a third.
 Anything else is the server's business.
 
+<a id="d-013"></a>
 ### Identifier format and capacity (year-prefixed sqids)
 
-**D-013** · Decided · Impact: High · Area: Identifiers · Related: D-024, D-028
+**D-013** · ✅ Decided · Impact: 🔴 High · Area: **Identifiers** · Related: [D-024](#d-024), [D-028](#d-028)
 
 **Context.** Movement ID and Transfer ID are the public identifiers
 vendors store and pass around. They must be short, externally shareable,
@@ -386,9 +399,10 @@ Two follow-ups this surfaces, for the data/spec pass:
   partitioned per type (so a `movementId` and a `transferId` can never be
   the same string) is a server concern to confirm.
 
+<a id="d-014"></a>
 ### Sub-resource reads return 404 until the event is recorded
 
-**D-014** · Decided · Impact: Medium · Area: Lifecycle · Related: D-015
+**D-014** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-015](#d-015)
 
 **Context.** Collection and receipt are 1:1 sub-resources that come into
 existence later than their parent: a Movement exists from creation but is
@@ -417,9 +431,10 @@ dedicated collection resource schema and no public collection ID. The
 collection read still returns the `collectionRequest` shape; splitting it
 into a separate read schema remains an option for later.
 
+<a id="d-015"></a>
 ### Movement ↔ Collection and Transfer ↔ Receipt are 1:1
 
-**D-015** · Decided · Impact: High · Area: Resource model · Related: D-016, D-025
+**D-015** · ✅ Decided · Impact: 🔴 High · Area: **Resource model** · Related: [D-016](#d-016), [D-025](#d-025)
 
 **Context.** While working through the Level 2 restructure (see next
 entry), it became important to be precise about the relationships
@@ -453,9 +468,10 @@ Multi-collection journeys correspond to multiple Movements aggregated
 at the drop-off; multi-drop-off journeys correspond to a driver minting
 multiple Transfer IDs in one run.
 
+<a id="d-016"></a>
 ### Level 2 (Richardson Maturity Model) resource model
 
-**D-016** · Decided · Impact: High · Area: Resource model · Related: D-011, D-012, D-015, D-017
+**D-016** · ✅ Decided · Impact: 🔴 High · Area: **Resource model** · Related: [D-011](#d-011), [D-012](#d-012), [D-015](#d-015), [D-017](#d-017)
 
 **Context.** The original API spec used verb-shaped URL segments
 (`/movements/create`, `/movements/collection`, `/movements/drop-off`,
@@ -513,9 +529,10 @@ collapsed into a single endpoint" decision in a more elegant way:
 collection is now a 1:1 sub-resource of a Movement, and what was
 called multi-collection is now multi-Movement-under-one-Transfer.
 
+<a id="d-017"></a>
 ### Drop-off PUT semantics in multi-collection cases
 
-**D-017** · Resolved · Impact: Low · Area: Resource model · Related: D-016
+**D-017** · ✅ Decided · Impact: 🟢 Low · Area: **Resource model** · Related: [D-016](#d-016)
 
 Asked whether updating a drop-off via one Movement's URL updated the
 shared drop-off or only that Movement's view. Dissolved by the Level 2
@@ -526,9 +543,10 @@ per-Movement view. (See *Level 2 resource model*.)
 
 ## Open
 
+<a id="d-018"></a>
 ### Drop-off address derivability
 
-**D-018** · Open · Impact: Medium · Area: Drop-off · Related: D-007
+**D-018** · ⏳ Open · Impact: 🟠 Medium · Area: **Drop-off** · Related: [D-007](#d-007)
 
 `dropOffAddress` is currently optional in the spec. It is undecided
 whether it should be **mandatory**, stay **optional**, or be **removed
@@ -540,9 +558,10 @@ relevant without settling it: the planned receiver is explicitly an
 drop-off location may diverge from the estimate. No assumption made on
 mandatory/optional/removed — pending BA input.
 
+<a id="d-019"></a>
 ### Fate-of-waste timestamps in multi-event scenarios
 
-**D-019** · Open · Impact: Medium · Area: Fate-of-waste
+**D-019** · ⏳ Open · Impact: 🟠 Medium · Area: **Fate-of-waste**
 
 `fateOfWasteResponse` carries scalar `collectionDateTime` and
 `receiptDateTime`. The spec takes a provisional position: in
@@ -555,9 +574,10 @@ whether a producer needs the full list of timestamps (which would make
 these arrays). The `collectionDateTime` description already flags this as
 subject to BA confirmation.
 
+<a id="d-020"></a>
 ### Treatment code split
 
-**D-020** · Open · Impact: Medium · Area: Fate-of-waste · Related: D-026
+**D-020** · ⏳ Open · Impact: 🟠 Medium · Area: **Fate-of-waste** · Related: [D-026](#d-026)
 
 `fateOfWasteResponse` exposes two scalar codes, `startTreatmentCode` and
 `finalTreatmentCode`. The receipt captures `wasteItems[].disposalOrRecoveryCodes`
@@ -572,9 +592,10 @@ or summarised from the receipt's weighted code list. Coupled to the
 onward-movement decision — likely can't be resolved before it. Pending
 data-model work.
 
+<a id="d-021"></a>
 ### Cross-check granularity
 
-**D-021** · Open · Impact: Medium · Area: Receipt · Related: D-006, D-022
+**D-021** · ⏳ Open · Impact: 🟠 Medium · Area: **Receipt** · Related: [D-006](#d-006), [D-022](#d-022)
 
 A receipt's carrier and waste details are cross-checked against the linked
 drop-off, surfacing mismatches as validation warnings (see the decided
@@ -586,9 +607,10 @@ mismatch is unspecified: identical strings? same registration number,
 different address? same EWC code, different quantity? The server validates
 this; the spec needs a clearer statement of the rules once agreed.
 
+<a id="d-022"></a>
 ### Receipt migration: new endpoint vs extend Phase 1
 
-**D-022** · Open · Impact: High · Area: Receipt · Related: D-005, D-006, D-015, D-016, D-023
+**D-022** · ⏳ Open · Impact: 🔴 High · Area: **Receipt** · Related: [D-005](#d-005), [D-006](#d-006), [D-015](#d-015), [D-016](#d-016), [D-023](#d-023)
 
 How receivers move from the Phase 1 receipt to the linked Phase 2 receipt
 is undecided. Both options share one internal receipt function, and both
@@ -627,9 +649,10 @@ linked to a drop-off via the Transfer ID*, *Cross-check of receipt details
 against the linked drop-off*, *Level 2 (Richardson Maturity Model)
 resource model*, and *Movement ↔ Collection and Transfer ↔ Receipt are 1:1*.
 
+<a id="d-023"></a>
 ### Phase 1 receipt endpoint deprecation timeline
 
-**D-023** · Open · Impact: Medium · Area: Receipt · Related: D-022
+**D-023** · ⏳ Open · Impact: 🟠 Medium · Area: **Receipt** · Related: [D-022](#d-022)
 
 The Level 2 restructure superseded `POST /movements/receive` and
 `PUT /movements/{wasteTrackingId}/receive` with `POST /transfers/{transferId}/receipt`
@@ -649,18 +672,20 @@ superseded endpoint to retire and this question falls away. The identifier
 side of migration is tracked separately under *`wasteTrackingId` ↔
 `movementId` reconciliation*.
 
+<a id="d-024"></a>
 ### `wasteTrackingId` ↔ `movementId` reconciliation
 
-**D-024** · Open · Impact: Medium · Area: Identifiers · Related: D-004
+**D-024** · ⏳ Open · Impact: 🟠 Medium · Area: **Identifiers** · Related: [D-004](#d-004)
 
 Phase 1 minted `wasteTrackingId` at receipt; Phase 2 mints `movementId` at
 creation. Whether a Phase 1 record maps to a Phase 2 Movement ID (and how),
 on migration, is undecided — owned by the Phase 1 → Phase 2 migration
 strategy.
 
+<a id="d-025"></a>
 ### Receipt acceptance / rejection outcome (new in Phase 2)
 
-**D-025** · Open · Impact: High · Area: Receipt · Related: D-015
+**D-025** · ⏳ Open · Impact: 🔴 High · Area: **Receipt** · Related: [D-015](#d-015)
 
 Phase 1 has no rejection model — recording a receipt means the waste was
 accepted; there is no way to record a full rejection, a partial
@@ -674,9 +699,10 @@ to the rejected portion). Undecided; needs policy-team input. Structurally,
 whatever is chosen sits on the single Receipt, not on a split Movement
 (see the 1:1 decision).
 
+<a id="d-026"></a>
 ### Onward movement
 
-**D-026** · Open · Impact: Medium · Area: Fate-of-waste · Related: D-020
+**D-026** · ⏳ Open · Impact: 🟠 Medium · Area: **Fate-of-waste** · Related: [D-020](#d-020)
 
 The diagram doesn't model what happens when waste is accepted at a transfer
 station and then onward-moved to a treatment facility. May be deliberately
@@ -684,9 +710,10 @@ out of scope for v1; worth confirming. Coupled to the *Treatment code
 split* question — `finalTreatmentCode` has no source unless onward movement
 is modelled.
 
+<a id="d-027"></a>
 ### Per-organisation vs per-actor API credentials
 
-**D-027** · Open · Impact: Medium · Area: Onboarding · Related: D-008
+**D-027** · ⏳ Open · Impact: 🟠 Medium · Area: **Onboarding** · Related: [D-008](#d-008)
 
 Phase 1 is receiver-first: a receiver registers its organisation via the
 Waste Tracking Service and gets credentials (Bearer token + `apiCode`, the
@@ -696,9 +723,10 @@ is in the same organisation as a registered receiver, does it need separate
 credentials, or does one organisation-level registration cover all its
 roles? To bring forward with identity/onboarding — not yet explored.
 
+<a id="d-028"></a>
 ### Pre-generated Transfer IDs for offline drivers
 
-**D-028** · Open · Impact: Medium · Area: Identifiers · Related: D-013
+**D-028** · ⏳ Open · Impact: 🟠 Medium · Area: **Identifiers** · Related: [D-013](#d-013)
 
 If a driver has no signal at the drop-off, they cannot call
 `POST /transfers` to mint a Transfer ID in the moment — yet they need one
@@ -716,9 +744,10 @@ scenarios, which are the offline case generally.
 
 ## Parked
 
+<a id="d-029"></a>
 ### Transit collection (driver-to-driver) — parked
 
-**D-029** · Parked · Impact: Low · Area: Collection · Related: D-011, D-015
+**D-029** · ⏸️ Parked · Impact: 🟢 Low · Area: **Collection** · Related: [D-011](#d-011), [D-015](#d-015)
 
 Deferred from v1, which records static (producer-to-driver) collection
 only. There is no transit endpoint or field in the spec. Under the 1:1
@@ -727,9 +756,10 @@ handover decomposes into a new Movement at the next pickup rather than a
 second collection on the same Movement — so transit may need no dedicated
 event at all. To be confirmed with the BA if/when transit is picked up.
 
+<a id="d-030"></a>
 ### Carrier-vs-broker discriminated union on `POST /movements`
 
-**D-030** · Parked · Impact: Low · Area: Actors · Related: D-008
+**D-030** · ⏸️ Parked · Impact: 🟢 Low · Area: **Actors** · Related: [D-008](#d-008)
 
 A `oneOf` request shape distinguishing carrier-initiated and
 broker-initiated creation was drafted then dropped in favour of a
