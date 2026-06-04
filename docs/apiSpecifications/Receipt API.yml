@@ -25,7 +25,7 @@ servers:
   - url: https://waste-tracking.api.defra.gov.uk
     description: Production environment
   - url: https://waste-tracking.integration.api.defra.gov.uk
-    description: External test environment    
+    description: External test environment  
 paths:
   /movements/receive:
     post:
@@ -412,10 +412,10 @@ components:
                     <p><font color="red">Northern Ireland and Eire:</font></p>
                     <p><i>Format-</i>  DA, DB or DC followed by a 7-digit number (e.g. DA5301234)</p><p></p>
                     <p><a href="https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code">More information here</a></p>
-                    <p><font color="green"><b>Business Rule:</b></font></p>
+                    <p><font color="green"><b>Business Rules:</b></font></p>
                     <ul>
                     <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
-                     <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
+                     <li>If all waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
                      </ul>
                 example: CJ32LE/A0001
               reasonForNoConsignmentCode:
