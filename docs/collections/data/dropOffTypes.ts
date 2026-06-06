@@ -1,0 +1,112 @@
+/**
+ * TypeScript types for the Record Drop-off event.
+ * POST /transfers → 201 with transferId
+ *
+ * The drop-off event records the carrier-declared place where one or more
+ * Movements are dropped off or left. It mints a Transfer ID that may be used
+ * by an official receiver to record a receipt, but a receipt event may not
+ * always follow — for example, when waste is dropped at an exempt place.
+ *
+ * Key design decisions:
+ *   D-007 — drop-off aggregates one or more Movement IDs (movementIds array)
+ *   D-010 — hazardous waste: exactly one Movement ID per drop-off
+ *   D-012 — Transfer ID is the only public identifier minted here
+ *   D-013 — Transfer ID is an 8-character year-prefixed sqid
+ *
+ * Note: receiver details are NOT on the drop-off. The drop-off place is a
+ * lighter site model declared by the carrier and is distinct from the official
+ * receiver site used by POST /transfers/{transferId}/receipt. A receipt may
+ * not always follow a drop-off.
+ */
+
+export type {
+  MeansOfTransport,
+  CarrierReasonForNoRegistrationNumber,
+  OtherReferenceForMovement,
+  CarrierDetails,
+  ValidationResult
+} from './sharedTypes.js'
+
+import type {
+  OtherReferenceForMovement,
+  CarrierDetails,
+  ValidationResult
+} from './sharedTypes.js'
+
+// ---------------------------------------------------------------------------
+// Drop-off site
+// ---------------------------------------------------------------------------
+
+export type DropOffAddress = {
+  postcode: string
+  fullAddress: string
+}
+
+/**
+ * Drop-off place declared by the carrier.
+ *
+ * This is not necessarily an official receiver site and does not require a
+ * receiver authorisation number. Some drop-offs may be to exempt places that
+ * store, treat, use or dispose of waste, in which case exemptionNumber may be
+ * supplied. A receipt event may not always follow a drop-off.
+ */
+export type DropOff = {
+  /** Name of the carrier-declared site/place where the waste is dropped off or left. */
+  siteName: string
+
+  /**
+   * Optional exemption number for exempt places that store, treat, use or dispose of waste.
+   * For example, a WEX number. Distinct from receiver.authorisationNumber.
+   */
+  exemptionNumber?: string
+
+  /** Physical address where the waste is dropped off or left. */
+  address: DropOffAddress
+}
+
+// ---------------------------------------------------------------------------
+// Record Drop-off request / response
+// ---------------------------------------------------------------------------
+
+export type RecordDropOff = {
+  /** Unique identifier of the submitting organisation produced by registration. */
+  apiCode: string
+
+  /**
+   * One or more Movement IDs delivered in this drop-off.
+   * - Single-collection runs: array of one.
+   * - Multi-collection runs: all Movement IDs delivered together at the same site.
+   * - Hazardous waste (D-010): exactly one Movement ID is allowed per drop-off.
+   */
+  movementIds: string[]
+
+  /** Actual date and time of the drop-off. ISO 8601. */
+  actualDateTimeDropOff: string
+
+  yourUniqueReference?: string
+  specialHandlingRequirements?: string
+  otherReferencesForMovement?: OtherReferenceForMovement[]
+
+  /** Carrier performing the drop-off. Required and aligned to Collection/Receipt carrier rules. */
+  carrier: CarrierDetails
+
+  /** Carrier-declared drop-off place details. This is a lighter site model than the receipt receiver. */
+  dropOff: DropOff
+}
+
+export type RecordDropOffResponse = {
+  /**
+   * The Transfer ID minted by the server.
+   * 8-character year-prefixed sqid (D-013).
+   * The driver may pass this value to the receiver so they can record
+   * the receipt via POST /transfers/{transferId}/receipt, where applicable.
+   */
+  transferId: string
+  /**
+   * Optional validation warnings. For now, server-side business-rule checks
+   * such as hazardous aggregation may be surfaced as BusinessRuleViolation warnings.
+   */
+  validation?: {
+    warnings?: ValidationResult[]
+  }
+}

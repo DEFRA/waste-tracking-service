@@ -2,18 +2,26 @@ openapi: 3.0.3
 
 info:
   title: Digital Waste Tracking API
-  version: 0.1.2-alpha
+  version: 0.2.0-alpha
   description: |
     Extension of the Phase 1 Receipt of Waste API toward a fuller
     waste-movement journey covering creation, collection, drop-off,
     receipt and producer tracking.
+
+    This 0.2.0-alpha revision completes the Phase 2 data layer: the
+    creation, collection and drop-off request bodies are now fully
+    specified (replacing the earlier placeholders), aligned with the
+    documentation-side Joi schemas, TypeScript types and worked examples.
+    The Phase 1 receipt schemas are preserved unchanged and extended
+    alongside; shared primitives (weight, address, validationResult) are
+    reused across both generations.
 
     This specification is in alpha and is being developed alongside
     User Research with carriers, receivers, drivers, brokers and
     producers, and software vendors building on the API.
 
     All operational endpoints return a shared validation envelope
-    (`ValidationResult`) consistent with the Phase 1 Receipt API.
+    (`validationResult`) consistent with the Phase 1 Receipt API.
 
 servers:
   - url: https://api.example.defra.gov.uk/dwt
@@ -25,7 +33,7 @@ tags:
   - name: Collection
     description: Record a collection event — waste passing from a producer to a driver.
   - name: Drop-off
-    description: Record a drop-off event at a receiver site, generating a Transfer ID.
+    description: Record a drop-off event, generating a Transfer ID.
   - name: Receipt
     description: Record receipt of waste at a receiver site (Phase 1).
   - name: Fate of waste
@@ -161,84 +169,272 @@ components:
           example: No collection has been recorded for this movement yet.
 
 
-    # --- 3. Domain entities (placeholders) ------------------------------
+    # --- 3. Domain entities ---------------------------------------------
     #
-    # These schemas are intentionally minimal at this stage. The full
-    # field-level structure for waste, hazardous, POPs and party details
-    # will be defined in a follow-up once the data model is agreed with
-    # the waste team. Each schema currently carries only the absolute
-    # minimum (typically a name or organisation reference) so that
-    # request bodies type-check end-to-end.
+    # Precise Phase 2 entities, aligned with the documentation-side Joi
+    # schemas and TypeScript types (creationJoi.js, collectionJoi.js,
+    # dropOffJoi.js, sharedSchemas.js) and the worked examples in the
+    # *Event.js fixtures.
     #
-    # When the canonical definitions land, every schema below will be
-    # filled in without changing the surrounding paths or request bodies.
+    # Cross-field rules that OpenAPI 3.0 cannot express (mutual exclusivity,
+    # conditional requiredness, data-dependent checks such as the hazardous
+    # aggregation rule or the collection/creation length match) are stated in
+    # the field descriptions and enforced server-side.
+    #
+    # Shared primitives (weight, address, validationResult) and the full
+    # waste classification (wasteItem, with its nested pops/hazardous and
+    # optional disposalOrRecoveryCodes) are reused from the Phase 1 block
+    # further down rather than redefined.
 
-    wasteClassification:
+    otherReferenceForMovement:
+      type: object
+      required: [label, reference]
+      properties:
+        label:
+          type: string
+          minLength: 1
+          description: The type/label of the reference (e.g. transferNoteNumber, purchaseOrderNumber). Must be supplied together with its reference.
+          example: purchaseOrderNumber
+        reference:
+          type: string
+          minLength: 1
+          description: The reference value. Must be supplied together with its label.
+          example: PO-98765
+
+    addressWithFullAddress:
       type: object
       description: |
-        Placeholder. Will carry EWC codes, waste description, physical
-        form, container types and quantities. Full shape to be defined
-        in a follow-up against the existing reference data endpoints
-        (`/ewc-codes`, `/container-types`).
-      additionalProperties: true
-
-    hazardousDetails:
-      type: object
-      description: |
-        Placeholder. Will carry the hazardous-codes payload including
-        component breakdowns and concentrations. Full shape to be
-        defined alongside the `/hazardous-codes` reference data endpoint.
-      additionalProperties: true
-
-    popsDetails:
-      type: object
-      description: |
-        Placeholder. Will carry POPs (Persistent Organic Pollutants)
-        component data. Full shape to be defined alongside the
-        `/pop-codes` reference data endpoint.
-      additionalProperties: true
+        Address where both fullAddress and postcode are required. Used by the
+        collection site and drop-off place. Accepts UK postcodes and Irish
+        Eircodes (unlike the receipt address, which is UK-only).
+      required: [fullAddress, postcode]
+      properties:
+        fullAddress:
+          type: string
+          example: 10 Industrial Way, Test City
+        postcode:
+          type: string
+          description: Accepts UK postcodes and Irish Eircodes.
+          example: TE1 2PQ
 
     producerDetails:
       type: object
       description: |
-        Placeholder. Will extend `Organisation` with producer-specific
-        fields (e.g. SIC code, premises type). Currently carries the
-        organisation block only.
-      allOf:
-        - $ref: '#/components/schemas/organisation'
+        Producer organisation and waste-source details, recorded at creation.
 
-    carrierDetails:
+        Conditional requiredness is driven by `wasteSource` and enforced
+        server-side:
+        - `Commercial` — `organisationName`, `authorisationNumber` and `sicCode`
+          are required.
+        - `Household` — the business-only fields (`organisationName`,
+          `authorisationNumber`, `sicCode`, `emailAddress`, `phoneNumber`) must
+          NOT be provided.
+        - `Municipal` — those fields are optional; final conditionality to be
+          confirmed with the BA.
+      required:
+        - wasteSource
+        - address
+        - councilMovement
+      properties:
+        wasteSource:
+          type: string
+          enum: [Household, Commercial, Municipal]
+          description: Origin of the waste. Drives conditional requiredness of the business-only fields. Case-sensitive.
+          example: Commercial
+        organisationName:
+          type: string
+          description: Producer organisation name. Required for Commercial; not applicable for Household.
+          example: ACME Waste Producers Ltd
+        authorisationNumber:
+          type: string
+          description: |
+            Environmental permit or exemption number the producer operates under.
+            Required for Commercial; optional for Municipal; not applicable for
+            Household. Validated against the same UK site-authorisation formats
+            as `receiver.authorisationNumber`.
+          example: EAS/P/123456
+        sicCode:
+          type: string
+          pattern: '^\d{5}$'
+          description: |
+            Five-digit Standard Industrial Classification code for the process
+            that created this waste. Required for Commercial; optional for
+            Municipal; not applicable for Household.
+          example: '38110'
+        emailAddress:
+          type: string
+          format: email
+          description: Producer contact email address. Not applicable for Household.
+          example: producer@example.com
+        phoneNumber:
+          type: string
+          description: Producer contact phone number. Not applicable for Household.
+          example: '01234567890'
+        address:
+          $ref: '#/components/schemas/address'
+        councilMovement:
+          type: boolean
+          description: Whether this movement is carried out by, or on behalf of, a council.
+          example: false
+
+    creationCarrierDetails:
       type: object
       description: |
-        Placeholder. Will extend `Organisation` with carrier-specific
-        fields (e.g. registration tier, vehicle details). Currently
-        carries the organisation block only.
-      allOf:
-        - $ref: '#/components/schemas/organisation'
+        Carrier details at creation. Same field structure as the Phase 1
+        `carrier`, but with relaxed requiredness: only `meansOfTransport` is
+        mandatory at creation, because full carrier details may not be known
+        when the movement is planned. Optional fields keep their integrity
+        rules when supplied (enforced server-side):
+          * `registrationNumber` and `reasonForNoRegistrationNumber` are mutually exclusive;
+          * `vehicleRegistration` is only valid when `meansOfTransport` is `Road`;
+          * `otherMeansOfTransport` is only valid when `meansOfTransport` is `Other`.
+        By collection and drop-off the full Phase 1 `carrier` shape applies
+        (registrationNumber/reason and Road vehicleRegistration become required).
+      required:
+        - meansOfTransport
+      properties:
+        meansOfTransport:
+          type: string
+          enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
+          description: How the waste is transported. The only mandatory carrier field at creation. Case-sensitive; 'Inland Waterway' includes a space.
+          example: Road
+        registrationNumber:
+          type: string
+          nullable: true
+          description: Carrier/Broker/Dealer registration number (e.g. CBDU123456). Optional at creation; if provided, must be a valid carrier registration format.
+          example: CBDU123456
+        reasonForNoRegistrationNumber:
+          type: string
+          enum: [ON_SITE, HOUSEHOLD, ONE_OFF, MARINE]
+          description: Reason a registration number is not supplied. Must not be supplied alongside a valid registrationNumber.
+          example: ONE_OFF
+        organisationName:
+          type: string
+          description: Carrier organisation name. Optional at creation.
+          example: Test Carrier Ltd
+        vehicleRegistration:
+          type: string
+          maxLength: 10
+          description: Vehicle registration number. Only valid when meansOfTransport is Road.
+          example: AB12 CDE
+        otherMeansOfTransport:
+          type: string
+          description: Free-text description of the transport method when meansOfTransport is Other.
+        emailAddress:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+        address:
+          $ref: '#/components/schemas/address'
 
-    brokerDetails:
+    creationReceiverDetails:
       type: object
       description: |
-        Placeholder. Will extend `Organisation` with broker-specific
-        fields. Currently carries the organisation block only.
-      allOf:
-        - $ref: '#/components/schemas/organisation'
+        Intended receiver details recorded at creation. Required only when the
+        movement contains hazardous waste (enforced server-side). If `siteName`
+        is supplied, `authorisationNumber` and `address` (with fullAddress)
+        become required. These are provisional — the authoritative receiver is
+        confirmed at receipt, where the receiver is modelled by the Phase 1
+        `receiver` (which carries regulatoryPositionStatements and no address;
+        the receipt site address is the separate `receipt.address`).
+      properties:
+        siteName:
+          type: string
+          description: Name of the intended receiving site. If supplied, authorisationNumber and address are required.
+          example: Test Receiver Site
+        authorisationNumber:
+          type: string
+          description: Environmental permit/authorisation number for the receiving site, validated against UK site-authorisation formats. Required when siteName is supplied.
+          example: HP3456XX
+        emailAddress:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+        address:
+          allOf:
+            - $ref: '#/components/schemas/address'
+          description: Receiver site address. Required (with fullAddress) when siteName is supplied.
 
-    receiverDetails:
+    collectionSite:
+      type: object
+      description: Collection site details. The address is where the waste was physically collected, typically a producer site.
+      required: [address]
+      properties:
+        address:
+          allOf:
+            - $ref: '#/components/schemas/addressWithFullAddress'
+          description: Address where the waste was physically collected. Both fullAddress and postcode are required.
+
+    dropOffSite:
       type: object
       description: |
-        Placeholder. Will extend `Organisation` with receiver-specific
-        fields (e.g. authorisation type, accepted waste streams).
-        Currently carries the organisation block only.
-      allOf:
-        - $ref: '#/components/schemas/organisation'
+        Carrier-declared drop-off place. A lighter site model than the receipt
+        `receiver`: it is not necessarily an official receiver site and does not
+        require a receiver authorisation number. Where the place operates under
+        an exemption (e.g. a WEX number), `exemptionNumber` may be supplied —
+        distinct from `receiver.authorisationNumber`. A receipt event may not
+        always follow a drop-off.
+      required: [siteName, address]
+      properties:
+        siteName:
+          type: string
+          description: Name of the carrier-declared site/place where the waste is dropped off or left.
+          example: Test Drop-off Site
+        exemptionNumber:
+          type: string
+          description: Optional exemption number for exempt places that store, treat, use or dispose of waste (e.g. a WEX number). Distinct from receiver.authorisationNumber.
+          example: WEX123456
+        address:
+          $ref: '#/components/schemas/addressWithFullAddress'
+
+    collectionWasteItem:
+      type: object
+      description: |
+        Per-item actual weight recorded at collection. The full waste
+        classification (EWC codes, description, containers, haz/POPs) is held on
+        the Movement from creation and is NOT repeated here. Entries correspond
+        by position to the Movement's wasteItems; the collection array length
+        must equal the creation array length (D-032, enforced server-side).
+      required: [weight]
+      properties:
+        weight:
+          allOf:
+            - $ref: '#/components/schemas/weight'
+          description: Actual weight of this waste item at collection. Set isEstimate false when weighed; true for kerbside estimates.
+
+    wasteClassification:
+      type: object
+      description: |
+        Summary classification of waste at a point in the journey. Read-only
+        projection used by the producer-facing fate-of-waste response — a
+        subset of the full wasteItem classification, without operational detail.
+      properties:
+        ewcCodes:
+          type: array
+          items:
+            type: string
+          example: ['200121']
+        wasteDescription:
+          type: string
+          example: Fluorescent tubes and other mercury-containing waste
+        physicalForm:
+          type: string
+          enum: [Gas, Liquid, Solid, Powder, Sludge, Mixed]
+        containsHazardous:
+          type: boolean
+        containsPops:
+          type: boolean
 
     driverDetails:
       type: object
       description: |
-        Placeholder. Will identify the driver performing a collection
-        or drop-off, distinct from the carrier organisation. Currently
-        carries name only.
+        Reserved. Identifies the driver performing a collection or drop-off,
+        distinct from the carrier organisation. Not currently part of any event
+        request body (collection and drop-off do not carry driver details in
+        this revision); retained for a future revision. Currently carries name
+        only.
       properties:
         name:
           type: string
@@ -246,61 +442,88 @@ components:
 
     # --- 4. Request and response bodies per endpoint --------------------
 
-    # POST /movements — single request shape.
-    # Carrier details are always required. Broker details are optional
-    # and present only when the movement is broker-initiated.
-    # The carrier-vs-broker initiator distinction (as a discriminated
-    # union) is deferred from this version of the spec; it will be
-    # reintroduced once the operational details are agreed.
+    # POST /movements — single request shape (D-030: no discriminated union).
+    # `carrier` is always required (D-008); `brokerOrDealer` is present only
+    # when the movement is broker/dealer-initiated. `apiCode` identifies the
+    # submitting organisation — at creation the initiator, carrier or broker
+    # (D-027). Field names and shapes match the createMovement worked example.
 
     createMovementRequest:
       type: object
       required:
-        - wasteClassification
-        - hazardousDetails
-        - popsDetails
-        - producerDetails
-        - carrierDetails
+        - apiCode
+        - estimatedDateTimeCollected
+        - producer
+        - carrier
+        - wasteItems
       properties:
-        wasteClassification:
-          $ref: '#/components/schemas/wasteClassification'
-        hazardousDetails:
-          $ref: '#/components/schemas/hazardousDetails'
-        popsDetails:
-          $ref: '#/components/schemas/popsDetails'
-        producerDetails:
-          $ref: '#/components/schemas/producerDetails'
-        carrierDetails:
-          $ref: '#/components/schemas/carrierDetails'
-        brokerDetails:
-          $ref: '#/components/schemas/brokerDetails'
-          description: Required when the movement is broker-initiated; omitted otherwise.
-        estimatedCollectionDetails:
-          $ref: '#/components/schemas/estimatedCollectionDetails'
-        estimatedReceiverDetails:
-          $ref: '#/components/schemas/receiverDetails'
-        estimatedWeight:
-          allOf:
-            - $ref: '#/components/schemas/weight'
+        apiCode:
+          type: string
+          format: uuid
           description: |
-            Provisional weight of the waste, estimated at the creation
-            event. Callers set `isEstimate: true`. Reuses the canonical
-            `weight` schema, so `metric` is Grams, Kilograms or Tonnes and
-            `amount` must be greater than 0. The actual (measured) weight is
-            captured later at receipt via `wasteItems[].weight`; the two may
-            differ.
-
-    estimatedCollectionDetails:
-      type: object
-      description: |
-        Provisional details supplied at creation time. Actual values are
-        captured by the recordCollection event and may differ.
-      properties:
-        expectedCollectionDateTime:
+            Unique identifier of the submitting organisation, produced by the
+            Waste Tracking Service registration process. At creation the
+            submitter is the movement initiator (carrier or broker). The backend
+            may resolve this to an internal submittingOrganisation (D-027).
+          example: 25b14080-5e77-4f91-9957-2482a0cb8775
+        estimatedDateTimeCollected:
           type: string
           format: date-time
-        expectedCollectionAddress:
-          $ref: '#/components/schemas/address'
+          description: |
+            Estimated date and time the waste will be collected. The actual
+            collection time is recorded by the collection event and may differ.
+            ISO 8601 (UTC or BST).
+          example: 2025-09-15T08:00:00Z
+        hazardousWasteConsignmentCode:
+          type: string
+          description: |
+            Required when any waste item carries a hazardous EWC code. Must match
+            an accepted region-specific consignment code format (England & Wales,
+            Scotland, NI). Mutually exclusive with reasonForNoConsignmentCode.
+          example: CJ123E/A0001
+        reasonForNoConsignmentCode:
+          type: string
+          enum: [NON_HAZ_WASTE_TRANSFER, NO_DOC_WITH_WASTE, HWRC_RECEIPT]
+          description: |
+            Required when the movement contains hazardous waste and no
+            hazardousWasteConsignmentCode is provided. Mutually exclusive with
+            hazardousWasteConsignmentCode. Case-sensitive.
+        yourUniqueReference:
+          type: string
+          description: Caller's own reference. No format rules enforced.
+          example: CARRIER-JOB-001
+        otherReferencesForMovement:
+          type: array
+          items:
+            $ref: '#/components/schemas/otherReferenceForMovement'
+        specialHandlingRequirements:
+          type: string
+          maxLength: 5000
+          description: Special handling instructions (e.g. fragile, hazardous, temperature-sensitive).
+        producer:
+          $ref: '#/components/schemas/producerDetails'
+        carrier:
+          allOf:
+            - $ref: '#/components/schemas/creationCarrierDetails'
+          description: Carrier details. Always required at creation (D-008), with only meansOfTransport mandatory at this stage.
+        brokerOrDealer:
+          allOf:
+            - $ref: '#/components/schemas/brokerOrDealer'
+          description: Broker or dealer details. Required only when the movement is broker/dealer-initiated; omitted otherwise (D-008). Reuses the Phase 1 brokerOrDealer shape.
+        receiver:
+          allOf:
+            - $ref: '#/components/schemas/creationReceiverDetails'
+          description: Intended receiver. Required only when the movement contains hazardous waste (enforced server-side).
+        wasteItems:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/wasteItem'
+          description: |
+            At least one waste item. Reuses the Phase 1 wasteItem shape (full
+            classification, with disposalOrRecoveryCodes optional — D-031). At
+            creation, weights are typically estimates (weight.isEstimate true);
+            actual weights are recorded at collection.
 
     createMovementResponse:
       type: object
@@ -334,35 +557,70 @@ components:
               items:
                 $ref: '#/components/schemas/validationResult'
 
-    # Collection event.
+    # Collection event — POST /movements/{movementId}/collection.
     #
-    # Currently models static collection only — waste passing from a
-    # producer to a driver at a producer site. Transit collection
-    # (driver to driver) is parked pending BA confirmation.
+    # Records the physical pickup of waste at a producer site. The movementId
+    # is the path parameter and is not part of the body. Only actual weights are
+    # captured here; the full classification stays on the Movement from creation.
+    # Models static collection only (producer-to-driver); transit collection
+    # (driver-to-driver) is parked pending BA confirmation (D-011, D-029).
 
     collectionRequest:
       type: object
       required:
-        - collectionDateTime
-        - carrierDetails
+        - apiCode
+        - actualDateTimeCollected
+        - carrier
+        - collection
+        - wasteItems
       properties:
-        collectionDateTime:
+        apiCode:
+          type: string
+          format: uuid
+          description: |
+            Unique identifier of the submitting organisation (the carrier
+            recording the collection), produced by Waste Tracking Service
+            registration (D-027).
+          example: 25b14080-5e77-4f91-9957-2482a0cb8775
+        actualDateTimeCollected:
           type: string
           format: date-time
-          description: When the collection actually happened (not when the record was created).
-        carrierDetails:
-          $ref: '#/components/schemas/carrierDetails'
-        collectionAddress:
-          $ref: '#/components/schemas/address'
-          description: Address where collection took place. Typically a producer site.
-        driverDetails:
-          $ref: '#/components/schemas/driverDetails'
-        actualWaste:
-          $ref: '#/components/schemas/wasteClassification'
           description: |
-            Actual waste collected, as observed by the driver. May
-            differ from the planned waste classification on the
-            Movement (e.g. quantity adjustment).
+            Actual date and time the waste was collected — not when the record
+            was submitted. For deferred or retrospective recording, back-fill the
+            real collection time. ISO 8601.
+          example: 2025-09-15T08:34:00Z
+        yourUniqueReference:
+          type: string
+          description: Caller's own reference for this collection event (e.g. a weighbridge ticket number).
+          example: DRIVER-TRIP-001
+        specialHandlingRequirements:
+          type: string
+          maxLength: 5000
+          description: Special handling instructions relevant to the collection event.
+        otherReferencesForMovement:
+          type: array
+          items:
+            $ref: '#/components/schemas/otherReferenceForMovement'
+        carrier:
+          allOf:
+            - $ref: '#/components/schemas/carrier'
+          description: |
+            Carrier details confirmed at collection. Required even if unchanged
+            from creation (D-008). Uses the full Phase 1 carrier shape — by
+            collection the carrier is physically present, so the strict carrier
+            rules apply (registrationNumber/reason; vehicleRegistration for Road).
+        collection:
+          $ref: '#/components/schemas/collectionSite'
+        wasteItems:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/collectionWasteItem'
+          description: |
+            Actual weights per waste item. One entry per waste item declared at
+            creation, in the same positional order; the array length must equal
+            the creation array length (D-032, enforced server-side).
 
     recordCollectionResponse:
       type: object
@@ -492,50 +750,67 @@ components:
         classification:
           $ref: '#/components/schemas/wasteClassification'
 
-    # Drop-off event.
+    # Drop-off event — POST /transfers.
     #
-    # A single drop-off can cover one or more Movements delivered
-    # together at the same receiver site (multi-collection case).
-    # The Transfer ID minted here is the aggregation point — one
-    # Transfer ID, many Movement IDs possible.
-    #
-    # No GET in v1; updates use PUT against the Movement ID.
+    # A single drop-off can cover one or more Movements delivered together
+    # (multi-collection case). The Transfer ID minted here is the aggregation
+    # point — one Transfer ID, many Movement IDs possible. The drop-off place is
+    # a lighter, carrier-declared site model (`dropOff`); a receipt may not
+    # always follow. No GET in v1; updates use PUT against the Transfer ID.
 
     dropOffRequest:
       type: object
       required:
-        - dropOffDateTime
+        - apiCode
         - movementIds
-        - carrierDetails
+        - actualDateTimeDropOff
+        - carrier
+        - dropOff
       properties:
-        dropOffDateTime:
+        apiCode:
           type: string
-          format: date-time
-          description: When the drop-off actually happened (not when the record was created).
+          format: uuid
+          description: |
+            Unique identifier of the submitting organisation (the carrier
+            recording the drop-off), produced by Waste Tracking Service
+            registration (D-027).
+          example: 25b14080-5e77-4f91-9957-2482a0cb8775
         movementIds:
           type: array
           minItems: 1
           items:
             $ref: '#/components/schemas/movementId'
           description: |
-            One or more Movement IDs delivered together at the same
-            receiver site. A multi-collection run with one drop-off
-            populates all collected Movements here. A simple
-            single-collection drop-off populates an array of one.
-        dropOffAddress:
-          $ref: '#/components/schemas/address'
-          description: |
-            Where the drop-off took place. Optional — typically the
-            receiver site associated with the Movements being delivered,
-            and may be derivable from those records.
-        carrierDetails:
-          $ref: '#/components/schemas/carrierDetails'
-          description: |
-            The carrier performing the drop-off. In multi-collection
-            cases this is one carrier delivering all the Movements
-            named in `movementIds`.
-        driverDetails:
-          $ref: '#/components/schemas/driverDetails'
+            One or more Movement IDs delivered together at the same drop-off
+            place. A single-collection run supplies an array of one; a
+            multi-collection run supplies every Movement delivered together.
+            Hazardous-waste constraint (D-010): if any referenced Movement
+            carries hazardous waste, exactly one Movement ID is permitted. This
+            depends on properties of the linked Movements not carried in the
+            body, so it is enforced server-side (see the endpoint description).
+        actualDateTimeDropOff:
+          type: string
+          format: date-time
+          description: Actual date and time the drop-off occurred — not the submission time. ISO 8601.
+          example: 2025-09-15T11:15:00Z
+        yourUniqueReference:
+          type: string
+          description: Caller's own reference for this drop-off event (e.g. a route sheet number).
+          example: DRIVER-RUN-AM-001
+        specialHandlingRequirements:
+          type: string
+          maxLength: 5000
+          description: Special handling instructions relevant to the drop-off event.
+        otherReferencesForMovement:
+          type: array
+          items:
+            $ref: '#/components/schemas/otherReferenceForMovement'
+        carrier:
+          allOf:
+            - $ref: '#/components/schemas/carrier'
+          description: Carrier performing the drop-off. Required (D-008); uses the full Phase 1 carrier shape.
+        dropOff:
+          $ref: '#/components/schemas/dropOffSite' 
 
     dropOffResponse:
       type: object
@@ -1425,19 +1700,23 @@ paths:
       tags: [Drop-off]
       summary: Record a drop-off
       description: |
-        Record a drop-off event at a receiver site. Mints a new
-        Transfer ID covering one or more Movement IDs delivered
-        together (carried in `movementIds`). In a single-collection run
-        `movementIds` is an array of one; in a multi-collection run it
-        carries every Movement being delivered.
+        Record a drop-off event. Mints a new Transfer ID covering one or more
+        Movement IDs delivered together (carried in `movementIds`). In a
+        single-collection run `movementIds` is an array of one; in a
+        multi-collection run it carries every Movement being delivered.
 
-        Hazardous waste cannot be aggregated across Movements: if any
-        Movement named in `movementIds` carries hazardous waste, the
-        request must contain exactly one Movement ID. Multi-Movement
-        drop-offs are permitted only when every linked Movement is
-        non-hazardous. This depends on properties of the linked Movements
-        that the request body does not carry, so it is enforced
-        server-side; a violation returns 400.
+        The drop-off place is a lighter, carrier-declared site model (`dropOff`)
+        — not necessarily an official receiver site, and possibly an exempt
+        place. A receipt event may not always follow a drop-off.
+
+        Hazardous waste cannot be aggregated across Movements (D-010): if any
+        Movement named in `movementIds` carries hazardous waste, the request
+        must contain exactly one Movement ID. Multi-Movement drop-offs are
+        permitted only when every linked Movement is non-hazardous. This depends
+        on properties of the linked Movements that the request body does not
+        carry, so it is enforced server-side and surfaced as a
+        BusinessRuleViolation in `validation.warnings` (it may harden to a 400
+        in a later revision).
       operationId: recordDropOff
       requestBody:
         required: true
@@ -1538,10 +1817,15 @@ paths:
         the `transferId` from the path is persisted on the stored receipt
         record. Replaces the deprecated `POST /movements/receive`.
 
-        Carrier and waste details on the receipt may be validated against
-        the linked drop-off; where they differ, the difference is returned
-        as an entry in `validation.warnings` rather than rejected. The exact
-        comparison rules are still being defined.
+        Waste details on the receipt may be cross-checked against the linked
+        Movement record — the classification declared at creation plus the
+        actual weights recorded at collection (D-006); the drop-off carries no
+        waste details and is not a source for the waste cross-check. Carrier
+        details may be cross-checked against the carrier on the Movement chain.
+        Where details differ, the difference is returned as an entry in
+        `validation.warnings` rather than rejected. The exact comparison rules
+        (including weight tolerance, since creation is an estimate and
+        collection an actual) are still being defined (D-021).
       operationId: recordReceipt
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
