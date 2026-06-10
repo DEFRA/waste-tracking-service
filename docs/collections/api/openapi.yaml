@@ -11,7 +11,6 @@ info:
     receivers, drivers, brokers, producers and software vendors. 
     All operational endpoints return a shared validation envelope 
     (ValidationResult) consistent with the Phase 1 Receipt API.
-
     This 0.2.0-alpha revision completes the Phase 2 data layer: the
     creation, collection and drop-off request bodies are now fully
     specified (replacing the earlier placeholders), aligned with the
@@ -19,18 +18,9 @@ info:
     The Phase 1 receipt schemas are preserved unchanged and extended
     alongside; shared primitives (weight, address, validationResult) are
     reused across both generations.
-
-    This specification is in alpha and is being developed alongside
-    User Research with carriers, receivers, drivers, brokers and
-    producers, and software vendors building on the API.
-
-    All operational endpoints return a shared validation envelope
-    (`validationResult`) consistent with the Phase 1 Receipt API.
-
 servers:
   - url: https://api.example.defra.gov.uk/dwt
     description: Placeholder server URL — replace with the real environment URL.
-
 tags:
   - name: Movement
     description: Create and manage a waste movement record.
@@ -44,14 +34,11 @@ tags:
     description: Producer-facing read-only query of a movement's status and outcome.
   - name: Reference data
     description: Lookup endpoints for codes used elsewhere in the API.
-
 components:
-
   # ----------------------------------------------------------------------
   # Reusable parameters
   # ----------------------------------------------------------------------
   parameters:
-
     movementIdPath:
       name: movementId
       in: path
@@ -59,7 +46,6 @@ components:
       description: Movement ID minted by `POST /movements`.
       schema:
         $ref: '#/components/schemas/movementId'
-
     transferIdPath:
       name: transferId
       in: path
@@ -67,7 +53,6 @@ components:
       description: Transfer ID minted by `POST /transfers`.
       schema:
         $ref: '#/components/schemas/transferId'
-
   # ----------------------------------------------------------------------
   # Schemas
   #
@@ -78,9 +63,7 @@ components:
   #   4. Request / response bodies per endpoint
   # ----------------------------------------------------------------------
   schemas:
-
     # --- 1. Identifiers and primitives ----------------------------------
-
     movementId:
       type: string
       description: |
@@ -89,7 +72,6 @@ components:
         externally-shared, year-prefixed sqids (YY + alphanumerics, see
         https://sqids.org/). Format is opaque to callers; do not parse.
       example: 25HRA0B2
-
     transferId:
       type: string
       description: |
@@ -99,14 +81,12 @@ components:
         year-prefixed sqids (YY + alphanumerics, see https://sqids.org/).
         Format is opaque to callers; do not parse.
       example: 25KMT4Z9
-
     # Internal event identifiers (creationId, collectionId, dropOffId,
     # receiptId) are UUIDs minted per event and used server-side only.
     # They are NOT part of the public contract and are never returned in
     # API responses, so they are not modelled here. Public resources are
     # addressed solely by their public identifiers: movementId and
     # transferId (and, on the deprecated Phase 1 path, wasteTrackingId).
-
     wasteTrackingId:
       type: string
       pattern: '^[A-Z]{2}[A-Z0-9]{6}$'
@@ -117,14 +97,11 @@ components:
         compatibility only. An 8-character sqid: a two-letter prefix
         followed by six alphanumeric characters.
       example: YY3F7K2Q
-
-
     # --- 2. Common composites -------------------------------------------
     #
     # The `address` schema lives with the Phase 1 schemas further down
     # (intentionally lowercase, single canonical shape across both
     # generations of the API).
-
     organisation:
       type: object
       required: [organisationName]
@@ -145,7 +122,6 @@ components:
             carriers or brokers.
         address:
           $ref: '#/components/schemas/address'
-
     notFoundError:
       type: object
       description: |
@@ -171,8 +147,6 @@ components:
         message:
           type: string
           example: No collection has been recorded for this movement yet.
-
-
     # --- 3. Domain entities ---------------------------------------------
     #
     # Precise Phase 2 entities, aligned with the documentation-side Joi
@@ -189,7 +163,6 @@ components:
     # waste classification (wasteItem, with its nested pops/hazardous and
     # optional disposalOrRecoveryCodes) are reused from the Phase 1 block
     # further down rather than redefined.
-
     otherReferenceForMovement:
       type: object
       required: [label, reference]
@@ -204,7 +177,6 @@ components:
           minLength: 1
           description: The reference value. Must be supplied together with its label.
           example: PO-98765
-
     addressWithFullAddress:
       type: object
       description: |
@@ -220,12 +192,10 @@ components:
           type: string
           description: Accepts UK postcodes and Irish Eircodes.
           example: TE1 2PQ
-
     producerDetails:
       type: object
       description: |
         Producer organisation and waste-source details, recorded at creation.
-
         Conditional requiredness is driven by `wasteSource` and enforced
         server-side:
         - `Commercial` — `organisationName`, `authorisationNumber` and `sicCode`
@@ -280,7 +250,6 @@ components:
           type: boolean
           description: Whether this movement is carried out by, or on behalf of, a council.
           example: false
-
     creationCarrierDetails:
       type: object
       description: |
@@ -331,7 +300,6 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/address'
-
     creationReceiverDetails:
       type: object
       description: |
@@ -360,7 +328,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/address'
           description: Receiver site address. Required (with fullAddress) when siteName is supplied.
-
     collectionSite:
       type: object
       description: Collection site details. The address is where the waste was physically collected, typically a producer site.
@@ -370,7 +337,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/addressWithFullAddress'
           description: Address where the waste was physically collected. Both fullAddress and postcode are required.
-
     dropOffSite:
       type: object
       description: |
@@ -392,7 +358,6 @@ components:
           example: WEX123456
         address:
           $ref: '#/components/schemas/addressWithFullAddress'
-
     collectionWasteItem:
       type: object
       description: |
@@ -407,7 +372,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/weight'
           description: Actual weight of this waste item at collection. Set isEstimate false when weighed; true for kerbside estimates.
-
     wasteClassification:
       type: object
       description: |
@@ -430,7 +394,6 @@ components:
           type: boolean
         containsPops:
           type: boolean
-
     driverDetails:
       type: object
       description: |
@@ -442,16 +405,12 @@ components:
       properties:
         name:
           type: string
-
-
     # --- 4. Request and response bodies per endpoint --------------------
-
     # POST /movements — single request shape (D-030: no discriminated union).
     # `carrier` is always required (D-008); `brokerOrDealer` is present only
     # when the movement is broker/dealer-initiated. `apiCode` identifies the
     # submitting organisation — at creation the initiator, carrier or broker
     # (D-027). Field names and shapes match the createMovement worked example.
-
     createMovementRequest:
       type: object
       required:
@@ -528,7 +487,6 @@ components:
             classification, with disposalOrRecoveryCodes optional — D-031). At
             creation, weights are typically estimates (weight.isEstimate true);
             actual weights are recorded at collection.
-
     createMovementResponse:
       type: object
       description: |
@@ -545,7 +503,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/validationResult'
-
     updateResponse:
       type: object
       description: |
@@ -560,7 +517,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/validationResult'
-
     # Collection event — POST /movements/{movementId}/collection.
     #
     # Records the physical pickup of waste at a producer site. The movementId
@@ -568,7 +524,6 @@ components:
     # captured here; the full classification stays on the Movement from creation.
     # Models static collection only (producer-to-driver); transit collection
     # (driver-to-driver) is parked pending BA confirmation (D-011, D-029).
-
     collectionRequest:
       type: object
       required:
@@ -625,7 +580,6 @@ components:
             Actual weights per waste item. One entry per waste item declared at
             creation, in the same positional order; the array length must equal
             the creation array length (D-032, enforced server-side).
-
     recordCollectionResponse:
       type: object
       description: |
@@ -641,7 +595,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/validationResult'
-
     movementResource:
       description: |
         A movement as stored. The create request body fields plus the
@@ -653,7 +606,6 @@ components:
             movementId:
               $ref: '#/components/schemas/movementId'
         - $ref: '#/components/schemas/createMovementRequest'
-
     dropOffResource:
       description: |
         A drop-off as stored. The request body fields plus the public
@@ -665,7 +617,6 @@ components:
             transferId:
               $ref: '#/components/schemas/transferId'
         - $ref: '#/components/schemas/dropOffRequest'
-
     receiptResource:
       description: |
         A receipt event as stored. The receipt request body fields (same
@@ -677,7 +628,6 @@ components:
             transferId:
               $ref: '#/components/schemas/transferId'
         - $ref: '#/components/schemas/receiveMovementRequest'
-
     # Fate of waste — producer-facing read-only projection.
     #
     # This is not the raw movement record. It is a curated subset of
@@ -686,7 +636,6 @@ components:
     # the input requirements: classification with versions, collection
     # and receipt dateTimes, anything mixed with at transit, and the
     # treatment codes applied at the receiver.
-
     fateOfWasteResponse:
       type: object
       description: |
@@ -739,7 +688,6 @@ components:
             Final disposal or recovery code, if different from the start
             code (e.g. waste was sent on for further treatment).
           example: D1
-
     wasteClassificationVersion:
       type: object
       description: |
@@ -753,7 +701,6 @@ components:
           description: Which point in the journey this snapshot is from.
         classification:
           $ref: '#/components/schemas/wasteClassification'
-
     # Drop-off event — POST /transfers.
     #
     # A single drop-off can cover one or more Movements delivered together
@@ -761,7 +708,6 @@ components:
     # point — one Transfer ID, many Movement IDs possible. The drop-off place is
     # a lighter, carrier-declared site model (`dropOff`); a receipt may not
     # always follow. No GET in v1; updates use PUT against the Transfer ID.
-
     dropOffRequest:
       type: object
       required:
@@ -815,7 +761,6 @@ components:
           description: Carrier performing the drop-off. Required (D-008); uses the full Phase 1 carrier shape.
         dropOff:
           $ref: '#/components/schemas/dropOffSite' 
-
     dropOffResponse:
       type: object
       description: |
@@ -832,7 +777,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/validationResult'
-
     # ------------------------------------------------------------------
     # Phase 1 schemas, preserved verbatim.
     # Lowercase naming distinguishes them from the PascalCase schemas
@@ -1263,8 +1207,8 @@ components:
         code:
           type: string
           description: |
-             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes (Recovery (R) and Disposal (D)) serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
-             
+             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes (Recovery (R) and Disposal (D)) serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, 
+             they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
                <p><b>Notes:</b> 
                <ul>
                - The field is case-sensitive, please use the case specified for the code returned by the GET method.<br>
@@ -1353,7 +1297,6 @@ components:
             <p><font color="green"><b>Business Rule:</b></font></p> 
             Must be in specified receiptAddress.postcode format.
           example: W12 7ZL
-
   # ----------------------------------------------------------------------
   # Reusable request bodies (Phase 1)
   # ----------------------------------------------------------------------
@@ -1490,7 +1433,6 @@ components:
                 $ref: "#/components/schemas/receiver"
               receipt:
                 $ref: "#/components/schemas/receipt"
-
   # ----------------------------------------------------------------------
   # Reusable responses
   # ----------------------------------------------------------------------
@@ -1510,12 +1452,10 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/validationResult'
-
 # ======================================================================
 # Paths
 # ======================================================================
 paths:
-
   /movements:
     post:
       tags: [Movement]
@@ -1543,7 +1483,6 @@ paths:
                 $ref: '#/components/schemas/createMovementResponse'
         "400":
           $ref: '#/components/responses/400'
-
   /movements/{movementId}:
     parameters:
       - $ref: '#/components/parameters/movementIdPath'
@@ -1599,7 +1538,6 @@ paths:
           description: Movement deleted.
         "404":
           description: Movement not found.
-
   /movements/{movementId}/collection:
     parameters:
       - $ref: '#/components/parameters/movementIdPath'
@@ -1698,7 +1636,6 @@ paths:
           description: Collection deleted.
         "404":
           description: Movement or collection not found.
-
   /transfers:
     post:
       tags: [Drop-off]
@@ -1708,11 +1645,9 @@ paths:
         Movement IDs delivered together (carried in `movementIds`). In a
         single-collection run `movementIds` is an array of one; in a
         multi-collection run it carries every Movement being delivered.
-
         The drop-off place is a lighter, carrier-declared site model (`dropOff`)
         — not necessarily an official receiver site, and possibly an exempt
         place. A receipt event may not always follow a drop-off.
-
         Hazardous waste cannot be aggregated across Movements (D-010): if any
         Movement named in `movementIds` carries hazardous waste, the request
         must contain exactly one Movement ID. Multi-Movement drop-offs are
@@ -1737,7 +1672,6 @@ paths:
                 $ref: '#/components/schemas/dropOffResponse'
         "400":
           $ref: '#/components/responses/400'
-
   /transfers/{transferId}:
     parameters:
       - $ref: '#/components/parameters/transferIdPath'
@@ -1794,7 +1728,6 @@ paths:
           description: Drop-off deleted.
         "404":
           description: Transfer not found.
-
   # ----------------------------------------------------------------------
   # Phase 2 receipt endpoint — canonical.
   #
@@ -1806,7 +1739,6 @@ paths:
   # record. The receipt identifier returned is the Phase 1 wasteTrackingId
   # (now an 8-char sqid, semantically the receiptId).
   # ----------------------------------------------------------------------
-
   /transfers/{transferId}/receipt:
     parameters:
       - $ref: '#/components/parameters/transferIdPath'
@@ -1820,7 +1752,6 @@ paths:
         body is the same shape as the Phase 1 `/movements/receive` payload;
         the `transferId` from the path is persisted on the stored receipt
         record. Replaces the deprecated `POST /movements/receive`.
-
         Waste details on the receipt may be cross-checked against the linked
         Movement record — the classification declared at creation plus the
         actual weights recorded at collection (D-006); the drop-off carries no
@@ -1930,7 +1861,6 @@ paths:
           description: Receipt deleted.
         "404":
           description: Transfer or receipt not found.
-
   # ----------------------------------------------------------------------
   # Phase 1 receipt endpoints — DEPRECATED.
   #
@@ -1941,7 +1871,6 @@ paths:
   # keep their
   # lowercase naming (validationResult, wasteReceiver, etc.) as published.
   # ----------------------------------------------------------------------
-
   /movements/receive:
     post:
       tags: [Receipt]
@@ -2027,11 +1956,9 @@ paths:
           $ref: "#/components/responses/400"
         "404":
           description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
-
   # ----------------------------------------------------------------------
   # Producer-facing read-only query.
   # ----------------------------------------------------------------------
-
   /movements/{movementId}/fate-of-waste:
     parameters:
       - $ref: '#/components/parameters/movementIdPath'
@@ -2044,7 +1971,6 @@ paths:
         across stages (planned, collected, received), collection and
         receipt dateTimes, any other waste types mixed in during
         transit, and the treatment codes applied at the receiver.
-
         This endpoint exposes no operational data beyond what the
         producer needs — no carrier identity, no internal event IDs,
         no validation envelopes.
@@ -2058,7 +1984,6 @@ paths:
                 $ref: '#/components/schemas/fateOfWasteResponse'
         "404":
           description: Movement not found.
-
   /reference-data/ewc-codes:
     get:
       tags: [Reference data]
@@ -2092,7 +2017,6 @@ paths:
               "subChapter": "Wastes from mineral excavation",
               "description": "Wastes from mineral non-metalliferous excavation"
             }, ... cont
-
             ```
             The response fields: "isHazardous", "entryTypeDescription", "chapter" and "subChapter" correspond directly to the hierarchical structure of the waste classification system for EWC codes.<br><br>
             <p><b>isHazardous</b><br>
@@ -2171,7 +2095,6 @@ paths:
               "shortDesc": "Oxidizing",
               "longDesc": "Waste that can provide oxygen, causing or contributing to the combustion of other materials."
             }, ... cont
-
             ```
             The response fields: "shortDesc" and "longDesc" <br><br>
             <p><b>shortDesc</b> (Short Description)<br><br>
@@ -2273,7 +2196,6 @@ paths:
         "200": 
           description: |
             A truncated list of container type codes obtained using the GET container-types method<br><br>
-            
             Success
             ```json
             [
