@@ -4,9 +4,9 @@ info:
   title: Digital Waste Tracking API
   version: 0.2.0-alpha
   description: |
-    Extension of the Phase 1 Receipt of Waste API toward a fuller
-    waste-movement journey covering creation, collection, drop-off,
-    receipt and producer tracking.
+    This specification is an extension of the Phase 1 Receipt of Waste API. It completes the waste-movement journey by covering creation, 
+    collection, drop-off, receipt and producer tracking. This specification is in alpha and is being developed alongside user research with carriers, receivers, drivers, brokers, producers and software vendors. All operational endpoints return a shared validation envelope 
+    (ValidationResult) consistent with the Phase 1 Receipt API.
 
     This 0.2.0-alpha revision completes the Phase 2 data layer: the
     creation, collection and drop-off request bodies are now fully
