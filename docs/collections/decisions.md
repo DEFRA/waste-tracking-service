@@ -563,6 +563,57 @@ addressed through any Movement. `PUT /transfers/{transferId}` updates the
 single shared Transfer covering all its `movementIds`; there is no
 per-Movement view. (See *Level 2 resource model*.)
 
+<a id="d-031"></a>
+### Disposal/recovery codes optional at Creation
+
+**D-031** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006), [D-020](#d-020)
+
+**Context.** `wasteItems[].disposalOrRecoveryCodes` is the treatment
+outcome — what the receiver does with the waste (R-codes for recovery,
+D-codes for disposal). An early Creation draft made the array required
+(`min(1)`) per waste item, which is stricter than the live Receipt
+contract, where the same field is optional.
+
+**Decision.** Optional at Creation. At Creation the codes represent an
+*intended / planned* treatment at most; the authoritative treatment
+outcome is determined by the receiver and recorded at Receipt. This also
+restores parity with the Phase 1 Receipt model (where the field is
+optional) and avoids forcing the planning party to assert a treatment it
+cannot yet know.
+
+**Consequences.** Creation `wasteItems` may carry `disposalOrRecoveryCodes`
+when an intended treatment is known, but validation does not require it.
+Receipt remains the source of truth for treatment. Feeds the treatment-code
+split question ([D-020](#d-020)): a planned code at Creation is not the
+same as `startTreatmentCode`/`finalTreatmentCode` derived at Receipt.
+
+<a id="d-032"></a>
+### Collection waste items align 1:1 by position with Creation
+
+**D-032** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006), [D-015](#d-015)
+
+**Context.** The Collection event records *actual weights only* — full
+waste classification (EWC codes, description, containers, haz/POPs) lives
+on the Movement from Creation and is not repeated at Collection. The
+Collection `wasteItems` array therefore needs a way to map each weight back
+to the waste item it updates. There is no per-item identifier in the model.
+
+**Decision.** Map by array position. The Collection `wasteItems` array must
+contain exactly one entry per waste item declared at Creation, in the same
+order; entry *n* at Collection updates the actual weight of waste item *n*
+from Creation. To make this enforceable, **the Collection `wasteItems`
+length must equal the Creation `wasteItems` length** — a length mismatch is
+a validation error, not a warning.
+
+**Consequences.** Vendors must preserve waste-item ordering between their
+Creation and Collection calls; reordering silently misattributes weights,
+and the length check is the only structural guard. The length-equality rule
+is data-dependent (it compares against the stored Movement) so it is
+enforced server-side, not expressible in the standalone request schema. If
+this positional contract proves fragile in vendor UR, revisit by adding a
+stable per-item identifier minted at Creation and echoed at Collection —
+recorded here so the trade-off is visible rather than assumed.
+
 ## Open
 
 <a id="d-018"></a>
@@ -793,54 +844,3 @@ broker-initiated creation was drafted then dropped in favour of a
 single request body with `brokerDetails` optional. The discriminated
 union may come back later if it makes the contract clearer for vendors,
 but is not a v1 priority.
-
-<a id="d-031"></a>
-### Disposal/recovery codes optional at Creation
-
-**D-031** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006), [D-020](#d-020)
-
-**Context.** `wasteItems[].disposalOrRecoveryCodes` is the treatment
-outcome — what the receiver does with the waste (R-codes for recovery,
-D-codes for disposal). An early Creation draft made the array required
-(`min(1)`) per waste item, which is stricter than the live Receipt
-contract, where the same field is optional.
-
-**Decision.** Optional at Creation. At Creation the codes represent an
-*intended / planned* treatment at most; the authoritative treatment
-outcome is determined by the receiver and recorded at Receipt. This also
-restores parity with the Phase 1 Receipt model (where the field is
-optional) and avoids forcing the planning party to assert a treatment it
-cannot yet know.
-
-**Consequences.** Creation `wasteItems` may carry `disposalOrRecoveryCodes`
-when an intended treatment is known, but validation does not require it.
-Receipt remains the source of truth for treatment. Feeds the treatment-code
-split question ([D-020](#d-020)): a planned code at Creation is not the
-same as `startTreatmentCode`/`finalTreatmentCode` derived at Receipt.
-
-<a id="d-032"></a>
-### Collection waste items align 1:1 by position with Creation
-
-**D-032** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006), [D-015](#d-015)
-
-**Context.** The Collection event records *actual weights only* — full
-waste classification (EWC codes, description, containers, haz/POPs) lives
-on the Movement from Creation and is not repeated at Collection. The
-Collection `wasteItems` array therefore needs a way to map each weight back
-to the waste item it updates. There is no per-item identifier in the model.
-
-**Decision.** Map by array position. The Collection `wasteItems` array must
-contain exactly one entry per waste item declared at Creation, in the same
-order; entry *n* at Collection updates the actual weight of waste item *n*
-from Creation. To make this enforceable, **the Collection `wasteItems`
-length must equal the Creation `wasteItems` length** — a length mismatch is
-a validation error, not a warning.
-
-**Consequences.** Vendors must preserve waste-item ordering between their
-Creation and Collection calls; reordering silently misattributes weights,
-and the length check is the only structural guard. The length-equality rule
-is data-dependent (it compares against the stored Movement) so it is
-enforced server-side, not expressible in the standalone request schema. If
-this positional contract proves fragile in vendor UR, revisit by adding a
-stable per-item identifier minted at Creation and echoed at Collection —
-recorded here so the trade-off is visible rather than assumed.
