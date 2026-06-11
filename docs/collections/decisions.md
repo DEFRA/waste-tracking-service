@@ -38,7 +38,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-006 | [Cross-check of receipt details against the linked drop-off](#cross-check-of-receipt-details-against-the-linked-drop-off) | ✅ Decided | 🟠 Medium | **Receipt** |
 | D-008 | [Carrier always required; broker optional](#carrier-always-required-broker-optional) | ✅ Decided | 🟠 Medium | **Actors** |
 | D-010 | [Hazardous waste cannot be merged across Movements at drop-off](#hazardous-waste-cannot-be-merged-across-movements-at-drop-off) | ✅ Decided | 🟠 Medium | **Drop-off** |
-| D-014 | [Sub-resource reads return 404 until the event is recorded](#sub-resource-reads-return-404-until-the-event-is-recorded) | ✅ Decided | 🟠 Medium | **Lifecycle** |
+| D-014 | [Sub-resource 404 shape: parent-not-found vs event-not-recorded](#sub-resource-404-shape-parent-not-found-vs-event-not-recorded) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-031 | [Disposal/recovery codes optional at Creation](#disposalrecovery-codes-optional-at-creation) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-032 | [Collection waste items align 1:1 by position with Creation](#collection-waste-items-align-11-by-position-with-creation) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | ✅ Decided | 🟢 Low | **Spec structure** |
@@ -49,16 +49,15 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-022 | [Receipt migration: new endpoint vs extend Phase 1](#receipt-migration-new-endpoint-vs-extend-phase-1) | ⏳ Open | 🔴 High | **Receipt** |
 | D-025 | [Receipt acceptance / rejection outcome (new in Phase 2)](#receipt-acceptance-rejection-outcome-new-in-phase-2) | ⏳ Open | 🔴 High | **Receipt** |
 | D-018 | [Drop-off address derivability](#drop-off-address-derivability) | ⏳ Open | 🟠 Medium | **Drop-off** |
-| D-019 | [Fate-of-waste timestamps in multi-event scenarios](#fate-of-waste-timestamps-in-multi-event-scenarios) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
-| D-020 | [Treatment code split](#treatment-code-split) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
+| D-019 | [Fate-of-waste GET — producer journey query (proposal)](#fate-of-waste-get-producer-journey-query-proposal) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
 | D-021 | [Cross-check granularity](#cross-check-granularity) | ⏳ Open | 🟠 Medium | **Receipt** |
 | D-023 | [Phase 1 receipt endpoint deprecation timeline](#phase-1-receipt-endpoint-deprecation-timeline) | ⏳ Open | 🟠 Medium | **Receipt** |
 | D-024 | [`wasteTrackingId` ↔ `movementId` reconciliation](#wastetrackingid-movementid-reconciliation) | ⏳ Open | 🟠 Medium | **Identifiers** |
-| D-026 | [Onward movement](#onward-movement) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
 | D-027 | [Per-organisation vs per-actor API credentials](#per-organisation-vs-per-actor-api-credentials) | ⏳ Open | 🟠 Medium | **Onboarding** |
 | D-028 | [Pre-generated Transfer IDs for offline drivers](#pre-generated-transfer-ids-for-offline-drivers) | ⏳ Open | 🟠 Medium | **Identifiers** |
 | D-029 | [Transit collection (driver-to-driver) — parked](#transit-collection-driver-to-driver-parked) | ⏸️ Parked | 🟢 Low | **Collection** |
 | D-030 | [Carrier-vs-broker discriminated union on `POST /movements`](#carrier-vs-broker-discriminated-union-on-post-movements) | ⏸️ Parked | 🟢 Low | **Actors** |
+| D-033 | [Per-event GET endpoints — parked](#per-event-get-endpoints-parked) | ⏸️ Parked | 🟢 Low | **Lifecycle** |
 
 ## Decided
 
@@ -371,9 +370,8 @@ deferred to the migration strategy (see Open).
 The four placeholder ID schemas are removed from `components.schemas`;
 internal event IDs survive only as a documentation comment. There is no
 dedicated collection resource schema and no public collection ID — the
-collection is addressed through its parent Movement
-(`GET /movements/{movementId}/collection`), and `getCollection` returns the
-collection event itself.
+collection is addressed through its parent Movement via the sub-resource
+path defined in [D-033](#d-033).
 
 Vendors track two values per journey: Movement ID (durable, addresses a
 Movement) and Transfer ID (addresses a drop-off across one or more
@@ -422,36 +420,37 @@ Two follow-ups this surfaces, for the data/spec pass:
   the same string) is a server concern to confirm.
 
 <a id="d-014"></a>
-### Sub-resource reads return 404 until the event is recorded
+### Sub-resource 404 shape: parent-not-found vs event-not-recorded
 
-**D-014** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-015](#d-015)
+**D-014** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-015](#d-015), [D-033](#d-033)
 
 **Context.** Collection and receipt are 1:1 sub-resources that come into
-existence later than their parent: a Movement exists from creation but is
-not collected until later, and a Transfer is minted at drop-off but not
-received until later. So `GET /movements/{movementId}/collection` and
-`GET /transfers/{transferId}/receipt` each have a window where the parent
-exists but the sub-resource does not.
+existence later than their parent: a Movement exists from creation but has
+no collection until one is recorded, and a Transfer is minted at drop-off
+but has no receipt until one is recorded. `POST` and `PUT` operations on
+these sub-resource paths can fail with a 404 for two distinct reasons: the
+parent identifier is wrong (the parent record does not exist), or the
+parent exists but the event has not been recorded yet (relevant to `PUT`,
+which requires a prior `POST`).
 
-**Decision.** The sub-resource is addressed purely by its parent ID in the
-URL and returns `200` with the event once recorded, `404` until then —
-the conventional REST shape for an absent sub-resource (preferred over a
-`200` with a "pending" status or a `204`). The `404` carries a
-`notFoundError` body whose `code` distinguishes two cases: the parent is
-missing (`MOVEMENT_NOT_FOUND` / `TRANSFER_NOT_FOUND`) versus the parent
-exists but the event is not recorded yet (`COLLECTION_NOT_RECORDED` /
-`RECEIPT_NOT_RECORDED`). The same applies to the `PUT` updates. Single
-resources (`getMovement`, `getDropOff`) have no such window and keep a
-plain `404`. The `DELETE` operations are left untouched as
-`x-stability: proposal` pending the deletion decision.
+**Decision.** Sub-resource operations return a `notFoundError` body on 404,
+whose `code` field distinguishes the two cases:
 
-**Consequences.** A polling client — the likely consumer, waiting for a
-collection or receipt to appear — can tell a wrong identifier (stop) from
-an event that simply has not happened yet (keep polling). This is the
-minimal resolution of the earlier `CollectionResource` question: no
-dedicated collection resource schema and no public collection ID. The
-collection read still returns the `collectionRequest` shape; splitting it
-into a separate read schema remains an option for later.
+- `MOVEMENT_NOT_FOUND` / `TRANSFER_NOT_FOUND` — the parent does not
+  exist. Applies to `POST` and `PUT` on sub-resource paths (and to `GET`
+  when reinstated — see [D-033](#d-033)).
+- `COLLECTION_NOT_RECORDED` / `RECEIPT_NOT_RECORDED` — the parent exists
+  but the event has not been recorded yet. Applies to `PUT` only (call
+  `POST` first); also to `GET` when reinstated.
+
+Top-level single resources (`/movements/{movementId}`,
+`/transfers/{transferId}`) have only one way to be missing and keep a
+plain `404` with no distinguishing code.
+
+**Consequences.** Callers can tell a wrong identifier (stop, fix the ID)
+from a missing sub-event (for `POST` callers: the parent does not exist;
+for `PUT` callers: record the event with `POST` first). The
+`notFoundError` schema is shared across all four event sub-resource paths.
 
 <a id="d-015"></a>
 ### Movement ↔ Collection and Transfer ↔ Receipt are 1:1
@@ -483,11 +482,10 @@ each Transfer has exactly one Receipt event. The relationships are
   (see Open).
 
 **Consequences.** This is the structural assumption underlying the
-Level 2 restructure. The endpoint `GET /movements/{movementId}/collection`
-returns a single Collection record, not a list. The endpoint
-`GET /transfers/{transferId}/receipt` returns a single Receipt record.
-Multi-collection journeys correspond to multiple Movements aggregated
-at the drop-off; multi-drop-off journeys correspond to a driver minting
+Level 2 restructure. Each sub-resource endpoint addresses a single event
+record, not a list — see [D-033](#d-033) for the parked read definitions.
+Multi-collection journeys correspond to multiple Movements aggregated at
+the drop-off; multi-drop-off journeys correspond to a driver minting
 multiple Transfer IDs in one run.
 
 <a id="d-016"></a>
@@ -518,19 +516,13 @@ The journey was:
 - Individual resources: `/movements/{movementId}`, `/transfers/{transferId}`.
 - Sub-resources are singular (1:1): `/movements/{movementId}/collection`,
   `/transfers/{transferId}/receipt`.
-- HTTP methods carry the action: `POST` creates, `GET` reads,
-  `PUT` updates.
+- HTTP methods carry the action: `POST` creates, `PUT` updates.
 - `operationId`s stay verb-shaped (`createMovement`, `recordCollection`,
   `recordDropOff`, `recordReceipt`, etc.) — they describe the business
   event and remain stable across URL changes.
 
 **Consequences.** Substantial spec restructure (all path keys changed
-except the reference data GETs and `fate-of-waste`). GETs become
-cacheable; reads can be served by CDN, proxy, browser, client-side
-cache. Each event becomes an addressable resource with its own
-endpoint. The fate-of-waste endpoint is kept as a deliberate
-projection for the producer-facing view, alongside the resource-level
-GETs.
+except the reference data endpoints).
 
 Movement ID and Transfer ID remain the only public IDs. Per-event IDs
 (`creationId`, `collectionId`, etc.) stay internal to the server. The
@@ -566,7 +558,7 @@ per-Movement view. (See *Level 2 resource model*.)
 <a id="d-031"></a>
 ### Disposal/recovery codes optional at Creation
 
-**D-031** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006), [D-020](#d-020)
+**D-031** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006), [D-019](#d-019)
 
 **Context.** `wasteItems[].disposalOrRecoveryCodes` is the treatment
 outcome — what the receiver does with the waste (R-codes for recovery,
@@ -584,7 +576,7 @@ cannot yet know.
 **Consequences.** Creation `wasteItems` may carry `disposalOrRecoveryCodes`
 when an intended treatment is known, but validation does not require it.
 Receipt remains the source of truth for treatment. Feeds the treatment-code
-split question ([D-020](#d-020)): a planned code at Creation is not the
+split question ([D-019](#d-019)): a planned code at Creation is not the
 same as `startTreatmentCode`/`finalTreatmentCode` derived at Receipt.
 
 <a id="d-032"></a>
@@ -632,38 +624,48 @@ drop-off location may diverge from the estimate. No assumption made on
 mandatory/optional/removed — pending BA input.
 
 <a id="d-019"></a>
-### Fate-of-waste timestamps in multi-event scenarios
+### Fate-of-waste GET — producer journey query (proposal)
 
 **D-019** · ⏳ Open · Impact: 🟠 Medium · Area: **Fate-of-waste**
 
-`fateOfWasteResponse` carries scalar `collectionDateTime` and
-`receiptDateTime`. The spec takes a provisional position: in
-multi-collection runs `collectionDateTime` is the **earliest** collection
-("when did my waste leave my site"), and in multi-drop-off scenarios
-`receiptDateTime` is the **final** receipt. So the working answer is
-scalar-with-a-rule, not arrays. Open: confirm with the BA that
-earliest-collection / final-receipt is what the producer should see, or
-whether a producer needs the full list of timestamps (which would make
-these arrays). The `collectionDateTime` description already flags this as
-subject to BA confirmation.
+**Context.** A producer passes their Movement ID to a carrier and cannot
+record any of the four journey events themselves. A fate-of-waste endpoint
+gives producers a read-only window onto what happened to their waste: what
+was collected, when, where it ended up, and how it was treated. The
+Movement ID is the natural and unique key for this query — it is the
+producer's only persistent reference to the journey, and uniquely
+identifies a single waste movement across all four events.
 
-<a id="d-020"></a>
-### Treatment code split
+**Current state.** `GET /movements/{movementId}/fate-of-waste` exists in
+the spec marked `x-stability: proposal`. The response schema has been
+stripped: the endpoint URL and `movementId` as the lookup key are
+considered stable; what the endpoint returns is not yet defined, pending
+resolution of the questions below.
 
-**D-020** · ⏳ Open · Impact: 🟠 Medium · Area: **Fate-of-waste** · Related: [D-026](#d-026)
+**Open questions — to confirm with BA and policy team:**
 
-`fateOfWasteResponse` exposes two scalar codes, `startTreatmentCode` and
-`finalTreatmentCode`. The receipt captures `wasteItems[].disposalOrRecoveryCodes`
-— an array of `{ code, weight }` recorded at receipt — so `startTreatmentCode`
-can be derived from that. `finalTreatmentCode` has no source in the current
-model: its description ties it to waste "sent on for further treatment",
-i.e. onward movement, which is not modelled and is itself an open question
-(see *Onward movement* below). Open: whether `finalTreatmentCode` is a
-distinct value recorded at a later treatment stage (requiring onward
-movement to be in scope), or a single code updated as treatment progresses,
-or summarised from the receipt's weighted code list. Coupled to the
-onward-movement decision — likely can't be resolved before it. Pending
-data-model work.
+1. **Timestamp cardinality.** Does the producer see a single
+   `collectionDateTime` (e.g. earliest collection across multi-collection
+   runs) and a single `receiptDateTime` (e.g. final receipt across
+   multi-drop-off scenarios)? Or arrays of timestamps? The provisional
+   model was scalar-with-a-rule; needs BA confirmation.
+
+2. **Treatment code source and shape.** `startTreatmentCode` can be
+   derived from the receipt's `wasteItems[].disposalOrRecoveryCodes`
+   array. `finalTreatmentCode` has no source in the current model — it
+   implies onward movement (see question 3). Confirm: is treatment
+   outcome a single derivable code, a summary across the weighted list,
+   or not surfaced until onward movement is in scope?
+
+3. **Onward movement scope.** When waste is accepted at a transfer station
+   and moved on to a treatment facility, does that second leg fall within
+   v1 scope? `finalTreatmentCode` cannot be defined until this is
+   answered. Likely out of scope for v1 — confirm with policy team.
+
+4. **Projection scope.** What fields should the producer see beyond
+   identifiers and timestamps? Waste classification at each stage?
+   Receiver site name? Carrier identity? To be defined once policy intent
+   is clear.
 
 <a id="d-021"></a>
 ### Cross-check granularity
@@ -703,9 +705,8 @@ Linking is structural — the `transferId` is a mandatory path parameter, so
 a new-flow receipt cannot be recorded without a Transfer, and the
 cross-check against the linked drop-off is unconditional. Fits the Level 2
 model already adopted: receipt is a 1:1 sub-resource of Transfer with a
-cacheable, addressable `GET /transfers/{transferId}/receipt`. Cost: two
-receipt endpoints coexist through the transition, the GET-receipt path is
-split (by `transferId` for new, `wasteTrackingId` for legacy), and Phase 1
+cacheable, addressable read endpoint (see [D-033](#d-033)). Cost: two
+receipt endpoints coexist through the transition, and Phase 1
 can't be fully retired until receivers record drop-offs.
 
 **Option 2.** Do not add the new endpoint; keep `/movements/receive` and
@@ -777,17 +778,6 @@ to the rejected portion). Undecided; needs policy-team input. Structurally,
 whatever is chosen sits on the single Receipt, not on a split Movement
 (see the 1:1 decision).
 
-<a id="d-026"></a>
-### Onward movement
-
-**D-026** · ⏳ Open · Impact: 🟠 Medium · Area: **Fate-of-waste** · Related: [D-020](#d-020)
-
-The diagram doesn't model what happens when waste is accepted at a transfer
-station and then onward-moved to a treatment facility. May be deliberately
-out of scope for v1; worth confirming. Coupled to the *Treatment code
-split* question — `finalTreatmentCode` has no source unless onward movement
-is modelled.
-
 <a id="d-027"></a>
 ### Per-organisation vs per-actor API credentials
 
@@ -844,3 +834,30 @@ broker-initiated creation was drafted then dropped in favour of a
 single request body with `brokerDetails` optional. The discriminated
 union may come back later if it makes the contract clearer for vendors,
 but is not a v1 priority.
+
+<a id="d-033"></a>
+### Per-event GET endpoints — parked
+
+**D-033** · ⏸️ Parked · Impact: 🟢 Low · Area: **Lifecycle** · Related: [D-014](#d-014), [D-016](#d-016)
+
+Following BA discussion, the four per-event GET operations have been
+removed from `openapi.yaml` and deferred to a future iteration:
+
+- `GET /movements/{movementId}` (`getMovement`)
+- `GET /movements/{movementId}/collection` (`getCollection`)
+- `GET /transfers/{transferId}` (`getDropOff`)
+- `GET /transfers/{transferId}/receipt` (`getReceipt`)
+
+The Level 2 resource paths and HTTP method structure ([D-016](#d-016)) are
+unchanged — `POST` and `PUT` operations on all four event paths remain.
+The GETs are absent because their response schemas and projection scope
+are not yet agreed; they will be defined in a future iteration.
+
+The `notFoundError` shape and distinguishing error codes
+(`MOVEMENT_NOT_FOUND`, `COLLECTION_NOT_RECORDED`, `TRANSFER_NOT_FOUND`,
+`RECEIPT_NOT_RECORDED`) from [D-014](#d-014) remain active in the spec for
+`POST` and `PUT` responses on sub-resource paths.
+
+**Note.** `GET /movements/{movementId}/fate-of-waste` (`getFateOfWaste`)
+is the producer-facing read-only projection — it is a separate concern
+and is **not** parked.

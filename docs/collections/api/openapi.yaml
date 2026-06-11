@@ -2,13 +2,13 @@ openapi: 3.0.3
 
 info:
   title: Digital Waste Tracking API
-  version: 0.2.0-alpha
+  version: 0.2.1-alpha
   description: |
     Extension of the Phase 1 Receipt of Waste API toward a fuller
     waste-movement journey covering creation, collection, drop-off,
     receipt and producer tracking.
 
-    This 0.2.0-alpha revision completes the Phase 2 data layer: the
+    This 0.2.1-alpha revision completes the Phase 2 data layer: the
     creation, collection and drop-off request bodies are now fully
     specified (replacing the earlier placeholders), aligned with the
     documentation-side Joi schemas, TypeScript types and worked examples.
@@ -404,29 +404,6 @@ components:
             - $ref: '#/components/schemas/weight'
           description: Actual weight of this waste item at collection. Set isEstimate false when weighed; true for kerbside estimates.
 
-    wasteClassification:
-      type: object
-      description: |
-        Summary classification of waste at a point in the journey. Read-only
-        projection used by the producer-facing fate-of-waste response — a
-        subset of the full wasteItem classification, without operational detail.
-      properties:
-        ewcCodes:
-          type: array
-          items:
-            type: string
-          example: ['200121']
-        wasteDescription:
-          type: string
-          example: Fluorescent tubes and other mercury-containing waste
-        physicalForm:
-          type: string
-          enum: [Gas, Liquid, Solid, Powder, Sludge, Mixed]
-        containsHazardous:
-          type: boolean
-        containsPops:
-          type: boolean
-
     driverDetails:
       type: object
       description: |
@@ -673,82 +650,6 @@ components:
             transferId:
               $ref: '#/components/schemas/transferId'
         - $ref: '#/components/schemas/receiveMovementRequest'
-
-    # Fate of waste — producer-facing read-only projection.
-    #
-    # This is not the raw movement record. It is a curated subset of
-    # fields focused on the journey outcome, shown to the producer who
-    # initiated (or was named on) the movement. Field selection follows
-    # the input requirements: classification with versions, collection
-    # and receipt dateTimes, anything mixed with at transit, and the
-    # treatment codes applied at the receiver.
-
-    fateOfWasteResponse:
-      type: object
-      description: |
-        Producer-facing summary of a movement's outcome. All fields are
-        read-only; this endpoint exposes no operational data (carrier
-        details, internal IDs etc.) beyond what the producer needs.
-      properties:
-        movementId:
-          $ref: '#/components/schemas/movementId'
-        wasteClassificationVersions:
-          type: array
-          description: |
-            Classification of the waste at each stage of the journey.
-            Typically: as planned at creation, as observed at collection,
-            and as received. Stages with no recorded change may be omitted.
-          items:
-            $ref: '#/components/schemas/wasteClassificationVersion'
-        collectionDateTime:
-          type: string
-          format: date-time
-          description: |
-            When the waste was collected. For multi-collection runs, the
-            value reported here is the earliest collection — the producer's
-            view of "when did my waste leave my site". Subject to
-            confirmation with the BA.
-        receiptDateTime:
-          type: string
-          format: date-time
-          description: |
-            When the waste was received at its final receiver. For
-            multi-drop-off scenarios, the final receipt timestamp.
-        otherWasteMixedWith:
-          type: array
-          description: |
-            Other waste types this load was combined with during transit
-            (multi-collection cases). Detail is deliberately limited —
-            producers see what their waste was mixed with by classification,
-            but not whose waste it was.
-          items:
-            $ref: '#/components/schemas/wasteClassification'
-        startTreatmentCode:
-          type: string
-          description: |
-            Initial disposal or recovery code applied at the receiver site.
-            See `/reference-data/disposal-or-recovery-codes`.
-          example: R3
-        finalTreatmentCode:
-          type: string
-          description: |
-            Final disposal or recovery code, if different from the start
-            code (e.g. waste was sent on for further treatment).
-          example: D1
-
-    wasteClassificationVersion:
-      type: object
-      description: |
-        A snapshot of waste classification at a specific stage of the
-        journey, with a label indicating which stage.
-      required: [stage, classification]
-      properties:
-        stage:
-          type: string
-          enum: [planned, collected, received]
-          description: Which point in the journey this snapshot is from.
-        classification:
-          $ref: '#/components/schemas/wasteClassification'
 
     # Drop-off event — POST /transfers.
     #
@@ -1543,20 +1444,6 @@ paths:
   /movements/{movementId}:
     parameters:
       - $ref: '#/components/parameters/movementIdPath'
-    get:
-      tags: [Movement]
-      summary: Get a waste movement
-      description: Returns the movement identified by its Movement ID.
-      operationId: getMovement
-      responses:
-        "200":
-          description: The movement.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/movementResource'
-        "404":
-          description: Movement not found.
     put:
       tags: [Movement]
       summary: Update a waste movement
@@ -1579,20 +1466,6 @@ paths:
                 $ref: '#/components/schemas/updateResponse'
         "400":
           $ref: '#/components/responses/400'
-        "404":
-          description: Movement not found.
-    delete:
-      tags: [Movement]
-      summary: Delete a waste movement (proposal)
-      description: |
-        PROPOSAL — deletion rules pending BA confirmation (when may a
-        Movement be deleted?). Deletes the movement identified by its
-        Movement ID.
-      operationId: deleteMovement
-      x-stability: proposal
-      responses:
-        "204":
-          description: Movement deleted.
         "404":
           description: Movement not found.
 
@@ -1626,29 +1499,6 @@ paths:
           $ref: '#/components/responses/400'
         "404":
           description: Movement not found.
-    get:
-      tags: [Collection]
-      summary: Get the collection for a movement
-      description: Returns the collection event recorded against the given Movement.
-      operationId: getCollection
-      responses:
-        "200":
-          description: The collection.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/collectionRequest'
-        "404":
-          description: |
-            Either the Movement does not exist (`MOVEMENT_NOT_FOUND`), or it
-            exists but no collection has been recorded yet
-            (`COLLECTION_NOT_RECORDED`). The `code` in the body distinguishes
-            the two, so a polling client can tell a wrong `movementId` from a
-            collection that has not happened yet.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notFoundError'
     put:
       tags: [Collection]
       summary: Update the collection for a movement
@@ -1681,19 +1531,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notFoundError'
-    delete:
-      tags: [Collection]
-      summary: Delete the collection for a movement (proposal)
-      description: |
-        PROPOSAL — deletion rules pending BA confirmation (when may a
-        Collection event be deleted?).
-      operationId: deleteCollection
-      x-stability: proposal
-      responses:
-        "204":
-          description: Collection deleted.
-        "404":
-          description: Movement or collection not found.
 
   /transfers:
     post:
@@ -1737,20 +1574,6 @@ paths:
   /transfers/{transferId}:
     parameters:
       - $ref: '#/components/parameters/transferIdPath'
-    get:
-      tags: [Drop-off]
-      summary: Get a drop-off
-      description: Returns the drop-off event identified by its Transfer ID.
-      operationId: getDropOff
-      responses:
-        "200":
-          description: The drop-off.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dropOffResource'
-        "404":
-          description: Transfer not found.
     put:
       tags: [Drop-off]
       summary: Update a drop-off
@@ -1775,19 +1598,6 @@ paths:
                 $ref: '#/components/schemas/updateResponse'
         "400":
           $ref: '#/components/responses/400'
-        "404":
-          description: Transfer not found.
-    delete:
-      tags: [Drop-off]
-      summary: Delete a drop-off (proposal)
-      description: |
-        PROPOSAL — deletion rules pending BA confirmation (when may a
-        Drop Off event be deleted?).
-      operationId: deleteDropOff
-      x-stability: proposal
-      responses:
-        "204":
-          description: Drop-off deleted.
         "404":
           description: Transfer not found.
 
@@ -1853,29 +1663,6 @@ paths:
           $ref: "#/components/responses/400"
         "404":
           description: Transfer not found.
-    get:
-      tags: [Receipt]
-      summary: Get receipt event details for a transfer
-      description: Returns the receipt event recorded against the given Transfer.
-      operationId: getReceipt
-      responses:
-        "200":
-          description: The receipt event.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/receiptResource"
-        "404":
-          description: |
-            Either the Transfer does not exist (`TRANSFER_NOT_FOUND`), or it
-            exists but no receipt has been recorded yet
-            (`RECEIPT_NOT_RECORDED`). The `code` in the body distinguishes the
-            two, so a polling client can tell a wrong `transferId` from a
-            receipt that has not happened yet.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/notFoundError"
     put:
       tags: [Receipt]
       summary: Update a receipt recorded against a transfer
@@ -1913,19 +1700,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/notFoundError"
-    delete:
-      tags: [Receipt]
-      summary: Delete a receipt event (proposal)
-      description: |
-        PROPOSAL — deletion rules pending BA confirmation (when may a
-        Receipt event be deleted?).
-      operationId: deleteReceipt
-      x-stability: proposal
-      responses:
-        "204":
-          description: Receipt deleted.
-        "404":
-          description: Transfer or receipt not found.
 
   # ----------------------------------------------------------------------
   # Phase 1 receipt endpoints — DEPRECATED.
@@ -2033,25 +1807,26 @@ paths:
       - $ref: '#/components/parameters/movementIdPath'
     get:
       tags: [Fate of waste]
-      summary: Producer query for the fate of their waste
+      x-stability: proposal
+      summary: Producer query for the fate of their waste (proposal)
       description: |
-        Read-only summary of a movement's outcome, intended for the
-        producer named on the movement. Returns waste classification
-        across stages (planned, collected, received), collection and
-        receipt dateTimes, any other waste types mixed in during
-        transit, and the treatment codes applied at the receiver.
+        **Proposal only.** Producer-facing read-only query returning a
+        summary of what happened to a specific waste movement.
+        The `movementId` uniquely identifies the movement being queried.
 
-        This endpoint exposes no operational data beyond what the
-        producer needs — no carrier identity, no internal event IDs,
-        no validation envelopes.
+        Response schema is not yet defined — field content, timestamp
+        cardinality, treatment-code projection and onward-movement scope
+        are open questions pending BA and policy confirmation. See the
+        decisions register (D-019).
       operationId: getFateOfWaste
       responses:
         "200":
-          description: Movement summary.
+          description: Movement summary. Response schema to be defined.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/fateOfWasteResponse'
+                type: object
+                description: Proposal — response fields to be defined.
         "404":
           description: Movement not found.
 
