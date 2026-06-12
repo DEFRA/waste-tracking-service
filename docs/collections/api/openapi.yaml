@@ -1251,6 +1251,137 @@ components:
             Must be in specified receiptAddress.postcode format.
           example: W12 7ZL
 
+    # Phase 1 receipt request schema — extracted from the requestBody
+    # so it can be reused by receiptResource (allOf) without a
+    # cross-section $ref.
+    receiveMovementRequest:
+      type: object
+      required:
+        - apiCode
+        - dateTimeReceived
+        - carrier
+        - wasteItems
+        - receiver
+        - receipt
+      properties:
+        apiCode:
+          type: string
+          format: uuid
+          description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service.
+          example: ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg
+        dateTimeReceived:
+          type: string
+          format: date-time
+          description: |
+            This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
+            UTC is the global time standard and does not observe daylight saving time.
+            BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
+          example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
+        hazardousWasteConsignmentCode:
+          type: string
+          description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
+              <p><font color="red">England & Wales:</font></p>
+              <p><i>Format-</i>  XXXXXX/YYYYY</p> Where XXXXXX can be a mixture of letters and/or numbers, i.e. alphanumeric.
+              <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six alphanumeric characters and must be followed by a forward slash /<p> The YYYYY part is a five alphanumeric character unique identifier of the users' choice (no spaces or symbols).</p>
+              <p><font color="red">Scotland</font></p>
+              <p><i>Format-</i>  SA, SB or SC followed by a 7-digit number (e.g. SB1234567). Also known as Special Waste Consignment Note</p>
+              <p><font color="red">Northern Ireland and Eire:</font></p>
+              <p><i>Format-</i>  DA, DB or DC followed by a 7-digit number (e.g. DA5301234)</p><p></p>
+              <p><a href="https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code">More information here</a></p>
+              <p><font color="green"><b>Business Rule:</b></font></p>
+              <ul>
+              <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
+               <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
+               </ul>
+          example: CJ32LE/A0001
+        reasonForNoConsignmentCode:
+          type: string
+          enum:
+            [
+              "Non-Haz Waste Transfer",
+              "No documentation provided with Waste",
+              "Household Waste Recycling Centre Receipt"
+            ]
+          description: If you have not provided a hazardous waste consignment code, then there are three reason codes you can choose to provide. See the table below.
+            <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Reason</th>
+                            <th>Reason Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Non-Haz Waste Transfer</td>
+                            <td>NON_HAZ_WASTE_TRANSFER</td>
+                        </tr>
+                        <tr>
+                            <td>No documentation provided with Waste</td>
+                            <td>NO_DOC_WITH_WASTE</td>
+                        </tr>
+                        <tr>
+                            <td>Household Wast Recycling Centre Receipt</td>
+                            <td>HWRC_RECEIPT</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
+            <p><font color="green"><b>Business Rules:</b></font></p> 
+            <ul>
+            <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
+            <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “NON_HAZ_WASTE_TRANSFER”, “NO_DOC_WITH_WASTE” or “HWRC_RECEIPT”. </li>
+            </ul>
+          example: NO_DOC_WITH_WASTE
+        yourUniqueReference:
+          type: string
+          description: This could be a unique weighbridge ticket number, waste transfer note number etc.
+          example: wTBrdgAA020
+        otherReferencesForMovement:
+          type: array
+          items:
+            type: object
+            required:
+              - label
+              - reference
+            properties:
+              label:
+                type: string
+                minLength: 1
+                description: The type/label of the reference (e.g., 'PO Number', 'Waste Ticket', 'Haulier Note')
+                example: PO Number
+              reference:
+                type: string
+                minLength: 1
+                description: The actual reference value
+                example: PO-12345
+          description: Optional array of label-reference pairs for additional tracking information
+          example:
+            - label: PO Number
+              reference: PO-12345
+            - label: Waste Ticket
+              reference: WT-67890
+            - label: Haulier Note
+              reference: HN-11111
+        specialHandlingRequirements:
+          type: string
+          maxLength: 5000
+          description: |
+            Required when abnormal hazardous waste and some non-hazardous waste contains harmful chemical, biological or physical characteristics that require some special handling to prevent harm. 
+          example: The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.
+        wasteItems:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/wasteItem"
+        carrier:
+          $ref: "#/components/schemas/carrier"
+        brokerOrDealer:
+          $ref: "#/components/schemas/brokerOrDealer"
+        receiver:
+          $ref: "#/components/schemas/receiver"
+        receipt:
+          $ref: "#/components/schemas/receipt"
+
   # ----------------------------------------------------------------------
   # Reusable request bodies (Phase 1)
   # ----------------------------------------------------------------------
@@ -1261,132 +1392,7 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            required:
-              - apiCode
-              - dateTimeReceived
-              - carrier
-              - wasteItems
-              - receiver
-              - receipt
-            properties:
-              apiCode:
-                type: string
-                format: uuid
-                description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service.
-                example: ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg
-              dateTimeReceived:
-                type: string
-                format: date-time
-                description: |
-                  This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
-                  UTC is the global time standard and does not observe daylight saving time.
-                  BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
-                example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
-              hazardousWasteConsignmentCode:
-                type: string
-                description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
-                    <p><font color="red">England & Wales:</font></p>
-                    <p><i>Format-</i>  XXXXXX/YYYYY</p> Where XXXXXX can be a mixture of letters and/or numbers, i.e. alphanumeric.
-                    <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six alphanumeric characters and must be followed by a forward slash /<p> The YYYYY part is a five alphanumeric character unique identifier of the users' choice (no spaces or symbols).</p>
-                    <p><font color="red">Scotland</font></p>
-                    <p><i>Format-</i>  SA, SB or SC followed by a 7-digit number (e.g. SB1234567). Also known as Special Waste Consignment Note</p>
-                    <p><font color="red">Northern Ireland and Eire:</font></p>
-                    <p><i>Format-</i>  DA, DB or DC followed by a 7-digit number (e.g. DA5301234)</p><p></p>
-                    <p><a href="https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code">More information here</a></p>
-                    <p><font color="green"><b>Business Rule:</b></font></p>
-                    <ul>
-                    <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
-                     <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
-                     </ul>
-                example: CJ32LE/A0001
-              reasonForNoConsignmentCode:
-                type: string
-                enum:
-                  [
-                    "Non-Haz Waste Transfer",
-                    "No documentation provided with Waste",
-                    "Household Waste Recycling Centre Receipt"
-                  ]
-                description: If you have not provided a hazardous waste consignment code, then there are three reason codes you can choose to provide. See the table below.
-                  <table border="1">
-                          <thead>
-                              <tr>
-                                  <th>Reason</th>
-                                  <th>Reason Code</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>Non-Haz Waste Transfer</td>
-                                  <td>NON_HAZ_WASTE_TRANSFER</td>
-                              </tr>
-                              <tr>
-                                  <td>No documentation provided with Waste</td>
-                                  <td>NO_DOC_WITH_WASTE</td>
-                              </tr>
-                              <tr>
-                                  <td>Household Wast Recycling Centre Receipt</td>
-                                  <td>HWRC_RECEIPT</td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
-                  <p><font color="green"><b>Business Rules:</b></font></p> 
-                  <ul>
-                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “NON_HAZ_WASTE_TRANSFER”, “NO_DOC_WITH_WASTE” or “HWRC_RECEIPT”. </li>
-                  </ul>
-                example: NO_DOC_WITH_WASTE
-              yourUniqueReference:
-                type: string
-                description: This could be a unique weighbridge ticket number, waste transfer note number etc.
-                example: wTBrdgAA020
-              otherReferencesForMovement:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - label
-                    - reference
-                  properties:
-                    label:
-                      type: string
-                      minLength: 1
-                      description: The type/label of the reference (e.g., 'PO Number', 'Waste Ticket', 'Haulier Note')
-                      example: PO Number
-                    reference:
-                      type: string
-                      minLength: 1
-                      description: The actual reference value
-                      example: PO-12345
-                description: Optional array of label-reference pairs for additional tracking information
-                example:
-                  - label: PO Number
-                    reference: PO-12345
-                  - label: Waste Ticket
-                    reference: WT-67890
-                  - label: Haulier Note
-                    reference: HN-11111
-              specialHandlingRequirements:
-                type: string
-                maxLength: 5000
-                description: |
-                  Required when abnormal hazardous waste and some non-hazardous waste contains harmful chemical, biological or physical characteristics that require some special handling to prevent harm. 
-                example: The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.
-              wasteItems:
-                type: array
-                minItems: 1
-                items:
-                  $ref: "#/components/schemas/wasteItem"
-              carrier:
-                $ref: "#/components/schemas/carrier"
-              brokerOrDealer:
-                $ref: "#/components/schemas/brokerOrDealer"
-              receiver:
-                $ref: "#/components/schemas/receiver"
-              receipt:
-                $ref: "#/components/schemas/receipt"
+            $ref: '#/components/schemas/receiveMovementRequest'
 
   # ----------------------------------------------------------------------
   # Reusable responses
