@@ -41,6 +41,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-014 | [Sub-resource 404 shape: parent-not-found vs event-not-recorded](#sub-resource-404-shape-parent-not-found-vs-event-not-recorded) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-031 | [Disposal/recovery codes optional at Creation](#disposalrecovery-codes-optional-at-creation) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-032 | [Collection waste items align 1:1 by position with Creation](#collection-waste-items-align-11-by-position-with-creation) | ✅ Decided | 🟠 Medium | **Collection** |
+| D-034 | [PUT operations use history/revision pattern across all events](#put-operations-use-historyrevision-pattern-across-all-events) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | ✅ Decided | 🟢 Low | **Spec structure** |
 | D-003 | [OpenAPI 3.0.3, not 3.1](#openapi-303-not-31) | ✅ Decided | 🟢 Low | **Spec structure** |
 | D-009 | [Deletion exists as non-binding proposals at each stage](#deletion-exists-as-non-binding-proposals-at-each-stage) | ✅ Decided | 🟢 Low | **Lifecycle** |
@@ -605,6 +606,17 @@ enforced server-side, not expressible in the standalone request schema. If
 this positional contract proves fragile in vendor UR, revisit by adding a
 stable per-item identifier minted at Creation and echoed at Collection —
 recorded here so the trade-off is visible rather than assumed.
+
+<a id="d-034"></a>
+### PUT operations use history/revision pattern across all events
+
+**D-034** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-014](#d-014), [D-016](#d-016)
+
+**Context.** The Phase 1 receipt `PUT /movements/{wasteTrackingId}/receive` is implemented with a history/revision pattern: before applying an update, the current live record is snapshotted into a separate history store, and a server-side revision counter on the live record is incremented. This gives a full audit trail of every mutation without exposing multiple versions through the public API. The revision counter also acts as an optimistic concurrency guard, preventing two concurrent PUTs from silently overwriting each other.
+
+**Decision.** Extend the same pattern to all Phase 2 PUT operations: `updateMovement`, `updateCollection`, `updateDropOff`, and `updateReceipt`. Every PUT snapshots the current state to a history store before writing the new state, and increments the revision counter on the live record. The history store and revision counter are server-side implementation details — they are not part of the public API contract.
+
+**Consequences.** Every mutation across all four events is fully auditable at the server level. The public API contract is unchanged: each PUT returns the updated record (or a validation envelope), not a version list. Clients see a single live record per resource, identical to the pre-decision behaviour.
 
 ## Open
 

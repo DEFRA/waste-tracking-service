@@ -1454,8 +1454,9 @@ paths:
       tags: [Movement]
       summary: Update a waste movement
       description: |
-        Update an existing movement using its Movement ID. Mirrors the
-        Phase 1 Receipt API PUT pattern.
+        Update an existing movement using its Movement ID. Before applying
+        the update, the current record is snapshotted to a history store
+        and the live record's revision counter is incremented (D-034).
       operationId: updateMovement
       requestBody:
         required: true
@@ -1509,8 +1510,9 @@ paths:
       tags: [Collection]
       summary: Update the collection for a movement
       description: |
-        Update the collection event for the given Movement. Behaves
-        consistently with the Phase 1 Receipt API PUT pattern.
+        Update the collection event for the given Movement. Before applying
+        the update, the current record is snapshotted to a history store
+        and the live record's revision counter is incremented (D-034).
       operationId: updateCollection
       requestBody:
         required: true
@@ -1587,7 +1589,9 @@ paths:
         Update the drop-off identified by its Transfer ID. The Transfer is
         the aggregation point, so a single update applies to the drop-off
         covering all Movements named in `movementIds` — no longer addressed
-        via an individual Movement ID.
+        via an individual Movement ID. Before applying the update, the
+        current record is snapshotted to a history store and the live
+        record's revision counter is incremented (D-034).
       operationId: updateDropOff
       requestBody:
         required: true
@@ -1674,7 +1678,9 @@ paths:
       summary: Update a receipt recorded against a transfer
       description: |
         Updates the receipt previously recorded against the given Transfer.
-        Same request body as the Phase 1 receipt payload.
+        Same request body as the Phase 1 receipt payload. Before applying
+        the update, the current record is snapshotted to a history store
+        and the live record's revision counter is incremented (D-034).
       operationId: updateReceipt
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
