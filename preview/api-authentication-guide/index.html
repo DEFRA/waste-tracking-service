@@ -1016,7 +1016,7 @@
 <p>To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. </p>
 <p>This process involves two steps: </p>
 <ol>
-    <li>Submit the client id and secret to the OAuth service to be granted an access token. See the python code snippet below.
+    <li>Submit the client id and secret to the OAuth service to be granted an access token.
 
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>  <span class="c1">#use requests library</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span> 
@@ -1031,7 +1031,7 @@
     <span class="k">return</span> <span class="n">token_response</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]</span>
 </code></pre></div>
 </li>
-<li>Submit the access/bearer token to use the API. See the python code snippet below.
+<li>Submit the access/bearer token to use the API. 
 
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span> 
 <span class="k">def</span><span class="w"> </span><span class="nf">make_api_request</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">api_url</span><span class="p">):</span> <span class="c1"># your access token and the api url here</span>
@@ -1078,7 +1078,7 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
 </code></pre></div>
 <h2 id="changelog">Changelog</h2>
 <p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Authentication-Guide-Changelog">Receipt API v1.0 Authentication Guide</a> GitHub wiki.
-<br/>Page last updated on January 14th 2026.</p>
+<br/>Page last updated on May 28th 2026.</p>
 
 
 
