@@ -6,7 +6,7 @@ This document explains what API Codes are and where to use them.
 
 ## What are the Testing and Production API Codes?
 
-The API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. Below is a snippet from the API Specification.
+The API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. 
 
 [![API Code listed in API Specifaction](api-apiCode.png)](api-apiCode.png)
 #### Using the API Code

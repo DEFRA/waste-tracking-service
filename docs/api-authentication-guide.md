@@ -8,7 +8,7 @@ To start using the Receipt API, you need your Client ID and Secret which you sho
 
 This process involves two steps: 
 <ol>
-    <li>Submit the client id and secret to the OAuth service to be granted an access token. See the python code snippet below.
+    <li>Submit the client id and secret to the OAuth service to be granted an access token.
 
 ```python
 import requests  #use requests library
@@ -24,7 +24,7 @@ def get_cognito_token(client_id, client_secret, token_url): # your clientID, Cli
     return token_response["access_token"]
 ```
 </li>
-<li>Submit the access/bearer token to use the API. See the python code snippet below.
+<li>Submit the access/bearer token to use the API. 
 
 ```python
 import requests 
@@ -78,4 +78,4 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Authentication Guide](https://github.com/DEFRA/waste-tracking-service/wiki/Authentication-Guide-Changelog) GitHub wiki.
-<br/>Page last updated on January 14th 2026.
+<br/>Page last updated on May 28th 2026.

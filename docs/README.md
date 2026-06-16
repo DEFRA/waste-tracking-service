@@ -7,7 +7,7 @@ Are you a waste receiver or software provider and want to get involved? [Sign up
 
 The Department for Environment, Food & Rural Affairs (Defra) intend to transform how data about waste movements is collected and shared with the regulators across all 4 UK nations. It will be mandatory for Waste Receivers to report waste they’ve received from October 2026\.
 
-You can read more about the [digital waste tracking policy on GOV.UK](https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking).
+Using this link you can read more about the [digital waste tracking policy on GOV.UK](https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking).
 
 To get the latest updates from Defra on circular economy reforms (including waste tracking), [sign up to receive our newsletter](https://confirmsubscription.com/h/t/EBFF97EEADC3DECE).
 

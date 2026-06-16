@@ -20,7 +20,7 @@ This page introduces waste receivers, software developers and third party softwa
 
 ## Receipt API Overview
 
-The latest version of the Receipt of Waste API OAS Specification is available [here](../apiSpecifications/).
+Click on the link for the latest version of the Receipt of Waste [API OAS Specification](../apiSpecifications/).
 
 ### Receipt of Waste Process Flow
 
@@ -47,7 +47,7 @@ The API is based on REST principles and currently has seven endpoints. They retu
 This version of the Receipt of Waste API:
 
 - supports **only** the API v1.0 Receipt of Waste API for Public Beta customers.
-- a roadmap to the Receipt API [can be found here.](roadmap.md)
+- click on this link to see a [roadmap to the Receipt API](roadmap.md).
 
 ## Related API Documentation
 [Receipt of Waste - API v1.0 Reference Guide](../apiSpecifications/)
@@ -77,7 +77,7 @@ Work through these short sections on practical preparation and use of the API:
 - [Getting help from the API support team](#getting-help-by-email)
 
 
-### Prequisite Steps (Developers)
+### Prerequisite Steps (Developers)
 
 To develop using the Receipt of Waste API, you must:
 
@@ -107,7 +107,7 @@ These are the necessary steps:
 
 You can now begin sending waste movements to the Waste Tracking Service.
 
-### Prequisite Steps (Receivers)
+### Prerequisite Steps (Receivers)
 
 1. Waste Receivers need to [sign-up for the service](api-software-developer-onboarding-process.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
@@ -329,10 +329,10 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
   }
 }
 ```
-A description of each of the fields contained in the API Specification [is available here.](receipt-data-definitions.md)
+A description of each of the fields contained in the [API Specification.](receipt-data-definitions.md)
 ### Validating a Collection of Requests and Responses
 
-We have assembled a collection of Bruno test scripts to help you learn about working with the Receipt API. These scripts can [be found here](api-testing-and-examples.md).
+We have assembled a collection of [Bruno test scripts](api-testing-and-examples.md) to help you learn about working with the Receipt API. 
 
 ## Error Responses
 
@@ -351,7 +351,7 @@ This means that if a user bursts over 200 hits per second for a short time - thi
 
 - For receivers: <font color="blue"><b>WasteTracking_Testing@defra.gov.uk</b></font>
 
-- All users can also post questions/comments<a href="https://github.com/DEFRA/waste-tracking-service/discussions"> here</a> in our discussions forum
+- All users can also post questions/comments in our discussions forum using this link <a href="https://github.com/DEFRA/waste-tracking-service/discussions"></a>.
 
 ## Changelog
 

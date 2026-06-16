@@ -2,14 +2,18 @@
 
 # Software Developer Onboarding Process
 
-### This document outlines the steps involved in the API software developer onboarding process. 
+## This document outlines the steps involved in the API software developer onboarding process. 
 
-[![Steps involved in onboarding software developers](api-software_developer_onboarding_steps.png)](api-software_developer_onboarding_steps)
+[![Steps involved in onboarding software developers](api-software_developer_onboarding_steps.png)](api-software_developer_onboarding_steps.png)
 
-### Follow the steps in the above diagram with the corresponding steps below:
+### Follow the steps in the above diagram with the following corresponding steps:
 
 ### 1. Register for the Receipt of Waste (RoW) API Service
-The sign-up link for registration is available from our [qualtrics survey pages](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U). Read the [API Terms of Service](api-terms-of-service.md) and acknowledge this by clicking the checkbox on the last page of the survey.
+The sign-up link for registration is available from our [qualtrics survey pages](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U). See the button below.
+
+Read the [API Terms of Service](api-terms-of-service.md) and acknowledge this by clicking the checkbox on the last page of the survey.
+
+[Register as a Software Provider](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U){ .md-button .md-button--primary }
 
 ### 2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team
 Following registration, software developers receive test credentials from the DWT team.
@@ -23,7 +27,7 @@ Developers can use the available GET reference data endpoints to retrieve necess
 
 ### 4. Execute the Production Approval Test (PAT) Scenarios
 
-Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. See [Production Approval Tests](production-approval-tests.md). 
+Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. Refer to the [Production Approval Tests](production-approval-tests.md). 
 
 These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.
 
@@ -49,9 +53,9 @@ The DWT team then onboards waste receivers of the software developer who have al
 
 Receivers accept terms and conditions manually via email, after which they receive their own API codes to share with their software teams to begin submitting real waste movement data.
 
-## Changelog
+### Changelog
 
 You can find the changelog for this document in the [Onboarding Software Developers](https://github.com/DEFRA/waste-tracking-service/wiki/Software-Developer-Onboarding-Process) GitHub wiki page
 
 
-<br/>Page last updated on April 10th 2026.
+<br/>Page last updated on May 28th 2026.
