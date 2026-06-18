@@ -387,7 +387,9 @@ components:
           description: Optional exemption number for exempt places that store, treat, use or dispose of waste (e.g. a WEX number). Distinct from receiver.authorisationNumber.
           example: WEX123456
         address:
-          $ref: '#/components/schemas/addressWithFullAddress'
+          allOf:
+            - $ref: '#/components/schemas/addressWithFullAddress'
+          description: Mandatory physical address where the waste was dropped off (D-018). Both fullAddress and postcode are required.
 
     collectionWasteItem:
       type: object

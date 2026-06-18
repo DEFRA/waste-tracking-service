@@ -40,6 +40,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-009 | [Soft-delete via `isDeleted`, set only on PUT](#soft-delete-via-isdeleted-set-only-on-put) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-010 | [Hazardous waste cannot be merged across Movements at drop-off](#hazardous-waste-cannot-be-merged-across-movements-at-drop-off) | ✅ Decided | 🟠 Medium | **Drop-off** |
 | D-014 | [Sub-resource 404 shape: parent-not-found vs event-not-recorded](#sub-resource-404-shape-parent-not-found-vs-event-not-recorded) | ✅ Decided | 🟠 Medium | **Lifecycle** |
+| D-018 | [Drop-off address derivability](#drop-off-address-derivability) | ✅ Decided | 🟠 Medium | **Drop-off** |
 | D-031 | [Disposal/recovery codes optional at Creation](#disposalrecovery-codes-optional-at-creation) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-032 | [Collection waste items align 1:1 by position with Creation](#collection-waste-items-align-11-by-position-with-creation) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-034 | [PUT operations use history/revision pattern across all events](#put-operations-use-historyrevision-pattern-across-all-events) | ✅ Decided | 🟠 Medium | **Lifecycle** |
@@ -49,7 +50,6 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-017 | [Drop-off PUT semantics in multi-collection cases](#drop-off-put-semantics-in-multi-collection-cases) | ✅ Decided | 🟢 Low | **Resource model** |
 | D-022 | [Receipt migration: new endpoint vs extend Phase 1](#receipt-migration-new-endpoint-vs-extend-phase-1) | ⏳ Open | 🔴 High | **Receipt** |
 | D-025 | [Receipt acceptance / rejection outcome (new in Phase 2)](#receipt-acceptance-rejection-outcome-new-in-phase-2) | ⏳ Open | 🔴 High | **Receipt** |
-| D-018 | [Drop-off address derivability](#drop-off-address-derivability) | ⏳ Open | 🟠 Medium | **Drop-off** |
 | D-019 | [Fate-of-waste GET — producer journey query (proposal)](#fate-of-waste-get-producer-journey-query-proposal) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
 | D-021 | [Cross-check granularity](#cross-check-granularity) | ⏳ Open | 🟠 Medium | **Receipt** |
 | D-023 | [Phase 1 receipt endpoint deprecation timeline](#phase-1-receipt-endpoint-deprecation-timeline) | ⏳ Open | 🟠 Medium | **Receipt** |
@@ -623,6 +623,31 @@ addressed through any Movement. `PUT /transfers/{transferId}` updates the
 single shared Transfer covering all its `movementIds`; there is no
 per-Movement view. (See *Level 2 resource model*.)
 
+<a id="d-018"></a>
+### Drop-off address derivability
+
+**D-018** · ✅ Decided · Impact: 🟠 Medium · Area: **Drop-off** · Related: [D-007](#d-007)
+
+**Context.** The drop-off address (`dropOff.address`) was initially optional in
+the spec. The open question was whether it should be **mandatory**, stay
+**optional**, or be **removed entirely** (the latter only if always derivable
+from the linked Movements' planned receiver). Two facts were relevant: the
+planned receiver is an *estimate*, not authoritative; and the rejection-retry
+scenario (recap 4.6) can deliver to a different receiver than planned, so the
+actual drop-off location can diverge from the estimate.
+
+**Decision.** The drop-off address is **mandatory**. Both `fullAddress` and
+`postcode` are required within `dropOff.address`. The address records where waste
+was physically dropped off — a material audit fact that cannot be reliably derived
+from the planned receiver, particularly in rejection-retry scenarios. Requiring it
+at the point of recording prevents gaps in the audit trail.
+
+**Consequences.** `dropOff.address` is a required field on both
+`POST /transfers` and `PUT /transfers/{transferId}`. Callers must supply the
+address even when the actual drop-off location matches their planned receiver
+estimate. Reflected in the OpenAPI spec (`dropOffSite` `required: [siteName,
+address]`).
+
 <a id="d-031"></a>
 ### Disposal/recovery codes optional at Creation
 
@@ -686,21 +711,6 @@ recorded here so the trade-off is visible rather than assumed.
 **Consequences.** Every mutation across all four events is fully auditable at the server level. The public API contract is unchanged: each PUT returns the updated record (or a validation envelope), not a version list. Clients see a single live record per resource, identical to the pre-decision behaviour.
 
 ## Open
-
-<a id="d-018"></a>
-### Drop-off address derivability
-
-**D-018** · ⏳ Open · Impact: 🟠 Medium · Area: **Drop-off** · Related: [D-007](#d-007)
-
-`dropOffAddress` is currently optional in the spec. It is undecided
-whether it should be **mandatory**, stay **optional**, or be **removed
-entirely** (the latter only if it's always derivable from the linked
-Movements' planned receiver, `estimatedReceiverDetails`). Two facts are
-relevant without settling it: the planned receiver is explicitly an
-*estimate*, not authoritative; and the rejection-retry scenario (recap
-4.6) can deliver to a different receiver than planned, so the actual
-drop-off location may diverge from the estimate. No assumption made on
-mandatory/optional/removed — pending BA input.
 
 <a id="d-019"></a>
 ### Fate-of-waste GET — producer journey query (proposal)

@@ -54,7 +54,7 @@ const dropOffSchema = Joi.object({
 
   address: dropOffAddressSchema
     .required()
-    .description('Address where the waste is dropped off or left.')
+    .description('Mandatory physical address where the waste was dropped off. Both fullAddress and postcode are required.')
 })
   .required()
   .description(

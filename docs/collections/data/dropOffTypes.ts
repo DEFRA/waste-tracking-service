@@ -60,7 +60,7 @@ export type DropOff = {
    */
   exemptionNumber?: string
 
-  /** Physical address where the waste is dropped off or left. */
+  /** Mandatory physical address where the waste was dropped off. Both fullAddress and postcode are required. */
   address: DropOffAddress
 }
 
