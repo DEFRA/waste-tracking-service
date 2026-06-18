@@ -231,7 +231,7 @@ see Open.)
 <a id="d-007"></a>
 ### Drop-off is many-to-one against Movement IDs
 
-**D-007** · ✅ Decided · Impact: 🔴 High · Area: **Drop-off** · Related: [D-015](#d-015)
+**D-007** · ✅ Decided · Impact: 🔴 High · Area: **Drop-off** · Related: [D-015](#d-015), [D-018](#d-018)
 
 **Context.** A multi-collection run delivers several Movements at once
 to the same receiver site. The drop-off endpoint could either be
@@ -243,10 +243,27 @@ the Movement IDs in the body).
 in the body. Single-collection drop-offs supply an array of one. No
 "primary" Movement is selected.
 
-**Consequences.** The Transfer ID minted by the drop-off is the
-aggregation point — one Transfer ID, one or more Movement IDs. The
-shape of the receipt and producer-query downstream both work cleanly
-off this model.
+**Consequences.** The Transfer ID minted by a single drop-off is the
+aggregation point for that event — one Transfer ID, one or more Movement
+IDs. This is many-to-one *per drop-off event*, not a lifetime constraint
+on the Movement: nothing in the model stops the same Movement ID from
+being referenced by more than one drop-off, so the overall
+Movement↔Transfer relationship is many-to-many, not many-to-one. Two
+cases produce this directly:
+
+- A single collection spanning more than one EWC code/waste stream is
+  delivered to different specialist receivers — each delivery is its own
+  drop-off, same Movement ID referenced in both.
+- A load is partially rejected at the first receiver: the accepted
+  portion rides on one drop-off/Transfer, and the rejected portion is
+  redirected to a second receiver on a different drop-off/Transfer.
+  Whether the redirected portion keeps the original Movement ID or is
+  minted a new one is **not decided here** — see [drop-off address
+  derivability](#d-018), which already touches the same rejection-retry
+  path from the address side.
+
+The shape of the receipt and producer-query downstream both work cleanly
+off this model either way.
 
 <a id="d-008"></a>
 ### Carrier always required; broker optional
