@@ -77,6 +77,14 @@ export type RecordCollection = {
   specialHandlingRequirements?: string
   otherReferencesForMovement?: OtherReferenceForMovement[]
 
+  /**
+   * Soft-delete flag (D-009). Defaults to false on creation.
+   * May be set to true only via PUT. Supplying true on a POST returns a validation
+   * warning and the value is treated as false by the service layer.
+   * Cannot be set to true once the parent Movement has been referenced in a Drop-off.
+   */
+  isDeleted?: boolean
+
   /** Carrier details confirmed at collection. Required at collection time. */
   carrier: CarrierDetails
 

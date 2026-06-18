@@ -95,6 +95,16 @@ export const recordCollectionSchema = Joi.object({
     .items(otherReferenceSchema)
     .description('Additional label/reference pairs for this collection event.'),
 
+  isDeleted: Joi.boolean()
+    .strict()
+    .default(false)
+    .description(
+      'Soft-delete flag (D-009). Defaults to false on creation. ' +
+      'May be set to true only via PUT to soft-delete the collection, subject to downstream constraints. ' +
+      'Supplying true on a POST is not permitted — the service layer returns a validation warning and treats the value as false. ' +
+      'A collection cannot be deleted once its parent Movement has been referenced in a Drop-off.'
+    ),
+
   carrier: carrierSchema
     .required()
     .description(

@@ -114,6 +114,16 @@ export const recordDropOffSchema = Joi.object({
     .items(otherReferenceSchema)
     .description('Additional label/reference pairs for this drop-off event.'),
 
+  isDeleted: Joi.boolean()
+    .strict()
+    .default(false)
+    .description(
+      'Soft-delete flag (D-009). Defaults to false on creation. ' +
+      'May be set to true only via PUT to soft-delete the drop-off (transfer), subject to downstream constraints. ' +
+      'Supplying true on a POST is not permitted — the service layer returns a validation warning and treats the value as false. ' +
+      'A drop-off cannot be deleted once a Receipt has been recorded against it.'
+    ),
+
   carrier: carrierSchema
     .required()
     .description(

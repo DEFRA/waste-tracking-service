@@ -157,6 +157,7 @@ export const publicPostBody = {
     }
   ],
   specialHandlingRequirements: 'Handle with care and keep upright.',
+  isDeleted: false,
   producer,
   carrier,
   receiver,
@@ -216,6 +217,7 @@ export const nonHazardousPostBodyWithoutReceiver = {
   apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
   estimatedDateTimeCollected: '2025-09-15T08:00:00Z',
   yourUniqueReference: 'CARRIER-JOB-002',
+  isDeleted: false,
   producer,
   carrier: minimalCreationCarrier,
   wasteItems: nonHazardousWasteItems

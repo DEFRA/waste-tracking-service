@@ -53,6 +53,7 @@ export const publicPostBody = {
       reference: 'WB-20250915-001'
     }
   ],
+  isDeleted: false,
   carrier,
   collection,
   wasteItems
@@ -64,6 +65,7 @@ export const deferredPostBody = {
   apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
   actualDateTimeCollected: '2025-09-15T08:34:00Z',
   yourUniqueReference: 'DRIVER-TRIP-001-DEFERRED',
+  isDeleted: false,
   carrier,
   collection,
   wasteItems
@@ -73,6 +75,7 @@ export const deferredPostBody = {
 export const minimalPostBody = {
   apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
   actualDateTimeCollected: '2025-09-15T08:34:00Z',
+  isDeleted: false,
   carrier,
   collection,
   wasteItems

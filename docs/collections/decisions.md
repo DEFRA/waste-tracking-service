@@ -37,6 +37,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-004 | [Receipt path parameter stays `{wasteTrackingId}`](#receipt-path-parameter-stays-wastetrackingid) | ✅ Decided | 🟠 Medium | **Identifiers** |
 | D-006 | [Cross-check of receipt details against the linked drop-off](#cross-check-of-receipt-details-against-the-linked-drop-off) | ✅ Decided | 🟠 Medium | **Receipt** |
 | D-008 | [Carrier always required; broker optional](#carrier-always-required-broker-optional) | ✅ Decided | 🟠 Medium | **Actors** |
+| D-009 | [Soft-delete via `isDeleted`, set only on PUT](#soft-delete-via-isdeleted-set-only-on-put) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-010 | [Hazardous waste cannot be merged across Movements at drop-off](#hazardous-waste-cannot-be-merged-across-movements-at-drop-off) | ✅ Decided | 🟠 Medium | **Drop-off** |
 | D-014 | [Sub-resource 404 shape: parent-not-found vs event-not-recorded](#sub-resource-404-shape-parent-not-found-vs-event-not-recorded) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-031 | [Disposal/recovery codes optional at Creation](#disposalrecovery-codes-optional-at-creation) | ✅ Decided | 🟠 Medium | **Collection** |
@@ -44,7 +45,6 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-034 | [PUT operations use history/revision pattern across all events](#put-operations-use-historyrevision-pattern-across-all-events) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | ✅ Decided | 🟢 Low | **Spec structure** |
 | D-003 | [OpenAPI 3.0.3, not 3.1](#openapi-303-not-31) | ✅ Decided | 🟢 Low | **Spec structure** |
-| D-009 | [Deletion exists as non-binding proposals at each stage](#deletion-exists-as-non-binding-proposals-at-each-stage) | ✅ Decided | 🟢 Low | **Lifecycle** |
 | D-011 | [Static and transit collection collapsed into a single endpoint](#static-and-transit-collection-collapsed-into-a-single-endpoint) | ✅ Decided | 🟢 Low | **Collection** |
 | D-017 | [Drop-off PUT semantics in multi-collection cases](#drop-off-put-semantics-in-multi-collection-cases) | ✅ Decided | 🟢 Low | **Resource model** |
 | D-022 | [Receipt migration: new endpoint vs extend Phase 1](#receipt-migration-new-endpoint-vs-extend-phase-1) | ⏳ Open | 🔴 High | **Receipt** |
@@ -231,7 +231,7 @@ see Open.)
 <a id="d-007"></a>
 ### Drop-off is many-to-one against Movement IDs
 
-**D-007** · ✅ Decided · Impact: 🔴 High · Area: **Drop-off** · Related: [D-015](#d-015), [D-018](#d-018)
+**D-007** · ✅ Decided · Impact: 🔴 High · Area: **Drop-off** · Related: [D-009](#d-009), [D-015](#d-015), [D-018](#d-018)
 
 **Context.** A multi-collection run delivers several Movements at once
 to the same receiver site. The drop-off endpoint could either be
@@ -290,33 +290,83 @@ the discriminated union is possible later without breaking clients
 that already supply both forms.
 
 <a id="d-009"></a>
-### Deletion exists as non-binding proposals at each stage
+### Soft-delete via `isDeleted`, set only on PUT
 
-**D-009** · ✅ Decided · Impact: 🟢 Low · Area: **Lifecycle**
+**D-009** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-007](#d-007), [D-014](#d-014), [D-015](#d-015), [D-034](#d-034)
 
 **Context.** An earlier decision deferred deletion entirely ("no deletion
-endpoint in this version"), partly because the original
-`DELETE /movements/create` URL was malformed and the semantics (soft vs.
-hard, audit, who can delete) were unresolved.
-
-**Decision.** The spec now carries `DELETE` endpoints at each stage —
-`DELETE /movements/{movementId}`,
+endpoint in this version"), then a later pass added `DELETE` endpoints at
+each stage (`DELETE /movements/{movementId}`,
 `DELETE /movements/{movementId}/collection`, `DELETE /transfers/{transferId}`,
-and `DELETE /transfers/{transferId}/receipt` — each marked
-`x-stability: proposal`, with a description noting deletion rules are
-pending BA confirmation. They make the shape of the contract visible; they
-are not committed behaviour.
+`DELETE /transfers/{transferId}/receipt`), each marked `x-stability:
+proposal` and non-binding, pending a substantive decision on deletion
+rules (soft vs. hard, audit, authorisation). Those proposal endpoints have
+since been removed from the spec; no `DELETE` operation exists today. This
+entry replaces that proposal with the decided mechanism.
 
-A substantive decision is still needed, per stage: when may a Movement,
-Collection, drop-off (Transfer), or Receipt be deleted; soft vs. hard
-delete; audit trail; and authorisation. Until that is taken the `DELETE`
-operations stay `x-stability: proposal` and must not be implemented as
-binding.
+**Decision.** No hard deletion and no `DELETE` endpoint, on any event.
+Instead, `Movement`, `Collection` and `Drop-off` each carry a boolean
+`isDeleted` field (default `false`) on their existing request/resource
+schema. `Receipt` does not get this field at all — once recorded, a
+receipt cannot be marked deleted, full stop, because it is the terminal
+event in the chain.
 
-**Consequences.** Vendors can see deletion is coming and where, but must
-not depend on it. The malformed `DELETE /movements/create` is gone,
-replaced by well-formed resource-scoped paths. Supersedes the earlier
-"no deletion endpoint" decision.
+The rules, applied uniformly across the three deletable events:
+
+- **PUT-only.** `isDeleted` may only be set to `true` via the event's
+  `PUT` (update). A `POST` (create) request that supplies `isDeleted: true`
+  is rejected with a `NotAllowed` validation error; `POST` requests may
+  omit the field or send `false`.
+- **No subsequent event.** An event may be marked deleted only while no
+  later event in the chain has been recorded against it:
+  - A Movement cannot be deleted once its Collection has been recorded.
+  - A Collection cannot be deleted once its Movement has been referenced
+    in a Drop-off.
+  - A Drop-off (Transfer) cannot be deleted once a Receipt has been
+    recorded against it.
+
+  This checks whether the later event's record *exists*, not whether it
+  is itself currently active — once a Collection has been recorded against
+  a Movement, that Movement stays locked from deletion even if the
+  Collection is later deleted too. The chain of what-was-recorded is
+  preserved; deleting a later event does not reopen an earlier one.
+  Violating this returns a `BusinessRuleViolation` validation error.
+- **Deleted blocks what comes next.** While an event is `isDeleted: true`,
+  no event later in the chain may be recorded or updated against it:
+  - Collection cannot be recorded/updated against a deleted Movement.
+  - A Movement that is deleted (with or without a Collection) cannot be
+    named in a Drop-off's `movementIds`; nor can a Movement whose
+    Collection is deleted.
+  - Receipt cannot be recorded/updated against a deleted Transfer.
+
+  Each of these is a `BusinessRuleViolation` validation error, not a
+  warning — the operation is rejected (400), consistent with how the
+  user framed this: a "not permitted" operation, not an advisory.
+- **Reversible.** A deleted event can be undeleted by a subsequent `PUT`
+  with `isDeleted: false`. No extra precondition is needed on undelete:
+  because nothing later could have been recorded while the event was
+  deleted (previous rule), the "no subsequent event" invariant always
+  still holds at the point of undeleting.
+
+**Open sub-question, flagged rather than assumed.** "No subsequent event"
+is read here as *no record of that event exists*, regardless of whether
+that record is itself later deleted (the stricter reading — see the bullet
+above). The looser reading — deleting a Collection frees its Movement to
+be deleted too — was considered and rejected for this entry, on the basis
+that it could let two soft-deletes in sequence quietly erase the fact that
+a Collection ever happened. Worth a sense-check with the BA if a vendor
+scenario surfaces where the stricter reading is unworkable in practice.
+
+**Consequences.** Vendors get a single, symmetric mechanism across
+Movement, Collection and Drop-off rather than four bespoke proposal
+endpoints. No new public identifiers or endpoints are introduced — the
+field lives on the schemas already used by the existing `POST`/`PUT`
+operations. Server-side validation grows: every `POST`/`PUT` on Collection
+and Drop-off must now also check the deletion state of what it references,
+in addition to the existence checks already in place ([D-014](#d-014)).
+Supersedes the earlier "non-binding DELETE proposal" decision; the
+malformed `DELETE /movements/create` from the original deferred-deletion
+decision remains gone.
 
 <a id="d-010"></a>
 ### Hazardous waste cannot be merged across Movements at drop-off
@@ -440,7 +490,7 @@ Two follow-ups this surfaces, for the data/spec pass:
 <a id="d-014"></a>
 ### Sub-resource 404 shape: parent-not-found vs event-not-recorded
 
-**D-014** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-015](#d-015), [D-033](#d-033)
+**D-014** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-009](#d-009), [D-015](#d-015), [D-033](#d-033)
 
 **Context.** Collection and receipt are 1:1 sub-resources that come into
 existence later than their parent: a Movement exists from creation but has
@@ -473,7 +523,7 @@ for `PUT` callers: record the event with `POST` first). The
 <a id="d-015"></a>
 ### Movement ↔ Collection and Transfer ↔ Receipt are 1:1
 
-**D-015** · ✅ Decided · Impact: 🔴 High · Area: **Resource model** · Related: [D-016](#d-016), [D-025](#d-025)
+**D-015** · ✅ Decided · Impact: 🔴 High · Area: **Resource model** · Related: [D-009](#d-009), [D-016](#d-016), [D-025](#d-025)
 
 **Context.** While working through the Level 2 restructure (see next
 entry), it became important to be precise about the relationships
@@ -627,7 +677,7 @@ recorded here so the trade-off is visible rather than assumed.
 <a id="d-034"></a>
 ### PUT operations use history/revision pattern across all events
 
-**D-034** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-014](#d-014), [D-016](#d-016)
+**D-034** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-009](#d-009), [D-014](#d-014), [D-016](#d-016)
 
 **Context.** The Phase 1 receipt `PUT /movements/{wasteTrackingId}/receive` is implemented with a history/revision pattern: before applying an update, the current live record is snapshotted into a separate history store, and a server-side revision counter on the live record is incremented. This gives a full audit trail of every mutation without exposing multiple versions through the public API. The revision counter also acts as an optimistic concurrency guard, preventing two concurrent PUTs from silently overwriting each other.
 

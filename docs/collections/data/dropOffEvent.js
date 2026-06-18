@@ -38,6 +38,7 @@ export const singleMovementPostBody = {
   apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
   movementIds: ['25HRA0B2'],
   actualDateTimeDropOff: '2025-09-15T11:15:00Z',
+  isDeleted: false,
   carrier,
   dropOff
   // receiver details not present — receipt may not always follow a drop-off
@@ -60,6 +61,7 @@ export const multiMovementPostBody = {
       reference: 'RS-20250915-01'
     }
   ],
+  isDeleted: false,
   carrier,
   dropOff
 }
@@ -73,6 +75,7 @@ export const hazardousSingleMovementPostBody = {
   apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
   movementIds: ['25HRA0B2'], // One Movement ID only — hazardous constraint (D-010)
   actualDateTimeDropOff: '2025-09-15T11:15:00Z',
+  isDeleted: false,
   carrier,
   dropOff: {
     siteName: 'Hazardous Waste Drop-off Site',

@@ -87,6 +87,14 @@ export type RecordDropOff = {
   specialHandlingRequirements?: string
   otherReferencesForMovement?: OtherReferenceForMovement[]
 
+  /**
+   * Soft-delete flag (D-009). Defaults to false on creation.
+   * May be set to true only via PUT. Supplying true on a POST returns a validation
+   * warning and the value is treated as false by the service layer.
+   * Cannot be set to true once a Receipt has been recorded against this Transfer.
+   */
+  isDeleted?: boolean
+
   /** Carrier performing the drop-off. Required and aligned to Collection/Receipt carrier rules. */
   carrier: CarrierDetails
 

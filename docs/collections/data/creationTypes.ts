@@ -190,6 +190,13 @@ export type CreateMovement = {
   otherReferencesForMovement?: OtherReferenceForMovement[]
   specialHandlingRequirements?: string
 
+  /**
+   * Soft-delete flag (D-009). Defaults to false on creation.
+   * May be set to true only via PUT. Supplying true on a POST returns a validation
+   * warning and the value is treated as false by the service layer.
+   */
+  isDeleted?: boolean
+
   producer: Producer
   /** Required object at Creation; follows Receipt carrier fields, with only meansOfTransport mandatory. */
   carrier: Carrier

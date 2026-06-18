@@ -220,3 +220,109 @@ export function isValidPhoneNumber(phoneNumber) {
 export function isValidPopCode(code) {
 	return VALID_POP_CODES.has(normalize(code).toUpperCase())
 }
+
+// ---------------------------------------------------------------------------
+// Soft-delete business rule helpers (D-009)
+// ---------------------------------------------------------------------------
+// These functions return the standard { key, errorType, message } validation
+// envelope for each D-009 rule violation. They are called from the service
+// layer (which has datastore access) rather than from within the Joi schemas
+// (which only see a single request body at validation time).
+
+/**
+ * Warning returned when isDeleted: true is supplied on a POST (create).
+ * The service layer accepts the request, forces isDeleted to false, and
+ * includes this warning in the response envelope.
+ */
+export function isDeletedOnCreateWarning() {
+	return {
+		key: 'isDeleted',
+		errorType: 'NotAllowed',
+		message: 'isDeleted cannot be set to true when creating a new record.'
+	}
+}
+
+/**
+ * Error returned when PUT attempts to soft-delete a Movement that already
+ * has a Collection recorded against it (regardless of whether that Collection
+ * is itself deleted — the stricter reading of D-009).
+ */
+export function movementHasCollectionError() {
+	return {
+		key: 'isDeleted',
+		errorType: 'BusinessRuleViolation',
+		message: 'Cannot delete this movement: a collection has already been recorded against it.'
+	}
+}
+
+/**
+ * Error returned when PUT attempts to soft-delete a Collection whose parent
+ * Movement has already been referenced in a Drop-off.
+ */
+export function collectionMovementInDropOffError() {
+	return {
+		key: 'isDeleted',
+		errorType: 'BusinessRuleViolation',
+		message: 'Cannot delete this collection: this movement has already been included in a drop-off.'
+	}
+}
+
+/**
+ * Error returned when PUT attempts to soft-delete a Drop-off (Transfer) that
+ * already has a Receipt recorded against it.
+ */
+export function dropOffHasReceiptError() {
+	return {
+		key: 'isDeleted',
+		errorType: 'BusinessRuleViolation',
+		message: 'Cannot delete this transfer: a receipt has already been recorded against it.'
+	}
+}
+
+/**
+ * Error returned when a Collection is recorded or updated against a Movement
+ * that is currently isDeleted: true.
+ */
+export function deletedMovementBlocksCollectionError() {
+	return {
+		key: 'movementId',
+		errorType: 'BusinessRuleViolation',
+		message: 'Cannot record a collection: this movement is marked as deleted.'
+	}
+}
+
+/**
+ * Error returned when a Drop-off includes a movementId whose Movement record
+ * is currently isDeleted: true.
+ */
+export function deletedMovementBlocksDropOffError(movementId) {
+	return {
+		key: 'movementIds',
+		errorType: 'BusinessRuleViolation',
+		message: `Cannot include movementId ${movementId} in this drop-off: it is marked as deleted.`
+	}
+}
+
+/**
+ * Error returned when a Drop-off includes a movementId whose Collection is
+ * currently isDeleted: true.
+ */
+export function deletedCollectionBlocksDropOffError(movementId) {
+	return {
+		key: 'movementIds',
+		errorType: 'BusinessRuleViolation',
+		message: `Cannot include movementId ${movementId} in this drop-off: its collection is marked as deleted.`
+	}
+}
+
+/**
+ * Error returned when a Receipt is recorded or updated against a Transfer
+ * that is currently isDeleted: true.
+ */
+export function deletedTransferBlocksReceiptError() {
+	return {
+		key: 'transferId',
+		errorType: 'BusinessRuleViolation',
+		message: 'Cannot record a receipt: this transfer is marked as deleted.'
+	}
+}

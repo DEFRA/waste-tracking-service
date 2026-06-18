@@ -2,13 +2,13 @@ openapi: 3.0.3
 
 info:
   title: Digital Waste Tracking API
-  version: 0.2.1-alpha
+  version: 0.2.2-alpha
   description: |
     Extension of the Phase 1 Receipt of Waste API toward a fuller
     waste-movement journey covering creation, collection, drop-off,
     receipt and producer tracking.
 
-    This 0.2.1-alpha revision completes the Phase 2 data layer: the
+    This 0.2.2-alpha revision completes the Phase 2 data layer: the
     creation, collection and drop-off request bodies are now fully
     specified (replacing the earlier placeholders), aligned with the
     documentation-side Joi schemas, TypeScript types and worked examples.
@@ -501,6 +501,16 @@ components:
             classification, with disposalOrRecoveryCodes optional — D-031). At
             creation, weights are typically estimates (weight.isEstimate true);
             actual weights are recorded at collection.
+        isDeleted:
+          type: boolean
+          default: false
+          description: |
+            Soft-delete flag (D-009). Defaults to `false`. Must not be supplied
+            as `true` on create — only `PUT /movements/{movementId}` may set it
+            to `true`, and only while no Collection has been recorded against
+            this Movement; once a Collection exists the Movement can no longer
+            be deleted. Supplying `true` here is rejected as a `NotAllowed`
+            validation error.
 
     createMovementResponse:
       type: object
@@ -598,6 +608,16 @@ components:
             Actual weights per waste item. One entry per waste item declared at
             creation, in the same positional order; the array length must equal
             the creation array length (D-032, enforced server-side).
+        isDeleted:
+          type: boolean
+          default: false
+          description: |
+            Soft-delete flag (D-009). Defaults to `false`. Must not be supplied
+            as `true` on create — only `PUT /movements/{movementId}/collection`
+            may set it to `true`, and only while this Movement has not yet been
+            referenced in a Drop-off; once a Drop-off references it the
+            Collection can no longer be deleted. Supplying `true` here is
+            rejected as a `NotAllowed` validation error.
 
     recordCollectionResponse:
       type: object
@@ -712,6 +732,16 @@ components:
           description: Carrier performing the drop-off. Required (D-008); uses the full Phase 1 carrier shape.
         dropOff:
           $ref: '#/components/schemas/dropOffSite' 
+        isDeleted:
+          type: boolean
+          default: false
+          description: |
+            Soft-delete flag (D-009). Defaults to `false`. Must not be supplied
+            as `true` on create — only `PUT /transfers/{transferId}` may set it
+            to `true`, and only while no Receipt has been recorded against this
+            Transfer; once a Receipt exists the Transfer can no longer be
+            deleted. Supplying `true` here is rejected as a `NotAllowed`
+            validation error.
 
     dropOffResponse:
       type: object
@@ -1429,7 +1459,8 @@ paths:
         broker-initiated. The Movement ID returned in the response
         should be stored by the caller and used for any subsequent
         updates or related events (collection, drop-off,
-        fate-of-waste query).
+        fate-of-waste query). `isDeleted` must not be supplied as `true`
+        here — it can only be set via `PUT /movements/{movementId}` (D-009).
       operationId: createMovement
       requestBody:
         required: true
@@ -1457,6 +1488,14 @@ paths:
         Update an existing movement using its Movement ID. Before applying
         the update, the current record is snapshotted to a history store
         and the live record's revision counter is incremented (D-034).
+
+        `isDeleted` may be set `true` here to soft-delete the Movement, but
+        only while no Collection has been recorded against it — once a
+        Collection exists, attempting to set `isDeleted: true` is rejected
+        as a `BusinessRuleViolation`. A deleted Movement can be restored by
+        a further `PUT` with `isDeleted: false`. While a Movement is
+        deleted, no Collection may be recorded or updated against it, and
+        it may not be named in a Drop-off's `movementIds` (D-009).
       operationId: updateMovement
       requestBody:
         required: true
@@ -1488,6 +1527,11 @@ paths:
         new Collection ID. v1 supports static (producer-to-driver)
         collection only; transit (driver-to-driver) collection is parked
         pending BA confirmation.
+
+        Rejected as a `BusinessRuleViolation` if the Movement is currently
+        `isDeleted: true` (D-009). `isDeleted` must not be supplied as
+        `true` in this request — it can only be set via
+        `PUT /movements/{movementId}/collection`.
       operationId: recordCollection
       requestBody:
         required: true
@@ -1513,6 +1557,14 @@ paths:
         Update the collection event for the given Movement. Before applying
         the update, the current record is snapshotted to a history store
         and the live record's revision counter is incremented (D-034).
+
+        `isDeleted` may be set `true` here to soft-delete the Collection,
+        but only while this Movement has not yet been named in a Drop-off
+        — once it has, attempting to set `isDeleted: true` is rejected as a
+        `BusinessRuleViolation`. A deleted Collection can be restored by a
+        further `PUT` with `isDeleted: false`. While the Collection is
+        deleted, this Movement may not be named in a Drop-off's
+        `movementIds` (D-009).
       operationId: updateCollection
       requestBody:
         required: true
@@ -1562,6 +1614,13 @@ paths:
         carry, so it is enforced server-side and surfaced as a
         BusinessRuleViolation in `validation.warnings` (it may harden to a 400
         in a later revision).
+
+        Every Movement named in `movementIds` must be active: a Movement that
+        is currently `isDeleted: true`, or whose Collection is currently
+        `isDeleted: true`, must not be referenced here. Either case is
+        rejected as a `BusinessRuleViolation` (D-009). `isDeleted` must not be
+        supplied as `true` in this request — it can only be set via
+        `PUT /transfers/{transferId}`.
       operationId: recordDropOff
       requestBody:
         required: true
@@ -1592,6 +1651,13 @@ paths:
         via an individual Movement ID. Before applying the update, the
         current record is snapshotted to a history store and the live
         record's revision counter is incremented (D-034).
+
+        `isDeleted` may be set `true` here to soft-delete the Transfer, but
+        only while no Receipt has been recorded against it — once a Receipt
+        exists, attempting to set `isDeleted: true` is rejected as a
+        `BusinessRuleViolation`. A deleted Transfer can be restored by a
+        further `PUT` with `isDeleted: false`. While the Transfer is
+        deleted, no Receipt may be recorded or updated against it (D-009).
       operationId: updateDropOff
       requestBody:
         required: true
@@ -1646,6 +1712,11 @@ paths:
         `validation.warnings` rather than rejected. The exact comparison rules
         (including weight tolerance, since creation is an estimate and
         collection an actual) are still being defined (D-021).
+
+        Rejected as a `BusinessRuleViolation` if the Transfer is currently
+        `isDeleted: true` (D-009). Receipt itself has no `isDeleted` field —
+        once recorded, a receipt is the terminal event in the chain and
+        cannot be soft-deleted.
       operationId: recordReceipt
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
