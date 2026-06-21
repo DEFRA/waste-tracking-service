@@ -43,7 +43,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-017 | [Drop-off PUT restricted to soft-delete only](#drop-off-put-restricted-to-soft-delete-only) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-018 | [Drop-off address derivability](#drop-off-address-derivability) | ✅ Decided | 🟠 Medium | **Drop-off** |
 | D-031 | [Disposal/recovery codes optional at Creation](#disposalrecovery-codes-optional-at-creation) | ✅ Decided | 🟠 Medium | **Collection** |
-| D-032 | [Collection waste items align 1:1 by position with Creation](#collection-waste-items-align-11-by-position-with-creation) | ✅ Decided | 🟠 Medium | **Collection** |
+| D-032 | [Waste item weights are not captured at Collection or Drop-off](#waste-item-weights-are-not-captured-at-collection-or-drop-off) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-034 | [PUT operations use history/revision pattern across all events](#put-operations-use-historyrevision-pattern-across-all-events) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | ✅ Decided | 🟢 Low | **Spec structure** |
 | D-003 | [OpenAPI 3.0.3, not 3.1](#openapi-303-not-31) | ✅ Decided | 🟢 Low | **Spec structure** |
@@ -183,50 +183,48 @@ flow continue to use the deprecated endpoint with no Transfer ID.
 <a id="d-006"></a>
 ### Cross-check of receipt details against the linked drop-off
 
-**D-006** · ✅ Decided · Impact: 🟠 Medium · Area: **Receipt** · Related: [D-005](#d-005), [D-021](#d-021), [D-022](#d-022)
+**D-006** · ✅ Decided · Impact: 🟠 Medium · Area: **Receipt** · Related: [D-005](#d-005), [D-021](#d-021), [D-022](#d-022), [D-032](#d-032)
 
-**Context.** A receipt recorded against a Transfer carries carrier and
-waste details that overlap with details already recorded earlier in the
-movement journey. These could be required to match exactly, or treated as
-an opportunity to cross-check. An earlier draft of this decision named the
-linked drop-off as the comparison source. That no longer holds: the
-drop-off payload is a lighter, carrier-declared place model that carries
-no waste details (see [drop-off place declared by the carrier](#d-007)
-and the drop-off schema), so it cannot be the source for a waste-detail
-cross-check.
+**Context.** A receipt recorded against a Transfer carries carrier and waste
+details that overlap with details declared earlier in the movement journey.
+These could be required to match exactly, or treated as an opportunity to
+cross-check. Waste details are declared once, at Creation — the
+classification plus estimated weights held on the Movement. The operational
+events that follow, Collection and Drop-off, are carrier/site/timing records
+and carry no waste payload (see [D-032](#d-032), and for the drop-off place
+model [D-007](#d-007)). The receipt is therefore the first point in the
+journey where *actual* waste weights are recorded, and the only earlier
+comparison source for waste is the Creation declaration.
 
-**Decision.** Cross-check, surfacing mismatches as validation warnings
-rather than hard errors. The comparison sources are:
+**Decision.** Cross-check, surfacing mismatches as validation warnings rather
+than hard errors. The comparison sources are:
 
 - **Waste details** — compared against the *Movement record*: the waste
-  classification declared at **Creation** plus the actual weights recorded
-  at **Collection**. The receipt reaches these via the Transfer → Movement
-  IDs link (see [D-007](#d-007)); the **drop-off event is excluded** from
-  the waste cross-check because it carries no waste details.
-- **Carrier details** — compared against the carrier recorded on the
-  linked Movement chain (creation / collection / drop-off all carry a
-  carrier block).
+  classification and estimated weights declared at **Creation**. The receipt
+  reaches these via the Transfer → Movement IDs link (see [D-007](#d-007)).
+  Collection and Drop-off are **excluded** from the waste cross-check because
+  neither carries waste details.
+- **Carrier details** — compared against the carrier recorded on the linked
+  Movement chain (creation / collection / drop-off all carry a carrier
+  block).
 
 Because the Transfer ID is the path parameter on
-`POST /transfers/{transferId}/receipt` (see [receipt is linked to a
-drop-off via the Transfer ID](#receipt-is-linked-to-a-drop-off-via-the-transfer-id-path-parameter)),
-the cross-check is unconditional for every receipt recorded through the
-new endpoint — there is no "when `transferId` is supplied" branch. It does
-not apply to the deprecated `POST /movements/receive`, which carries no
-Transfer ID.
+`POST /transfers/{transferId}/receipt` (see [D-005](#d-005)), the cross-check
+is unconditional for every receipt recorded through the new endpoint — there
+is no "when `transferId` is supplied" branch. It does not apply to the
+deprecated `POST /movements/receive`, which carries no Transfer ID.
 
-**Consequences.** Receivers can still record receipts when paperwork has
-minor inconsistencies; the system surfaces the discrepancy without
-blocking the record. The `recordReceipt` endpoint description notes that
-differences are returned in `validation.warnings`, without committing to
-specific comparison rules. Note the weight chain the cross-check can
-exploit: Creation weights are estimates, Collection weights are actuals,
-and the receipt records what arrived — so a receipt-vs-collection weight
-delta is a meaningful, expected signal rather than necessarily an error.
-The exact granularity of the check (string match, field-by-field, weight
-tolerance, etc.) is still to be defined — see the cross-check granularity
-open question. (Contingent on Option 1 of the receipt-migration decision —
-see Open.)
+**Consequences.** Receivers can still record receipts when paperwork has minor
+inconsistencies; the system surfaces the discrepancy without blocking the
+record. The `recordReceipt` endpoint description notes that differences are
+returned in `validation.warnings`, without committing to specific comparison
+rules. Note the nature of the weight comparison: the Creation weights are
+estimates and the receipt records the actual weight that arrived, so a
+receipt-vs-Creation weight delta is an expected, estimate-versus-actual
+signal rather than necessarily an error. The exact granularity of the check
+(string match, field-by-field, weight tolerance, etc.) is still to be defined
+— see the [cross-check granularity](#d-021) open question. (Contingent on
+Option 1 of the [receipt-migration decision](#d-022) — see Open.)
 
 <a id="d-007"></a>
 ### Drop-off is many-to-one against Movement IDs
@@ -714,31 +712,28 @@ split question ([D-019](#d-019)): a planned code at Creation is not the
 same as `startTreatmentCode`/`finalTreatmentCode` derived at Receipt.
 
 <a id="d-032"></a>
-### Collection waste items align 1:1 by position with Creation
+### Waste item weights are not captured at Collection or Drop-off
 
-**D-032** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006), [D-015](#d-015)
+**D-032** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006)
 
-**Context.** The Collection event records *actual weights only* — full
-waste classification (EWC codes, description, containers, haz/POPs) lives
-on the Movement from Creation and is not repeated at Collection. The
-Collection `wasteItems` array therefore needs a way to map each weight back
-to the waste item it updates. There is no per-item identifier in the model.
+**Context.** Waste is described once, at Creation: the classification (EWC
+codes, description, containers, haz/POPs) and the estimated weights are
+declared on the Movement. The operational events that follow — Collection
+and Drop-off — are carrier/site/timing records; they capture *when*, *who*
+and *where*, not waste data. Actual weights are a property of what arrives,
+so they belong to the Receipt event.
 
-**Decision.** Map by array position. The Collection `wasteItems` array must
-contain exactly one entry per waste item declared at Creation, in the same
-order; entry *n* at Collection updates the actual weight of waste item *n*
-from Creation. To make this enforceable, **the Collection `wasteItems`
-length must equal the Creation `wasteItems` length** — a length mismatch is
-a validation error, not a warning.
+**Decision.** Neither the Collection nor the Drop-off event carries waste
+item weight information. `collectionRequest` and `dropOffRequest` have no
+`wasteItems` payload. Waste classification and estimated weights are declared
+at Creation; actual per-item weights are recorded at Receipt
+(`wasteItems[].weight`).
 
-**Consequences.** Vendors must preserve waste-item ordering between their
-Creation and Collection calls; reordering silently misattributes weights,
-and the length check is the only structural guard. The length-equality rule
-is data-dependent (it compares against the stored Movement) so it is
-enforced server-side, not expressible in the standalone request schema. If
-this positional contract proves fragile in vendor UR, revisit by adding a
-stable per-item identifier minted at Creation and echoed at Collection —
-recorded here so the trade-off is visible rather than assumed.
+**Consequences.** A waste item is observed at two fidelities: an estimate at
+Creation and an actual at Receipt. Vendors send no per-item weight data when
+recording Collection or Drop-off, keeping both payloads lean. The only point
+where declared and actual weights meet is the receipt-vs-Creation comparison
+([D-006](#d-006)).
 
 <a id="d-034"></a>
 ### PUT operations use history/revision pattern across all events

@@ -6,11 +6,6 @@
  * site. It is 1:1 with its parent Movement and is addressed via the
  * Movement ID in the URL path (D-015).
  *
- * Only actual weights are captured here — the full waste classification
- * (EWC codes, description, form, containers, haz/POPs) was declared at
- * Creation and is not repeated. wasteItems here correspond by position to
- * the wasteItems declared on the Movement.
- *
  * actualDateTimeCollected must be the actual time of collection, not the time
  * this record is submitted. For deferred recording, callers back-fill
  * the correct time.
@@ -20,8 +15,6 @@ export type {
   MeansOfTransport,
   CarrierReasonForNoRegistrationNumber,
   OtherReferenceForMovement,
-  Weight,
-  WeightMetric,
   BusinessAddress,
   CarrierDetails,
   ValidationResult
@@ -29,7 +22,6 @@ export type {
 
 import type {
   OtherReferenceForMovement,
-  Weight,
   CarrierDetails,
   ValidationResult
 } from './sharedTypes.js'
@@ -46,20 +38,6 @@ export type CollectionAddress = {
 export type Collection = {
   /** Address where the waste was physically collected. */
   address: CollectionAddress
-}
-
-// ---------------------------------------------------------------------------
-// Waste item at collection
-// ---------------------------------------------------------------------------
-
-/**
- * Actual weight of a single waste item recorded at collection.
- * Corresponds by position to the wasteItems array on the parent Movement.
- * Full waste classification details are on the Movement and are not repeated here.
- */
-export type CollectionWasteItem = {
-  /** Actual weight measured at collection. Set isEstimate: false when weighed; true for kerbside estimates. */
-  weight: Weight
 }
 
 // ---------------------------------------------------------------------------
@@ -90,9 +68,6 @@ export type RecordCollection = {
 
   /** Collection site details. */
   collection: Collection
-
-  /** Actual weights per waste item. One entry per waste item on the Movement, in creation order. */
-  wasteItems: CollectionWasteItem[]
 }
 
 /** Collection events return a validation envelope only — no new ID is minted. */

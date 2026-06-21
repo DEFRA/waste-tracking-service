@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: Digital Waste Tracking API
-  version: 0.2.3-alpha
+  version: 0.2.4-alpha
   description: |
     Extension of the Phase 1 Receipt of Waste API toward a fuller
     waste-movement journey covering creation, collection, drop-off,
@@ -391,21 +391,6 @@ components:
             - $ref: '#/components/schemas/addressWithFullAddress'
           description: Mandatory physical address where the waste was dropped off (D-018). Both fullAddress and postcode are required.
 
-    collectionWasteItem:
-      type: object
-      description: |
-        Per-item actual weight recorded at collection. The full waste
-        classification (EWC codes, description, containers, haz/POPs) is held on
-        the Movement from creation and is NOT repeated here. Entries correspond
-        by position to the Movement's wasteItems; the collection array length
-        must equal the creation array length (D-032, enforced server-side).
-      required: [weight]
-      properties:
-        weight:
-          allOf:
-            - $ref: '#/components/schemas/weight'
-          description: Actual weight of this waste item at collection. Set isEstimate false when weighed; true for kerbside estimates.
-
     driverDetails:
       type: object
       description: |
@@ -561,7 +546,6 @@ components:
         - actualDateTimeCollected
         - carrier
         - collection
-        - wasteItems
       properties:
         apiCode:
           type: string
@@ -601,15 +585,6 @@ components:
             rules apply (registrationNumber/reason; vehicleRegistration for Road).
         collection:
           $ref: '#/components/schemas/collectionSite'
-        wasteItems:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/collectionWasteItem'
-          description: |
-            Actual weights per waste item. One entry per waste item declared at
-            creation, in the same positional order; the array length must equal
-            the creation array length (D-032, enforced server-side).
         isDeleted:
           type: boolean
           default: false

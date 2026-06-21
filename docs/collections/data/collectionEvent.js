@@ -22,21 +22,6 @@ export const collection = {
   }
 }
 
-/**
- * Actual weights per waste item.
- * One entry per item declared at creation, in the same order.
- * The 0.5t estimate at creation was adjusted to 0.48t on collection.
- */
-export const wasteItems = [
-  {
-    weight: {
-      metric: 'Tonnes',
-      amount: 0.48,
-      isEstimate: false // Weighed at collection
-    }
-  }
-]
-
 // ---------------------------------------------------------------------------
 // Request bodies
 // ---------------------------------------------------------------------------
@@ -55,8 +40,7 @@ export const publicPostBody = {
   ],
   isDeleted: false,
   carrier,
-  collection,
-  wasteItems
+  collection
 }
 
 // Deferred recording — driver couldn't record at the time (no signal, paper-only site)
@@ -67,8 +51,7 @@ export const deferredPostBody = {
   yourUniqueReference: 'DRIVER-TRIP-001-DEFERRED',
   isDeleted: false,
   carrier,
-  collection,
-  wasteItems
+  collection
 }
 
 // Minimal valid payload — only required fields
@@ -77,8 +60,7 @@ export const minimalPostBody = {
   actualDateTimeCollected: '2025-09-15T08:34:00Z',
   isDeleted: false,
   carrier,
-  collection,
-  wasteItems
+  collection
 }
 
 // ---------------------------------------------------------------------------
