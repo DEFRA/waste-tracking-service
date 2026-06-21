@@ -2,13 +2,13 @@ openapi: 3.0.3
 
 info:
   title: Digital Waste Tracking API
-  version: 0.2.2-alpha
+  version: 0.2.3-alpha
   description: |
     Extension of the Phase 1 Receipt of Waste API toward a fuller
     waste-movement journey covering creation, collection, drop-off,
     receipt and producer tracking.
 
-    This 0.2.2-alpha revision completes the Phase 2 data layer: the
+    This 0.2.3-alpha revision completes the Phase 2 data layer: the
     creation, collection and drop-off request bodies are now fully
     specified (replacing the earlier placeholders), aligned with the
     documentation-side Joi schemas, TypeScript types and worked examples.
@@ -744,6 +744,39 @@ components:
             Transfer; once a Receipt exists the Transfer can no longer be
             deleted. Supplying `true` here is rejected as a `NotAllowed`
             validation error.
+
+    # PUT /transfers/{transferId} — restricted update body (D-017).
+    #
+    # A recorded drop-off is immutable under policy; the only property that may
+    # change is the soft-delete flag isDeleted (D-009). The drop-off PUT
+    # therefore accepts ONLY isDeleted (plus apiCode for caller identity). Every
+    # other dropOffRequest field is rejected with a NotAllowed validation error
+    # (additionalProperties: false). To correct a recorded drop-off, soft-delete
+    # it (isDeleted: true) and record a fresh drop-off via POST /transfers.
+    dropOffUpdateRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - apiCode
+        - isDeleted
+      properties:
+        apiCode:
+          type: string
+          format: uuid
+          description: |
+            Unique identifier of the submitting organisation (the carrier),
+            produced by Waste Tracking Service registration (D-027). Caller
+            identity only — not a mutable property of the drop-off record, so
+            its presence does not breach drop-off immutability (D-017).
+          example: 25b14080-5e77-4f91-9957-2482a0cb8775
+        isDeleted:
+          type: boolean
+          description: |
+            Soft-delete flag for the drop-off (D-009) — the ONLY property that
+            may be changed on a recorded drop-off (D-017). Setting true marks the
+            Transfer deleted; false restores it. Cannot be set true once a
+            Receipt has been recorded against the Transfer (BusinessRuleViolation).
+          example: true
 
     dropOffResponse:
       type: object
@@ -1645,31 +1678,36 @@ paths:
       - $ref: '#/components/parameters/transferIdPath'
     put:
       tags: [Drop-off]
-      summary: Update a drop-off
+      summary: Soft-delete or restore a drop-off
       description: |
-        Update the drop-off identified by its Transfer ID. The Transfer is
-        the aggregation point, so a single update applies to the drop-off
-        covering all Movements named in `movementIds` — no longer addressed
-        via an individual Movement ID. Before applying the update, the
-        current record is snapshotted to a history store and the live
-        record's revision counter is incremented (D-034).
+        A recorded drop-off is immutable under policy (D-017): its place,
+        carrier, timestamp and `movementIds` cannot be edited after the event.
+        The only permitted change is the soft-delete flag `isDeleted` (D-009),
+        so this operation accepts the restricted `dropOffUpdateRequest` only —
+        any other field in the body is rejected with a `NotAllowed` validation
+        error.
 
-        `isDeleted` may be set `true` here to soft-delete the Transfer, but
-        only while no Receipt has been recorded against it — once a Receipt
-        exists, attempting to set `isDeleted: true` is rejected as a
-        `BusinessRuleViolation`. A deleted Transfer can be restored by a
-        further `PUT` with `isDeleted: false`. While the Transfer is
-        deleted, no Receipt may be recorded or updated against it (D-009).
+        Setting `isDeleted: true` soft-deletes the Transfer, but only while no
+        Receipt has been recorded against it — once a Receipt exists, attempting
+        to set `isDeleted: true` is rejected as a `BusinessRuleViolation`. A
+        deleted Transfer can be restored by a further `PUT` with
+        `isDeleted: false`. While the Transfer is deleted, no Receipt may be
+        recorded or updated against it (D-009). Before applying the change the
+        current record is snapshotted to a history store and the live record's
+        revision counter is incremented (D-034).
+
+        To correct a recorded drop-off, soft-delete it (`isDeleted: true`) and
+        record a fresh drop-off via `POST /transfers`.
       operationId: updateDropOff
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/dropOffRequest'
+              $ref: '#/components/schemas/dropOffUpdateRequest'
       responses:
         "200":
-          description: Drop-off updated.
+          description: Drop-off soft-delete state updated.
           content:
             application/json:
               schema:

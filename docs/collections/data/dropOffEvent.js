@@ -117,3 +117,58 @@ export const transferNotFoundError = {
   code: 'TRANSFER_NOT_FOUND',
   message: 'No transfer found for the provided transferId.'
 }
+
+// ---------------------------------------------------------------------------
+// Update Drop-off — PUT /transfers/{transferId}
+//
+// A recorded drop-off is immutable except for soft-delete (D-017). The update
+// body carries ONLY apiCode and isDeleted; every other field is rejected as
+// NotAllowed. To correct a recorded drop-off, soft-delete it and record a fresh
+// one via POST /transfers.
+// ---------------------------------------------------------------------------
+
+// Soft-delete an existing drop-off (transfer)
+export const updateDropOffSoftDeleteBody = {
+  apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
+  isDeleted: true
+}
+
+// Restore a previously soft-deleted drop-off
+export const updateDropOffRestoreBody = {
+  apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
+  isDeleted: false
+}
+
+// Rejected: a PUT carrying any field other than apiCode/isDeleted (here
+// movementIds and dropOff) is not allowed — the drop-off is immutable except
+// for soft-delete (D-017).
+export const updateDropOffForbiddenFieldBody = {
+  apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
+  isDeleted: false,
+  movementIds: ['25HRA0B2'],
+  dropOff
+}
+
+export const updateDropOffForbiddenFieldError = {
+  validation: {
+    errors: [
+      {
+        key: 'movementIds',
+        errorType: 'NotAllowed',
+        message: 'Field is not permitted on a drop-off update — a recorded drop-off is immutable except for isDeleted (D-017).'
+      },
+      {
+        key: 'dropOff',
+        errorType: 'NotAllowed',
+        message: 'Field is not permitted on a drop-off update — a recorded drop-off is immutable except for isDeleted (D-017).'
+      }
+    ]
+  }
+}
+
+// 200 — validation envelope only, no identifier (it is in the path)
+export const updateDropOffResponse = {
+  validation: {
+    warnings: []
+  }
+}

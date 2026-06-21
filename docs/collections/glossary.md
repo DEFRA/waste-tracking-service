@@ -90,6 +90,13 @@ single Receipt, not by creating new Movements — the Movement is unchanged.
 How the partial outcome is represented on the receipt is a data-model
 question still being worked through and is not yet in the API spec.
 
+A recorded drop-off is **immutable**: once a Transfer has been registered via
+`POST /transfers`, the only property that can change is its soft-delete flag
+`isDeleted`. `PUT /transfers/{transferId}` accepts that flag alone — the place,
+carrier, timestamp and Movement IDs cannot be re-edited. To correct a drop-off,
+soft-delete it and record a fresh one (see D-017 in the
+[decisions register](decisions.md)).
+
 ## Actors and roles
 
 ### Producer

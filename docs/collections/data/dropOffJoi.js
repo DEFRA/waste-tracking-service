@@ -12,6 +12,7 @@
  * - No driverDetails — driver is not part of the Drop-off payload.
  * - No receiver details — receiver is identified at receipt time, not here.
  * - A receipt event may not always follow a drop-off, for example when waste is left at an exempt place.
+ * - A recorded drop-off is immutable except for soft-delete
  *
  * The hazardous-waste single-Movement constraint (D-010) is data-dependent
  * (requires knowing whether any referenced Movement carries hazardous waste)
@@ -140,5 +141,31 @@ export const recordDropOffSchema = Joi.object({
   'POST /transfers/{transferId}/receipt, where applicable. ' +
   'A receipt event may not always follow a drop-off.'
 )
+
+export const updateDropOffSchema = Joi.object({
+  apiCode: Joi.string()
+    .uuid()
+    .required()
+    .description(
+      'Unique identifier of the submitting organisation produced by the Waste Tracking Service registration process. ' +
+      'Caller identity only — not a mutable property of the drop-off record (D-017).'
+    ),
+
+  isDeleted: Joi.boolean()
+    .strict()
+    .required()
+    .description(
+      'Soft-delete flag (D-009) — the only property that may be changed on a recorded drop-off (D-017). ' +
+      'true soft-deletes the transfer; false restores it. ' +
+      'Cannot be set to true once a Receipt has been recorded against this Transfer — rejected server-side as a BusinessRuleViolation.'
+    )
+})
+  .unknown(false)
+  .required()
+  .description(
+    'Restricted drop-off update body (D-017). PUT /transfers/{transferId}. ' +
+    'A recorded drop-off is immutable except for the isDeleted soft-delete flag; ' +
+    'any field other than apiCode and isDeleted is rejected as NotAllowed.'
+  )
 
 export default recordDropOffSchema

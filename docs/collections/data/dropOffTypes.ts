@@ -118,3 +118,31 @@ export type RecordDropOffResponse = {
     warnings?: ValidationResult[]
   }
 }
+
+// ---------------------------------------------------------------------------
+// Update Drop-off — PUT /transfers/{transferId}
+//
+// A recorded drop-off is immutable except for soft-delete (D-017). The PUT body
+// is restricted to apiCode (caller identity) and isDeleted (D-009); any other
+// field is rejected (NotAllowed). To correct a drop-off, soft-delete it and
+// record a fresh one via POST /transfers.
+// ---------------------------------------------------------------------------
+
+export type UpdateDropOff = {
+  /** Unique identifier of the submitting organisation produced by registration. Caller identity only. */
+  apiCode: string
+
+  /**
+   * Soft-delete flag (D-009) — the only property that may change on a recorded
+   * drop-off (D-017). true soft-deletes the transfer; false restores it. Cannot
+   * be set to true once a Receipt has been recorded against this Transfer.
+   */
+  isDeleted: boolean
+}
+
+export type UpdateDropOffResponse = {
+  /** Validation envelope only — the updated record is not echoed (the identifier is in the path). */
+  validation?: {
+    warnings?: ValidationResult[]
+  }
+}

@@ -40,6 +40,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-009 | [Soft-delete via `isDeleted`, set only on PUT](#soft-delete-via-isdeleted-set-only-on-put) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-010 | [Hazardous waste cannot be merged across Movements at drop-off](#hazardous-waste-cannot-be-merged-across-movements-at-drop-off) | ✅ Decided | 🟠 Medium | **Drop-off** |
 | D-014 | [Sub-resource 404 shape: parent-not-found vs event-not-recorded](#sub-resource-404-shape-parent-not-found-vs-event-not-recorded) | ✅ Decided | 🟠 Medium | **Lifecycle** |
+| D-017 | [Drop-off PUT restricted to soft-delete only](#drop-off-put-restricted-to-soft-delete-only) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-018 | [Drop-off address derivability](#drop-off-address-derivability) | ✅ Decided | 🟠 Medium | **Drop-off** |
 | D-031 | [Disposal/recovery codes optional at Creation](#disposalrecovery-codes-optional-at-creation) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-032 | [Collection waste items align 1:1 by position with Creation](#collection-waste-items-align-11-by-position-with-creation) | ✅ Decided | 🟠 Medium | **Collection** |
@@ -47,7 +48,6 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | ✅ Decided | 🟢 Low | **Spec structure** |
 | D-003 | [OpenAPI 3.0.3, not 3.1](#openapi-303-not-31) | ✅ Decided | 🟢 Low | **Spec structure** |
 | D-011 | [Static and transit collection collapsed into a single endpoint](#static-and-transit-collection-collapsed-into-a-single-endpoint) | ✅ Decided | 🟢 Low | **Collection** |
-| D-017 | [Drop-off PUT semantics in multi-collection cases](#drop-off-put-semantics-in-multi-collection-cases) | ✅ Decided | 🟢 Low | **Resource model** |
 | D-022 | [Receipt migration: new endpoint vs extend Phase 1](#receipt-migration-new-endpoint-vs-extend-phase-1) | ⏳ Open | 🔴 High | **Receipt** |
 | D-025 | [Receipt acceptance / rejection outcome (new in Phase 2)](#receipt-acceptance-rejection-outcome-new-in-phase-2) | ⏳ Open | 🔴 High | **Receipt** |
 | D-019 | [Fate-of-waste GET — producer journey query (proposal)](#fate-of-waste-get-producer-journey-query-proposal) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
@@ -231,7 +231,7 @@ see Open.)
 <a id="d-007"></a>
 ### Drop-off is many-to-one against Movement IDs
 
-**D-007** · ✅ Decided · Impact: 🔴 High · Area: **Drop-off** · Related: [D-009](#d-009), [D-015](#d-015), [D-018](#d-018)
+**D-007** · ✅ Decided · Impact: 🔴 High · Area: **Drop-off** · Related: [D-009](#d-009), [D-015](#d-015), [D-018](#d-018), [D-017](#d-017)
 
 **Context.** A multi-collection run delivers several Movements at once
 to the same receiver site. The drop-off endpoint could either be
@@ -292,7 +292,7 @@ that already supply both forms.
 <a id="d-009"></a>
 ### Soft-delete via `isDeleted`, set only on PUT
 
-**D-009** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-007](#d-007), [D-014](#d-014), [D-015](#d-015), [D-034](#d-034)
+**D-009** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-007](#d-007), [D-014](#d-014), [D-015](#d-015), [D-034](#d-034), [D-017](#d-017)
 
 **Context.** An earlier decision deferred deletion entirely ("no deletion
 endpoint in this version"), then a later pass added `DELETE` endpoints at
@@ -612,21 +612,61 @@ collection is now a 1:1 sub-resource of a Movement, and what was
 called multi-collection is now multi-Movement-under-one-Transfer.
 
 <a id="d-017"></a>
-### Drop-off PUT semantics in multi-collection cases
+### Drop-off PUT restricted to soft-delete only
 
-**D-017** · ✅ Decided · Impact: 🟢 Low · Area: **Resource model** · Related: [D-016](#d-016)
+**D-017** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-007](#d-007), [D-009](#d-009), [D-016](#d-016), [D-018](#d-018), [D-034](#d-034)
 
-Asked whether updating a drop-off via one Movement's URL updated the
-shared drop-off or only that Movement's view. Dissolved by the Level 2
-restructure: a drop-off is a Transfer addressed by `transferId`, not
-addressed through any Movement. `PUT /transfers/{transferId}` updates the
-single shared Transfer covering all its `movementIds`; there is no
-per-Movement view. (See *Level 2 resource model*.)
+**Context.** A drop-off is a Transfer addressed by `transferId`
+(`PUT /transfers/{transferId}`), covering all the Movements named in its
+`movementIds`; there is no per-Movement view of a drop-off — that was settled by
+the Level 2 restructure (see [D-016](#d-016)). A drop-off records a physical
+handover of waste at a place at a point in time: the carrier-declared site, the
+aggregated Movement IDs, the carrier, and the actual timestamp. As an audit fact
+about something that has already happened, policy requires it to be immutable
+once recorded.
+
+**Decision.** The drop-off `PUT` is de-potentiated. Once a drop-off is
+registered, the only property that may change is `isDeleted` (the soft-delete
+flag from [D-009](#d-009)). `PUT /transfers/{transferId}` does not accept
+`dropOffRequest`; it accepts a restricted `dropOffUpdateRequest` carrying only
+`isDeleted` — plus `apiCode` for caller identity, which is not a property of the
+drop-off record and so does not breach immutability. Any other field is rejected
+with a `NotAllowed` validation error (`additionalProperties: false`). The
+history/revision pattern ([D-034](#d-034)) still applies to the `isDeleted`
+mutation.
+
+Correcting a recorded drop-off is therefore not an in-place edit: soft-delete the
+erroneous Transfer (`isDeleted: true`) and record a fresh drop-off via
+`POST /transfers` — subject to D-009's rule that a Transfer cannot be deleted
+once a Receipt has been recorded against it.
+
+**Consequences.**
+- `PUT /transfers/{transferId}` (`updateDropOff`) is a soft-delete toggle only;
+  its body is `dropOffUpdateRequest`, not `dropOffRequest`. Movement and
+  Collection `PUT`s are unchanged and still accept full updates, so drop-off is
+  asymmetric with them (see open question).
+- [D-018](#d-018) follows from this: `dropOff.address` is required on
+  `POST /transfers` only, since it is not part of the `PUT` body.
+- [D-007](#d-007): the many-to-many Movement↔Transfer relationship is fixed at
+  `POST` and cannot be altered by a later `PUT`; re-aggregation means
+  delete + re-create.
+
+**Open questions — for BA / policy:**
+1. **Cross-event symmetry.** Should the same immutability apply to Movement and
+   Collection `PUT`s, or is drop-off deliberately the only immutable event? The
+   asymmetry should be intentional, not incidental.
+2. **Correction after receipt.** Under D-009 a Transfer cannot be soft-deleted
+   once a Receipt exists. With in-place edit also removed, a drop-off with a
+   recorded receipt has no correction path. Acceptable, or is an exception
+   needed?
+3. **`apiCode` in the restricted body.** Confirm `apiCode` stays as caller
+   identity (vs. relying solely on the Bearer token). If auth is token-only,
+   `isDeleted` is the entire body.
 
 <a id="d-018"></a>
 ### Drop-off address derivability
 
-**D-018** · ✅ Decided · Impact: 🟠 Medium · Area: **Drop-off** · Related: [D-007](#d-007)
+**D-018** · ✅ Decided · Impact: 🟠 Medium · Area: **Drop-off** · Related: [D-007](#d-007), [D-017](#d-017)
 
 **Context.** The drop-off address (`dropOff.address`) was initially optional in
 the spec. The open question was whether it should be **mandatory**, stay
@@ -642,11 +682,12 @@ was physically dropped off — a material audit fact that cannot be reliably der
 from the planned receiver, particularly in rejection-retry scenarios. Requiring it
 at the point of recording prevents gaps in the audit trail.
 
-**Consequences.** `dropOff.address` is a required field on both
-`POST /transfers` and `PUT /transfers/{transferId}`. Callers must supply the
-address even when the actual drop-off location matches their planned receiver
-estimate. Reflected in the OpenAPI spec (`dropOffSite` `required: [siteName,
-address]`).
+**Consequences.** `dropOff.address` is a required field on `POST /transfers`
+(reflected in the OpenAPI spec as `dropOffSite` `required: [siteName, address]`);
+callers must supply it even when the actual drop-off location matches their
+planned receiver estimate. It is not part of the drop-off `PUT` body, which is
+restricted to `isDeleted` (`dropOffUpdateRequest`, see [D-017](#d-017)), so the
+address is captured once at `POST` and never re-edited.
 
 <a id="d-031"></a>
 ### Disposal/recovery codes optional at Creation
@@ -702,7 +743,7 @@ recorded here so the trade-off is visible rather than assumed.
 <a id="d-034"></a>
 ### PUT operations use history/revision pattern across all events
 
-**D-034** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-009](#d-009), [D-014](#d-014), [D-016](#d-016)
+**D-034** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-009](#d-009), [D-014](#d-014), [D-016](#d-016), [D-017](#d-017)
 
 **Context.** The Phase 1 receipt `PUT /movements/{wasteTrackingId}/receive` is implemented with a history/revision pattern: before applying an update, the current live record is snapshotted into a separate history store, and a server-side revision counter on the live record is incremented. This gives a full audit trail of every mutation without exposing multiple versions through the public API. The revision counter also acts as an optimistic concurrency guard, preventing two concurrent PUTs from silently overwriting each other.
 
