@@ -567,10 +567,6 @@ components:
           type: string
           description: Caller's own reference for this collection event (e.g. a weighbridge ticket number).
           example: DRIVER-TRIP-001
-        specialHandlingRequirements:
-          type: string
-          maxLength: 5000
-          description: Special handling instructions relevant to the collection event.
         otherReferencesForMovement:
           type: array
           items:
@@ -695,10 +691,6 @@ components:
           type: string
           description: Caller's own reference for this drop-off event (e.g. a route sheet number).
           example: DRIVER-RUN-AM-001
-        specialHandlingRequirements:
-          type: string
-          maxLength: 5000
-          description: Special handling instructions relevant to the drop-off event.
         otherReferencesForMovement:
           type: array
           items:

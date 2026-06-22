@@ -31,7 +31,6 @@ export const publicPostBody = {
   apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
   actualDateTimeCollected: '2025-09-15T08:34:00Z', // Actual time of collection
   yourUniqueReference: 'DRIVER-TRIP-001',
-  specialHandlingRequirements: 'Handle with care and keep upright.',
   otherReferencesForMovement: [
     {
       label: 'weighbridgeTicket',

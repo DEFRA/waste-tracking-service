@@ -52,7 +52,6 @@ export type RecordCollection = {
   actualDateTimeCollected: string
 
   yourUniqueReference?: string
-  specialHandlingRequirements?: string
   otherReferencesForMovement?: OtherReferenceForMovement[]
 
   /**

@@ -107,10 +107,6 @@ export const recordDropOffSchema = Joi.object({
       'For example, a route sheet number or driver trip reference.'
     ),
 
-  specialHandlingRequirements: Joi.string()
-    .max(5000)
-    .description('Special handling instructions relevant to the drop-off event.'),
-
   otherReferencesForMovement: Joi.array()
     .items(otherReferenceSchema)
     .description('Additional label/reference pairs for this drop-off event.'),

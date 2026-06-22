@@ -84,7 +84,6 @@ export type RecordDropOff = {
   actualDateTimeDropOff: string
 
   yourUniqueReference?: string
-  specialHandlingRequirements?: string
   otherReferencesForMovement?: OtherReferenceForMovement[]
 
   /**

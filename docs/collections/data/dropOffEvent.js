@@ -54,7 +54,6 @@ export const multiMovementPostBody = {
   movementIds: ['25HRA0B2', '25TKP3C9', '25ZWQ7D1'],
   actualDateTimeDropOff: '2025-09-15T11:15:00Z',
   yourUniqueReference: 'DRIVER-RUN-AM-001',
-  specialHandlingRequirements: 'Keep segregated until receipt confirmation.',
   otherReferencesForMovement: [
     {
       label: 'routeSheetNumber',

@@ -67,10 +67,6 @@ export const recordCollectionSchema = Joi.object({
       'For example, a weighbridge ticket number or trip sheet reference.'
     ),
 
-  specialHandlingRequirements: Joi.string()
-    .max(5000)
-    .description('Special handling instructions relevant to the collection event.'),
-
   otherReferencesForMovement: Joi.array()
     .items(otherReferenceSchema)
     .description('Additional label/reference pairs for this collection event.'),
