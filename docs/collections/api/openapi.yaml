@@ -2,13 +2,13 @@ openapi: 3.0.3
 
 info:
   title: Digital Waste Tracking API
-  version: 0.2.4-alpha
+  version: 0.2.5-alpha
   description: |
     Extension of the Phase 1 Receipt of Waste API toward a fuller
     waste-movement journey covering creation, collection, drop-off,
     receipt and producer tracking.
 
-    This 0.2.3-alpha revision completes the Phase 2 data layer: the
+    This 0.2.5-alpha revision completes the Phase 2 data layer: the
     creation, collection and drop-off request bodies are now fully
     specified (replacing the earlier placeholders), aligned with the
     documentation-side Joi schemas, TypeScript types and worked examples.
@@ -533,11 +533,12 @@ components:
 
     # Collection event — POST /movements/{movementId}/collection.
     #
-    # Records the physical pickup of waste at a producer site. The movementId
-    # is the path parameter and is not part of the body. Only actual weights are
-    # captured here; the full classification stays on the Movement from creation.
-    # Models static collection only (producer-to-driver); transit collection
-    # (driver-to-driver) is parked pending BA confirmation (D-011, D-029).
+    # Records one event in a Movement's ordered collection sequence. The
+    # movementId is the path parameter and is not part of the body. Only actual
+    # weights are captured here; the full classification stays on the Movement
+    # from creation. A STATIC producer-to-driver pickup is followed by zero or
+    # more TRANSIT driver-to-driver handovers (D-029); POST appends the next
+    # event, PUT corrects/soft-deletes the latest active event.
 
     collectionRequest:
       type: object
@@ -563,6 +564,21 @@ components:
             was submitted. For deferred or retrospective recording, back-fill the
             real collection time. ISO 8601.
           example: 2025-09-15T08:34:00Z
+        collectionType:
+          type: string
+          enum: [STATIC, TRANSIT]
+          default: STATIC
+          description: |
+            Whether this event is a `STATIC` producer-to-driver pickup or a
+            `TRANSIT` driver-to-driver handover (D-029). Optional; defaults to
+            `STATIC` when omitted.
+            <p><font color="green"><b>Business Rules:</b></font></p>
+            <ul>
+            <li>A Movement's collection events form one ordered sequence. The first active (non-deleted) event must be `STATIC`; every later active event must be `TRANSIT`.</li>
+            <li>`POST` appends the next event to the sequence. The sequence is closed once this Movement is named in a Drop-off's `movementIds` — a `POST` after that is rejected as a `BusinessRuleViolation`.</li>
+            <li>A single Movement is never split or forked across carriers: two loads moving between the same pair of drivers are two Movements, each with its own STATIC→TRANSIT* sequence. There is no cap on the number of TRANSIT events.</li>
+            </ul>
+          example: STATIC
         yourUniqueReference:
           type: string
           description: Caller's own reference for this collection event (e.g. a weighbridge ticket number).
@@ -579,6 +595,18 @@ components:
             from creation (D-008). Uses the full Phase 1 carrier shape — by
             collection the carrier is physically present, so the strict carrier
             rules apply (registrationNumber/reason; vehicleRegistration for Road).
+        receivedFromCarrier:
+          allOf:
+            - $ref: '#/components/schemas/carrier'
+          description: |
+            The carrier this Movement was received *from* on a `TRANSIT`
+            (driver-to-driver) handover (D-029). Same shape as `carrier`.
+            <p><font color="green"><b>Business Rules:</b></font></p>
+            <ul>
+            <li>Required when `collectionType` is `TRANSIT`.</li>
+            <li>Must not be provided when `collectionType` is `STATIC` (mirrors the `registrationNumber`/`reasonForNoRegistrationNumber` mutual-exclusivity pattern).</li>
+            <li>Captured for the record only — it is not cross-checked against the preceding event's `carrier`; any discrepancy is left for regulators to detect (D-029).</li>
+            </ul>
         collection:
           $ref: '#/components/schemas/collectionSite'
         isDeleted:
@@ -591,14 +619,20 @@ components:
             referenced in a Drop-off; once a Drop-off references it the
             Collection can no longer be deleted. Supplying `true` here is
             rejected as a `NotAllowed` validation error.
+            <p><font color="green"><b>Business Rules (transit sequence, D-029):</b></font></p>
+            <ul>
+            <li>Only the *latest active* event in the Movement's collection sequence may be soft-deleted (tail-peel). Deleting the latest `TRANSIT` makes the prior event the new latest; the `STATIC` head can only be deleted when it is the sole remaining event.</li>
+            <li>Attempting to delete any earlier event is rejected as a `BusinessRuleViolation`.</li>
+            </ul>
 
     recordCollectionResponse:
       type: object
       description: |
         Returned on successful collection record — a validation envelope
-        with any warnings. The collection is addressed by its Movement ID
-        (`/movements/{movementId}/collection`); no public collection
-        identifier is returned.
+        with any warnings. The event is appended to the Movement's ordered
+        collection sequence and addressed by its position under
+        `/movements/{movementId}/collection`; no public collection identifier
+        is returned (D-012/D-016).
       properties:
         validation:
           type: object
@@ -1524,15 +1558,21 @@ paths:
       tags: [Collection]
       summary: Record the collection for a movement
       description: |
-        Record the collection event for the given Movement, where waste
-        passes from the producer to the driver at a producer site. Mints a
-        new Collection ID. v1 supports static (producer-to-driver)
-        collection only; transit (driver-to-driver) collection is parked
-        pending BA confirmation.
+        Append a collection event to the given Movement's ordered collection
+        sequence (D-029). The first event is a `STATIC` producer-to-driver
+        pickup; each subsequent event is a `TRANSIT` driver-to-driver
+        handover. Each call appends the next event and mints its (internal)
+        Collection ID — events are addressed by position in the sequence, not
+        by a public per-event id (D-012/D-016). See `collectionType` and
+        `receivedFromCarrier` on `collectionRequest` for the per-event rules.
 
-        Rejected as a `BusinessRuleViolation` if the Movement is currently
-        `isDeleted: true` (D-009). `isDeleted` must not be supplied as
-        `true` in this request — it can only be set via
+        The sequence is closed once this Movement is named in a Drop-off's
+        `movementIds` — a `POST` after that point is rejected as a
+        `BusinessRuleViolation`.
+
+        Also rejected as a `BusinessRuleViolation` if the Movement is
+        currently `isDeleted: true` (D-009). `isDeleted` must not be supplied
+        as `true` in this request — it can only be set via
         `PUT /movements/{movementId}/collection`.
       operationId: recordCollection
       requestBody:
@@ -1556,17 +1596,24 @@ paths:
       tags: [Collection]
       summary: Update the collection for a movement
       description: |
-        Update the collection event for the given Movement. Before applying
-        the update, the current record is snapshotted to a history store
-        and the live record's revision counter is incremented (D-034).
+        Correct or soft-delete the *latest active* event in the given
+        Movement's collection sequence (D-029). `PUT` acts on the latest
+        active event only; correcting an arbitrary earlier event is out of
+        scope for v1 and is tracked as a follow-up (D-035). Before applying
+        the update, the current record is snapshotted to a history store and
+        the live record's revision counter is incremented (D-034).
 
-        `isDeleted` may be set `true` here to soft-delete the Collection,
-        but only while this Movement has not yet been named in a Drop-off
-        — once it has, attempting to set `isDeleted: true` is rejected as a
-        `BusinessRuleViolation`. A deleted Collection can be restored by a
+        Once the sequence is closed (this Movement has been named in a
+        Drop-off's `movementIds`), `PUT` is blocked entirely — both data
+        correction and soft-delete — for parity with the immutable drop-off
+        record (D-017); the attempt is rejected as a `BusinessRuleViolation`.
+
+        `isDeleted` may be set `true` here to soft-delete the latest active
+        event (tail-peel); the `STATIC` head can only be deleted when it is
+        the sole remaining event. A deleted event can be restored by a
         further `PUT` with `isDeleted: false`. While the Collection is
-        deleted, this Movement may not be named in a Drop-off's
-        `movementIds` (D-009).
+        deleted, this Movement may not be named in a Drop-off's `movementIds`
+        (D-009).
       operationId: updateCollection
       requestBody:
         required: true

@@ -42,6 +42,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-014 | [Sub-resource 404 shape: parent-not-found vs event-not-recorded](#sub-resource-404-shape-parent-not-found-vs-event-not-recorded) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-017 | [Drop-off PUT restricted to soft-delete only](#drop-off-put-restricted-to-soft-delete-only) | ✅ Decided | 🟠 Medium | **Lifecycle** |
 | D-018 | [Drop-off address derivability](#drop-off-address-derivability) | ✅ Decided | 🟠 Medium | **Drop-off** |
+| D-029 | [Transit collection (driver-to-driver) recorded as a sequence of collection events](#transit-collection-driver-to-driver-recorded-as-a-sequence-of-collection-events) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-031 | [Disposal/recovery codes optional at Creation](#disposalrecovery-codes-optional-at-creation) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-032 | [Waste item weights are not captured at Collection or Drop-off](#waste-item-weights-are-not-captured-at-collection-or-drop-off) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-034 | [PUT operations use history/revision pattern across all events](#put-operations-use-historyrevision-pattern-across-all-events) | ✅ Decided | 🟠 Medium | **Lifecycle** |
@@ -56,7 +57,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-024 | [`wasteTrackingId` ↔ `movementId` reconciliation](#wastetrackingid-movementid-reconciliation) | ⏳ Open | 🟠 Medium | **Identifiers** |
 | D-027 | [Per-organisation vs per-actor API credentials](#per-organisation-vs-per-actor-api-credentials) | ⏳ Open | 🟠 Medium | **Onboarding** |
 | D-028 | [Pre-generated Transfer IDs for offline drivers](#pre-generated-transfer-ids-for-offline-drivers) | ⏳ Open | 🟠 Medium | **Identifiers** |
-| D-029 | [Transit collection (driver-to-driver) — parked](#transit-collection-driver-to-driver-parked) | ⏸️ Parked | 🟢 Low | **Collection** |
+| D-035 | [Addressing an individual collection event for correction](#addressing-an-individual-collection-event-for-correction) | ⏳ Open | 🟠 Medium | **Lifecycle** |
 | D-030 | [Carrier-vs-broker discriminated union on `POST /movements`](#carrier-vs-broker-discriminated-union-on-post-movements) | ⏸️ Parked | 🟢 Low | **Actors** |
 | D-033 | [Per-event GET endpoints — parked](#per-event-get-endpoints-parked) | ⏸️ Parked | 🟢 Low | **Lifecycle** |
 
@@ -290,7 +291,7 @@ that already supply both forms.
 <a id="d-009"></a>
 ### Soft-delete via `isDeleted`, set only on PUT
 
-**D-009** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-007](#d-007), [D-014](#d-014), [D-015](#d-015), [D-034](#d-034), [D-017](#d-017)
+**D-009** · ✅ Decided · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-007](#d-007), [D-014](#d-014), [D-015](#d-015), [D-017](#d-017), [D-029](#d-029), [D-034](#d-034)
 
 **Context.** An earlier decision deferred deletion entirely ("no deletion
 endpoint in this version"), then a later pass added `DELETE` endpoints at
@@ -365,6 +366,14 @@ in addition to the existence checks already in place ([D-014](#d-014)).
 Supersedes the earlier "non-binding DELETE proposal" decision; the
 malformed `DELETE /movements/create` from the original deferred-deletion
 decision remains gone.
+
+For collection specifically, [D-029](#d-029) adds a further restriction
+once a Movement carries a sequence of collection events: only the *latest
+active* event may be soft-deleted (tail-peel), so the `STATIC` head cannot
+be removed while active `TRANSIT` events still follow it. The "no subsequent
+event" rule above still applies unchanged at the chain boundary — no
+collection event may be deleted once the Movement has been referenced in a
+Drop-off.
 
 <a id="d-010"></a>
 ### Hazardous waste cannot be merged across Movements at drop-off
@@ -521,7 +530,7 @@ for `PUT` callers: record the event with `POST` first). The
 <a id="d-015"></a>
 ### Movement ↔ Collection and Transfer ↔ Receipt are 1:1
 
-**D-015** · ✅ Decided · Impact: 🔴 High · Area: **Resource model** · Related: [D-009](#d-009), [D-016](#d-016), [D-025](#d-025)
+**D-015** · ✅ Decided · Impact: 🔴 High · Area: **Resource model** · Related: [D-009](#d-009), [D-016](#d-016), [D-025](#d-025), [D-029](#d-029)
 
 **Context.** While working through the Level 2 restructure (see next
 entry), it became important to be precise about the relationships
@@ -547,6 +556,14 @@ each Transfer has exactly one Receipt event. The relationships are
   how Phase 2 represents acceptance/rejection outcomes is an open decision
   (see Open).
 
+**Amended by [D-029](#d-029).** The Movement↔Collection half is now one
+*or more* ordered collection events: a driver-to-driver transit handover
+appends a further collection event to the same Movement rather than minting
+a new one. The Transfer↔Receipt half, the Movement↔Transfer many-to-one
+relationship, and the "multiple producers on a run → multiple Movements"
+rule above are all unchanged — the amendment is specific to transit
+handovers on a single Movement.
+
 **Consequences.** This is the structural assumption underlying the
 Level 2 restructure. Each sub-resource endpoint addresses a single event
 record, not a list — see [D-033](#d-033) for the parked read definitions.
@@ -557,7 +574,7 @@ multiple Transfer IDs in one run.
 <a id="d-016"></a>
 ### Level 2 (Richardson Maturity Model) resource model
 
-**D-016** · ✅ Decided · Impact: 🔴 High · Area: **Resource model** · Related: [D-011](#d-011), [D-012](#d-012), [D-015](#d-015), [D-017](#d-017)
+**D-016** · ✅ Decided · Impact: 🔴 High · Area: **Resource model** · Related: [D-011](#d-011), [D-012](#d-012), [D-015](#d-015), [D-017](#d-017), [D-029](#d-029), [D-035](#d-035)
 
 **Context.** The original API spec used verb-shaped URL segments
 (`/movements/create`, `/movements/collection`, `/movements/drop-off`,
@@ -596,6 +613,13 @@ Movement ID and Transfer ID remain the only public IDs. Per-event IDs
 by this; the Level 2 adoption *would* have required them as URL
 parameters if the cardinality were 1:many, but at 1:1 the parent ID
 is sufficient.
+
+**Amended by [D-029](#d-029).** This holds for every sub-resource except
+collection, which D-029 makes 1:N. A collection event is addressed by its
+*position* in the Movement's ordered sequence — the parent Movement ID plus
+position is sufficient, so D-029 still introduces no public per-event id.
+Whether to expose the internal Collection ID after all, for correcting an
+arbitrary earlier event, is the open question [D-035](#d-035).
 
 The Phase 1 receipt endpoints (`POST /movements/receive`,
 `PUT /movements/{wasteTrackingId}/receive`) remain in the spec marked `deprecated:
@@ -686,6 +710,160 @@ callers must supply it even when the actual drop-off location matches their
 planned receiver estimate. It is not part of the drop-off `PUT` body, which is
 restricted to `isDeleted` (`dropOffUpdateRequest`, see [D-017](#d-017)), so the
 address is captured once at `POST` and never re-edited.
+
+<a id="d-029"></a>
+### Transit collection (driver-to-driver) recorded as a sequence of collection events
+
+**D-029** · ✅ Decided · Impact: 🟠 Medium · Area: **Collection** · Related: [D-006](#d-006), [D-007](#d-007), [D-009](#d-009), [D-010](#d-010), [D-011](#d-011), [D-012](#d-012), [D-015](#d-015), [D-019](#d-019), [D-021](#d-021), [D-032](#d-032), [D-033](#d-033), [D-034](#d-034), [D-035](#d-035)
+
+**Context.** Originally parked with a one-line working assumption: a
+driver-to-driver handover decomposes into a new Movement at the next
+pickup, since the 1:1 Movement↔Collection model (D-015) gave no other
+place to put it. That assumption was incomplete on its own — a fresh,
+unlinked Movement gives a regulator no way to distinguish a legitimate
+handover from a load that was collected and never reached a drop-off,
+which is the same signature as a non-compliant trajectory. It also breaks
+the producer's fate-of-waste query, since the only id a producer ever
+holds is the Movement ID of the leg they were originally given.
+
+A chained alternative was considered: keep Movements 1:1 with Collection
+as today, and link each new leg back to the one before it via a
+`precedingMovementId` field on `createMovementRequest`. That leaves D-015
+untouched, but means both fate-of-waste and any regulator audit query
+have to walk a reference chain backward through however many hops
+occurred, rather than querying one stable id. Rejected in favour of
+keeping the Movement ID as the single durable handle for the whole
+journey, consistent with how producers and regulators actually use it.
+
+**Decision.** A transit handover is recorded as an additional collection
+event on the *same* Movement, not a new Movement. This amends the
+Movement↔Collection half of [D-015](#d-015) from exactly one event to one
+or more ordered events; the Transfer↔Receipt half of D-015 is unchanged.
+
+No new endpoint and no path change. `POST /movements/{movementId}/collection`
+changes meaning from "create the one collection" to "append the next
+collection event"; `PUT /movements/{movementId}/collection` corrects or
+soft-deletes the *latest active* event in the sequence only (see the
+soft-delete and closed-sequence rules below). Correcting an arbitrary
+*earlier* event is out of scope for v1 and is spun out as its own
+decision, [D-035](#d-035). `GET /movements/{movementId}/collection` returns
+the ordered array of events recorded so far rather than a single object —
+noting that this GET is itself currently parked ([D-033](#d-033)); the array
+shape is the form it takes if and when the per-event GETs are reinstated.
+
+Two additions to `collectionRequest`:
+
+- `collectionType` — enum `STATIC` / `TRANSIT`. Optional, defaults to
+  `STATIC` when omitted, so existing draft callers are unaffected.
+- `receivedFromCarrier` — same shape as the existing `carrier` schema.
+  Required when `collectionType` is `TRANSIT`; forbidden when it is
+  `STATIC` (mirrors the existing `registrationNumber` /
+  `reasonForNoRegistrationNumber` mutual-exclusivity pattern).
+
+Server-enforced ordering: across the *active* (non-soft-deleted) events,
+the first must be `STATIC` and every event after it must be `TRANSIT`.
+A Movement's collection record is therefore one strictly linear chain — a
+single load handed from carrier to carrier in sequence. A Movement is never
+split or forked across two onward carriers: where two loads pass between
+the same pair of drivers, that is two Movements, each with its own
+`STATIC` → `TRANSIT`\* chain, not one Movement divided. This is a policy
+constraint, not a field. There is no cap on the number of `TRANSIT` events
+a Movement may carry. No further collection events are accepted once the
+Movement has appeared in any Transfer's `movementIds[]` — once dropped off,
+that Movement's collection sequence is closed.
+
+Soft-delete ([D-009](#d-009)) of a collection event is restricted to the
+*latest active* event in the sequence; an event with any active event after
+it cannot be soft-deleted. The effect is tail-peel: soft-deleting the latest
+`TRANSIT` makes the prior event the new latest, which is then itself
+deletable, unwinding the sequence tail-first. A `STATIC` head can only be
+soft-deleted when it is the sole remaining event; deleting it empties the
+sequence, and the next appended event is first-in-chain and so `STATIC`
+again. The "first active event is `STATIC`" invariant and this latest-only
+rule are the same constraint viewed from two ends — together they guarantee
+the active sequence never has a gap and never loses its `STATIC` anchor
+while `TRANSIT` events still depend on it.
+
+Once the sequence is closed (the Movement appears in a Transfer's
+`movementIds[]`), `PUT` is blocked entirely — both data correction and
+soft-delete of the latest event — for parity with the immutable drop-off
+record ([D-017](#d-017)): once a Movement is dropped off, its collection
+record is frozen.
+
+The order of events is the server-assigned order of submission, not a sort
+on the caller-declared `actualDateTimeCollected` — deferred and
+retrospective recording are already accepted patterns (the timestamp can be
+back-filled), so submission order is the only reliable sequencing signal. A
+check that each event's declared timestamp is not earlier than the previous
+event's runs as a secondary, warning-level consistency check, not the
+ordering mechanism itself.
+
+`receivedFromCarrier` is captured as a recorded field but is **not**
+cross-checked against the `carrier` on the preceding event: per BA/policy
+direction, a mismatch between the declared receiving and handing-over
+carrier is left for regulators to pick up from the data rather than surfaced
+as a system warning. This removal is scoped to the handover carrier on a
+transit collection only; it does not touch the receipt cross-checks against
+creation/collection ([D-006](#d-006)) or against drop-off ([D-021](#d-021)),
+which remain validation warnings as before.
+
+**Consequences.** D-007 and D-010 need no change: a Transfer still names
+exactly one Movement ID, hazardous or not, so there is nothing new to
+validate at drop-off. [D-012](#d-012) is preserved: collection events still
+carry no public per-event id, addressed by position in the sequence rather
+than by the 1:1 parent relationship the decision originally relied on —
+same outcome, different mechanism (and see [D-016](#d-016), amended to say
+so). [D-032](#d-032) needs no rewording: it already applies generically to
+"the Collection wasteItems array," and now applies to every event in the
+sequence — meaning every transit collection re-declares actual weights
+positionally, the same way the first static one does. That's a deliberate
+audit benefit, not overhead: an unexpected weight delta between two
+consecutive collection events on the same Movement is a meaningful signal
+(in-transit loss, damage, or misdeclaration), in the same spirit as the
+existing estimate-vs-actual reasoning in D-006.
+
+D-009 (soft-delete) is constrained, not extended, by this decision: the
+per-event `isDeleted` flag still applies to collection events, but only the
+latest active event is eligible. That tail-only restriction is exactly what
+keeps the positional addressing above sound — because no middle event can
+ever be removed, the active sequence never develops a gap, so an event's
+position stays stable for as long as position is the handle. The moment a
+future decision needs to correct an *arbitrary* older event, that stability
+is no longer enough on its own and a stable per-event handle is needed
+instead of position — which is the subject of [D-035](#d-035).
+
+[D-019](#d-019) (fate-of-waste) becomes simpler, not harder — still keyed
+on the single Movement ID, no chain to walk. It will need its own follow-up
+to decide how `wasteClassificationVersion`'s `collected` stage represents
+multiple collection events (one snapshot per event, or a summary); not
+resolved here.
+
+D-015's text carries a one-line amendment to its Movement↔Collection clause
+to reflect this; everything else in that decision stands. [D-011](#d-011)
+(static and transit collapsed into one endpoint, later superseded) turns out
+to be closer to right than its superseding note suggested — collection does
+stay a single endpoint covering both, just via append semantics on a
+sequence rather than a discriminated shape on a single call.
+
+**Resolved with BA/policy:**
+
+- **Split / fork (Q1).** No split. A single Movement cannot be divided
+  between two onward carriers; two loads between the same pair of drivers
+  are two Movements. Encoded as a policy constraint above.
+- **Cap on transit hops (Q2).** No cap. Abuse prevention, if needed, is a
+  monitoring concern rather than a contract limit.
+- **`receivedFromCarrier` mismatch (Q4).** No check. Captured but not
+  cross-checked; scoped to the handover carrier only (D-006/D-021 receipt
+  cross-checks unaffected).
+- **Closed-sequence PUT scope (Q5).** `PUT` is blocked once the Movement is
+  on a Transfer — correction and soft-delete alike — for parity with the
+  immutable drop-off record (D-017).
+
+**Spun out as a follow-up:**
+
+- **Correcting an older event (Q3).** `PUT` corrects the latest active event
+  only; extending correction to an arbitrary earlier event needs a stable
+  per-event handle and is tracked as [D-035](#d-035).
 
 <a id="d-031"></a>
 ### Disposal/recovery codes optional at Creation
@@ -935,19 +1113,43 @@ only to Transfer IDs (minted at the drop-off moment, the most likely
 offline point)? Connects to the deferred/retrospective collection-recording
 scenarios, which are the offline case generally.
 
+<a id="d-035"></a>
+### Addressing an individual collection event for correction
+
+**D-035** · ⏳ Open · Impact: 🟠 Medium · Area: **Lifecycle** · Related: [D-009](#d-009), [D-012](#d-012), [D-016](#d-016), [D-029](#d-029), [D-032](#d-032), [D-033](#d-033), [D-034](#d-034)
+
+Spun out of [D-029](#d-029). Once a Movement carries a sequence of
+collection events, `PUT /movements/{movementId}/collection` corrects or
+soft-deletes the *latest active* event only — there is no way to target an
+arbitrary earlier event. Soft-delete of an older event is already ruled out
+by D-029's latest-only (tail-peel) rule, so the remaining gap is purely
+*data correction* of an earlier event in the sequence.
+
+Targeting a specific earlier event needs a stable handle. Two options, both
+deferred:
+
+- **Expose the internal Collection ID.** The per-event id that already
+  exists server-side (the glossary's Collection ID) becomes public, and
+  correction is `PUT /movements/{movementId}/collection/{collectionId}`.
+  Idiomatic REST and robust regardless of how the sequence changes, but it
+  supersedes [D-012](#d-012)'s "per-event IDs not exposed" for collection.
+  That stance was only ever justified by redundancy under 1:1
+  ([D-016](#d-016)); D-029 makes collection 1:N, which removes the
+  redundancy, so exposing the id would be a principled supersede rather than
+  a contradiction.
+- **Frozen ordinal.** The server assigns an `eventSequence` at append, never
+  renumbers, and soft-deleted events keep their slot; correction is
+  `PUT /movements/{movementId}/collection/{sequence}`. Keeps D-012 intact —
+  the ordinal is the handle, not an opaque id — at the cost of guaranteeing
+  the sequence is never compacted.
+
+Out of scope for v1: v1 records transit sequences and corrects the latest
+event, which covers the real-time and tail-correction cases. Flagged in the
+same spirit as D-032's positional contract ("revisit if it proves fragile").
+To pick up with the BA when older-event correction is a demonstrated need
+rather than a hypothetical one.
+
 ## Parked
-
-<a id="d-029"></a>
-### Transit collection (driver-to-driver) — parked
-
-**D-029** · ⏸️ Parked · Impact: 🟢 Low · Area: **Collection** · Related: [D-011](#d-011), [D-015](#d-015)
-
-Deferred from v1, which records static (producer-to-driver) collection
-only. There is no transit endpoint or field in the spec. Under the 1:1
-Movement↔Collection model the working assumption is that a driver-to-driver
-handover decomposes into a new Movement at the next pickup rather than a
-second collection on the same Movement — so transit may need no dedicated
-event at all. To be confirmed with the BA if/when transit is picked up.
 
 <a id="d-030"></a>
 ### Carrier-vs-broker discriminated union on `POST /movements`

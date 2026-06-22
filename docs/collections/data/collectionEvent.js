@@ -3,13 +3,24 @@
  * POST /movements/{movementId}/collection
  *
  * The movementId is a path parameter — not present in the request body.
+ * POST appends the next event in the Movement's ordered collection sequence (D-029):
+ *   - First active event must be STATIC (producer-to-driver pickup).
+ *   - Subsequent active events must be TRANSIT (driver-to-driver handover).
  * Carrier is required at collection time.
  */
 
-// Re-export the carrier fixture from creation so tests can reuse it.
+// Re-export carrier fixtures so tests can reuse them.
 export { carrier } from './creationEvent.js'
 
 import { carrier } from './creationEvent.js'
+
+// Carrier that handed the waste to the second driver on a transit leg.
+export const receivedFromCarrier = {
+  organisationName: 'First Leg Haulage Ltd',
+  registrationNumber: 'CB1234ZZ',
+  meansOfTransport: 'Road',
+  vehicleRegistration: 'FL21 ABC'
+}
 
 // ---------------------------------------------------------------------------
 // Sub-objects
@@ -59,6 +70,28 @@ export const minimalPostBody = {
   actualDateTimeCollected: '2025-09-15T08:34:00Z',
   isDeleted: false,
   carrier,
+  collection
+}
+
+// ---------------------------------------------------------------------------
+// Transit collection — second driver receives the load from the first (D-029)
+// collectionType must be TRANSIT; receivedFromCarrier is required.
+// This is a second POST on the same movementId, appending to the sequence.
+// ---------------------------------------------------------------------------
+
+export const transitPostBody = {
+  apiCode: '25b14080-5e77-4f91-9957-2482a0cb8775',
+  actualDateTimeCollected: '2025-09-15T14:10:00Z',
+  collectionType: 'TRANSIT',
+  yourUniqueReference: 'DRIVER-TRIP-002',
+  isDeleted: false,
+  carrier: {
+    organisationName: 'Second Leg Haulage Ltd',
+    registrationNumber: 'CB5678YY',
+    meansOfTransport: 'Road',
+    vehicleRegistration: 'SL21 DEF'
+  },
+  receivedFromCarrier,
   collection
 }
 
