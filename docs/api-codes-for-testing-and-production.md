@@ -9,11 +9,11 @@ This document explains what API Codes are and where to use them.
 The API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. 
 
 [![API Code listed in API Specifaction](api-apiCode.png)](api-apiCode.png)
-#### Using the API Code
+### Using the API Code
 - When software developers begin testing their software against the API, they need to provide a ["Dummy" Test Code](#dummy-test-codes).
 - Once developers have been granted access to the Receipt of Waste API production environment, the Defra Team will issue receivers with a <b>Production API Code</b>. This is passed to  software developers so that they can set up a working connection to the Receipt of Waste Production service.
 
-#### API Code as used in a PUT or POST request
+### API Code as used in a PUT or POST request
 
 
 ```json

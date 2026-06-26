@@ -351,7 +351,7 @@ This means that if a user bursts over 200 hits per second for a short time - thi
 
 - For receivers: <font color="blue"><b>WasteTracking_Testing@defra.gov.uk</b></font>
 
-- All users can also post questions/comments in our discussions forum using this link <a href="https://github.com/DEFRA/waste-tracking-service/discussions"></a>.
+- All users can also post questions/comments in our [discussions forum](https://github.com/DEFRA/waste-tracking-service/discussions).
 
 ## Changelog
 
