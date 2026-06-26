@@ -1342,7 +1342,7 @@ A description of each of the fields contained in the <a href="../receipt-data-de
 <p>For receivers: <font color="blue"><b><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#84;&#101;&#115;&#116;&#105;&#110;&#103;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#84;&#101;&#115;&#116;&#105;&#110;&#103;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></b></font></p>
 </li>
 <li>
-<p>All users can also post questions/comments in our discussions forum using this link <a href="https://github.com/DEFRA/waste-tracking-service/discussions"></a>.</p>
+<p>All users can also post questions/comments in our <a href="https://github.com/DEFRA/waste-tracking-service/discussions">discussions forum</a>.</p>
 </li>
 </ul>
 <h2 id="changelog">Changelog</h2>
@@ -1467,9 +1467,29 @@ A description of each of the fields contained in the <a href="../receipt-data-de
           }
         }
 
+        // 1b. Landmarks — the drawer overlay (.md-overlay) is a decorative
+        // click-to-close layer rendered as a direct child of <body>, outside
+        // every landmark. Hide it from assistive technology so all exposed
+        // page content stays within a landmark (AXE "region") and it isn't
+        // announced as a duplicate of the header navigation toggle.
+        document.querySelectorAll('.md-overlay').forEach(function (overlay) {
+          overlay.setAttribute('aria-hidden', 'true');
+        });
+
+        // 1c. Unique landmarks — Material wraps each code block's "Copy to
+        // clipboard" button in <nav class="md-code__nav"> with no accessible
+        // name, so a page with several code blocks exposes multiple identical,
+        // unnamed navigation landmarks (AXE "landmark-unique"). These are
+        // button containers rather than real navigation, so drop the landmark
+        // role; the copy button itself stays in the accessibility tree.
+        document.querySelectorAll('nav.md-code__nav').forEach(function (codeNav) {
+          codeNav.setAttribute('role', 'none');
+        });
+
         // 2. Empty form labels — add visually-hidden text to icon-only labels
         function addLabelText(selector, text) {
           document.querySelectorAll(selector).forEach(function (label) {
+            if (label.getAttribute('aria-hidden') === 'true') return;
             if (label.querySelector('.visually-hidden')) return;
             var span = document.createElement('span');
             span.className = 'visually-hidden';
@@ -1505,6 +1525,7 @@ A description of each of the fields contained in the <a href="../receipt-data-de
 
         // Catch any remaining labels that only contain SVG/icons
         document.querySelectorAll('label[for]').forEach(function (label) {
+          if (label.getAttribute('aria-hidden') === 'true') return;
           if (label.querySelector('.visually-hidden')) return;
           var clone = label.cloneNode(true);
           var els = clone.querySelectorAll('svg, img, .md-icon');
@@ -1528,9 +1549,13 @@ A description of each of the fields contained in the <a href="../receipt-data-de
           input.setAttribute('aria-label', name.charAt(0).toUpperCase() + name.slice(1));
         });
 
-        // 3. Multiple form labels — replace duplicate labels with spans
+        // 3. Multiple form labels — replace duplicate labels with spans.
+        // Skip labels already hidden from assistive technology (e.g. the
+        // decorative .md-overlay) so the visible, functional control keeps its
+        // label instead of being the one demoted to a span.
         var labelsByFor = {};
         document.querySelectorAll('label[for]').forEach(function (label) {
+          if (label.getAttribute('aria-hidden') === 'true') return;
           var forId = label.getAttribute('for');
           if (!labelsByFor[forId]) labelsByFor[forId] = [];
           labelsByFor[forId].push(label);
