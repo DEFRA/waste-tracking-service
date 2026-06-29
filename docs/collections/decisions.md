@@ -34,6 +34,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-013 | [Identifier format and capacity (year-prefixed sqids)](#identifier-format-and-capacity-year-prefixed-sqids) | ✅ Decided | 🔴 High | **Identifiers** |
 | D-015 | [Movement ↔ Collection and Transfer ↔ Receipt are 1:1](#movement-collection-and-transfer-receipt-are-11) | ✅ Decided | 🔴 High | **Resource model** |
 | D-016 | [Level 2 (Richardson Maturity Model) resource model](#level-2-richardson-maturity-model-resource-model) | ✅ Decided | 🔴 High | **Resource model** |
+| D-036 | [Write authorisation: open append, amend restricted to the authoring organisation](#write-authorisation-open-append-amend-restricted-to-the-authoring-organisation) | ✅ Decided | 🔴 High | **Authorisation** |
 | D-004 | [Receipt path parameter stays `{wasteTrackingId}`](#receipt-path-parameter-stays-wastetrackingid) | ✅ Decided | 🟠 Medium | **Identifiers** |
 | D-006 | [Cross-check of receipt details against the linked drop-off](#cross-check-of-receipt-details-against-the-linked-drop-off) | ✅ Decided | 🟠 Medium | **Receipt** |
 | D-008 | [Carrier always required; broker optional](#carrier-always-required-broker-optional) | ✅ Decided | 🟠 Medium | **Actors** |
@@ -923,6 +924,70 @@ where declared and actual weights meet is the receipt-vs-Creation comparison
 **Decision.** Extend the same pattern to all Phase 2 PUT operations: `updateMovement`, `updateCollection`, `updateDropOff`, and `updateReceipt`. Every PUT snapshots the current state to a history store before writing the new state, and increments the revision counter on the live record. The history store and revision counter are server-side implementation details — they are not part of the public API contract.
 
 **Consequences.** Every mutation across all four events is fully auditable at the server level. The public API contract is unchanged: each PUT returns the updated record (or a validation envelope), not a version list. Clients see a single live record per resource, identical to the pre-decision behaviour.
+
+<a id="d-036"></a>
+### Write authorisation: open append, amend restricted to the authoring organisation
+
+**D-036** · ✅ Decided · Impact: 🔴 High · Area: **Authorisation** · Related: [D-009](#d-009), [D-012](#d-012), [D-013](#d-013), [D-017](#d-017), [D-027](#d-027), [D-029](#d-029), [D-034](#d-034)
+
+**Context.** The four-event model is multi-actor: a broker may create a
+Movement, a driver collect against the same `movementId`, a driver perform
+the drop-off, and a receiver register the receipt — four different
+organisations appending events to one Movement. After creation, no single
+organisation "owns" the Movement. Authentication is settled (WTS-ADR001:
+CDP/Amazon Cognito OAuth 2.0 at the gateway, with an Organisation API ID
+identifying which organisation a call acts for), but the gateway only
+establishes *who is calling*; it does not decide whether that organisation
+may append a given event to a given Movement in its current state. The
+public identifiers are shareable, non-secret handles by design
+([D-012](#d-012), [D-013](#d-013)): `movementId` is passed producer↔broker/carrier
+and driver↔driver on transit collections ([D-029](#d-029)), and `transferId`
+is passed driver↔receiver. Possession of an identifier therefore cannot
+confer the right to write to it. Phase 1 already constrains the receipt so
+that the `PUT` (amend) is bound to the *same* organisation that recorded
+the `POST`; that behaviour is carried forward.
+
+**Decision (technical half).**
+
+- **Append (`POST`) is open.** Any authenticated, onboarded organisation
+  may record any event. Possession of `movementId`/`transferId` is not an
+  authorisation control.
+- **Amend (`PUT`) is restricted to the authoring organisation** — the
+  organisation whose identity (`apiCode`) recorded the event. This carries
+  forward the Phase 1 receipt POST/PUT-same-organisation rule and composes
+  with the existing PUT mechanics: soft-delete only, tail-only
+  ([D-009](#d-009)); drop-off PUT de-potentiated to soft-delete
+  ([D-017](#d-017)); history/revision with optimistic concurrency
+  ([D-034](#d-034)).
+- **Integrity is by attribution, not prevention.** Every `POST` and `PUT`
+  is stamped server-side with the authenticated writing organisation
+  (`apiCode`) as immutable provenance, so an incorrect or bad-faith write
+  is recorded against its author and is traceable by regulators. These are
+  licensed, identified operators writing under their own credentials in a
+  waste-crime-enforcement system, so accountability is a real deterrent,
+  not only an audit trail.
+
+**Deferred to policy (not decided here).** Whether write access to an
+event should be *restricted by actor role or relationship* — for example
+whether only a permitted receiving site may record a Receipt, or only a
+declared carrier may record a Collection — is a business/regulatory rule,
+not a technical one. The service provides the authenticated-identity
+mechanism to enforce such rules if and when policy defines them; Phase 2
+does not pre-empt them. Tracked alongside the credentials/identity
+question in [D-027](#d-027).
+
+**Consequences.** The write model is deliberately open at append and
+accountable by attribution, which matches the messy reality of
+reassignment, sub-contracting and transit — consistent with [D-029](#d-029),
+which captures `receivedFromCarrier` without cross-checking it against the
+preceding event. The attribution guarantee depends on per-event,
+server-side provenance (writing organisation, vendor instance, timestamp)
+being captured immutably and being queryable by regulators; that is the
+implementation requirement the integrity argument rests on, and it links
+to the observability / non-reconciled-movement work planned for Beta. If
+policy later mandates participation restrictions, they are added as
+authorisation checks in the Movement domain service against the
+already-captured identity, without changing the public contract shape.
 
 ## Open
 
