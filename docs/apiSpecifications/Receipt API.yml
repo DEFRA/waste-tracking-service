@@ -725,10 +725,10 @@ components:
                 CBDL9, CBDL99, CBDU999 (1+ digits)
                  <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
-                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
+                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999, PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
                <p>Current format – WCR/R/1234567</p>
-               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
+               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456, PCT-E-083, PCT-N-0050000</p>
              <p><font color="blue"><b>Northern Ireland NI</b></font></p>
                 <p></p><p>ROC UT 9,ROC UT 99,ROC UT 999,ROC UT 9999,ROC UT 99999,  ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999 </p>
                 Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces are not mandatory.<p></p> For example:
@@ -819,10 +819,10 @@ components:
                 CBDL999999, CBDU999999
                  <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
-                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
+                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999 and PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
                <p>Current format – WCR/R/1234567</p>
-               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
+               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456, PCT-E-083, PCT-N-0050000 </p>
              <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
                 ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999, ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
                 Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note that spaces are not mandatory.<p></p>
