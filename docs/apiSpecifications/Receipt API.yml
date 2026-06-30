@@ -854,7 +854,7 @@ components:
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
-                <li>EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, PR/XX9999XX/D9999 (the last one with a D rep permit number with deployment)</li>
+                <li>EAWML99999, WML99999, EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, PR/XX9999XX/D9999 (the last one with a D rep permit number with deployment)</li>
               </ul>
               <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
               <ul>
