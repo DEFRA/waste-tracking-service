@@ -58,7 +58,7 @@ paths:
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
-        Endpoint to be used when waste is received and the waste record is to be updated. The carrier has a <b>waste tracking ID</b> and this parameter <b>must</b> be used in the URL path.
+        This endpoint is used to update a waste movement record that has already been submitted. It uses the waste tracking ID (wasteTrackingId) returned when the POST endpoint submitted the original waste movement record. The waste tracking ID must be used in the URL path.
       parameters:
         - name: wasteTrackingId
           in: path
