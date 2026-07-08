@@ -58,7 +58,7 @@ paths:
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
-        This endpoint is used to update a waste movement record that has already been submitted. It uses the waste tracking ID (wasteTrackingId) returned by the POST endpoint after it successfully submitted the original waste movement record. The waste tracking ID must be used in the URL path.
+        This endpoint is used to update a waste movement record that has already been submitted. It uses the waste tracking ID (wasteTrackingId) returned when the POST endpoint successfully submitted the original waste movement record. The waste tracking ID must be used in the URL path.
       parameters:
         - name: wasteTrackingId
           in: path
@@ -88,7 +88,7 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "404":
-          description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
+          description: Movement not found. The waste tracking ID used is not correct.
   /reference-data/ewc-codes:
     get:
       description: |
@@ -1026,9 +1026,9 @@ components:
       description: Input was not in the correct format.
       content:
         application/json:
-          schema:
+          schema: 
             type: object
-            example: |
+            example:    
               {
                "validation": {
                  "errors": [
