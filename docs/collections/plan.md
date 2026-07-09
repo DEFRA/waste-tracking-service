@@ -92,12 +92,16 @@ business events:
 
 **Team A/B**
 
-- Confirm whether the existing API-code issuance flow in
-  `waste-organisation-backend` can be used for carriers and brokers without
-  modification (following [D-027](decisions.md#d-027)). Specifically: is
-  there anything in the current flow that ties it to the receiver role?
-- If yes, provision a test carrier `apiCode` manually for the first
-  integrator organisation to unblock Phase 1 testing.
+- The existing `apiCode` issuance flow in `waste-organisation-backend` is
+  confirmed role-agnostic (see [registration.md](registration.md)): the JWT
+  auth plugin does not inspect `isWasteReceiver`, and
+  `ensureAtLeastOneApiCodeExists` fires for any organisation on first write
+  regardless of actor type. No code change is needed.
+- Confirm that the test environment allows calling
+  `PUT /user/{userId}/organisation/{organisationId}` on
+  `waste-organisation-backend` without a deployment — this is the
+  zero-change path to provision a carrier org and `apiCode` in Phase 1
+  (Option A in [registration.md](registration.md)).
 
 ---
 
@@ -125,9 +129,19 @@ business events:
 
 ### Team A/B — `waste-organisation-backend`
 
-- Provision at least one carrier `apiCode` in the test environment for the
-  first software integrator. This can be a direct database operation or a
-  new admin endpoint — no UI is required at this stage ([D-027](decisions.md#d-027)).
+Provision a carrier org and `apiCode` for the first software integrator.
+No code change is required — use **Option A** from
+[registration.md](registration.md):
+
+1. Call `PUT /user/{userId}/organisation/{organisationId}` with a body like
+   `{ "name": "Carrier Ltd (test)", "isWasteReceiver": false }`. Use a new
+   UUID for `organisationId`; any valid Defra ID user UUID for `userId`.
+2. `ensureAtLeastOneApiCodeExists` fires automatically on first write,
+   creating a UUID `apiCode` and persisting it.
+3. Retrieve the generated code via
+   `GET /organisation/{organisationId}/apiCodes`.
+4. Hand the `apiCode` to the software integrator alongside the Cognito
+   credentials from the Platform step below.
 
 ### Platform / infra
 
@@ -194,9 +208,11 @@ Teams A/B.
 
 With [D-027](decisions.md#d-027) decided, the mechanism is unchanged — carriers
 and brokers receive `apiCode` values through the same issuance process as
-receivers. The risk is whether `waste-organisation-backend` ties `apiCode`
-issuance to the receiver role in its current implementation. Team A/B to
-confirm this as part of Phase 0 alignment.
+receivers. Code analysis of `waste-organisation-backend` confirms that
+`apiCode` issuance is not tied to the receiver role: the JWT auth plugin does
+not check `isWasteReceiver`, and `ensureAtLeastOneApiCodeExists` fires for any
+organisation type. Full details and the test provisioning options are in
+[registration.md](registration.md).
 
 ---
 
@@ -206,7 +222,7 @@ confirm this as part of Phase 0 alignment.
 |---|---|---|
 | 1 | Close [D-022](decisions.md#d-022) — confirm new Transfer-scoped receipt endpoint | Team C + BA |
 | 2 | Confirm test Cognito pool can accept new app clients for carrier integrators | Platform + Team A/B |
-| 3 | Confirm `waste-organisation-backend` `apiCode` issuance is not tied to receiver role | Team A/B |
+| 3 | ~~Confirm `apiCode` issuance is not tied to receiver role~~ — **confirmed, no code change needed** (see [registration.md](registration.md)) | Team A/B ✅ |
 | 4 | Decide Phase 2 document model: extend `WasteInput` or new `movements` collection | Team C |
 | 5 | Decide Movement ID / Transfer ID shared vs separate counter in `waste-tracking-id-backend` | Team C |
 | 6 | Implement `POST /movements` (external API + backend) | Team C |
