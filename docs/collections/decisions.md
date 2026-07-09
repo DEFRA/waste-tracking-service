@@ -47,6 +47,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-031 | [Disposal/recovery codes optional at Creation](#disposalrecovery-codes-optional-at-creation) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-032 | [Waste item weights are not captured at Collection or Drop-off](#waste-item-weights-are-not-captured-at-collection-or-drop-off) | ✅ Decided | 🟠 Medium | **Collection** |
 | D-034 | [PUT operations use history/revision pattern across all events](#put-operations-use-historyrevision-pattern-across-all-events) | ✅ Decided | 🟠 Medium | **Lifecycle** |
+| D-027 | [Per-organisation vs per-actor API credentials](#per-organisation-vs-per-actor-api-credentials) | ✅ Decided | 🟠 Medium | **Onboarding** |
 | D-002 | [Single OpenAPI file, not `$ref`-split](#single-openapi-file-not-ref-split) | ✅ Decided | 🟢 Low | **Spec structure** |
 | D-003 | [OpenAPI 3.0.3, not 3.1](#openapi-303-not-31) | ✅ Decided | 🟢 Low | **Spec structure** |
 | D-011 | [Static and transit collection collapsed into a single endpoint](#static-and-transit-collection-collapsed-into-a-single-endpoint) | ✅ Decided | 🟢 Low | **Collection** |
@@ -56,7 +57,6 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-021 | [Cross-check granularity](#cross-check-granularity) | ⏳ Open | 🟠 Medium | **Receipt** |
 | D-023 | [Phase 1 receipt endpoint deprecation timeline](#phase-1-receipt-endpoint-deprecation-timeline) | ⏳ Open | 🟠 Medium | **Receipt** |
 | D-024 | [`wasteTrackingId` ↔ `movementId` reconciliation](#wastetrackingid-movementid-reconciliation) | ⏳ Open | 🟠 Medium | **Identifiers** |
-| D-027 | [Per-organisation vs per-actor API credentials](#per-organisation-vs-per-actor-api-credentials) | ⏳ Open | 🟠 Medium | **Onboarding** |
 | D-028 | [Pre-generated Transfer IDs for offline drivers](#pre-generated-transfer-ids-for-offline-drivers) | ⏳ Open | 🟠 Medium | **Identifiers** |
 | D-035 | [Addressing an individual collection event for correction](#addressing-an-individual-collection-event-for-correction) | ⏳ Open | 🟠 Medium | **Lifecycle** |
 | D-030 | [Carrier-vs-broker discriminated union on `POST /movements`](#carrier-vs-broker-discriminated-union-on-post-movements) | ⏸️ Parked | 🟢 Low | **Actors** |
@@ -925,6 +925,42 @@ where declared and actual weights meet is the receipt-vs-Creation comparison
 
 **Consequences.** Every mutation across all four events is fully auditable at the server level. The public API contract is unchanged: each PUT returns the updated record (or a validation envelope), not a version list. Clients see a single live record per resource, identical to the pre-decision behaviour.
 
+<a id="d-027"></a>
+### Per-organisation vs per-actor API credentials
+
+**D-027** · ✅ Decided · Impact: 🟠 Medium · Area: **Onboarding** · Related: [D-008](#d-008), [D-036](#d-036)
+
+**Context.** Phase 1 is receiver-first: a receiver registers its organisation
+via the Waste Tracking Service and receives credentials — a Cognito app client
+(`client_id` + `client_secret`) that is exchanged for a Bearer JWT, and an
+`apiCode` that identifies the submitting organisation in every API request.
+Phase 2 adds carrier, broker, and producer actors. The open question was
+whether those actors require separate per-role credentials or whether one
+organisation-level registration covers all roles that organisation holds.
+
+**Decision.** Per-organisation credentials, not per-actor. Every actor type —
+carrier, broker, producer, and receiver — onboards via the same process and
+receives the same credential shape: a Cognito app client (`client_id` +
+`client_secret`) and an `apiCode`. Every record written to the API is assigned
+to the submitting organisation identified by `apiCode`; no distinction is made
+at the credential level between the role the caller is acting in for a given
+event. An organisation that acts as both a receiver and a carrier holds one
+set of credentials and uses them for both roles.
+
+The onboarding process for Phase 2 actors follows the same steps as Phase 1:
+registration, manual provisioning of a Cognito app client in the relevant
+environment (test or production), and distribution of credentials via
+encrypted email. No new registration UI or self-serve onboarding path is
+introduced for Phase 2.
+
+**Consequences.** The credential model and the `apiCode` identity mechanism
+are unchanged from Phase 1. The `waste-organisation-backend` API-code
+issuance flow is reused for carriers and brokers without modification.
+Role-based access restrictions — for example, whether only a permitted
+receiving site may record a Receipt — are a separate policy question deferred
+to a future decision; the identity mechanism supplies the information to
+enforce such rules but does not pre-empt them (see [D-036](#d-036)).
+
 <a id="d-036"></a>
 ### Write authorisation: open append, amend restricted to the authoring organisation
 
@@ -1145,19 +1181,6 @@ to introduce a receipt outcome concept and, if so, what it records
 to the rejected portion). Undecided; needs policy-team input. Structurally,
 whatever is chosen sits on the single Receipt, not on a split Movement
 (see the 1:1 decision).
-
-<a id="d-027"></a>
-### Per-organisation vs per-actor API credentials
-
-**D-027** · ⏳ Open · Impact: 🟠 Medium · Area: **Onboarding** · Related: [D-008](#d-008)
-
-Phase 1 is receiver-first: a receiver registers its organisation via the
-Waste Tracking Service and gets credentials (Bearer token + `apiCode`, the
-*receiving organisation's* identifier). Phase 2 adds carrier/broker/producer
-actors, and one organisation may hold several roles. Open: when a carrier
-is in the same organisation as a registered receiver, does it need separate
-credentials, or does one organisation-level registration cover all its
-roles? To bring forward with identity/onboarding — not yet explored.
 
 <a id="d-028"></a>
 ### Pre-generated Transfer IDs for offline drivers
