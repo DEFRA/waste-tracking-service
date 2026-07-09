@@ -800,16 +800,16 @@ components:
         emailAddress:
           type: string
           format: email
-          description: The email address of the carrier.
+          description: The email address of the broker or dealer.
           example: mailbox@example.co.uk
         phoneNumber:
           type: string
-          description: The UK or international phone number of the carrier.
+          description: The phone number of the broker or dealer.
           example: 020 4756 XXXX
         registrationNumber:
           type: string
           description: |
-             <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
+             <p>A waste broker or dealer who buys or sells waste or arranges the buying, selling or disposal of waste must be registered. Upon registration, a registration number is given to the organisation.</p>
              <p><b>Home Nations Codes:</b></p>
              <p><b>General Format</b> where 9 is a digit 0-9</p>
              <p><font color="blue"><b>Wales NRW:</b></font></p>
@@ -854,7 +854,7 @@ components:
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
-                <li>EAWML99999, WML99999, EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, PR/XX9999XX/D9999 (the last one with a D rep permit number with deployment)</li>
+                <li>EAWML99999, WML99999, EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, EPR/XX9999XX/D9999 (the last one with a D represents a permit number with deployment)</li>
               </ul>
               <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
               <ul>
