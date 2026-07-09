@@ -25,11 +25,6 @@ business events:
 | **Record Drop-off** | Driver | `POST /transfers` |
 | **Record Receipt** | Receiver | `POST /transfers/{transferId}/receipt` |
 
-The [scenario taxonomy](scenarios/README.md) documents the full range of
-journeys these events need to support — 282 enumerated paths across two
-initiators, three collection-recording modes, four receipt outcomes, and
-three cycle types.
-
 ---
 
 ## Team ownership
@@ -165,10 +160,10 @@ The Phase 1 receipt endpoints (`POST /movements/receive`,
 `PUT /movements/{wasteTrackingId}/receive`) remain in the spec marked
 `deprecated: true`. No removal date is set — see [D-023](decisions.md#d-023).
 
-The [curated scenario set](scenarios/dwt-scenarios-recap.md) provides eight
-representative end-to-end journeys. Any sequence of API calls produced by
-those scenarios should succeed without a 4xx response; use them as the
-integration acceptance test.
+Every end-to-end journey across the four events should produce a valid
+sequence of API calls without a 4xx response; use the key journey shapes
+(carrier baseline, broker-initiated, rejection-retry, deferred recording)
+as integration acceptance tests.
 
 ---
 

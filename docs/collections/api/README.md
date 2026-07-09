@@ -1,9 +1,7 @@
 # API
 
 The OpenAPI specification for the extended Digital Waste Tracking API.
-This workstream consumes the [scenarios](../scenarios/README.md) — every
-endpoint shape has to support the events the scenarios produce — and
-will eventually feed the [data model](../model/README.md).
+It will eventually feed the [data model](../model/README.md).
 
 ## What is here
 
@@ -45,8 +43,7 @@ above. A removal timeline is yet to be agreed (see the
 
 ## Status
 
-The spec is in alpha and being iterated alongside scenario and data-model
-work. Several schemas (waste classification, hazardous codes, POPs codes,
+The spec is in alpha and being iterated alongside data-model work. Several schemas (waste classification, hazardous codes, POPs codes,
 party details) are deliberately permissive placeholders pending domain
 detail from the BA. A number of design points are still open and tracked
 in the [decisions register](../decisions.md).

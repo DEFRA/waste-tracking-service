@@ -117,12 +117,11 @@ there has to be a carrier on the record. Carriers hold a CB:DU
 A party arranging a movement on behalf of a producer. In the API,
 broker details are required only when the movement is broker-initiated.
 
-In the scenario taxonomy, the term `broker` is used as an umbrella for
-any non-carrier-initiated movement — so a movement initiated by a
-producer or a receiver, not just by a registered broker, also has
-`initiator: broker` in the corpus. This is a deliberate simplification:
-all three start their journeys at the same node in the BA's flow chart
-and produce the same downstream paths.
+In the API, the term `broker` is used as an umbrella for any
+non-carrier-initiated movement — so a movement initiated by a producer
+or a receiver, not just by a registered broker, is treated as
+broker-initiated. This is a deliberate simplification: all three start
+their journeys at the same point and produce the same downstream paths.
 
 ### Driver
 
@@ -143,7 +142,7 @@ its initial treatment outcome.
 ### Initiator
 
 The party who creates the movement and, in doing so, mints the Movement
-ID. In the scenario taxonomy the value is either `carrier` or `broker`
+ID. The initiator is either `carrier` or `broker`
 (see "Broker" above for what `broker` covers).
 
 ### Collection

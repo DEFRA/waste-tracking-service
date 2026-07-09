@@ -33,14 +33,8 @@ once a movement has reached a terminal state.
 
 ## How this section is organised
 
-The work is split into three workstreams, plus cross-cutting reference
+The work is split into two workstreams, plus cross-cutting reference
 material.
-
-[**Scenarios.**](scenarios/README.md) The journey scenarios driving the
-design. Includes a 282-scenario corpus mechanically extracted from the
-BA's flow chart and tagged against a seven-axis taxonomy. The
-[scenario generation process](scenarios/process.md) explains how the
-corpus is produced.
 
 [**Data model.**](model/README.md) The entities, identifiers, and state
 transitions that underlie the API. Currently a placeholder; the model
@@ -61,18 +55,14 @@ broker, and so on.
 ## Where to start
 
 If you are a software vendor or developer integrating with the API, start
-at the [API workstream](api/README.md). If you want to understand the
-journey shapes the API has to support, start with the
-[scenario generation process](scenarios/process.md). If you are joining
-the project and want to know what has been decided so far, the
+at the [API workstream](api/README.md). If you are joining the project
+and want to know what has been decided so far, the
 [decisions register](decisions.md) is the fastest way in.
 
 ## Status
 
 | Workstream | Status |
 |---|---|
-| Scenarios — corpus | Drafted. 282 scenarios extracted, schema-validated. |
-| Scenarios — curated set | Not yet started. Follows once the corpus stabilises. |
 | Data model | Not yet started. Follows once the API stabilises. |
 | API — extended endpoints | Drafted. Subject to review and BA confirmation on several open points (see decisions register). |
 | API — Phase 1 receipt | Preserved unchanged. |

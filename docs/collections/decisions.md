@@ -696,7 +696,7 @@ the spec. The open question was whether it should be **mandatory**, stay
 **optional**, or be **removed entirely** (the latter only if always derivable
 from the linked Movements' planned receiver). Two facts were relevant: the
 planned receiver is an *estimate*, not authoritative; and the rejection-retry
-scenario (recap 4.6) can deliver to a different receiver than planned, so the
+case can deliver to a different receiver than planned, so the
 actual drop-off location can diverge from the estimate.
 
 **Decision.** The drop-off address is **mandatory**. Both `fullAddress` and
@@ -1172,10 +1172,9 @@ strategy.
 
 Phase 1 has no rejection model — recording a receipt means the waste was
 accepted; there is no way to record a full rejection, a partial
-acceptance, or waste returned to the producer. The scenario taxonomy,
-however, treats `acceptAll` / `rejectAll` / `acceptPart-accepted` /
-`acceptPart-rejected` as first-class receipt outcomes, and the `WWR/P`
-terminal state depends on rejection existing. Phase 2 must decide whether
+acceptance, or waste returned to the producer. Phase 2 must support
+`acceptAll` / `rejectAll` / `acceptPart-accepted` / `acceptPart-rejected`
+as first-class receipt outcomes; Phase 2 must decide whether
 to introduce a receipt outcome concept and, if so, what it records
 (outcome indicator, accepted vs rejected quantities, reason, what happens
 to the rejected portion). Undecided; needs policy-team input. Structurally,
