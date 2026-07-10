@@ -19,7 +19,7 @@ info:
      <b>Note-</b> This API specification is currently in Public Beta stage.
   termsOfService: https://defra.github.io/waste-tracking-service/production/api-terms-of-service/
   contact:
-    name: Reciept of Waste API Support
+    name: Receipt of Waste API Support
     email: WasteTracking_Developers@defra.gov.uk 
 servers:
   - url: https://waste-tracking.api.defra.gov.uk
