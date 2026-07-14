@@ -5,14 +5,15 @@ API.
 
 ## Status
 
-Not yet started. This workstream follows once the
-[API spec](../api/README.md) has stabilised, because the model is driven
-by what the API needs to record at each step rather than the other way
-round.
+Started at proposal level. This workstream now contains draft notes on the
+current Phase 1 storage model and a proposed MongoDB shape for Phase 2.
+It is still exploratory rather than settled design: the
+[API spec](../api/README.md) and decisions register remain the primary
+drivers, and the model will continue to evolve as those stabilise.
 
 ## What will be here
 
-When the workstream begins, this folder is expected to contain:
+This folder is expected to grow into:
 
 - An entity-relationship view of the main aggregates — Movement,
   Collection, Drop-off, Receipt — and the reference data they depend on.
@@ -24,8 +25,17 @@ When the workstream begins, this folder is expected to contain:
   `wasteReceiver`, etc.) map to the entities introduced by the new
   endpoints.
 
-The OpenAPI spec defines the wire shapes; this workstream will define
-the storage and lifecycle shape that backs them.
+The OpenAPI spec defines the wire shapes; this workstream describes the
+storage and lifecycle shape that may back them.
+
+## Current proposals
+
+- [Phase 1 movement store](./phase1-waste-inputs.md) - what the current
+  `waste-inputs` / `waste-inputs-history` collections store, how revisioning
+  works, and how they may be retained during migration.
+- [Mongo schema proposal](./mongo-schema-proposal.md) - proposed current-state
+  collections, history collections, document shapes, and index list for
+  Movements and Transfers.
 
 ## Working assumption
 
