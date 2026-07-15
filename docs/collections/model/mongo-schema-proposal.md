@@ -18,7 +18,11 @@ decided implementation.
 - Support ordered collection events on a Movement.
 - Support Transfer as the aggregation point for one or more Movement IDs.
 - Keep a revisioned current-state plus history pattern close to the current
-  `waste-inputs` / `waste-inputs-history` approach.
+  `waste-inputs` / `waste-inputs-history` approach, while treating
+  `revision` as the current aggregate version after any successful mutation.
+- Preserve write provenance per event so different organisations can record
+  creation, collection, drop-off, and receipt against the same movement
+  journey.
 - Allow optional denormalised `transferIds` on Movement for read
   convenience, while treating `transfers.movementIds[]` as the primary
   relationship source of truth.
@@ -107,9 +111,6 @@ Owns:
 {
   _id: String, // movementId
   movementId: String,
-  submittingOrganisation: {
-    defraCustomerOrganisationId: String
-  },
   transferIds: [String], // optional denormalised convenience field
   state: String, // e.g. PLANNED, IN_COLLECTION, IN_TRANSIT, DROPPED_OFF
   revision: Number,
@@ -121,6 +122,10 @@ Owns:
   creation: {
     eventId: String, // internal UUID
     recordedAt: Date,
+    submittingOrganisation: {
+      defraCustomerOrganisationId: String
+    },
+    submittedByApiCode: String, // optional, if exact API key provenance is needed
     estimatedDateTimeCollected: Date,
     hazardousWasteConsignmentCode: String,
     yourUniqueReference: String,
@@ -146,6 +151,10 @@ Owns:
       eventId: String, // internal UUID
       sequence: Number, // 1..n, append-only order within movement
       recordedAt: Date,
+      submittingOrganisation: {
+        defraCustomerOrganisationId: String
+      },
+      submittedByApiCode: String, // optional, if exact API key provenance is needed
       actualDateTimeCollected: Date,
       collectionType: String, // STATIC | TRANSIT
       yourUniqueReference: String,
@@ -172,6 +181,9 @@ Owns:
 - `creation` is singular because `POST /movements` creates the Movement.
 - `collectionEvents[]` is plural because collection is now an ordered event
   sequence on the same Movement.
+- `submittingOrganisation` is stored on each business event rather than once
+  at Movement level, because creation and later collection events may be
+  recorded by different organisations.
 - `transferIds[]` is included for now because it may make read models simpler,
   but it should be treated as derived from `transfers.movementIds[]`.
 
@@ -182,9 +194,6 @@ Owns:
   _id: String, // transferId
   transferId: String,
   movementIds: [String],
-  submittingOrganisation: {
-    defraCustomerOrganisationId: String
-  },
   state: String, // e.g. DROPPED_OFF, RECEIVED, REJECTED, PARTIALLY_ACCEPTED
   revision: Number,
   isDeleted: Boolean,
@@ -195,6 +204,10 @@ Owns:
   dropOff: {
     eventId: String, // internal UUID
     recordedAt: Date,
+    submittingOrganisation: {
+      defraCustomerOrganisationId: String
+    },
+    submittedByApiCode: String, // optional, if exact API key provenance is needed
     actualDateTimeDropOff: Date,
     yourUniqueReference: String,
     otherReferencesForMovement: [
@@ -218,6 +231,10 @@ Owns:
   receipt: {
     eventId: String, // internal UUID
     recordedAt: Date,
+    submittingOrganisation: {
+      defraCustomerOrganisationId: String
+    },
+    submittedByApiCode: String, // optional, if exact API key provenance is needed
     dateTimeReceived: Date,
     hazardousWasteConsignmentCode: String,
     reasonForNoConsignmentCode: String,
@@ -252,6 +269,11 @@ Owns:
 - `movementIds[]` is the canonical relationship from Transfer to Movement.
 - `dropOff` is singular because one Transfer is minted per drop-off event.
 - `receipt` is singular because receipt is modelled as one receipt per Transfer.
+- `submittingOrganisation` is stored on both `dropOff` and `receipt`, because
+  those events may be written by different organisations against the same
+  `transferId`.
+- `submittedByApiCode` is optional but useful if one organisation can hold
+  multiple API keys and exact key-level provenance matters for audit.
 - `outcome` is reserved because receipt acceptance / rejection is still an open
   design point.
 
@@ -259,7 +281,8 @@ Owns:
 
 ### `movements-history`
 
-Snapshot of the full previous Movement document before each successful update.
+Snapshot of the full previous Movement document before each successful
+mutation of an existing Movement aggregate.
 
 ```javascript
 {
@@ -271,7 +294,8 @@ Snapshot of the full previous Movement document before each successful update.
 
 ### `transfers-history`
 
-Snapshot of the full previous Transfer document before each successful update.
+Snapshot of the full previous Transfer document before each successful
+mutation of an existing Transfer aggregate.
 
 ```javascript
 {
@@ -289,7 +313,8 @@ Required:
 
 - `{ _id: 1 }`
 - `{ movementId: 1 }` unique
-- `{ 'submittingOrganisation.defraCustomerOrganisationId': 1, movementId: 1 }`
+- `{ 'creation.submittingOrganisation.defraCustomerOrganisationId': 1 }`
+- `{ 'collectionEvents.submittingOrganisation.defraCustomerOrganisationId': 1 }`
 - `{ state: 1, lastUpdatedAt: -1 }`
 - `{ traceId: 1 }`
 - `{ transferIds: 1 }`
@@ -314,7 +339,8 @@ Required:
 - `{ _id: 1 }`
 - `{ transferId: 1 }` unique
 - `{ movementIds: 1 }`
-- `{ 'submittingOrganisation.defraCustomerOrganisationId': 1, transferId: 1 }`
+- `{ 'dropOff.submittingOrganisation.defraCustomerOrganisationId': 1 }`
+- `{ 'receipt.submittingOrganisation.defraCustomerOrganisationId': 1 }`
 - `{ state: 1, lastUpdatedAt: -1 }`
 - `{ traceId: 1 }`
 
@@ -338,6 +364,15 @@ Conditional / query-driven:
   Movement.
 - `transfers._id` / `transferId` is the durable public identifier for a
   Transfer.
+- `revision` is the current version number of the aggregate document, not of
+  an individual nested event.
+- New aggregates are created at `revision: 1`.
+- Every successful mutation of an existing aggregate increments `revision`,
+  regardless of whether the API operation is a `POST` or a `PUT`.
+- Event-level `submittingOrganisation` is the source of truth for who wrote
+  creation, collection, drop-off, and receipt.
+- Optional event-level `submittedByApiCode` is the source of truth for which
+  API key wrote the event when multiple keys exist for one organisation.
 - `transfers.movementIds[]` is the source of truth for Movement-to-Transfer
   membership.
 - `movements.transferIds[]` is denormalised convenience data only.
@@ -348,6 +383,7 @@ Conditional / query-driven:
 
 - `POST /movements`
   - insert one `movements` document
+  - set `revision` to `1`
   - set `creation`
   - set `collectionEvents` to `[]`
   - set `transferIds` to `[]`
@@ -357,8 +393,19 @@ Conditional / query-driven:
   - increment `revision`
   - write prior snapshot to `movements-history`
 
+- `PUT /movements/{movementId}`
+  - mutate `creation` or movement-level fields
+  - increment `revision`
+  - write prior snapshot to `movements-history`
+
+- `PUT /movements/{movementId}/collection`
+  - mutate the allowed collection event
+  - increment `revision`
+  - write prior snapshot to `movements-history`
+
 - `POST /transfers`
   - insert one `transfers` document
+  - set `revision` to `1`
   - set `movementIds[]`
   - set `dropOff`
   - set `receipt` to `null` or omit
@@ -367,6 +414,16 @@ Conditional / query-driven:
 
 - `POST /transfers/{transferId}/receipt`
   - populate `receipt`
+  - increment `revision`
+  - write prior snapshot to `transfers-history`
+
+- `PUT /transfers/{transferId}`
+  - mutate the allowed drop-off fields, currently soft-delete only
+  - increment `revision`
+  - write prior snapshot to `transfers-history`
+
+- `PUT /transfers/{transferId}/receipt`
+  - mutate `receipt`
   - increment `revision`
   - write prior snapshot to `transfers-history`
 
@@ -391,6 +448,9 @@ That shape does not naturally fit:
 
 ## Open points
 
+- Whether to persist `submittedByApiCode` in plaintext, hashed form, or as a
+  separate API-key identifier if audit needs exact key provenance without
+  exposing the raw code in operational reads.
 - Whether receipt outcome should remain embedded in `receipt` or become a
   further nested sub-document with richer status modelling.
 - Whether `transferIds[]` on Movement proves worth the denormalisation cost.

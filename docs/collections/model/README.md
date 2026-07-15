@@ -35,7 +35,7 @@ storage and lifecycle shape that may back them.
   works, and how they may be retained during migration.
 - [Mongo schema proposal](./mongo-schema-proposal.md) - proposed current-state
   collections, history collections, document shapes, and index list for
-  Movements and Transfers.
+  Movements and Transfers, including event-level organisation provenance.
 
 ## Working assumption
 
