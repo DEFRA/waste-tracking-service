@@ -44,7 +44,7 @@ paths:
                 properties:
                   wasteTrackingId:
                     type: string
-                    description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when either a POST or PUT request is successful, i.e. return code 201, 200.
+                    description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when a POST request is successful, i.e. return code 201.
                     example: 25HRA0B2
                   validation:
                     type: object
