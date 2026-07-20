@@ -30,7 +30,7 @@ paths:
   /movements/receive:
     post:
       description: |
-        Endpoint used when waste is received but the receiver has not yet recorded the waste movement. Generally at this stage, the receiver does not have or use the waste tracking ID. The waste tracking ID will be returned in the 201 response if the movement is successfully stored.
+        Endpoint used when waste is received and the receiver submits a waste movement. A waste tracking ID is returned in a 201 response when the movement is successfully stored.
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
