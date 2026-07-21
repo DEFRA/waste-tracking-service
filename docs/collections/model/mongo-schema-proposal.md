@@ -454,6 +454,6 @@ That shape does not naturally fit:
 - Whether receipt outcome should remain embedded in `receipt` or become a
   further nested sub-document with richer status modelling.
 - Whether `transferIds[]` on Movement proves worth the denormalisation cost.
-- Whether event-level collections are needed in addition to history snapshots.
+- Whether event-level collections are needed in addition to history snapshots. Three options are under evaluation — aggregate (this document), per-event-type, and CQRS/event-sourcing (see [`mongo-schema-proposal-CQRS.md`](./mongo-schema-proposal-CQRS.md)) — tracked as [D-037](../decisions.md#d-037).
 - Whether soft-delete metadata should be per aggregate only, per event only,
   or both.

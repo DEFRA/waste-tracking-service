@@ -53,6 +53,7 @@ At-a-glance view of every decision, sorted by status, then by impact (structural
 | D-011 | [Static and transit collection collapsed into a single endpoint](#static-and-transit-collection-collapsed-into-a-single-endpoint) | ✅ Decided | 🟢 Low | **Collection** |
 | D-022 | [Receipt migration: new endpoint vs extend Phase 1](#receipt-migration-new-endpoint-vs-extend-phase-1) | ⏳ Open | 🔴 High | **Receipt** |
 | D-025 | [Receipt acceptance / rejection outcome (new in Phase 2)](#receipt-acceptance-rejection-outcome-new-in-phase-2) | ⏳ Open | 🔴 High | **Receipt** |
+| D-037 | [Phase 2 MongoDB storage model — three options under evaluation](#phase-2-mongodb-storage-model-three-options-under-evaluation) | ⏳ Open | 🔴 High | **Data model** |
 | D-019 | [Fate-of-waste GET — producer journey query (proposal)](#fate-of-waste-get-producer-journey-query-proposal) | ⏳ Open | 🟠 Medium | **Fate-of-waste** |
 | D-021 | [Cross-check granularity](#cross-check-granularity) | ⏳ Open | 🟠 Medium | **Receipt** |
 | D-023 | [Phase 1 receipt endpoint deprecation timeline](#phase-1-receipt-endpoint-deprecation-timeline) | ⏳ Open | 🟠 Medium | **Receipt** |
@@ -1235,6 +1236,107 @@ event, which covers the real-time and tail-correction cases. Flagged in the
 same spirit as D-032's positional contract ("revisit if it proves fragile").
 To pick up with the BA when older-event correction is a demonstrated need
 rather than a hypothetical one.
+
+<a id="d-037"></a>
+### Phase 2 MongoDB storage model — three options under evaluation
+
+**D-037** · ⏳ Open · Impact: 🔴 High · Area: **Data model** · Related: [D-029](#d-029), [D-034](#d-034)
+
+**Context.** Three MongoDB storage models have been considered for Phase 2.
+
+The **aggregate model** ([`model/mongo-schema-proposal.md`](model/mongo-schema-proposal.md))
+stores one document per public identifier: a `movements` aggregate embedding
+`creation` (singular) and an ordered `collectionEvents[]` array, and a
+`transfers` aggregate embedding `movementIds[]`, `dropOff`, and `receipt`. Each
+aggregate has a `-history` companion collection using the existing full-document-snapshot
+pattern from `waste-inputs-history`, and a `revision` field as the optimistic
+concurrency guard in `updateOne({ _id, revision })`.
+
+The **per-event-collection model** (proposed by the Data Architect) stores one
+MongoDB collection per event type — creation, collection, drop-off, and receipt —
+deferring cross-event reads to a view layer defined later.
+
+The **CQRS / event-sourcing model** ([`model/mongo-schema-proposal-CQRS.md`](model/mongo-schema-proposal-CQRS.md))
+uses an append-only `events` collection as the sole source of truth, with
+`movements` and `transfers` as derived projection collections rebuilt from events.
+A unique compound index on `{ streamId, sequenceNumber }` replaces the `revision`
+concurrency guard. No `-history` collections are needed: the event log is the
+history. Aggregate root objects are rehydrated in memory from the event stream on
+each write to enforce domain invariants before appending.
+
+**Previous position.** This entry was previously marked ✅ Decided in favour of
+the aggregate model, on five grounds: (1) per-event-collection had an undefined
+and costly read/view layer; (2) it conflicted with the `revision`-based
+concurrency pattern ([D-034](#d-034)); (3) the state machine had no home in a
+per-event model; (4) D-029 ordering enforcement was harder across a separate
+collection; (5) it would introduce a second, irreconcilable persistence paradigm
+alongside the Phase 1 pattern.
+
+**Why this is reopened.** The CQRS / event-sourcing model was not evaluated when
+D-037 was first decided. It addresses all five of the above concerns:
+
+1. Projections are defined upfront and maintained synchronously — GET reads one
+   document by `_id`, identical performance to the aggregate model.
+2. The unique `(streamId, sequenceNumber)` index replaces the `revision` guard;
+   [D-034](#d-034) would be superseded for Phase 2 if this model is adopted.
+3. State is computed in the aggregate root during rehydration and stored on the
+   projection for reads.
+4. Collection ordering ([D-029](#d-029)) is enforced by aggregate root invariants
+   on every append — at least as strong as enforcing it within a single array.
+5. Two paradigms coexist intentionally — Phase 1 (mutation + snapshot) and Phase 2
+   (event sourcing) are cleanly isolated in the same service, with the Phase 1
+   pattern retired when Phase 1 endpoints are deprecated.
+
+A full evaluation of the CQRS model against all 37 decisions and the live Phase 1
+implementation is available as an
+[interactive report](https://claude.ai/code/artifact/f52d0e9b-f90d-44d0-b956-0dafbe9a5fb0).
+
+**Options.**
+
+**Option A — Aggregate model.** Implement as described in
+`model/mongo-schema-proposal.md`. Closest to Phase 1 conventions; lowest learning
+curve. Mutation-based writes; `-history` snapshot collections; `revision` as
+concurrency guard. Does not support projection rebuild or event replay without
+additional work. Previously decided; not yet implemented.
+
+**Option B — Per-event-type collections.** One collection per event type with a
+deferred view layer. All five original objections remain. Not viable without
+simultaneously committing to a full CQRS projection layer. Not recommended at
+Phase 2 volume.
+
+**Option C — CQRS / Event Sourcing.** Implement as described in
+`model/mongo-schema-proposal-CQRS.md`. Append-only `events` collection;
+`movements` and `transfers` as projections rebuilt from events. Higher upfront
+complexity (aggregate root classes, command handlers, projection handlers,
+two-step write path); significant long-term benefits (immutable audit trail,
+projection rebuild on demand, amendments as first-class facts, no `-history`
+collections). An annotated code sketch of all four Phase 2 write paths is
+available as an
+[interactive architecture sketch](https://claude.ai/code/artifact/65564a71-55db-4329-9910-b7b5e07b3133).
+
+**What needs resolving before a decision can be made.**
+
+- **Spike (Option C only).** Implement all four Phase 2 POST endpoints
+  end-to-end — `POST /movements`, `POST /movements/{id}/collection`,
+  `POST /transfers`, `POST /transfers/{id}/receipt` — plus the corresponding
+  GET reads from projections, using the CQRS model. If the team is comfortable
+  with the pattern after the spike, proceed with Option C and record the new
+  decision. If not, fall back to Option A.
+- **PUT handlers (Option C only).** The sketch covers POST happy paths only.
+  Amendment and soft-delete handlers ([D-009](#d-009), [D-036](#d-036)) must be
+  designed before committing to Option C.
+- **Two-step write atomicity (Option C only).** Whether to wrap
+  `appendEvent` + projection update in a MongoDB session transaction needs
+  deciding before the first production write.
+- **Team alignment.** The Tech Architect and Data Architect should be aligned on
+  the CQRS pattern and its trade-offs before a decision is recorded.
+
+**Consequences (deferred until decided).** If Option A: `model/mongo-schema-proposal.md`
+is the implementation reference; [D-034](#d-034) applies as decided; Phase 0
+action #4 in `plan.md` is resolved. If Option C: `model/mongo-schema-proposal-CQRS.md`
+is the implementation reference; [D-034](#d-034) is superseded for Phase 2 by the
+event-log / unique-index model. In either case, Phase 1 collections
+(`waste-inputs`, `waste-inputs-history`) are unchanged.
 
 ## Parked
 

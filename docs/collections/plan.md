@@ -223,7 +223,7 @@ organisation type. Full details and the test provisioning options are in
 | 1 | Close [D-022](decisions.md#d-022) — confirm new Transfer-scoped receipt endpoint | Team C + BA |
 | 2 | Confirm test Cognito pool can accept new app clients for carrier integrators | Platform + Team A/B |
 | 3 | ~~Confirm `apiCode` issuance is not tied to receiver role~~ — **confirmed, no code change needed** (see [registration.md](registration.md)) | Team A/B ✅ |
-| 4 | Decide Phase 2 document model: extend `WasteInput` or new `movements` collection | Team C |
+| 4 | Decide Phase 2 document model — three options under evaluation: aggregate, per-event-type, CQRS/event-sourcing (see [D-037](decisions.md#d-037)) | Team C |
 | 5 | Decide Movement ID / Transfer ID shared vs separate counter in `waste-tracking-id-backend` | Team C |
 | 6 | Implement `POST /movements` (external API + backend) | Team C |
 | 7 | Provision first carrier `apiCode` in test environment | Team A/B |
