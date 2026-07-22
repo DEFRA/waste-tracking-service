@@ -1299,10 +1299,17 @@ curve. Mutation-based writes; `-history` snapshot collections; `revision` as
 concurrency guard. Does not support projection rebuild or event replay without
 additional work. Previously decided; not yet implemented.
 
-**Option B — Per-event-type collections.** One collection per event type with a
-deferred view layer. All five original objections remain. Not viable without
-simultaneously committing to a full CQRS projection layer. Not recommended at
-Phase 2 volume.
+**Option B — Per-event-type collections.** Described in
+[`model/mongo-schema-proposal-per-event.md`](model/mongo-schema-proposal-per-event.md).
+One collection per business event (`movement-creations`, `collection-events`,
+`transfer-dropoffs`, `receipt-events`), each with a `-history` companion.
+GET requests require two-collection reads; fate-of-waste requires up to four.
+State must either be denormalised onto the creation document (requiring
+multi-document transactions on collection-event writes) or computed at read
+time. The unique compound index on `{ movementId, sequence }` in
+`collection-events` handles concurrency for collection-event appends in place
+of the aggregate `revision` guard. Independent event-type queries and bounded
+document growth are the genuine advantages over Option A.
 
 **Option C — CQRS / Event Sourcing.** Implement as described in
 `model/mongo-schema-proposal-CQRS.md`. Append-only `events` collection;

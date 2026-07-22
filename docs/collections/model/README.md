@@ -36,9 +36,13 @@ storage and lifecycle shape that may back them.
 - [Mongo schema proposal](./mongo-schema-proposal.md) - proposed current-state
   collections, history collections, document shapes, and index list for
   Movements and Transfers, including event-level organisation provenance.
+- [Mongo schema proposal — Per-event-type collections](./mongo-schema-proposal-per-event.md) -
+  Option B: one collection per business event type (movement-creations,
+  collection-events, transfer-dropoffs, receipt-events); under evaluation
+  alongside the aggregate model above.
 - [Mongo schema proposal — CQRS / Event Sourcing](./mongo-schema-proposal-CQRS.md) -
-  alternative Phase 2 storage model based on an append-only event store with
-  derived projections; under evaluation alongside the aggregate model above.
+  Option C: append-only event store with derived projections; evaluated and
+  not adopted — retained as a record of what was considered.
 
 ## Working assumption
 

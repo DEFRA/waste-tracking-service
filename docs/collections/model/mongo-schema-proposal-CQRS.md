@@ -1,9 +1,11 @@
 # Mongo schema proposal — CQRS / Event Sourcing
 
 This document describes an alternative Phase 2 storage model based on
-Command Query Responsibility Segregation (CQRS) with event sourcing. It
-is a **proposal under evaluation** and sits alongside the aggregate-based
-proposal in [mongo-schema-proposal.md](./mongo-schema-proposal.md).
+Command Query Responsibility Segregation (CQRS) with event sourcing.
+It was evaluated during Phase 2 design and **not adopted**. It is
+retained here as a record of what was considered and why it was set
+aside, alongside the aggregate-based proposal in
+[mongo-schema-proposal.md](./mongo-schema-proposal.md).
 
 Before reading this document, it is worth understanding how the aggregate
 model differs from the Phase 1 model — see
@@ -28,6 +30,71 @@ an [interactive architecture sketch][sketch-artifact].
 
 [sketch-artifact]: https://claude.ai/code/artifact/65564a71-55db-4329-9910-b7b5e07b3133
 [eval-artifact]:   https://claude.ai/code/artifact/f52d0e9b-f90d-44d0-b956-0dafbe9a5fb0
+
+---
+
+## Why this approach was not adopted
+
+The evaluation (linked above) confirmed the following, which together
+make CQRS the wrong fit at Phase 2 scope.
+
+### The read model is not richer than the write model
+
+CQRS earns its overhead when the read side needs a materially different
+shape from what the write side naturally produces — different projections
+for different consumers, denormalised aggregations that would be
+expensive on the write model, or query patterns the aggregate document
+cannot serve efficiently.
+
+That is not the case here. The `movements` and `transfers` projection
+documents produced by this model are structurally identical to the
+aggregate documents in `mongo-schema-proposal.md`. The projections are
+not richer; they are a slightly cut-down version of the aggregates with
+some fields shifted into the event store. No concrete Phase 2 `GET`
+was identified that the aggregate documents could not serve.
+
+The reporting and regulatory read models that would genuinely benefit
+from a shaped read side are already handled by the CDP Audit pipeline.
+CQRS would add complexity without adding capability for the reads this
+service owns.
+
+### CQRS fixes a problem it creates
+
+The projection rebuild capability — often cited as the main CQRS
+advantage — only has value because CQRS introduced a projection that
+can fall behind the event store. The aggregate model has no separate
+projection and therefore no sync risk. The `movements-history` and
+`transfers-history` snapshot collections in the aggregate model already
+provide the amendment audit trail at a fraction of the complexity.
+
+### Governance overhead
+
+An append-only store of personal data (carrier names, addresses,
+registration numbers) creates tension with the GDPR right to erasure.
+The standard mitigation — crypto-shredding (encrypt events per person,
+delete the key on erasure) — adds meaningful implementation complexity.
+Adopting this model would require a fresh DPIA and a more complex ADR
+for Defra Assurance, neither of which is warranted by a capability gain
+that does not yet exist.
+
+### Build overhead
+
+Aggregate root rehydration on every write request, command handlers,
+projection handlers, and upcasters (required once event shapes are in
+production and cannot be changed) represent a significant build and
+maintenance overhead. The PUT command handlers (`CollectionAmended`,
+`MovementDeleted`, `ReceiptAmended`, `TransferDeleted`) were not
+designed in this proposal, and their interaction with the D-009
+lifecycle rules and D-036 authorisation checks would add further
+complexity.
+
+### What would change the calculus
+
+If a concrete Phase 2 read requirement emerges that the aggregate
+documents cannot serve, or if a replay need arises that the snapshot
+history cannot answer, CQRS should be revisited. The technical sketch
+and evaluation linked above remain the starting point for that
+conversation.
 
 ---
 
