@@ -18,8 +18,6 @@ Read the [API Terms of Service](api-terms-of-service.md) and acknowledge this by
 ### 2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team
 Following registration, software developers receive test credentials from the DWT team. These test credentials consist of a client ID and a client secret sent via an encrypted email. Test credentials are used only within the Test environment, later following successful implementation of the PAT scenarios (step 7) software developers receive their Production credentials. 
 
-These credentials consist of a client ID and a client secret, sent via an encrypted email.
-
 ### 3. Implement Receipt of Waste (RoW) API Integration
 Using the provided test credentials, software developers begin building the integration between their software and the Receipt of Waste API.
 
