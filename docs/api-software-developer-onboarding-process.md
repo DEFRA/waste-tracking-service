@@ -43,7 +43,7 @@ The DWT team reviews the submitted IDs for the production approval test scenario
 The software developer receives a formal acceptance from the DWT team once their PAT scenarios have been successfully reviewed.
 
 ### 8. Receive Production Credentials from the DWT Team
-Once the terms of service are agreed to, the DWT team issues the production credentials to the software developer.
+Once the terms of service are agreed to, the DWT team issues the production credentials and API Code to the software developer.
 
 ### 9. Connect to the Production Environment
 The software developer uses the production credentials to establish a connection to the live production environment.
