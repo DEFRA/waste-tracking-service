@@ -948,19 +948,36 @@ at the credential level between the role the caller is acting in for a given
 event. An organisation that acts as both a receiver and a carrier holds one
 set of credentials and uses them for both roles.
 
-The onboarding process for Phase 2 actors follows the same steps as Phase 1:
-registration, manual provisioning of a Cognito app client in the relevant
-environment (test or production), and distribution of credentials via
-encrypted email. No new registration UI or self-serve onboarding path is
-introduced for Phase 2.
+The two credentials are issued through different paths, and Phase 2 changes
+neither:
 
-**Consequences.** The credential model and the `apiCode` identity mechanism
-are unchanged from Phase 1. The `waste-organisation-backend` API-code
-issuance flow is reused for carriers and brokers without modification.
-Role-based access restrictions — for example, whether only a permitted
-receiving site may record a Receipt — are a separate policy question deferred
-to a future decision; the identity mechanism supplies the information to
-enforce such rules but does not pre-empt them (see [D-036](#d-036)).
+- **Cognito app client** (`client_id` + `client_secret`) is manually
+  provisioned per third-party integrator system, in the relevant environment
+  (test or production), with credentials shared via a secure channel. This
+  step does not change for Phase 2 — carrier, broker, and producer
+  integrators are provisioned the same manual way as receiver integrators
+  are today.
+- **`apiCode`** is self-service, not manually distributed. Once an
+  organisation is registered and its users can sign in via Defra ID, any user
+  in that organisation generates, names, and disables its own `apiCode`s
+  through `waste-organisation-frontend`'s API management screens — no
+  operator involvement, no encrypted-email step. This self-serve path already
+  exists for Phase 1 receivers; no new UI is needed for Phase 2 actors to use
+  it.
+
+**Consequences.** The credential model is unchanged from Phase 1, but the two
+halves have different operational profiles. The `apiCode` half is fully
+self-serve for every actor type via the existing `waste-organisation-frontend`
+UI — the `waste-organisation-backend` API-code issuance flow is reused for
+carriers and brokers without modification. The Cognito app client half
+remains a manual, per-integrator provisioning step regardless of actor type;
+this is a standing onboarding-scale consideration as Phase 2 brings in
+carrier, broker, and producer integrators on top of receivers, not something
+Phase 2 introduces new. Role-based access restrictions — for example,
+whether only a permitted receiving site may record a Receipt — are a
+separate policy question deferred to a future decision; the identity
+mechanism supplies the information to enforce such rules but does not
+pre-empt them (see [D-036](#d-036)).
 
 <a id="d-036"></a>
 ### Write authorisation: open append, amend restricted to the authoring organisation
