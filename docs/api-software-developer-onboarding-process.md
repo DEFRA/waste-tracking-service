@@ -16,9 +16,9 @@ Read the [API Terms of Service](api-terms-of-service.md) and acknowledge this by
 [Register as a Software Provider](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U){ .md-button .md-button--primary }
 
 ### 2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team
-Following registration, software developers receive test credentials from the DWT team.
+Following registration, software developers receive test credentials from the DWT team. These test credentials consist of a client ID and a client secret, sent via an encrypted email. Test credentials are used only within the test environment. Production credentials for the production environment are sent following successful implementation of the PAT scenarios (step 7).
 
-These credentials consist of a client ID and a client secret, sent via an encrypted email.
+To work with the API, software developers need to include an **API Code** in their requests. For testing, a `dummy API Code` is used. A list of dummy codes is available from [Testing and Production API Codes](api-codes-for-testing-and-production.md). In the production environment, software developers must use the API Code supplied for the waste organisation reporting that waste movement.
 
 ### 3. Implement Receipt of Waste (RoW) API Integration
 Using the provided test credentials, software developers begin building the integration between their software and the Receipt of Waste API.
@@ -43,7 +43,7 @@ The DWT team reviews the submitted IDs for the production approval test scenario
 The software developer receives a formal acceptance from the DWT team once their PAT scenarios have been successfully reviewed.
 
 ### 8. Receive Production Credentials from the DWT Team
-Once the terms of service are agreed to, the DWT team issues the production credentials to the software developer.
+Once the terms of service are agreed to, the DWT team issues the production credentials and API Code to the software developer.
 
 ### 9. Connect to the Production Environment
 The software developer uses the production credentials to establish a connection to the live production environment.
@@ -58,4 +58,4 @@ Receivers accept terms and conditions manually via email, after which they recei
 You can find the changelog for this document in the [Onboarding Software Developers](https://github.com/DEFRA/waste-tracking-service/wiki/Software-Developer-Onboarding-Process) GitHub wiki page
 
 
-<br/>Page last updated on May 28th 2026.
+<br/>Page last updated on July 23rd 2026.
