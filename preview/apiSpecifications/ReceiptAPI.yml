@@ -30,7 +30,7 @@ paths:
   /movements/receive:
     post:
       description: |
-        Endpoint used when waste is received but the receiver has not yet recorded the waste movement. Generally at this stage, the receiver does not have or use the waste tracking ID. The waste tracking ID will be returned in the 201 response if the movement is successfully stored.
+        Endpoint used when waste is received and the receiver submits a waste movement. A waste tracking ID is returned in a 201 response when the movement is successfully stored.
       requestBody:
         $ref: "#/components/requestBodies/receiveMovementRequest"
         required: true
@@ -44,7 +44,7 @@ paths:
                 properties:
                   wasteTrackingId:
                     type: string
-                    description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when either a POST or PUT request is successful, i.e. return code 201, 200.
+                    description: Globally unique identifier of the movement. This ID should be stored and used for any subsequent updates of the movement. It is returned in the response body when a POST request is successful, i.e. return code 201.
                     example: 25HRA0B2
                   validation:
                     type: object
@@ -58,7 +58,7 @@ paths:
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
-        This endpoint is used to update a waste movement record that has already been submitted. It uses the waste tracking ID (wasteTrackingId) returned when the POST endpoint successfully submitted the original waste movement record. The waste tracking ID must be used in the URL path.
+        Endpoint used to update a waste movement record that has already been submitted. It uses the waste tracking ID (wasteTrackingId) returned when the POST endpoint successfully submitted the original waste movement record. The waste tracking ID must be used in the URL path.
       parameters:
         - name: wasteTrackingId
           in: path
