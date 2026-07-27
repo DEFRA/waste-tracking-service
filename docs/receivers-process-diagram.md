@@ -85,6 +85,7 @@ The following data is recorded against the WT-ID:
   - receiver details 
   - contact
   - permits
+  - broker or dealer details
 - waste classification
   - weight and containers (estimate or actual)
   - EWC code
