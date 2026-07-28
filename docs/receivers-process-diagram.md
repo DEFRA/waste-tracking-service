@@ -78,7 +78,7 @@ Passes waste transfer note/consignment note to receiver
 #### DWT data
 The following data is recorded against the WT-ID:
 
-- carrier details
+  - carrier details
   - contact
   - permits
   - vehicle registration number
@@ -86,14 +86,14 @@ The following data is recorded against the WT-ID:
   - contact
   - permits
   - broker or dealer details
-- waste classification
+  - waste classification
   - weight and containers (estimate or actual)
   - EWC code
   - POPs
   - hazardous or non-hazardous
-- waste acceptance (yes or no)
-- treatment process (recovery and disposal ‘D’ or ‘R’ codes)
-- receipt details (date and time)
+  - waste acceptance (yes or no)
+  - treatment process (recovery and disposal ‘D’ or ‘R’ codes)
+  - receipt details (date and time)
 
 ### Step 5: after the waste has moved
 #### Carrier
