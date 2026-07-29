@@ -60,7 +60,7 @@ There are ten dummy codes to choose from (see below). There are no restrictions,
 
 9. 17ea0c22-668a-41b2-b5ad-83c954f314f1
 
-10. 75ff9140-8617-406e-9163-2ba4907e645b2
+10. 75ff9140-8617-406e-9163-2ba4907e645b
 ```
 ## Changelog
 
