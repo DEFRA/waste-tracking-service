@@ -67,4 +67,4 @@ There are ten dummy codes to choose from (see below). There are no restrictions,
 You can find the changelog for this document in the [Receipt API v1.0 API Codes](https://github.com/DEFRA/waste-tracking-service/wiki/API-Codes-for-Testing-and-Production) GitHub wiki page
 
 
-<br/>Page last updated on January 12th 2026.
+<br/>Page last updated on July 29th 2026.
