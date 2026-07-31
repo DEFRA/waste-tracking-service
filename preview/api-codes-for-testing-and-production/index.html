@@ -1204,10 +1204,18 @@
         });
 
         // 2. Empty form labels — add visually-hidden text to icon-only labels
+        function labelHasText(label) {
+          var clone = label.cloneNode(true);
+          var els = clone.querySelectorAll('svg, img, .md-icon, .visually-hidden');
+          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
+          return !!clone.textContent.trim();
+        }
+
         function addLabelText(selector, text) {
           document.querySelectorAll(selector).forEach(function (label) {
             if (label.getAttribute('aria-hidden') === 'true') return;
             if (label.querySelector('.visually-hidden')) return;
+            if (labelHasText(label)) return;
             var span = document.createElement('span');
             span.className = 'visually-hidden';
             span.textContent = text;
@@ -1231,6 +1239,7 @@
         // Navigation section toggle labels
         document.querySelectorAll('label[for^="__nav"], label[for^="nav-"]').forEach(function (label) {
           if (label.querySelector('.visually-hidden')) return;
+          if (labelHasText(label)) return;
           var nav = label.closest('.md-nav__item');
           var link = nav ? nav.querySelector('.md-nav__link') : null;
           var text = link ? 'Toggle ' + link.textContent.trim() : 'Toggle section';
@@ -1244,15 +1253,11 @@
         document.querySelectorAll('label[for]').forEach(function (label) {
           if (label.getAttribute('aria-hidden') === 'true') return;
           if (label.querySelector('.visually-hidden')) return;
-          var clone = label.cloneNode(true);
-          var els = clone.querySelectorAll('svg, img, .md-icon');
-          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
-          if (!clone.textContent.trim()) {
-            var span = document.createElement('span');
-            span.className = 'visually-hidden';
-            span.textContent = label.getAttribute('title') || 'Toggle';
-            label.appendChild(span);
-          }
+          if (labelHasText(label)) return;
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = label.getAttribute('title') || 'Toggle';
+          label.appendChild(span);
         });
 
         // Catch any inputs/selects without any label (missing form label)
@@ -1270,10 +1275,17 @@
         // Skip labels already hidden from assistive technology (e.g. the
         // decorative .md-overlay) so the visible, functional control keeps its
         // label instead of being the one demoted to a span.
+        // Also skip Material's CSS-only toggles (.md-toggle), which are driven
+        // by two working labels by design — for a nav section, the open link
+        // and the drawer's back arrow both target the same checkbox — so
+        // demoting either breaks navigation at narrow widths. Those checkboxes
+        // are display:none, so AXE never reports them as multiply-labelled.
         var labelsByFor = {};
         document.querySelectorAll('label[for]').forEach(function (label) {
           if (label.getAttribute('aria-hidden') === 'true') return;
           var forId = label.getAttribute('for');
+          var target = document.getElementById(forId);
+          if (target && target.classList.contains('md-toggle')) return;
           if (!labelsByFor[forId]) labelsByFor[forId] = [];
           labelsByFor[forId].push(label);
         });
