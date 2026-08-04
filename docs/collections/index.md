@@ -52,6 +52,11 @@ open questions, and parked items.
 vocabulary — Movement ID vs. Transfer ID vs. WT-ID, what counts as a
 broker, and so on.
 
+[**Assessment feedback.**](phase2/assessment-feedback.md) External
+assessment advice from the GDS Alpha review — vendor delegation and API
+versioning so far — and how each point maps to current-state findings
+and existing decisions.
+
 ## Where to start
 
 If you are a software vendor or developer integrating with the API, start
