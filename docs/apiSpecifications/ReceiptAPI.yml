@@ -55,6 +55,8 @@ paths:
                           $ref: "#/components/schemas/validationResult"
         "400":
           $ref: "#/components/responses/400"
+        "402":
+          $ref: "#/components/responses/402"  
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
@@ -87,6 +89,8 @@ paths:
                           $ref: "#/components/schemas/validationResult"
         "400":
           $ref: "#/components/responses/400"
+        "402":
+          $ref: "#/components/responses/402"  
         "404":
           description: Movement not found. The waste tracking ID used is not correct.
   /reference-data/ewc-codes:
@@ -931,8 +935,7 @@ components:
         code:
           type: string
           description: |
-             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes (Recovery (R) and Disposal (D)) serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
-             
+             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes (Recovery (R) and Disposal (D)) serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.   
                <p><b>Notes:</b> 
                <ul>
                - The field is case-sensitive, please use the case specified for the code returned by the GET method.<br>
@@ -1053,6 +1056,32 @@ components:
                        "message": "Site authorisation number must be in a valid UK format"
                       },
                  ]
+                }
+                }
+            properties:
+              validation:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/validationResult"
+    "402":
+      description: Payment required. The organisation is not authorised to submit waste receipts because payment for the service is overdue or unavailable.
+      content:
+        application/json:
+          schema:
+            type: object
+            example:    
+              {
+               "validation": {
+                 "errors": [
+                    {
+                      "key": "apiCode",
+                      "errorType": "BusinessRuleViolation",
+                      "message": "Payment required. The organisation is not authorised to submit waste receipts because payment for the service is overdue or unavailable."
+                    },
+                  ]
                 }
                 }
             properties:
