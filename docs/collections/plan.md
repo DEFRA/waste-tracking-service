@@ -165,7 +165,7 @@ test environment.
 |---|---|
 | `PUT /movements/{movementId}` | Full update; history/revision pattern ([D-034](decisions.md#d-034)); amend restricted to authoring org ([D-036](decisions.md#d-036)) |
 | `PUT /movements/{movementId}/collection` | Tail-only update / soft-delete of latest active event ([D-029](decisions.md#d-029), [D-009](decisions.md#d-009)) |
-| `POST /transfers` | Drop-off; mandatory `dropOff.address` ([D-018](decisions.md#d-018)); `movementIds[]` array — many-to-one ([D-007](decisions.md#d-007)); hazardous constraint: exactly 1 movement ([D-010](decisions.md#d-010)); mints Transfer ID |
+| `POST /transfers` | Drop-off; mandatory `dropOff.address` ([D-018](decisions.md#d-018)); `movementIds[]` array — many-to-one ([D-007](decisions.md#d-007)); hazardous constraint: exactly 1 movement ([D-010](decisions.md#d-010)); mints Transfer ID, except a hazardous drop-off reuses the Movement ID ([D-010](decisions.md#d-010)) |
 | `PUT /transfers/{transferId}` | Soft-delete only via `isDeleted` — no field edits ([D-017](decisions.md#d-017)) |
 | `POST /transfers/{transferId}/receipt` | New Phase 2 receipt (contingent on [D-022](decisions.md#d-022) Option 1); cross-checks waste vs Creation and carrier vs Movement chain ([D-006](decisions.md#d-006)); mismatches are warnings, not hard errors |
 | `PUT /transfers/{transferId}/receipt` | Receipt update; history/revision pattern ([D-034](decisions.md#d-034)) |

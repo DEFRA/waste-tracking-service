@@ -307,11 +307,18 @@ Appended by `PUT /movements/{movementId}` when `isDeleted: false`.
 
 Appended by `POST /transfers`. Starts the transfer stream.
 
+For a hazardous drop-off, `transferId` is not freshly minted: it is the sole
+`movementId` referenced in the request ([D-010](../decisions.md#d-010)
+guarantees there is exactly one). For a non-hazardous drop-off, `transferId`
+is minted independently as before.
+
 ```javascript
 {
   eventType: 'TransferCreated',
   payload: {
-    transferId:            String,    // sqid — e.g. "25XYZ456"
+    transferId:            String,    // sqid — e.g. "25XYZ456"; for a
+                                       // hazardous drop-off, equals the
+                                       // sole movementId below
     movementIds:           [String],  // one or more movementIds linked at this drop-off
     actualDateTimeDropOff: Date,
     yourUniqueReference:   String,    // optional
@@ -659,12 +666,15 @@ The four Phase 2 POST endpoints and their CQRS write paths:
    `isDeleted: false`.
 4. Cross-projection check (D-010): if any referenced movement carries
    hazardous waste items, `movementIds.length` must equal `1`.
-5. Build `TransferCreated` event.
-6. `appendEvent(db, 'transfer-{id}', 0, event)` — new stream.
-7. `applyTransferCreated(db, storedEvent)` — `insertOne` into
+5. Determine `transferId`: if step 4's hazardous check applies, reuse the
+   sole `movementId` as `transferId` — no new identifier is minted.
+   Otherwise, mint `transferId` via `waste-tracking-id-backend` as today.
+6. Build `TransferCreated` event.
+7. `appendEvent(db, 'transfer-{id}', 0, event)` — new stream.
+8. `applyTransferCreated(db, storedEvent)` — `insertOne` into
    `transfers`; `$push transferId` to each referenced `movements`
    document.
-8. Return `{ transferId }`.
+9. Return `{ transferId }`.
 
 ### `POST /transfers/{transferId}/receipt`
 

@@ -247,9 +247,16 @@ One document per `transferId`. Records the drop-off event
 (`POST /transfers`). `isDeleted` is the only mutable field via
 `PUT /transfers/{transferId}` ([D-017](../decisions.md#d-017)).
 
+For a hazardous drop-off, `transferId` is not a freshly minted value: it is
+the sole `movementId` referenced in the request (see step 4 of the write
+path below). For a non-hazardous drop-off, `transferId` is minted
+independently as before.
+
 ```javascript
 {
-  _id: String,                 // transferId (sqid — e.g. "26XYZ456")
+  _id: String,                 // transferId (sqid — e.g. "26XYZ456"; for a
+                                // hazardous drop-off this equals the sole
+                                // referenced movementId)
   transferId: String,
   movementIds: [String],       // FK array to movement-creations (D-007)
   revision: Number,            // incremented on PUT soft-delete
@@ -447,7 +454,10 @@ the state update are to be atomic.
    `movement-creations` document has a non-empty `hazardousWasteConsignmentCode`
    or contains hazardous items in `wasteItems[]`, `movementIds.length` must
    equal `1`. Reject with `BusinessRuleViolation` if not.
-4. Mint `transferId` via `waste-tracking-id-backend`.
+4. Determine `transferId`: if step 3's hazardous check applies (a hazardous
+   drop-off, always exactly one `movementId`), reuse that `movementId` as
+   `transferId` — no new identifier is minted. Otherwise, mint `transferId`
+   via `waste-tracking-id-backend` as today.
 5. `insertOne` into `transfer-dropoffs` with `revision: 1`, `isDeleted: false`.
 6. In the same MongoDB session, `updateMany` on `movement-creations` for each
    `movementId`: `{ $set: { state: 'DROPPED_OFF', lastUpdatedAt } }`.

@@ -89,10 +89,16 @@ export const hazardousSingleMovementPostBody = {
 // Responses
 // ---------------------------------------------------------------------------
 
-// Server mints and returns the Transfer ID (D-012, D-013)
+// Non-hazardous drop-off: server mints and returns a new Transfer ID (D-012, D-013)
 // The driver may pass this to the receiver to enable POST /transfers/{transferId}/receipt, where applicable.
 export const recordDropOffResponse = {
   transferId: '25XMN4F7'
+}
+
+// Hazardous drop-off (paired with hazardousSingleMovementPostBody above): the
+// Transfer ID is the sole Movement ID, not a freshly minted value (D-010).
+export const hazardousDropOffResponse = {
+  transferId: '25HRA0B2'
 }
 
 export const recordDropOffResponseWithWarnings = {

@@ -84,6 +84,11 @@ This shape has two practical consequences worth knowing:
   two receivers in a single run mints two Transfer IDs — one per
   drop-off event. The Movements being delivered are split across the
   two Transfers.
+- **Hazardous drop-offs reuse the Movement ID.** Hazardous waste cannot
+  be aggregated under a shared Transfer ([D-010](decisions.md#d-010)),
+  so a hazardous drop-off always covers exactly one Movement — and
+  instead of minting a new Transfer ID, the server sets it equal to
+  that Movement ID.
 
 If a load is partially rejected at the receiver, that is recorded on the
 single Receipt, not by creating new Movements — the Movement is unchanged.

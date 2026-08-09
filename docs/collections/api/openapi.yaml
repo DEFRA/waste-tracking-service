@@ -94,6 +94,11 @@ components:
         on `POST /transfers`. Short, externally-shared,
         year-prefixed sqids (YY + alphanumerics, see https://sqids.org/).
         Format is opaque to callers; do not parse.
+
+        Exception: for a hazardous drop-off, the request contains exactly
+        one Movement ID (see the hazardous-waste constraint on
+        `POST /transfers`), and `transferId` is set equal to that Movement
+        ID rather than minted.
       example: 25KMT4Z9
 
     # Internal event identifiers (creationId, collectionId, dropOffId,
@@ -1646,10 +1651,12 @@ paths:
       tags: [Drop-off]
       summary: Record a drop-off
       description: |
-        Record a drop-off event. Mints a new Transfer ID covering one or more
-        Movement IDs delivered together (carried in `movementIds`). In a
-        single-collection run `movementIds` is an array of one; in a
-        multi-collection run it carries every Movement being delivered.
+        Record a drop-off event, covering one or more Movement IDs delivered
+        together (carried in `movementIds`). In a single-collection run
+        `movementIds` is an array of one; in a multi-collection run it
+        carries every Movement being delivered. Returns a Transfer ID: a
+        newly-minted one for a non-hazardous drop-off, or the reused
+        Movement ID for a hazardous one (see below).
 
         The drop-off place is a lighter, carrier-declared site model (`dropOff`)
         — not necessarily an official receiver site, and possibly an exempt
@@ -1662,7 +1669,9 @@ paths:
         on properties of the linked Movements that the request body does not
         carry, so it is enforced server-side and surfaced as a
         BusinessRuleViolation in `validation.warnings` (it may harden to a 400
-        in a later revision).
+        in a later revision). For a drop-off that satisfies this constraint,
+        the returned `transferId` is set equal to the single Movement ID
+        rather than minted.
 
         Every Movement named in `movementIds` must be active: a Movement that
         is currently `isDeleted: true`, or whose Collection is currently

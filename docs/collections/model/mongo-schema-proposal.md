@@ -189,9 +189,15 @@ Owns:
 
 ## Proposed `transfers` schema
 
+For a hazardous drop-off, `transferId` is not freshly minted: it is the sole
+`movementId` referenced in the request ([D-010](../decisions.md#d-010)
+guarantees there is exactly one). For a non-hazardous drop-off, `transferId`
+is minted independently as before.
+
 ```javascript
 {
-  _id: String, // transferId
+  _id: String, // transferId — for a hazardous drop-off, equals the sole
+               // referenced movementId
   transferId: String,
   movementIds: [String],
   state: String, // e.g. DROPPED_OFF, RECEIVED, REJECTED, PARTIALLY_ACCEPTED
@@ -363,7 +369,9 @@ Conditional / query-driven:
 - `movements._id` / `movementId` is the durable public identifier for a
   Movement.
 - `transfers._id` / `transferId` is the durable public identifier for a
-  Transfer.
+  Transfer. For a hazardous drop-off, `transferId` equals the sole
+  `movementId` on the transfer rather than being independently minted (see
+  `POST /transfers` above and [D-010](../decisions.md#d-010)).
 - `revision` is the current version number of the aggregate document, not of
   an individual nested event.
 - New aggregates are created at `revision: 1`.
@@ -409,6 +417,10 @@ Conditional / query-driven:
   - set `movementIds[]`
   - set `dropOff`
   - set `receipt` to `null` or omit
+  - determine `transferId`: if the request is a hazardous drop-off (always
+    exactly one `movementId`, per [D-010](../decisions.md#d-010)), reuse
+    that `movementId` as `transferId` — no new identifier is minted.
+    Otherwise, mint `transferId` via `waste-tracking-id-backend` as today.
   - optionally update each referenced Movement to append `transferId` to
     `transferIds[]`
 

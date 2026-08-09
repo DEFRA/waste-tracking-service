@@ -399,9 +399,18 @@ expressed in the OpenAPI schema, but documented on the endpoint and
 validated server-side. Violations return a 400 with a clear validation
 error.
 
+For a drop-off that satisfies this constraint (hazardous, exactly one
+Movement ID), the server does not mint a new Transfer ID: `transferId` is
+set equal to that Movement ID. Non-hazardous drop-offs continue to mint a
+fresh Transfer ID via `waste-tracking-id-backend` as before, whether
+single- or multi-Movement.
+
 **Consequences.** Multi-collection runs remain a first-class concept
 for non-hazardous waste. Carriers handling hazardous waste record one
-drop-off per Movement, even if the loads physically arrive together.
+drop-off per Movement, even if the loads physically arrive together. The
+Transfer ID returned for a hazardous drop-off is predictable ahead of the
+call — it is the Movement ID already known to the caller — rather than a
+newly-minted value.
 
 <a id="d-011"></a>
 ### Static and transit collection collapsed into a single endpoint
@@ -482,7 +491,9 @@ maximum.)
 estimate by roughly four orders of magnitude — ample headroom. IDs are
 opaque; callers must not parse them (the schema descriptions say so).
 Movement ID and Transfer ID share the same format and are disambiguated
-by the endpoint/path they appear on, not by the string itself.
+by the endpoint/path they appear on, not by the string itself — except for
+a hazardous drop-off, where the two are the same string by design (see
+[D-010](#d-010)).
 
 Two follow-ups this surfaces, for the data/spec pass:
 
@@ -809,9 +820,12 @@ transit collection only; it does not touch the receipt cross-checks against
 creation/collection ([D-006](#d-006)) or against drop-off ([D-021](#d-021)),
 which remain validation warnings as before.
 
-**Consequences.** D-007 and D-010 need no change: a Transfer still names
-exactly one Movement ID, hazardous or not, so there is nothing new to
-validate at drop-off. [D-012](#d-012) is preserved: collection events still
+**Consequences.** D-007 and D-010 need no change to their *validation*
+rules: a Transfer still names exactly one Movement ID, hazardous or not, so
+there is nothing new to check at drop-off. D-010 separately governs
+`transferId` assignment for the hazardous case (the Movement ID is reused
+rather than minted); that assignment behaviour is unaffected by this
+decision. [D-012](#d-012) is preserved: collection events still
 carry no public per-event id, addressed by position in the sequence rather
 than by the 1:1 parent relationship the decision originally relied on —
 same outcome, different mechanism (and see [D-016](#d-016), amended to say
