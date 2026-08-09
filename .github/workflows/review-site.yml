@@ -2,8 +2,8 @@ name: Publish Review Site
 
 on:
   push:
-    branches: DWTA-311_restructure_revew
-      - 
+    branches: 
+      - DWTA-311_restructure_revew
 
 permissions:
   contents: write
