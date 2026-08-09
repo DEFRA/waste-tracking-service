@@ -1,0 +1,15 @@
+meta {
+  name: Get container-types
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/reference-data/container-types
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
