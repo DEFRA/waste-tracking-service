@@ -1,7 +1,5 @@
-!!! Information
-    The Private Beta Phase has ended. The service is now in **Public Beta**
-
-# About digital waste tracking
+!!! warning "Review version"
+    This is the October 2026 review version of the documentation.
 
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-software-developer-onboarding-process.md).
 
