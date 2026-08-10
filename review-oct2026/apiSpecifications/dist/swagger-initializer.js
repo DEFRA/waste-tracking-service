@@ -14,18 +14,12 @@ function onSwaggerRender() {
   }, 100)
 }
 
+window.onload = function() {
+  //<editor-fold desc="Changeable Configuration Block">
 
-window.addEventListener("DOMContentLoaded", function () {
-
-  const el = document.getElementById("swagger-ui");
-
-  // ✅ Only run on pages that have Swagger container
-  if (!el) return;
-
-  const specUrl = el.getAttribute("data-spec");
-
-  SwaggerUIBundle({
-    url: specUrl,
+  // the following lines will be replaced by docker/configurator, when it runs in a docker-container
+  window.ui = SwaggerUIBundle({
+    url: "ReceiptAPI.yml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
@@ -42,7 +36,6 @@ window.addEventListener("DOMContentLoaded", function () {
     defaultModelRendering: "model",
     docExpansion: "full"
   });
-
 
   //</editor-fold>
 };
