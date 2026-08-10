@@ -11,10 +11,6 @@
         <link rel="canonical" href="https://defra.github.io/waste-tracking-service/use-cases/">
       
       
-        <link rel="prev" href="../storyboards/">
-      
-      
-        <link rel="next" href="../initial-scope/">
       
       
         
@@ -25,7 +21,7 @@
     
     
       
-        <title>Use cases - Defra Digital Waste Tracking Developer Guide</title>
+        <title>Use cases - Digital Waste Tracking: Software Developer Guide</title>
       
     
     
@@ -119,6 +115,8 @@
     
       <link rel="stylesheet" href="../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -164,7 +162,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Defra Digital Waste Tracking Developer Guide" class="md-header__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
+    <a href=".." title="Digital Waste Tracking: Software Developer Guide" class="md-header__button md-logo" aria-label="Digital Waste Tracking: Software Developer Guide" data-md-component="logo">
       
   <img src="../logos/moj.png" alt="logo">
 
@@ -177,7 +175,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Defra Digital Waste Tracking Developer Guide
+            Digital Waste Tracking: Software Developer Guide
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -293,19 +291,17 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href=".." class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../api-reporting-deadlines.md" class="md-tabs__link">
           
   
   
     
   
-  About Waste Tracking
+  Receipt of Waste
 
         </a>
       </li>
@@ -321,13 +317,13 @@
     
     
       <li class="md-tabs__item">
-        <a href="../api-landing-page/" class="md-tabs__link">
+        <a href="../api-specification-receipt.md" class="md-tabs__link">
           
   
   
     
   
-  Phase 1 Receipt of Waste
+  API
 
         </a>
       </li>
@@ -365,12 +361,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Defra Digital Waste Tracking Developer Guide" class="md-nav__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
+    <a href=".." title="Digital Waste Tracking: Software Developer Guide" class="md-nav__button md-logo" aria-label="Digital Waste Tracking: Software Developer Guide" data-md-component="logo">
       
   <img src="../logos/moj.png" alt="logo">
 
     </a>
-    Defra Digital Waste Tracking Developer Guide
+    Digital Waste Tracking: Software Developer Guide
   </label>
   
     <div class="md-nav__source">
@@ -391,12 +387,12 @@
       
   
   
-    
-  
   
   
     
     
+      
+        
       
         
           
@@ -408,21 +404,28 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -433,7 +436,7 @@
   <span class="md-ellipsis">
     
   
-    About Waste Tracking
+    Receipt of Waste
   
 
     
@@ -444,24 +447,52 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
   
-    About Waste Tracking
+    Receipt of Waste
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reporting-deadlines.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API October Reporting Deadlines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
             
               
                 
@@ -470,14 +501,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../storyboards/" class="md-nav__link">
+      <a href="../api-receipt-data-definitions.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Storyboards
+    Receipt of Waste Data Definitions
   
 
     
@@ -495,26 +526,17 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api-receipt-of-waste-getting-started-guide.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Use cases
+    API Getting Started Guide
   
 
     
@@ -523,7 +545,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -536,14 +557,154 @@
   
   
     <li class="md-nav__item">
-      <a href="../initial-scope/" class="md-nav__link">
+      <a href="../api-authentication-guide/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial scope
+    API authentication guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-codes-for-testing-and-production/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API codes for testing and production
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-production-approval-tests.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Production Approval Tests (PAT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-testing-and-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API testing and examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-terms-of-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API terms of service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
   
 
     
@@ -575,28 +736,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -618,7 +757,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 Receipt of Waste
+    API
   
 
     
@@ -634,7 +773,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Phase 1 Receipt of Waste
+    API
   
 
           </label>
@@ -647,322 +786,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../api-landing-page/" class="md-nav__link">
+      <a href="../api-specification-receipt.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Introduction to Phase 1 the Receipt of Waste API
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../receivers-process-diagram/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Receivers process diagram
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-software-developer-onboarding-process/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api software developer onboarding process
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-specification/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api specification
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../receipt-data-definitions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Receipt data definitions
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-authentication-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api authentication guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-codes-for-testing-and-production/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api codes for testing and production
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../production-approval-tests/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Production approval tests
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-testing-and-examples/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api testing and examples
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../roadmap/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Roadmap
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-terms-of-service/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api terms of service
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../faq/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Faq
+    Receipt API Specification
   
 
     
@@ -1305,6 +1136,12 @@
     
   
       <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../swagger-initializer.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
       
     
   <script>

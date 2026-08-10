@@ -19,7 +19,7 @@
     
     
       
-        <title>Defra Digital Waste Tracking Developer Guide</title>
+        <title>Digital Waste Tracking: Software Developer Guide</title>
       
     
     
@@ -113,6 +113,8 @@
     
       <link rel="stylesheet" href="/waste-tracking-service/stylesheets/extra.css">
     
+      <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+    
     <script>__md_scope=new URL("/waste-tracking-service/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -153,7 +155,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/waste-tracking-service/." title="Defra Digital Waste Tracking Developer Guide" class="md-header__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
+    <a href="/waste-tracking-service/." title="Digital Waste Tracking: Software Developer Guide" class="md-header__button md-logo" aria-label="Digital Waste Tracking: Software Developer Guide" data-md-component="logo">
       
   <img src="/waste-tracking-service/logos/moj.png" alt="logo">
 
@@ -166,7 +168,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Defra Digital Waste Tracking Developer Guide
+            Digital Waste Tracking: Software Developer Guide
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -286,13 +288,13 @@
     
     
       <li class="md-tabs__item">
-        <a href="/waste-tracking-service/." class="md-tabs__link">
+        <a href="/waste-tracking-service/api-reporting-deadlines.md" class="md-tabs__link">
           
   
   
     
   
-  About Waste Tracking
+  Receipt of Waste
 
         </a>
       </li>
@@ -308,13 +310,13 @@
     
     
       <li class="md-tabs__item">
-        <a href="/waste-tracking-service/api-landing-page/" class="md-tabs__link">
+        <a href="/waste-tracking-service/api-specification-receipt.md" class="md-tabs__link">
           
   
   
     
   
-  Phase 1 Receipt of Waste
+  API
 
         </a>
       </li>
@@ -352,12 +354,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/waste-tracking-service/." title="Defra Digital Waste Tracking Developer Guide" class="md-nav__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
+    <a href="/waste-tracking-service/." title="Digital Waste Tracking: Software Developer Guide" class="md-nav__button md-logo" aria-label="Digital Waste Tracking: Software Developer Guide" data-md-component="logo">
       
   <img src="/waste-tracking-service/logos/moj.png" alt="logo">
 
     </a>
-    Defra Digital Waste Tracking Developer Guide
+    Digital Waste Tracking: Software Developer Guide
   </label>
   
     <div class="md-nav__source">
@@ -384,7 +386,19 @@
     
       
         
+      
+        
           
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
         
       
         
@@ -415,7 +429,7 @@
   <span class="md-ellipsis">
     
   
-    About Waste Tracking
+    Receipt of Waste
   
 
     
@@ -437,13 +451,41 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    About Waste Tracking
+    Receipt of Waste
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/waste-tracking-service/api-reporting-deadlines.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API October Reporting Deadlines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
             
               
                 
@@ -452,14 +494,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/waste-tracking-service/storyboards/" class="md-nav__link">
+      <a href="/waste-tracking-service/api-receipt-data-definitions.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Storyboards
+    Receipt of Waste Data Definitions
   
 
     
@@ -480,14 +522,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/waste-tracking-service/use-cases/" class="md-nav__link">
+      <a href="/waste-tracking-service/api-receipt-of-waste-getting-started-guide.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Use cases
+    API Getting Started Guide
   
 
     
@@ -508,14 +550,154 @@
   
   
     <li class="md-nav__item">
-      <a href="/waste-tracking-service/initial-scope/" class="md-nav__link">
+      <a href="/waste-tracking-service/api-authentication-guide/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial scope
+    API authentication guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/waste-tracking-service/api-codes-for-testing-and-production/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API codes for testing and production
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/waste-tracking-service/api-production-approval-tests.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Production Approval Tests (PAT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/waste-tracking-service/api-testing-and-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API testing and examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/waste-tracking-service/api-terms-of-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API terms of service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/waste-tracking-service/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
   
 
     
@@ -547,28 +729,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -590,7 +750,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 Receipt of Waste
+    API
   
 
     
@@ -606,7 +766,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Phase 1 Receipt of Waste
+    API
   
 
           </label>
@@ -619,322 +779,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/waste-tracking-service/api-landing-page/" class="md-nav__link">
+      <a href="/waste-tracking-service/api-specification-receipt.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Introduction to Phase 1 the Receipt of Waste API
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/receivers-process-diagram/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Receivers process diagram
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/api-software-developer-onboarding-process/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api software developer onboarding process
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/api-specification/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api specification
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/receipt-data-definitions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Receipt data definitions
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/api-authentication-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api authentication guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/api-codes-for-testing-and-production/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api codes for testing and production
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/production-approval-tests/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Production approval tests
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/api-testing-and-examples/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api testing and examples
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/roadmap/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Roadmap
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/api-terms-of-service/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api terms of service
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/waste-tracking-service/faq/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Faq
+    Receipt API Specification
   
 
     
@@ -1059,6 +911,12 @@
     
   
       <script src="/waste-tracking-service/assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="/waste-tracking-service/swagger-initializer.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
       
     
   <script>
