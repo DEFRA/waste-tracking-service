@@ -58,8 +58,8 @@ nav:
     - API terms of service: api-terms-of-service.md
     - FAQ: faq.md
   - API:
-    - Receipt API Specification: api-specification-receipt.md
-    - Collections API Specification: api-specification-collections.md
+    - Receipt API Specification: api-specification.md
+    #- Collections API Specification: api-specification-collections.md
 extra_css:
   - stylesheets/extra.css
   - https://unpkg.com/swagger-ui-dist/swagger-ui.css
