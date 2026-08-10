@@ -1074,21 +1074,17 @@ components:
             type: object
             example:    
               {
-               "validation": {
-                 "errors": [
-                    {
-                      "key": "apiCode",
-                      "errorType": "BusinessRuleViolation",
-                      "message": "Payment required. The organisation is not authorised to submit waste receipts because payment for the service is overdue or unavailable."
-                    },
-                  ]
-                }
-                }
+               "statusCode": 402,
+               "error": "Payment Required",
+               "message": "Payment Required",
+              }
             properties:
-              validation:
-                type: object
-                properties:
-                  errors:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/validationResult"
+              statusCode:
+                type: number
+                description: The response status code.
+              error:
+                type: string
+                description: The response error.
+              message:
+                type: string
+                description: The response error details.
