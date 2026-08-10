@@ -8,9 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/roadmap/">
+        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/api-production-approval-tests/">
       
       
+        <link rel="prev" href="../api-codes-for-testing-and-production/">
+      
+      
+        <link rel="next" href="../api-testing-and-examples/">
       
       
         
@@ -21,7 +25,7 @@
     
     
       
-        <title>Roadmap - Digital Waste Tracking: Software Developer Guide</title>
+        <title>API Production Approval Tests (PAT) - Digital Waste Tracking: Software Developer Guide</title>
       
     
     
@@ -142,7 +146,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#receipt-of-waste-api-roadmap" class="md-skip">
+        <a href="#receipt-of-waste-api-production-approval-tests" class="md-skip">
           Skip to content
         </a>
       
@@ -181,7 +185,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Roadmap
+              API Production Approval Tests (PAT)
             
           </span>
         </div>
@@ -291,10 +295,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../api-reporting-deadlines/" class="md-tabs__link">
           
   
@@ -387,6 +393,8 @@
       
   
   
+    
+  
   
   
     
@@ -418,14 +426,17 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -447,13 +458,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -610,10 +621,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api-production-approval-tests/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -629,6 +649,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -835,7 +856,7 @@
     
       
     
-    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/roadmap.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-production-approval-tests.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
@@ -843,20 +864,169 @@
 
 
 <p><a class="md-button" href="../">← Back to Top</a></p>
-<h1 id="receipt-of-waste-api-roadmap">Receipt of Waste API - Roadmap</h1>
-<h2 id="recently-released">Recently released</h2>
-<h3 id="updated-api-specification">Updated API specification</h3>
-<p>We have published a <a href="../api-specification/">revised API specification</a> based on the feedback we gathered from waste operators, regulators and software developers during Alpha.</p>
-<h3 id="enabling-developers-to-test-their-integration-with-the-api">Enabling developers to test their integration with the API</h3>
-<p>We have provided a <a href="../api-testing-and-examples/">test environment and set of test scenarios</a> for the Receipt of Waste API.</p>
-<h3 id="credentials-for-test-environment-issued">Credentials for test environment issued</h3>
-<p>We have emailed client IDs and secrets to all developer participants registered in the Waste Tracking Service. Refer to the <a href="../api-authentication-guide/">authentication guide</a> for information on how to authenticate with the test environment.</p>
-<h2 id="whats-next">What’s next</h2>
-<h3 id="process-for-going-into-production">Process for going into production</h3>
-<p>The <a href="api-landing-page.md">Phase 1 the Receipt of Waste pages</a> provide detail on the steps developers need to go through to get their integration with the Receipt of Waste service approved.</p>
-<h3 id="onboarding-waste-receivers">Onboarding Waste Receivers</h3>
-<p>All participating receivers must <a href="../api-software-developer-onboarding-process/">first register with the service</a>, then their software provider/internal development team can start integrating with the Receipt of Waste Service.
-As part of of onboarding Waste Receivers will need to provide some details to their software provider or internal development team so that the software can be configured to report waste movement data for their receiving sites. </p>
+<h1 id="receipt-of-waste-api-production-approval-tests">Receipt of Waste - API Production Approval Tests</h1>
+<p>When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. </p>
+<p><b>Sending Production Approval Tests</b></p>
+<p>Email the corresponding Waste Tracking IDs used for each of these scenarios to: <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a>. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.</p>
+<p>The scenarios to be demonstrated are:<br>
+- <b>R01</b> Basic Waste receipt - single waste item<br>
+- <b>R02</b> Basic waste receipt - with multiple waste items<br>
+- <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
+- <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
+- <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
+- <b>R07</b> Basic waste Receipt - with multiple EWC codes<br>
+- <b>C01</b> Basic waste Receipt - with no Carrier registration number and no reason<br>
+- <b>C02</b> Basic waste Receipt - with no Carrier registration number and reason<br> 
+- <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
+- <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
+- <b>H01</b> Hazardous Waste Receipt - multiple hazardous components<br>
+- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason<br>
+- <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason<br>
+- <b>X01</b> Hazardous &amp; POPs Waste Receipt<br></p>
+<p>Below are a list of Gherkin style Scenarios outlining, in a behavioural sense, the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:<br>
+- ”Scenario” - A title for Given, When, and Then combinations illustrating a behaviour that can occur within a system<br>
+- ”Given” - A precondition step outlining a state a system needs to be in<br>
+- ”When” - An action step that can be carried out by a user/actor within a system<br>
+- ”Then” - An expectation step of what should be achieved by the combination of the Given and When steps<br></p>
+<p>The following is not an exhaustive set of tests and you will be expected to review our documentation in full to ensure that you have integrated as per the specification.</p>
+<h2 id="feature-basic-receipt-of-waste-scenarios">Feature: Basic Receipt of Waste Scenarios</h2>
+<p>As a user,<br />
+I want to submit a waste movement receipt,<br> 
+so that I can record the receipt of a waste item.<br> </p>
+<h3 id="scenario-submit-basic-receipt-of-waste-with-single-waste-item-r01">Scenario: Submit basic receipt of waste with single waste item (R01)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And there is a single waste item<br>
+And there is an accompanying ‘Disposal or Recovery’ code<br>
+And there are no POPs properties<br>
+And there are no Hazardous properties<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h3 id="scenario-submit-basic-receipt-of-waste-with-multiple-waste-items-r02">Scenario: Submit basic receipt of waste with multiple waste items (R02)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And there are multiple waste items<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h3 id="scenario-submit-basic-receipt-of-waste-with-road-transport-r03">Scenario: Submit basic receipt of waste with Road transport (R03)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And the means of transport is ‘Road’<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h3 id="scenario-submit-basic-receipt-of-waste-with-no-disposal-or-recovery-codes-r04">Scenario: Submit basic receipt of waste with no Disposal or Recovery codes (R04)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And there are no accompanying ‘Disposal or Recovery’ codes<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br>
+And I should receive a warning about missing codes<br></p>
+<h3 id="scenario-submit-basic-receipt-of-waste-with-multiple-disposal-or-recovery-codes-r05">Scenario: Submit basic receipt of waste with multiple Disposal or Recovery codes (R05)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And there is a single waste item<br>
+And there are multiple accompanying ‘Disposal or Recovery’ codes<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h3 id="scenario-submit-basic-receipt-of-waste-with-multiple-ewc-codes-r07">Scenario: Submit basic receipt of waste with multiple EWC codes (R07)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And there are at least two EWC codes<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h2 id="feature-carrier-details-scenarios">Feature: Carrier Details Scenarios</h2>
+<p>As a user,<br>
+I want to submit a receipt of waste with appropriate carrier information,<br>
+so that the movement is properly documented and compliant.<br></p>
+<h3 id="scenario-submit-basic-waste-receipt-with-no-carrier-registration-number-and-no-reason-c01">Scenario: Submit Basic waste Receipt - with no Carrier registration number and no reason (C01)</h3>
+<p>Given I have authenticated
+And I have a waste movement
+And there is no carrier registration number
+And a reason for no registration number is NOT provided
+When I attempt to submit the waste movement receipt
+Then the waste movement receipt should be rejected</p>
+<h3 id="scenario-submit-receipt-of-waste-with-no-carrier-registration-number-and-reason-c02">Scenario: Submit receipt of waste with no carrier registration number and reason (C02)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And there is no carrier registration number, i.e. <strong>registrationNumber</strong> is null<br>
+And a reason for no registration number is provided<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h2 id="feature-brokerdealer-scenarios">Feature: Broker/Dealer Scenarios</h2>
+<p>As a user,<br>
+I want to submit waste movement receipts involving brokers or dealers,<br>
+so that all parties in the waste movement chain are properly recorded.<br></p>
+<h3 id="scenario-submit-receipt-of-waste-with-brokerdealer-involvement-b01">Scenario: Submit receipt of waste with Broker/Dealer involvement (B01)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And there is a Broker/Dealer involved in the movement<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h2 id="feature-pops-waste-scenarios">Feature: POPs Waste Scenarios</h2>
+<p>As a user,<br>
+I want to submit waste movement receipts containing POPs components,<br>
+so that persistent organic pollutants are properly tracked and managed.<br></p>
+<h3 id="scenario-submit-receipt-of-waste-with-multiple-pops-components-p01">Scenario: Submit receipt of waste with multiple POPs components (P01)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And it contains multiple POPs Components<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h2 id="feature-hazardous-waste-scenarios">Feature: Hazardous Waste Scenarios</h2>
+<p>As a user,<br>
+I want to submit waste movement receipts containing hazardous components,<br>
+so that hazardous waste is properly classified and tracked.<br></p>
+<h3 id="scenario-submit-receipt-of-waste-with-multiple-hazardous-components-h01">Scenario: Submit receipt of waste with multiple hazardous components (H01)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And it contains multiple Hazardous Components<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h3 id="scenario-submit-receipt-of-hazardous-waste-with-no-consignment-note-code-and-no-reason-h02">Scenario: Submit receipt of hazardous waste with no Consignment Note Code and no reason (H02)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And it contains Hazardous Components<br>
+And there is no Consignment Note Code, i.e. <strong>hazardousWasteConsignmentCode</strong> is null<br>
+And no reason is provided<br>
+When I attempt to submit the waste movement receipt<br>
+Then the waste movement receipt should be rejected<br>
+And I should receive an error message<br></p>
+<h3 id="scenario-submit-receipt-of-hazardous-waste-with-no-consignment-note-code-but-with-reason-h03">Scenario: Submit receipt of hazardous waste with no Consignment Note Code but with reason (H03)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And it contains Hazardous Components<br>
+And there is no Consignment Note Code<br>
+And a reason is provided<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<h2 id="feature-combined-hazardous-and-pops-scenarios">Feature: Combined Hazardous and POPs Scenarios</h2>
+<p>As a user,<br>
+I want to submit waste movement receipts containing both hazardous and POPs components,<br>
+so that complex waste streams are properly classified and tracked.<br></p>
+<h3 id="scenario-submit-receipt-of-waste-with-both-hazardous-and-pops-components-x01">Scenario: Submit receipt of  waste with both hazardous and POPs components (X01)</h3>
+<p>Given I have authenticated<br>
+And I have a waste movement<br>
+And it contains Hazardous Components<br>
+And it contains POPs components<br>
+When I submit the waste movement receipt<br>
+Then the waste movement receipt should be created<br>
+And I should receive a Waste Tracking ID<br></p>
+<p><strong>Note:</strong> If during testing, software developers find that the scenarios do not fit their software package, they should contact the developer support team at:<br><br>
+<font color="blue"><b><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></b></font><br></p>
+<h2 id="changelog">Changelog</h2>
+<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Production-Approval-Tests">Receipt API v1.0 Production Approval Tests</a> GitHub wiki.
+<br/>Page last updated on May 20th 2026.</p>
 
 
 
