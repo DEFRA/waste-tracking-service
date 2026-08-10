@@ -4,7 +4,7 @@
 <script>
   window.addEventListener('load', function() {
     SwaggerUIBundle({
-      url: "/waste-tracking-service/apiSpecifications/ReceiptAPI.yaml",
+      url: "/waste-tracking-service/apiSpecifications/ReceiptAPI.yml",
       dom_id: '#swagger-ui-receipt',
       deepLinking: true,
       presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
