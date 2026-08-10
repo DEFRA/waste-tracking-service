@@ -15,7 +15,7 @@ We are designing waste tracking APIs to be flexible and accommodate differences 
 ## Open API specification
 The swagger specification is published on the Swagger API hub:
 
-- [receipt of waste API specification](../apiSpecifications)
+- [receipt of waste API specification](../apiSpecifications/)
 - [Download the OAS spec](apiSpecifications/ReceiptAPI.yaml)
 
 [![image](defra-spec.png)](defra-spec.png)
