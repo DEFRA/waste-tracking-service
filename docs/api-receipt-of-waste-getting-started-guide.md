@@ -1,71 +1,17 @@
 ---
-title: Introduction to Phase 1 the Receipt of Waste API
+title: The Receipt of Waste API - Getting Started Guide
 ---
 
 !!! Information
-    The Private Beta Phase has ended. The service is now in **Public Beta**
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
 
 
-[← Back to Top](README.md){ .md-button }
-
-
-Version 1.1 issued April 10th 2026
-
-# Welcome to Phase 1 - Receipt of Waste API
+# The Receipt of Waste API - Getting Started Guide
 
 ## Introduction
 This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
 
 **Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Waste Tracking Service (DWT) Receipt API [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
-
-## Receipt API Overview
-
-Click on the link for the latest version of the Receipt of Waste [API OAS Specification](../apiSpecifications/).
-
-### Receipt of Waste Process Flow
-
-[![receivers only](initial-scope-receivers-only.png)](initial-scope-receivers-only.png)
-
-
-The API is based on REST principles and currently has seven endpoints. They return data in JSON format and use standard HTTP error response codes, see the table below.
-
-| Endpoint |  Description|
-|----------|-------------|
-|<b>POST</b> | is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result. |
-|<b>PUT</b>|is used to update a waste tracking record using a waste tracking ID query parameter to identify the movement. It returns a validation result.|
-|<b>GET</b>|is used to retrieve a list of European Waste Codes (EWC).|
-|<b>GET</b>|is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).|
-|<b>GET</b>|is used to retrieve a list of Disposal or Recovery codes.|
-|<b>GET</b>|is used to retrieve a list of Container Types.|
-|<b>GET</b>|is used to retrieve a list of Waste POP Codes.|
-
-    
-**Note:** At present the API endpoints relate only to Great Britain and Northern Ireland.
-
-## API Status
-
-This version of the Receipt of Waste API:
-
-- supports **only** the API v1.0 Receipt of Waste API for Public Beta customers.
-- click on this link to see a [roadmap to the Receipt API](roadmap.md).
-
-## Related API Documentation
-[Receipt of Waste - API v1.0 Reference Guide](../apiSpecifications/)
-
-[Receipt of Waste - API Production Approval Tests](production-approval-tests.md)
-
-[Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
-
-[Receipt of Waste Roadmap](roadmap.md)
-
-[Receipt of Waste API Data Definitions](receipt-data-definitions.md)
-
-[Use Cases](use-cases.md)
-
-[API README](README.md)
-
-[FAQs](faq.md)
-
 
 ## Getting Started 
 Work through these short sections on practical preparation and use of the API:
@@ -75,7 +21,6 @@ Work through these short sections on practical preparation and use of the API:
 - [Making API Requests](#making-api-requests)
 - [Validating a Collection of Requests and Responses](#validating-a-collection-of-requests-and-responses)
 - [Getting help from the API support team](#getting-help-by-email)
-
 
 ### Prerequisite Steps (Developers)
 
@@ -178,21 +123,39 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
 
 ```yaml
 {
-  "apiCode": "1f83215e-4b90-4785-9ab2-2614839aa2e9",
-  "dateTimeReceived": "2025-11-20T12:26:24.281Z",
+  "apiCode": "ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg",
+  "dateTimeReceived": "UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00",
+  "hazardousWasteConsignmentCode": "CJ32LE/A0001",
   "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE",
+  "yourUniqueReference": "wTBrdgAA020",
+  "otherReferencesForMovement": [
+    {
+      "label": "PO Number",
+      "reference": "PO-12345"
+    },
+    {
+      "label": "Waste Ticket",
+      "reference": "WT-67890"
+    },
+    {
+      "label": "Haulier Note",
+      "reference": "HN-11111"
+    }
+  ],
+  "specialHandlingRequirements": "The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.",
   "wasteItems": [
     {
       "ewcCodes": [
-        "200121"
+        200108,
+        150109
       ],
-      "wasteDescription": "Industrial waste containing persistent organic pollutants (POPs) and hazardous heavy metals from decommissioned electrical equipment and contaminated soil",
-      "physicalForm": "Mixed",
-      "numberOfContainers": 15,
+      "wasteDescription": "Basic mixed construction and demolition waste, this includes recyclable house bricks, gypsum plaster and slates.",
+      "physicalForm": "Sludge",
+      "numberOfContainers": 2,
       "typeOfContainers": "SKI",
       "weight": {
         "metric": "Tonnes",
-        "amount": 1.2,
+        "amount": 150,
         "isEstimate": true
       },
       "containsPops": true,
@@ -200,131 +163,75 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
         "sourceOfComponents": "PROVIDED_WITH_WASTE",
         "components": [
           {
-            "code": "CHL",
-            "concentration": 250
-          },
-          {
-            "code": "TOX",
-            "concentration": 156.4
-          },
-          {
-            "code": "DCF",
-            "concentration": 0.8
-          },
-          {
-            "code": "DDT",
-            "concentration": 1.2
+            "code": "PFHXS",
+            "concentration": 12.5
           }
         ]
       },
       "containsHazardous": true,
       "hazardous": {
-        "hazCodes": [
-          "HP_1",
-          "HP_3",
-          "HP_6"
-        ],
         "sourceOfComponents": "PROVIDED_WITH_WASTE",
+        "hazCodes": [
+          "HP_5",
+          "HP_10"
+        ],
         "components": [
           {
-            "name": "Mercury",
-            "concentration": 0.35
-          },
-          {
-            "name": "Arsenic",
-            "concentration": 300
-          },
-          {
-            "name": "Chromium",
-            "concentration": 0.42
-          },
-          {
-            "name": "Lead",
-            "concentration": 0.89
+            "name": "lead",
+            "concentration": 25.5
           }
         ]
       },
       "disposalOrRecoveryCodes": [
         {
-          "code": "R1",
+          "code": "\"R1\"\n",
           "weight": {
             "metric": "Tonnes",
-            "amount": 0.75,
-            "isEstimate": false
-          }
-        }
-      ]
-    },
-    {
-      "ewcCodes": [
-        "150110"
-      ],
-      "wasteDescription": "Secondary waste containing plastic packaging and minor contaminants",
-      "physicalForm": "Solid",
-      "numberOfContainers": 5,
-      "typeOfContainers": "SKI",
-      "weight": {
-        "metric": "Tonnes",
-        "amount": 1.1,
-        "isEstimate": true
-      },
-      "containsPops": false,
-      "pops": {
-        "sourceOfComponents": "NOT_PROVIDED"
-      },
-      "containsHazardous": true,
-      "hazardous": {
-        "hazCodes": [
-          "HP_6"
-        ],
-        "sourceOfComponents": "PROVIDED_WITH_WASTE",
-        "components": [
-          {
-            "name": "Arsenic",
-            "concentration": 75
-          }
-        ]
-      },
-      "disposalOrRecoveryCodes": [
-        {
-          "code": "R1",
-          "weight": {
-            "metric": "Tonnes",
-            "amount": 0.75,
-            "isEstimate": false
+            "amount": 150,
+            "isEstimate": true
           }
         }
       ]
     }
   ],
-  "carrier": {  
-    "organisationName": "Carrier Ltd",
-    "registrationNumber": "CBDL999999",
+  "carrier": {
+    "registrationNumber": "CBDL6",
+    "reasonForNoRegistrationNumber": "ON_SITE",
+    "organisationName": "Waste Carriers Lite Ltd",
     "address": {
-      "fullAddress": "321 Test Street, Test City",
-      "postcode": "TC2 2CD"
+      "fullAddress": "26a Oil Drum Lane, London, UK",
+      "postcode": "W12 7ZL"
     },
-    "emailAddress": "test@carrier.com",
-    "phoneNumber": "01234567890",
-    "meansOfTransport": "Road",
-    "vehicleRegistration": "AB12 CDE"
+    "emailAddress": "mailbox@example.co.uk",
+    "phoneNumber": "020 4756 XXXX",
+    "vehicleRegistration": "RNT 493",
+    "meansOfTransport": "Rail"
+  },
+  "brokerOrDealer": {
+    "organisationName": "Waste Disposal Ltd",
+    "address": {
+      "fullAddress": "26a Oil Drum Lane, London, UK",
+      "postcode": "W12 7ZL"
+    },
+    "emailAddress": "mailbox@example.co.uk",
+    "phoneNumber": "020 4756 XXXX",
+    "registrationNumber": "CBDL6"
   },
   "receiver": {
-    "siteName": "Receiver Ltd",
-    "emailAddress": "receiver@test.com",
-    "phoneNumber": "01234567890",
-    "authorisationNumber": "PPC/A/9999999"
-             }
-  },
+    "siteName": "string",
+    "emailAddress": "mailbox@example.co.uk",
+    "phoneNumber": "020 4756 XXXX",
+    "authorisationNumber": "EPR/DD2522BF",
     "regulatoryPositionStatements": [
-      123,
-      456
+      343,
+      456,
+      789
     ]
-  {,
+  },
   "receipt": {
     "address": {
-      "fullAddress": "123 Test Street, Test City",
-      "postcode": "TC1 2AB"
+      "fullAddress": "26a Oil Drum Lane, London, UK",
+      "postcode": "W12 7ZL"
     }
   }
 }
@@ -343,15 +250,33 @@ A detailed description of the error responses for this API can be found in the [
 200 hits per second soft limit.
  
 This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving 
-<b>Rate Limit Exceeded</b> 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.
- 
+**Rate Limit Exceeded** 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.
+
+## Related API Documentation
+[Receipt of Waste - API v1.0 Reference Guide](../apiSpecifications/)
+
+[Receipt of Waste - API Production Approval Tests](production-approval-tests.md)
+
+[Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
+
+[Receipt of Waste Roadmap](roadmap.md)
+
+[Receipt of Waste API Data Definitions](receipt-data-definitions.md)
+
+[Use Cases](use-cases.md)
+
+[API README](README.md)
+
+[FAQs](faq.md)
+
+
 ## Getting help by email
 
 - For developers: <font color="blue"><b>WasteTracking_Developers@defra.gov.uk</b></font>
 
 - For receivers: <font color="blue"><b>WasteTracking_Testing@defra.gov.uk</b></font>
 
-- All users can also post questions/comments in our [discussions forum](https://github.com/DEFRA/waste-tracking-service/discussions).
+- All users can also post questions/comments in our discussions forum using this link <a href="https://github.com/DEFRA/waste-tracking-service/discussions"></a>.
 
 ## Changelog
 
