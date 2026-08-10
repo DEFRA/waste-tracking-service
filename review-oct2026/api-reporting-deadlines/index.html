@@ -8,9 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/use-cases/">
+        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/api-reporting-deadlines/">
       
       
+      
+        <link rel="next" href="..">
       
       
         
@@ -21,7 +23,7 @@
     
     
       
-        <title>Use cases - Digital Waste Tracking: Software Developer Guide</title>
+        <title>API October Reporting Deadlines - Digital Waste Tracking: Software Developer Guide</title>
       
     
     
@@ -142,7 +144,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#service-vision-process-diagram" class="md-skip">
+        <a href="#october-deadline-what-you-need-to-do-soon" class="md-skip">
           Skip to content
         </a>
       
@@ -181,7 +183,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Use cases
+              API October Reporting Deadlines
             
           </span>
         </div>
@@ -291,11 +293,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../api-reporting-deadlines/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -387,6 +391,8 @@
       
   
   
+    
+  
   
   
     
@@ -418,14 +424,17 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -447,13 +456,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -468,10 +477,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api-reporting-deadlines/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -487,6 +505,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -835,205 +854,27 @@
     
       
     
-    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/use-cases.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-reporting-deadlines.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<p><a class="md-button" href="../">← Back to Top</a></p>
-<h1 id="service-vision-process-diagram">Service vision - process diagram</h1>
-<p>Are you a waste receiver or software provider and want to get involved? <a href="../api-software-developer-onboarding-process/">Sign up to our Digital Waste Tracking Service</a>.</p>
-<h2 id="moving-and-receiving-waste-high-level-digital-waste-tracking-process">Moving and receiving waste - high level digital waste tracking process</h2>
-<p>The Waste Tracking ID (WT-ID) is created in advance of the waste being moved and is subsequently passed downstream.</p>
-<p>The current assumption is that job routes and waste tickets are already created ahead of time in the as-is process (before digital waste tracking is introduced). The to-be process in digital waste tracking (DWT) is designed to shadow this approach, capturing the necessary data seamlessly in the background.</p>
-<p>This methodology accommodates a broad spectrum of operational maturity, from highly advanced organisations equipped with weighbridges and automated load-lift technologies, to less technologically mature entities that rely on manually updating waste movements after the events have occurred in sequence.</p>
-<h3 id="use-case-diagram">Use case diagram</h3>
-<p><a href="../basic-process-flow.jpg"><img alt="View 'moving and receiving waste' use case diagram (.jpg file)" src="../basic-process-flow.jpg" /></a></p>
-<h3 id="in-scope">In-scope</h3>
-<p>High level process:</p>
-<ul>
-<li>producer, carrier and receiver are all the same</li>
-<li>producer, carrier, and receiver are <em>all different</em></li>
-<li>carrier and receiver are the same, but <em>producer is different</em></li>
-</ul>
-<p>Multiple collections where:</p>
-<ul>
-<li>all parties are the same company</li>
-<li>all parties are different <em>companies</em></li>
-</ul>
-<p>Movements where:</p>
-<ul>
-<li>there is a rejection or part rejection before the waste is weighed</li>
-<li>there are brokers or dealers who operate outside the waste movement</li>
-<li>updates are made <em>after</em> the waste has moved</li>
-</ul>
-<h3 id="list-of-steps">List of steps</h3>
-<ul>
-<li><a href="#step-1-before-the-waste-moves">Step 1: before the waste moves</a></li>
-<li><a href="#step-2-waste-collection">Step 2: waste collection</a></li>
-<li><a href="#step-3-waste-transit">Step 3: waste transit</a></li>
-<li><a href="#step-4-waste-receipt">Step 4: waste receipt</a></li>
-<li><a href="#step-5-after-the-waste-has-moved">Step 5: after the waste has moved</a></li>
-</ul>
-<h3 id="step-1-before-the-waste-moves">Step 1: before the waste moves</h3>
-<h4 id="broker-or-dealer-or-other-waste-operator-outsourcing-the-transit-of-their-waste">Broker or dealer (or other waste operator outsourcing the transit of their waste)</h4>
+<h1 id="october-deadline-what-you-need-to-do-soon">October Deadline - What you need to do soon</h1>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p><strong><code>From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.</code></strong></p>
+</div>
+<h2 id="what-the-reporting-deadlines-mean-for-software-providers">What the Reporting Deadlines Mean for Software Providers</h2>
+<p>From 1 October 2026, all permitted or licenced waste reception sites in England and Wales will need to report their waste digitally using the <a href="https://www.gov.uk/guidance/report-receipt-of-waste">Report Receipt of Waste Service</a>. In Northern Ireland and Scotland this comes into effect on 1 January 2027. </p>
+<p>As a software provider you should ensure your software is ready for the required reporting dates to help your customers meet the reporting requirements.</p>
+<h2 id="key-steps-to-integrate-with-the-api">Key Steps to Integrate With the API:</h2>
 <ol>
-<li>Creates a waste movement record in their software.</li>
-<li>Passes the WT-ID to the waste producer.</li>
-<li>Passes the WT-ID to the waste carrier.</li>
+<li><a href="../">Register as a software provider</a> for the Receipt of Waste API Service.</li>
+<li>Complete your <a href="Receipt-API.md">integration with the API</a>. You can also refer to the <a href="api-receipt-of-waste-getting-started-guide.md">API Getting Started Guide</a>.</li>
+<li>Complete your <a href="api-production-approval-tests.md">PAT scenarios</a> and send the results to the DWT team to get access to production.</li>
 </ol>
-<h4 id="carrier-back-office-employee-typically">Carrier (back-office employee, typically)</h4>
-<ol>
-<li>Creates a waste movement record (if not already created, by a broker or dealer for example) in their software.</li>
-<li>Passes WT-ID to the waste producer.</li>
-<li>Creates a ‘job’ (including a route) for the driver.</li>
-</ol>
-<h4 id="defra-digital-waste-tracking-dwt-service">Defra digital waste tracking (DWT) service</h4>
-<ol>
-<li>Receives POST data from broker, dealer or carrier software via the API POST CreationData() method.</li>
-<li>If validation fails, error message(s) sent back to broker, dealer or carrier’s software.</li>
-<li>If validation passes, success confirmation and a WT-ID is sent to broker, dealer or carrier’s software (format [YY] + 6 alphanumeric characters, e.g. 25 1A3BC6).</li>
-</ol>
-<h4 id="dwt-data">DWT data</h4>
-<p>The following data is recorded:</p>
-<ul>
-<li>production and/or collection details<ul>
-<li>contact</li>
-<li>permits</li>
-</ul>
-</li>
-<li>carrier details<ul>
-<li>contact</li>
-<li>permits</li>
-</ul>
-</li>
-<li>waste classification<ul>
-<li>weight &amp; containers (estimated or actual)</li>
-<li>European Waste Catalogue (EWC) code</li>
-<li>persistent organic pollutants (POPs)</li>
-<li>hazardous or non-hazardous</li>
-</ul>
-</li>
-<li>special handling requirements</li>
-</ul>
-<h3 id="step-2-waste-collection">Step 2: waste collection</h3>
-<h4 id="driver-on-behalf-of-carrier">Driver (on behalf of carrier)</h4>
-<ol>
-<li>Arrives at the waste collection point (multiple collection points if collecting in a ‘round’).</li>
-<li>Receives WT-ID from producer.</li>
-<li>Load lifts waste onto vehicle.</li>
-<li>Updates waste movement ‘ticket’ via load lift (software sends data to DWT service).</li>
-</ol>
-<h4 id="producer">Producer</h4>
-<ol>
-<li>Passes WT-ID to driver (in any form, but verbally and manually noted down as a minimum).</li>
-<li>Updates waste movement ‘ticket’ as driver passes through weighbridge with the waste load (software sends data to DWT service).</li>
-</ol>
-<h4 id="dwt-service">DWT service</h4>
-<ol>
-<li>Receives waste movement data from carrier’s software via API POST CollectionDataset() method.</li>
-<li>If validation fails, error message(s) sent back to carrier’s software.</li>
-<li>If validation passes, success confirmation is sent to carrier’s software.</li>
-</ol>
-<h4 id="dwt-data_1">DWT data</h4>
-<p>The following data is recorded against the WT-ID:</p>
-<ul>
-<li>carrier details<ul>
-<li>contact</li>
-<li>permits</li>
-<li>vehicle registration number</li>
-</ul>
-</li>
-<li>receiver details<ul>
-<li>contact</li>
-<li>permits</li>
-</ul>
-</li>
-<li>waste classification<ul>
-<li>weight and containers (estimate or actual)</li>
-<li>EWC code</li>
-<li>POPs</li>
-<li>hazardous or non-hazardous</li>
-</ul>
-</li>
-<li>collection details (date and time)</li>
-</ul>
-<h3 id="step-3-waste-transit">Step 3: waste transit</h3>
-<h4 id="driver-on-behalf-of-carrier_1">Driver (on behalf of carrier)</h4>
-<ol>
-<li>Leaves waste collection point.</li>
-<li>Transports waste (sometimes via other sites for additional collections – repeat step 2: waste collection).</li>
-<li>Arrives at waste receiving site.</li>
-</ol>
-<h3 id="step-4-waste-receipt">Step 4: waste receipt</h3>
-<h4 id="driver-on-behalf-of-carrier_2">Driver (on behalf of carrier)</h4>
-<ol>
-<li>Passes WT-ID(s) to the receiver. This can be done in any form, but at a minimum it should be done verbally and manually recorded. It could be made easier by software vendors; QR codes, vehicle registration, email etc.</li>
-</ol>
-<h4 id="waste-receiver-usually-a-waste-receiving-facilitysite">Waste receiver (usually a waste receiving facility/site)</h4>
-<ol>
-<li>Accepts all or part of the waste.</li>
-<li>Rejects all of part of the waste. If waste is rejected it is either sent back to the producer, or sent to another site that might be able to accept it.</li>
-<li>If waste is accepted, the movement ‘ticket’ is updated at incoming weighbridge (software sends data to DWT service).</li>
-<li>End of waste movement.</li>
-</ol>
-<h4 id="dwt-service_1">DWT service</h4>
-<ol>
-<li>Receives waste movement data from carrier’s software via API POST ReceiptDataset() method.</li>
-<li>If validation fails, error message(s) sent back to receiver’s software.</li>
-<li>If validation passes, success confirmation is sent to receiver’s software.</li>
-</ol>
-<h4 id="dwt-data_2">DWT data</h4>
-<p>The following data is recorded against the WT-ID:</p>
-<ul>
-<li>carrier details<ul>
-<li>contact</li>
-<li>permits</li>
-<li>vehicle registration number</li>
-</ul>
-</li>
-<li>receiver details<ul>
-<li>contact</li>
-<li>permits</li>
-</ul>
-</li>
-<li>waste classification<ul>
-<li>weight and containers (estimate or actual)</li>
-<li>EWC code</li>
-<li>POPs</li>
-<li>hazardous or non-hazardous</li>
-</ul>
-</li>
-<li>waste acceptance (yes or no)</li>
-<li>treatment process (recovery and disposal ‘D’ or ‘R’ codes)</li>
-<li>receipt details (date and time)</li>
-</ul>
-<h3 id="step-5-after-the-waste-has-moved">Step 5: after the waste has moved</h3>
-<h4 id="carrier">Carrier</h4>
-<p>Updates waste ‘ticket’ with actual data.</p>
-<h4 id="producer_1">Producer</h4>
-<p>Checks on the ‘fate of the waste’, using the WT-ID to get details of the waste movement.</p>
-<h4 id="receiver">Receiver</h4>
-<p>Updates the waste ‘ticket’ with actual data.</p>
-<h4 id="dwt-service_2">DWT service</h4>
-<p>3 PATCH methods can be called by the carrier or receiver’s software to make updates to the waste movement ‘ticket’:</p>
-<ul>
-<li>CreationDataset()</li>
-<li>CollectionDataset()</li>
-<li>ReceiptDataset()</li>
-</ul>
-<p>A GET method is also available for use by the producer to check the fate of their waste.</p>
-<h4 id="dwt-data_3">DWT Data</h4>
-<p>3 datasets are available to be queried by the carrier or receiver’s software:</p>
-<ul>
-<li>Creation dataset</li>
-<li>Collection dataset</li>
-<li>Receipt dataset</li>
-</ul>
-<p>Waste movement details are also available for the producer to access (and to check the fate of their waste).</p>
-<p><br/>Page last updated on 5 June 2025.</p>
 
 
 
