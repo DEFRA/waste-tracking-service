@@ -1,0 +1,14 @@
+# Service Receipt-API
+
+<div id="swagger-ui-receipt"></div>
+<script>
+  window.addEventListener('load', function() {
+    SwaggerUIBundle({
+      url: "/waste-tracking-service/apiSpecifications/ReceiptAPI.yaml",
+      dom_id: '#swagger-ui-receipt',
+      deepLinking: true,
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      layout: "StandaloneLayout"
+    });
+  });
+</script>
