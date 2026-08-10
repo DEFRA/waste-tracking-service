@@ -1,5 +1,5 @@
 !!! warning "Review version"
-    This is the October 2026 review version of the documentation.
+    This is the October 2026 review version of our documentation.
 
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-software-developer-onboarding-process.md).
 
