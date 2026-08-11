@@ -1,6 +1,6 @@
 [← Back to Top](README.md){ .md-button }
 
-# Software Developer Onboarding Process
+# Register as a Software Providor
 
 ## This document outlines the steps involved in the API software developer onboarding process. 
 
