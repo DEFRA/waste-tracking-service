@@ -1,13 +1,11 @@
 [← Back to Top](README.md){ .md-button }
 
-# Register as a Software Providor
+# Register as a software provider for the Receipt of Waste API Service
 
-## This document outlines the steps involved in the API software developer onboarding process. 
+## Background
+From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the Report Receipt of Waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027. This site provides documentation for the APIs used by software providers to integrate with this service and describes the integration process.
 
-[![Steps involved in onboarding software developers](api-software_developer_onboarding_steps.png)](api-software_developer_onboarding_steps.png)
-
-### Follow the steps in the above diagram with the following corresponding steps:
-
+## Process
 ### 1. Register for the Receipt of Waste (RoW) API Service
 The sign-up link for registration is available from our [qualtrics survey pages](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U). See the button below.
 
