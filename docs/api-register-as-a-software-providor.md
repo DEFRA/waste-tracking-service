@@ -1,9 +1,9 @@
 [← Back to Top](README.md){ .md-button }
 
-# Register as a software provider for the Receipt of Waste API Service
+# Register as a Software Provider for the Receipt of Waste API Service
 
 ## Background
-From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the Report Receipt of Waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027. This site provides documentation for the APIs used by software providers to integrate with this service and describes the integration process.
+From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the Report Receipt of Waste Service. In Northern Ireland and Scotland, this comes into effect on 1 January 2027. To integrate with the service and its API, this site provides comprehensive software developer documentation.
 
 ## Process
 ### 1. Register for the Receipt of Waste (RoW) API Service
