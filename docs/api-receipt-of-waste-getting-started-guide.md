@@ -4,7 +4,7 @@
 title: The Receipt of Waste API - Getting Started Guide
 ---
 
-!!! Information
+!!! Important
     **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
 
 
@@ -34,7 +34,7 @@ To develop using the Receipt of Waste API, you must:
 
 These are the necessary steps:
 
-1. Developers need to [sign-up for the service](api-software-developer-onboarding-process.md) using the on-boarding form. They will then be issued a client id and secret.
+1. Developers need to [sign-up for the service](api-register-as-a-software-provider.md) using the on-boarding form. They will then be issued a client id and secret.
 
 2. Gain access to the test environment. The URL is shown below:
    ```code
@@ -56,7 +56,7 @@ You can now begin sending waste movements to the Waste Tracking Service.
 
 ### Prerequisite Steps (Receivers)
 
-1. Waste Receivers need to [sign-up for the service](api-software-developer-onboarding-process.md) using the on-boarding form.
+1. Waste Receivers need to [sign-up for the service](api-register-as-a-software-provider.md) using the on-boarding form.
 2. Accept the API Terms and Conditions.
 3. Get the [Production API Code](api-codes-for-testing-and-production.md). After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.
 
@@ -260,8 +260,6 @@ This means that if a user bursts over 200 hits per second for a short time - thi
 [Receipt of Waste - API Production Approval Tests](production-approval-tests.md)
 
 [Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
-
-[Receipt of Waste Roadmap](roadmap.md)
 
 [Receipt of Waste API Data Definitions](receipt-data-definitions.md)
 
