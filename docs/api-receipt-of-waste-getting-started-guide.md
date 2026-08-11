@@ -239,7 +239,7 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
   }
 }
 ```
-A description of each of the fields contained in the [API Specification.](receipt-data-definitions.md)
+A description of each of the fields contained in the [API Specification.](api-receipt-data-definitions.md)
 ### Validating a Collection of Requests and Responses
 
 We have assembled a collection of [Bruno test scripts](api-testing-and-examples.md) to help you learn about working with the Receipt API. 
@@ -258,15 +258,11 @@ This means that if a user bursts over 200 hits per second for a short time - thi
 ## Related API Documentation
 [Receipt of Waste - API v1.0 Reference Guide](../apiSpecifications/)
 
-[Receipt of Waste - API Production Approval Tests](production-approval-tests.md)
+[Receipt of Waste - API Production Approval Tests](api-production-approval-tests.md)
 
 [Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
 
-[Receipt of Waste API Data Definitions](receipt-data-definitions.md)
-
-[Use Cases](use-cases.md)
-
-[API README](README.md)
+[Receipt of Waste API Data Definitions](api-receipt-data-definitions.md)
 
 [FAQs](faq.md)
 
