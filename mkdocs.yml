@@ -87,8 +87,8 @@ markdown_extensions:
       toc_depth: 1
 extra:
   version:
-    provider: mike
-    default: production
+    # provider: mike
+    # default: production
   social:
     - icon: fontawesome/solid/paper-plane 
       link: mailto:wasteuserresearch@defra.gov.uk
