@@ -6,9 +6,15 @@
 # The Receipt of Waste API - Getting Started Guide
 
 ## Introduction
-This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.
+This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026. 
 
-**Note:** During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Waste Tracking Service (DWT) Receipt API [Changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
+## Receipt API Overview
+
+Click on the link for the latest version of the Receipt of Waste [API OAS Specification](../apiSpecifications/).
+
+### Receipt of Waste Process Flow
+
+[![receivers only](initial-scope-receivers-only.png)](initial-scope-receivers-only.png)
 
 ## Getting Started 
 Work through these short sections on practical preparation and use of the API:
