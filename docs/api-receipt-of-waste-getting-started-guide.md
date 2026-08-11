@@ -1,12 +1,7 @@
 [← Back to Top](README.md){ .md-button }
 
----
-title: The Receipt of Waste API - Getting Started Guide
----
-
 !!! Important
-    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
-
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
 
 # The Receipt of Waste API - Getting Started Guide
 
