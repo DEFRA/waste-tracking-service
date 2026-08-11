@@ -49,7 +49,7 @@ nav:
   - Receipt of Waste:
     - October Reporting Deadlines: api-reporting-deadlines.md
     - Welcome to the Receipt of Waste API: README.md
-    - Register as a Software Providor: api-register-as-a-software-provider.md
+    - Register as a Software Provider: api-register-as-a-software-provider.md
     - Getting Started : api-receipt-of-waste-getting-started-guide.md
     - Receipt of Waste Data Definitions: api-receipt-data-definitions.md
     - Authentication guide: api-authentication-guide.md
