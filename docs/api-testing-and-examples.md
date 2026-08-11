@@ -1,5 +1,8 @@
 [← Back to Top](README.md){ .md-button }
- 
+
+!!! Important
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
+
 # API Testing and Examples
 
 Bruno has been selected as our preferred API testing documentation tool, following [GOV.UK API technical and data standards](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#test-your-assumptions-with-users) for providing test services and living documentation.
