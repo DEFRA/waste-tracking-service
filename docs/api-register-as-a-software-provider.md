@@ -28,7 +28,7 @@ Developers can use the available GET reference data endpoints to retrieve necess
 
 ### 4. Execute the Production Approval Test (PAT) Scenarios
 
-Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. Refer to the [Production Approval Tests](production-approval-tests.md). 
+Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. Refer to the [Production Approval Tests](api-production-approval-tests.md). 
 
 These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.
 
