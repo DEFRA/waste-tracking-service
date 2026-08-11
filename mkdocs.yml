@@ -50,8 +50,8 @@ nav:
     - API October Reporting Deadlines: api-reporting-deadlines.md
     - API Welcome to the Receipt of Waste API: README.md
     - API Register as a Software Providor: api-register-as-a-software-provider.md
-    - API Receipt of Waste Data Definitions: api-receipt-data-definitions.md
     - API Getting Started : api-receipt-of-waste-getting-started-guide.md
+    - API Receipt of Waste Data Definitions: api-receipt-data-definitions.md
     - API Authentication guide: api-authentication-guide.md
     - API Codes for testing and production: api-codes-for-testing-and-production.md
     - API Production Approval Tests (PAT): api-production-approval-tests.md
