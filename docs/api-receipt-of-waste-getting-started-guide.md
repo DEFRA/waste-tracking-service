@@ -47,7 +47,7 @@ These are the necessary steps:
 
 4. To begin testing, you also need a Dummy API Code. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
 
-5. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
+5. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](api-production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
 
       When you’ve completed developing and testing your integration, please [email](mailto:WasteTracking_Developers@defra.gov.uk) a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. See the support email links listed [below](#getting-help-by-email).
 
