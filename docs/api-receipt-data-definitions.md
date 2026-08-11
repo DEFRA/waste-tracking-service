@@ -1,8 +1,11 @@
 [← Back to Top](README.md){ .md-button }
 
+!!! Important
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their  waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
+
 # Receipt of Waste - Data Definitions
 
-Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-software-developer-onboarding-process.md)
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-register-as-a-software-provider.md)
 
 These draft data definition tables describe the information we expect to be recorded by the future waste tracking service when a receiving site accepts or rejects waste.
 
