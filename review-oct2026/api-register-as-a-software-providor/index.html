@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/api-receipt-of-waste-getting-started-guide/">
+        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/api-register-as-a-software-providor/">
       
       
-        <link rel="prev" href="../api-receipt-data-definitions/">
-      
-      
-        <link rel="next" href="../api-authentication-guide/">
       
       
         
@@ -25,7 +21,7 @@
     
     
       
-        <title>API Getting Started Guide - Digital Waste Tracking: Software Developer Guide</title>
+        <title>Api register as a software providor - Digital Waste Tracking: Software Developer Guide</title>
       
     
     
@@ -146,7 +142,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#the-receipt-of-waste-api-getting-started-guide" class="md-skip">
+        <a href="#register-as-a-software-providor" class="md-skip">
           Skip to content
         </a>
       
@@ -185,7 +181,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              API Getting Started Guide
+              Api register as a software providor
             
           </span>
         </div>
@@ -295,12 +291,10 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../api-reporting-deadlines/" class="md-tabs__link">
           
   
@@ -393,8 +387,6 @@
       
   
   
-    
-  
   
   
     
@@ -428,17 +420,14 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -460,13 +449,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -567,19 +556,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api-receipt-of-waste-getting-started-guide/" class="md-nav__link">
         
   
   
@@ -595,7 +575,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -886,7 +865,7 @@
     
       
     
-    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-receipt-of-waste-getting-started-guide.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-register-as-a-software-providor.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
@@ -894,255 +873,40 @@
 
 
 <p><a class="md-button" href="../">← Back to Top</a></p>
-<hr />
-<h2 id="title-the-receipt-of-waste-api-getting-started-guide">title: The Receipt of Waste API - Getting Started Guide</h2>
-<div class="admonition information">
-<p class="admonition-title">Information</p>
-<p><strong><code>From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.</code></strong></p>
-</div>
-<h1 id="the-receipt-of-waste-api-getting-started-guide">The Receipt of Waste API - Getting Started Guide</h1>
-<h2 id="introduction">Introduction</h2>
-<p>This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.</p>
-<p><strong>Note:</strong> During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Waste Tracking Service (DWT) Receipt API <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog">Changelog</a>.</p>
-<h2 id="getting-started">Getting Started</h2>
-<p>Work through these short sections on practical preparation and use of the API:</p>
-<ul>
-<li><a href="#getting-started">Getting started</a></li>
-<li><a href="#authentication">Authentication</a></li>
-<li><a href="#making-api-requests">Making API Requests</a></li>
-<li><a href="#validating-a-collection-of-requests-and-responses">Validating a Collection of Requests and Responses</a></li>
-<li><a href="#getting-help-by-email">Getting help from the API support team</a></li>
-</ul>
-<h3 id="prerequisite-steps-developers">Prerequisite Steps (Developers)</h3>
-<p>To develop using the Receipt of Waste API, you must:</p>
-<ul>
-<li>Be familiar with HTTP, RESTful services and JSON and OAuth.</li>
-<li>Have received your client id and secret. These will be sent to the developer after signing up for the service.</li>
-<li>Be familiar with the API's <a href="../api-terms-of-service/">terms of service</a>.</li>
-</ul>
-<p>These are the necessary steps:</p>
-<ol>
-<li>
-<p>Developers need to <a href="api-software-developer-onboarding-process.md">sign-up for the service</a> using the on-boarding form. They will then be issued a client id and secret.</p>
-</li>
-<li>
-<p>Gain access to the test environment. The URL is shown below:
-   <div class="highlight"><pre><span></span><code>http://waste-tracking.integration.api.defra.gov.uk/
-</code></pre></div></p>
-</li>
-<li>
-<p>Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See <a href="#authentication">Authentication</a>.</p>
-</li>
-<li>
-<p>To begin testing, you also need a Dummy API Code. See <a href="../api-codes-for-testing-and-production/#dummy-test-codes">API Codes for Testing and Production</a>.</p>
-</li>
-<li>
-<p>Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have <a href="production-approval-tests.md">implemented the specification in its entirety</a>. Ensure that all scenarios have been implemented. Some useful test scripts can <a href="../api-testing-and-examples/">be found here</a>. </p>
-<p>When you’ve completed developing and testing your integration, please <a href="mailto:WasteTracking_Developers@defra.gov.uk">email</a> a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. See the support email links listed <a href="#getting-help-by-email">below</a>.</p>
-</li>
-<li>
-<p>Following approval of the test submission and acknowledgement of the <a href="../api-terms-of-service/">Terms of Service</a>, you will receive a client ID and secret for the production environment. </p>
-</li>
-</ol>
-<p>You can now begin sending waste movements to the Waste Tracking Service.</p>
-<h3 id="prerequisite-steps-receivers">Prerequisite Steps (Receivers)</h3>
-<ol>
-<li>Waste Receivers need to <a href="api-software-developer-onboarding-process.md">sign-up for the service</a> using the on-boarding form.</li>
-<li>Accept the API Terms and Conditions.</li>
-<li>Get the <a href="../api-codes-for-testing-and-production/">Production API Code</a>. After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.</li>
-</ol>
-<h3 id="authentication">Authentication</h3>
-<p>To start using the Receipt API, you need first to authenticate your access using your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token and make your first receipt of waste movement request. </p>
-<p>For a more detailed description with code snippets, refer to this <a href="../api-authentication-guide/">authentication information</a>.</p>
-<h2 id="making-api-requests">Making API requests</h2>
-<p>Before sending any requests to the Receipt of Waste API, make sure that you are addressing the following points in your software:</p>
-<p>The base URLs of the test and production environments are as follows:</p>
-<div class="highlight"><pre><span></span><code>Test: http://waste-tracking.integration.api.defra.gov.uk/
-
-Production: http://waste-tracking.api.defra.gov.uk/
-</code></pre></div>
-<h3 id="what-makes-up-a-receive-waste-movement-request">What Makes up a Receive Waste Movement Request?</h3>
-<p>A request starts with a command and a URL specifying the method and the API endpoint or server you want to interact with, in this case the Waste Tracking Service. An example is shown below.</p>
-<div class="highlight"><pre><span></span><code>curl --request POST \
-  --url http://waste-tracking.api.defra.gov.uk/
-  --header &#39;authorization: Bearer eyJraWQiOiJQYnJiZXZ \
-  --header &#39;content-type: application/json&#39; \
-  --data &#39;{
-  &quot;apiCode&quot;: &quot;b74cbf3c-e9e2-43f3-bd6b-009d37a8d677&quot;,
-  &quot;dateTimeReceived&quot;: &quot;2025-10-15T11:05:05.310Z&quot;,
-  &quot;reasonForNoConsignmentCode&quot;: &quot;Carrier did not provide documentation&quot;
-</code></pre></div>
-<p>This is broken down as follows: </p>
-<ul>
-<li>The cURL command and URL</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="err">curl</span><span class="w"> </span><span class="mi">--</span><span class="err">reques</span><span class="kc">t</span><span class="w"> </span><span class="err">POST</span><span class="w"> </span><span class="err">\</span>
-<span class="w">  </span><span class="mi">--</span><span class="err">url</span><span class="w"> </span><span class="err">h</span><span class="kc">tt</span><span class="err">p</span><span class="p">:</span><span class="c1">//waste-tracking.api.defra.gov.uk/</span>
-</code></pre></div>
-<ul>
-<li>The header information containing the Bearer Token and the content type</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="mi">--</span><span class="err">header</span><span class="w"> </span><span class="err">&#39;au</span><span class="kc">t</span><span class="err">horiza</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="p">:</span><span class="w"> </span><span class="err">Bearer</span><span class="w"> </span>
-<span class="w"> </span><span class="err">eyJraWQiOiJQY</span><span class="kc">n</span><span class="err">JiZXZv</span>
-<span class="w"> </span><span class="mi">--</span><span class="err">header</span><span class="w"> </span><span class="err">&#39;co</span><span class="kc">ntent</span><span class="mi">-</span><span class="kc">t</span><span class="err">ype</span><span class="p">:</span><span class="w"> </span><span class="err">applica</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/jso</span><span class="kc">n</span><span class="err">&#39;</span><span class="w"> </span><span class="err">\</span>
-</code></pre></div>
-<ul>
-<li>The Request Body</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="mi">--</span><span class="w"> </span><span class="err">da</span><span class="kc">ta</span><span class="w"> </span><span class="err">&#39;</span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;apiCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b74cbf3c-e9e2-43f3-bd6b-009d37a8d677&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;dateTimeReceived&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-15T11:05:05.310Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;reasonForNoConsignmentCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NO_DOC_WITH_WASTE&quot;</span>
-</code></pre></div>
-<p>The Request Body is the essential part of an API <b>POST</b> or <b>PUT</b> request, it contains important data fields that a waste receiver needs to report about a waste movement. </p>
-<p>An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:</p>
-<p><div class="highlight"><pre><span></span><code><span class="p p-Indicator">{</span>
-<span class="w">  </span><span class="s">&quot;apiCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;dateTimeReceived&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;UTC</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">2025-09-15T12:12:28Z,</span><span class="nv"> </span><span class="s">BST</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">2025-09-15T13:12:28+01:00&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;hazardousWasteConsignmentCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;CJ32LE/A0001&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;reasonForNoConsignmentCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;NO_DOC_WITH_WASTE&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;yourUniqueReference&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;wTBrdgAA020&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;otherReferencesForMovement&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">    </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;label&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PO</span><span class="nv"> </span><span class="s">Number&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;reference&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PO-12345&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">},</span>
-<span class="w">    </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;label&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Waste</span><span class="nv"> </span><span class="s">Ticket&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;reference&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;WT-67890&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">},</span>
-<span class="w">    </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;label&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Haulier</span><span class="nv"> </span><span class="s">Note&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;reference&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;HN-11111&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">}</span>
-<span class="w">  </span><span class="p p-Indicator">],</span>
-<span class="w">  </span><span class="s">&quot;specialHandlingRequirements&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;The</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">must</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">fully</span><span class="nv"> </span><span class="s">inspected</span><span class="nv"> </span><span class="s">by</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">handler</span><span class="nv"> </span><span class="s">according</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">Hazardous</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">consignment</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">EWC</span><span class="nv"> </span><span class="s">codes</span><span class="nv"> </span><span class="s">provided.&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;wasteItems&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">    </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;ewcCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">        </span><span class="nv">200108</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="nv">150109</span>
-<span class="w">      </span><span class="p p-Indicator">],</span>
-<span class="w">      </span><span class="s">&quot;wasteDescription&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Basic</span><span class="nv"> </span><span class="s">mixed</span><span class="nv"> </span><span class="s">construction</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">demolition</span><span class="nv"> </span><span class="s">waste,</span><span class="nv"> </span><span class="s">this</span><span class="nv"> </span><span class="s">includes</span><span class="nv"> </span><span class="s">recyclable</span><span class="nv"> </span><span class="s">house</span><span class="nv"> </span><span class="s">bricks,</span><span class="nv"> </span><span class="s">gypsum</span><span class="nv"> </span><span class="s">plaster</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">slates.&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;physicalForm&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Sludge&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;numberOfContainers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;typeOfContainers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;SKI&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;weight&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;metric&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Tonnes&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;amount&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">150</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;isEstimate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
-<span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;containsPops&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;pops&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;sourceOfComponents&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PROVIDED_WITH_WASTE&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;components&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PFHXS&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">12.5</span>
-<span class="w">          </span><span class="p p-Indicator">}</span>
-<span class="w">        </span><span class="p p-Indicator">]</span>
-<span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;containsHazardous&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;hazardous&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;sourceOfComponents&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PROVIDED_WITH_WASTE&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;hazCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">          </span><span class="s">&quot;HP_5&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">          </span><span class="s">&quot;HP_10&quot;</span>
-<span class="w">        </span><span class="p p-Indicator">],</span>
-<span class="w">        </span><span class="s">&quot;components&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;lead&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">25.5</span>
-<span class="w">          </span><span class="p p-Indicator">}</span>
-<span class="w">        </span><span class="p p-Indicator">]</span>
-<span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;disposalOrRecoveryCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">        </span><span class="p p-Indicator">{</span>
-<span class="w">          </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;\&quot;R1\&quot;\n&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">          </span><span class="s">&quot;weight&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;metric&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Tonnes&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;amount&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">150</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;isEstimate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
-<span class="w">          </span><span class="p p-Indicator">}</span>
-<span class="w">        </span><span class="p p-Indicator">}</span>
-<span class="w">      </span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="p p-Indicator">}</span>
-<span class="w">  </span><span class="p p-Indicator">],</span>
-<span class="w">  </span><span class="s">&quot;carrier&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">    </span><span class="s">&quot;registrationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;CBDL6&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;reasonForNoRegistrationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;ON_SITE&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;organisationName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Waste</span><span class="nv"> </span><span class="s">Carriers</span><span class="nv"> </span><span class="s">Lite</span><span class="nv"> </span><span class="s">Ltd&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;26a</span><span class="nv"> </span><span class="s">Oil</span><span class="nv"> </span><span class="s">Drum</span><span class="nv"> </span><span class="s">Lane,</span><span class="nv"> </span><span class="s">London,</span><span class="nv"> </span><span class="s">UK&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;postcode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;W12</span><span class="nv"> </span><span class="s">7ZL&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">},</span>
-<span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;mailbox@example.co.uk&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;020</span><span class="nv"> </span><span class="s">4756</span><span class="nv"> </span><span class="s">XXXX&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;vehicleRegistration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;RNT</span><span class="nv"> </span><span class="s">493&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;meansOfTransport&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Rail&quot;</span>
-<span class="w">  </span><span class="p p-Indicator">},</span>
-<span class="w">  </span><span class="s">&quot;brokerOrDealer&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">    </span><span class="s">&quot;organisationName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Waste</span><span class="nv"> </span><span class="s">Disposal</span><span class="nv"> </span><span class="s">Ltd&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;26a</span><span class="nv"> </span><span class="s">Oil</span><span class="nv"> </span><span class="s">Drum</span><span class="nv"> </span><span class="s">Lane,</span><span class="nv"> </span><span class="s">London,</span><span class="nv"> </span><span class="s">UK&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;postcode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;W12</span><span class="nv"> </span><span class="s">7ZL&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">},</span>
-<span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;mailbox@example.co.uk&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;020</span><span class="nv"> </span><span class="s">4756</span><span class="nv"> </span><span class="s">XXXX&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;registrationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;CBDL6&quot;</span>
-<span class="w">  </span><span class="p p-Indicator">},</span>
-<span class="w">  </span><span class="s">&quot;receiver&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">    </span><span class="s">&quot;siteName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;string&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;mailbox@example.co.uk&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;020</span><span class="nv"> </span><span class="s">4756</span><span class="nv"> </span><span class="s">XXXX&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;authorisationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;EPR/DD2522BF&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;regulatoryPositionStatements&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">      </span><span class="nv">343</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="nv">456</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="nv">789</span>
-<span class="w">    </span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="p p-Indicator">},</span>
-<span class="w">  </span><span class="s">&quot;receipt&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;26a</span><span class="nv"> </span><span class="s">Oil</span><span class="nv"> </span><span class="s">Drum</span><span class="nv"> </span><span class="s">Lane,</span><span class="nv"> </span><span class="s">London,</span><span class="nv"> </span><span class="s">UK&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;postcode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;W12</span><span class="nv"> </span><span class="s">7ZL&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">}</span>
-<span class="w">  </span><span class="p p-Indicator">}</span>
-<span class="p p-Indicator">}</span>
-</code></pre></div>
-A description of each of the fields contained in the <a href="receipt-data-definitions.md">API Specification.</a></p>
-<h3 id="validating-a-collection-of-requests-and-responses">Validating a Collection of Requests and Responses</h3>
-<p>We have assembled a collection of <a href="../api-testing-and-examples/">Bruno test scripts</a> to help you learn about working with the Receipt API. </p>
-<h2 id="error-responses">Error Responses</h2>
-<p>A detailed description of the error responses for this API can be found in the <a href="../apiSpecifications/">Receipt API v1.0 Reference Guide</a>.</p>
-<h2 id="service-rate-limits">Service Rate Limits</h2>
-<p>200 hits per second soft limit.</p>
-<p>This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving 
-<strong>Rate Limit Exceeded</strong> 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.</p>
-<h2 id="related-api-documentation">Related API Documentation</h2>
-<p><a href="../apiSpecifications/">Receipt of Waste - API v1.0 Reference Guide</a></p>
-<p><a href="production-approval-tests.md">Receipt of Waste - API Production Approval Tests</a></p>
-<p><a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service">Receipt of Waste Policy Website</a></p>
-<p><a href="../roadmap/">Receipt of Waste Roadmap</a></p>
-<p><a href="receipt-data-definitions.md">Receipt of Waste API Data Definitions</a></p>
-<p><a href="../use-cases/">Use Cases</a></p>
-<p><a href="../">API README</a></p>
-<p><a href="../faq/">FAQs</a></p>
-<h2 id="getting-help-by-email">Getting help by email</h2>
-<ul>
-<li>
-<p>For developers: <font color="blue"><b><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></b></font></p>
-</li>
-<li>
-<p>For receivers: <font color="blue"><b><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#84;&#101;&#115;&#116;&#105;&#110;&#103;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#84;&#101;&#115;&#116;&#105;&#110;&#103;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></b></font></p>
-</li>
-<li>
-<p>All users can also post questions/comments in our discussions forum using this link <a href="https://github.com/DEFRA/waste-tracking-service/discussions"></a>.</p>
-</li>
-</ul>
-<h2 id="changelog">Changelog</h2>
-<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog">Receipt API v1.0 Landing Page</a> GitHub wiki.</p>
-<p><br/>Page last updated on March 2nd 2026.</p>
+<h1 id="register-as-a-software-providor">Register as a Software Providor</h1>
+<h2 id="this-document-outlines-the-steps-involved-in-the-api-software-developer-onboarding-process">This document outlines the steps involved in the API software developer onboarding process.</h2>
+<p><a href="../api-software_developer_onboarding_steps.png"><img alt="Steps involved in onboarding software developers" src="../api-software_developer_onboarding_steps.png" /></a></p>
+<h3 id="follow-the-steps-in-the-above-diagram-with-the-following-corresponding-steps">Follow the steps in the above diagram with the following corresponding steps:</h3>
+<h3 id="1-register-for-the-receipt-of-waste-row-api-service">1. Register for the Receipt of Waste (RoW) API Service</h3>
+<p>The sign-up link for registration is available from our <a href="https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U">qualtrics survey pages</a>. See the button below.</p>
+<p>Read the <a href="../api-terms-of-service/">API Terms of Service</a> and acknowledge this by clicking the checkbox on the last page of the survey.</p>
+<p><a class="md-button md-button--primary" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U">Register as a Software Provider</a></p>
+<h3 id="2-receive-test-credentials-from-the-digital-waste-tracking-dwt-team">2. Receive Test Credentials from the Digital Waste Tracking (DWT) Team</h3>
+<p>Following registration, software developers receive test credentials from the DWT team. These test credentials consist of a client ID and a client secret, sent via an encrypted email. Test credentials are used only within the test environment. Production credentials for the production environment are sent following successful implementation of the PAT scenarios (step 7).</p>
+<p>To work with the API, software developers need to include an <strong>API Code</strong> in their requests. For testing, a <code>dummy API Code</code> is used. A list of dummy codes is available from <a href="../api-codes-for-testing-and-production/">Testing and Production API Codes</a>. In the production environment, software developers must use the API Code supplied for the waste organisation reporting that waste movement.</p>
+<h3 id="3-implement-receipt-of-waste-row-api-integration">3. Implement Receipt of Waste (RoW) API Integration</h3>
+<p>Using the provided test credentials, software developers begin building the integration between their software and the Receipt of Waste API.</p>
+<p>Developers can use the available GET reference data endpoints to retrieve necessary codes for container types, hazardous properties, and other required data.</p>
+<h3 id="4-execute-the-production-approval-test-pat-scenarios">4. Execute the Production Approval Test (PAT) Scenarios</h3>
+<p>Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. Refer to the <a href="production-approval-tests.md">Production Approval Tests</a>. </p>
+<p>These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.</p>
+<p>Scenarios range from basic waste receipts with a single item to complex mixtures of hazardous and persistent organic pollutants (POPs) components.</p>
+<h3 id="5-share-wt-ids-for-each-pat-scenario-with-the-dwt-team">5. Share WT IDs for Each PAT Scenario with the DWT Team</h3>
+<p>Upon successful completion of the tests, the developer must provide the Waste Tracking (WT) ID for each executed PAT scenario to the DWT team.</p>
+<h3 id="6-the-dwt-team-review-pat-scenarios">6. The DWT Team Review PAT Scenarios</h3>
+<p>The DWT team reviews the submitted IDs for the production approval test scenarios to ensure they satisfy the teams expectations.</p>
+<h3 id="7-receive-acceptance-of-pats-from-the-dwt-team">7. Receive Acceptance of PATs from the DWT Team</h3>
+<p>The software developer receives a formal acceptance from the DWT team once their PAT scenarios have been successfully reviewed.</p>
+<h3 id="8-receive-production-credentials-from-the-dwt-team">8. Receive Production Credentials from the DWT Team</h3>
+<p>Once the terms of service are agreed to, the DWT team issues the production credentials and API Code to the software developer.</p>
+<h3 id="9-connect-to-the-production-environment">9. Connect to the Production Environment</h3>
+<p>The software developer uses the production credentials to establish a connection to the live production environment.</p>
+<h3 id="10-the-dwt-team-onboards-receivers">10. The DWT Team Onboards Receivers</h3>
+<p>The DWT team then onboards waste receivers of the software developer who have already registered their interest in the service.</p>
+<p>Receivers accept terms and conditions manually via email, after which they receive their own API codes to share with their software teams to begin submitting real waste movement data.</p>
+<h3 id="changelog">Changelog</h3>
+<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Software-Developer-Onboarding-Process">Onboarding Software Developers</a> GitHub wiki page</p>
+<p><br/>Page last updated on July 23rd 2026.</p>
 
 
 
