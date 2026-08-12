@@ -1,6 +1,7 @@
 !!! Important
     **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
-
+    
+# Register for the Digital Waste Tracking Service
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-register-as-a-software-provider.md).
 
 The Department for Environment, Food & Rural Affairs (Defra) intend to transform how data about waste movements is collected and shared with the regulators across all 4 UK nations. It will be mandatory for Waste Receivers to report waste they’ve received from October 2026\.
