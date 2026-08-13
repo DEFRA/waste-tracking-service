@@ -37,6 +37,9 @@ paths:
       responses:
         "201":
           description: Success- The waste movement has been stored.
+          headers:
+            service-charge-expiry-date:
+              $ref: "#/components/headers/serviceChargeExpiryDate"
           content:
             application/json:
               schema:
@@ -55,6 +58,8 @@ paths:
                           $ref: "#/components/schemas/validationResult"
         "400":
           $ref: "#/components/responses/400"
+        "402":
+          $ref: "#/components/responses/402"        
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
@@ -73,6 +78,9 @@ paths:
       responses:
         "200":
           description: The waste movement receipt has been updated.
+          headers:
+            service-charge-expiry-date:
+              $ref: "#/components/headers/serviceChargeExpiryDate"
           content:
             application/json:
               schema:
@@ -87,6 +95,8 @@ paths:
                           $ref: "#/components/schemas/validationResult"
         "400":
           $ref: "#/components/responses/400"
+        "402":
+          $ref: "#/components/responses/402"          
         "404":
           description: Movement not found. The waste tracking ID used is not correct.
   /reference-data/ewc-codes:
@@ -372,6 +382,15 @@ paths:
                       description: The POP chemical name.
                       example: Endosulfan
 components:
+  headers: 
+    serviceChargeExpiryDate:
+      description: The date and time when the service charge payment expires. The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
+        UTC is the global time standard and does not observe daylight saving time.
+        BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
+      schema:
+        type: string
+        format: date-time
+        example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
   requestBodies:
     receiveMovementRequest:
       description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
@@ -932,8 +951,7 @@ components:
         code:
           type: string
           description: |
-             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes (Recovery (R) and Disposal (D)) serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
-             
+             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes (Recovery (R) and Disposal (D)) serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.   
                <p><b>Notes:</b> 
                <ul>
                - The field is case-sensitive, please use the case specified for the code returned by the GET method.<br>
@@ -1064,3 +1082,32 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/validationResult"
+    "402":
+      description: Service charge payment is required. The request cannot be processed because the organisation has not paid the charge for the service.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - statusCode
+              - error
+              - message
+            example:
+              {
+                "statusCode": 402,
+                "error": "Payment Required",
+                "message": "Payment Required",
+              }
+            properties:
+              statusCode:
+                type: number
+                description: The HTTP response status code.
+                example: 402
+              error:
+                type: string
+                description: The HTTP error reason.
+                example: Payment Required
+              message:
+                type: string
+                description: details of why the request was rejected.
+                example: Payment for the service is required before the organisation can submit or update waste receipt records.           
