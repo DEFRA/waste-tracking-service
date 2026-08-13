@@ -176,6 +176,10 @@ relying on review discipline:
   from the same OpenAPI document so the implemented API cannot drift from
   the published contract.
 
+> **Alternative if tooling is constrained:** where approved linters/CI aren't
+> available (subject to the CDP tools radar), capture the conventions as a
+> markdown rules file and validate the spec against it via LLM review.
+
 **Proposal:** _TBD — start minimal (lint in CI), grow toward
 contract-testing later._
 
