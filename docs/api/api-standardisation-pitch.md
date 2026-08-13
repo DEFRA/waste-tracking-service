@@ -133,7 +133,42 @@ inconsistently a `400` or a `2xx` warning; no `5xx` shape at all.
 (its `errorType` enum includes `UnexpectedError`); `401/402/404/500` use the
 default **Hapi Boom** shape `{ statusCode, error, message }`.
 
-**Proposal:** _TBD — to discuss._
+**Proposal:**
+
+- **One unified failure envelope for every `4xx`/`5xx`:** the presence of
+  `error` means the request failed. Field-level problems (`400`) ride in
+  `error.details[]`, reusing the shared item shape `{ key, errorType, message }`
+  (topic 2). Non-validation failures omit `details`.
+
+  ```json
+  // 400 — validation
+  { "error": { "code": "VALIDATION_FAILED", "message": "…",
+               "details": [ { "key": "wasteItems[0].weight", "errorType": "NotProvided", "message": "…" } ] },
+    "traceId": "…" }
+  // 404 / 401 / 500
+  { "error": { "code": "MOVEMENT_NOT_FOUND", "message": "…" }, "traceId": "…" }
+  ```
+
+- **Machine-readable `error.code`:** a stable top-level enum for programmatic
+  handling — e.g. `VALIDATION_FAILED`, `UNAUTHORIZED`, `PAYMENT_REQUIRED`,
+  `INTERNAL_ERROR`, and the `404` variants below — separate from the per-field
+  `errorType`.
+
+- **`404` distinguished by `error.code` (D-014):** `MOVEMENT_NOT_FOUND` /
+  `TRANSFER_NOT_FOUND` (parent missing) vs `COLLECTION_NOT_RECORDED` /
+  `RECEIPT_NOT_RECORDED` (parent exists, event not recorded yet). This replaces
+  the draft's separate `notFoundError` shape; the status stays `404`.
+
+- **Per-field `errorType` enum, adopted as-is from the code:** `NotProvided`,
+  `NotAllowed`, `InvalidType`, `InvalidFormat`, `InvalidValue`, `OutOfRange`,
+  `BusinessRuleViolation`, `UnexpectedError`.
+
+- **`traceId` top-level on every error body** (topic 6). **`5xx`** uses the same
+  envelope, with `message` never leaking internals (stack traces, downstream
+  errors).
+
+Implementation note: a single `onPreResponse` mapper reshapes all Boom errors
+into this envelope (the code already does this for `400` only).
 
 ### 4. Pagination
 
