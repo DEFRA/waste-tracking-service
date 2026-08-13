@@ -43,6 +43,15 @@ convention as simple as possible while leaving room to grow. The topics
 below are the scope of this pitch. **Each is left open on purpose — we will
 work through them one at a time and record the decision inline.**
 
+**Accept-with-warnings.** This is the decided, current implementation. The
+service stores an operational record even when it has soft, data-quality
+problems, and returns those as `validation.warnings` (D-006). It still
+rejects with `400` when a request cannot be safely stored: schema/format
+errors, and structural, state-integrity or authorisation violations (D-009,
+D-036). In short: warn on data quality, reject on
+structure/state/authorisation. We adopt this as-is; it frames the
+status-code and response-format topics below.
+
 ### 1. Status codes for responses
 
 **In the draft spec:** `2xx` + `400` + inconsistent `404`; no `401/403`, no
@@ -53,7 +62,21 @@ work through them one at a time and record the decision inline.**
 (update), `400`, `404`, `401` (JWT), `500`, and `402` (Payment Required —
 service-charge expiry). `402` is real but absent from the draft.
 
-**Proposal:** _TBD — to discuss._
+**Proposal:**
+
+- **Success:** `201` for a POST that creates (body carries the new id), `200`
+  for a PUT that updates (body carries any warnings). Matches the live
+  gateway. `204 No Content` is not used, because responses carry a
+  `validation` body.
+- **Reject vs warn:** governed by the accept-with-warnings model above — a
+  storable record is `2xx` with `validation.warnings`; only unstorable
+  requests are rejected with `400`.
+- **Baseline error set every operation documents:** `400` (validation),
+  `401` (auth) and `500` (server) on every operation; `404` where the path
+  has an id; `402` on service-charge-gated writes.
+- **Not now:** hold off on `409` (state conflicts) and `422` (malformed vs
+  semantically-invalid split) — keep `400` for all client validation, and
+  note these as future refinements so we don't preclude them.
 
 ### 2. `2xx` response format
 
