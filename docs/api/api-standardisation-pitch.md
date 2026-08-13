@@ -6,45 +6,46 @@
 
 ## Problem
 
-The API spec (`openapi.yaml`) has grown organically across Phase 1 and
-Phase 2. The domain modelling is careful, but the **cross-cutting API
-conventions** — how we signal outcomes, shape responses, authenticate,
-page, and trace requests — were never standardised. As a result the same
-concern is handled several different ways:
+Today only the **Receipt of Waste** API is implemented. The rest of the
+waste-movement journey (creation, collection, drop-off, producer tracking)
+is planned but not yet built. That makes now the right moment to set a
+**basic, consistent foundation** for the cross-cutting API conventions —
+how we signal outcomes, shape responses, authenticate, page, and trace
+requests — before the remaining endpoints are written.
 
-- Write endpoints define `201`/`200`, `400`, and *sometimes* `404`. There
-  is no `401`/`403` anywhere (despite Bearer auth), and no `5xx`.
-- The success envelope (`validation.warnings`) is re-declared inline in
-  ~5 places instead of being reused from one schema.
-- Two unrelated error shapes coexist: `400` returns `validation.errors[]`;
-  `404` returns a top-level `code`/`message`. Some `404`s have no body at all.
-- The same failure class (`BusinessRuleViolation`) is a `400` in one place
-  and a warning inside a `201` in another.
-- Reference-data lists return unbounded arrays with no paging.
-- There is no `securitySchemes` block; caller identity is split between a
-  Bearer token (header) and `apiCode` (repeated in every request body).
-- Nothing carries a correlation / request id for tracing or support.
+These conventions were never standardised for the receipt endpoints, and
+without an agreed baseline each new endpoint is free to invent its own.
+Left unaddressed, patterns diverge, integrators have to special-case our
+responses, and the cost of correcting it only grows as more of the journey
+ships.
 
-Left unaddressed, every new endpoint copies one of these divergent patterns
-and integrators have to special-case our responses.
+A draft OpenAPI spec (`openapi.yaml`) already sketches the full journey. We
+use it here as the **working input** for drafting this standard — a place to
+try conventions against real endpoints — not as a description of what is
+built today.
+
+We are not aiming for a complete API-design rulebook now. We want the
+**smallest set of conventions that is consistent and can scale** into a
+richer standard later if the service needs it.
 
 ## Solution
 
 Agree one convention per concern and apply it uniformly across all
-endpoints (Phase 1 deprecated paths included where practical). The topics
+endpoints (Phase 1 deprecated paths included where practical). Keep each
+convention as simple as possible while leaving room to grow. The topics
 below are the scope of this pitch. **Each is left open on purpose — we will
 work through them one at a time and record the decision inline.**
 
 ### 1. Status codes for responses
 
-**Current state:** `2xx` + `400` + inconsistent `404`; no `401/403`, no
+**In the draft spec:** `2xx` + `400` + inconsistent `404`; no `401/403`, no
 `5xx`, no `409`. Reference-data endpoints mention `401` in prose only.
 
 **Proposal:** _TBD — to discuss._
 
 ### 2. `2xx` response format
 
-**Current state:** `validation.warnings` envelope duplicated inline across
+**In the draft spec:** `validation.warnings` envelope duplicated inline across
 create/update/receipt responses; `createMovementResponse`,
 `dropOffResponse`, `updateResponse` are near-duplicates.
 
@@ -52,7 +53,7 @@ create/update/receipt responses; `createMovementResponse`,
 
 ### 3. `4xx` & `5xx` response format
 
-**Current state:** two error shapes (`validation.errors[]` vs
+**In the draft spec:** two error shapes (`validation.errors[]` vs
 `code`/`message`); some errors have no body; `BusinessRuleViolation`
 inconsistently a `400` or a `2xx` warning; no `5xx` shape at all.
 
@@ -60,14 +61,14 @@ inconsistently a `400` or a `2xx` warning; no `5xx` shape at all.
 
 ### 4. Pagination
 
-**Current state:** reference-data lists (EWC codes in particular) return
+**In the draft spec:** reference-data lists (EWC codes in particular) return
 full unbounded arrays; no page/limit parameters or paging envelope.
 
 **Proposal:** _TBD — to discuss (is paging needed, and where?)._
 
 ### 5. Authentication — headers vs request body
 
-**Current state:** no `securitySchemes` defined. Identity is carried twice:
+**In the draft spec:** no `securitySchemes` defined. Identity is carried twice:
 a Bearer token in the `Authorization` header (per curl examples) and
 `apiCode` in every request body.
 
@@ -75,10 +76,28 @@ a Bearer token in the `Authorization` header (per curl examples) and
 
 ### 6. Tracing
 
-**Current state:** no correlation / request id on any request or response;
+**In the draft spec:** no correlation / request id on any request or response;
 no way to tie a caller's request to our logs for support.
 
 **Proposal:** _TBD — to discuss._
+
+### 7. Governance — keeping the conventions true
+
+Deciding the conventions is not enough; they need to stay enforced as the
+remaining endpoints are added. The idea is to treat the **OpenAPI spec as
+the single source of truth** and let tooling hold the line rather than
+relying on review discipline:
+
+- **Lint the spec** in CI (e.g. a Spectral ruleset) so the conventions
+  agreed above become automated rules — every new path is checked against
+  them on each pull request.
+- **GitHub CI gate:** the spec must lint clean before merge.
+- **Spec-driven request/response validation:** derive runtime validation
+  from the same OpenAPI document so the implemented API cannot drift from
+  the published contract.
+
+**Proposal:** _TBD — start minimal (lint in CI), grow toward
+contract-testing later._
 
 ## Rabbit holes
 
