@@ -221,20 +221,26 @@ remaining endpoints are added. The idea is to treat the **OpenAPI spec as
 the single source of truth** and let tooling hold the line rather than
 relying on review discipline:
 
-- **Lint the spec** in CI (e.g. a Spectral ruleset) so the conventions
-  agreed above become automated rules — every new path is checked against
-  them on each pull request.
-- **GitHub CI gate:** the spec must lint clean before merge.
+- **Lint the spec** in CI so the conventions agreed above become automated
+  rules checked on each pull request. Caveat: no OpenAPI linter (Spectral or
+  similar) currently appears on the Defra org-wide radar *or* the CDP tools
+  radar, so this specific step may not have an approved tool — confirm before
+  relying on it. **GitHub Actions** (the CI itself) is approved.
 - **Spec-driven request/response validation:** derive runtime validation
   from the same OpenAPI document so the implemented API cannot drift from
   the published contract.
+- **Grow toward contract testing** — on-radar options exist: **PACT**
+  (adopt), **Schemathesis** (consider, OpenAPI-driven), **Wiremock** (in
+  trial).
 
-> **Alternative if tooling is constrained:** where approved linters/CI aren't
-> available (subject to the CDP tools radar), capture the conventions as a
-> markdown rules file and validate the spec against it via LLM review.
+> **Alternative if linting tooling is constrained:** capture the conventions
+> as a markdown rules file and validate the spec against it via LLM review —
+> which has approved substrate on the radar (Azure OpenAI, GitHub Copilot),
+> rather than needing a new tool admitted.
 
-**Proposal:** _TBD — start minimal (lint in CI), grow toward
-contract-testing later._
+**Proposal:** _TBD — CI gate via GitHub Actions; spec-conformance via an
+approved contract-testing tool (PACT/Schemathesis) rather than a linter;
+markdown-rules + LLM review as the fallback where no linter is available._
 
 ## Rabbit holes
 
