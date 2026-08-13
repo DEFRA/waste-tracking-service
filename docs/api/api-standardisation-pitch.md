@@ -90,7 +90,37 @@ on create and `{ validation?: { warnings } }` (or `{}`) on update — the
 `{ key, errorType, message }`. (The live Swagger types `wasteTrackingId` as a
 UUID even though the minted value is an 8-char sqid.)
 
-**Proposal:** _TBD — to discuss._
+**Proposal:**
+
+- **One consistent envelope for every response:** `data` holds the payload,
+  `meta` is reserved for response metadata (e.g. pagination, added later), and
+  `validation` carries warnings on write operations.
+- **`validation` always present on writes:** create/update responses always
+  include `validation.warnings` — an empty array when clean — so the shape is
+  predictable and clients need no null-check. Reads/lists omit `validation`
+  (nothing is validated on a read).
+- **Create returns the new id inside `data`,** e.g. `data: { movementId }`.
+  It stays an *object* deliberately, so it can be extended to the full created
+  resource later without a breaking change. (A `Location` header remains an
+  option.)
+- **Warnings and errors share one item shape** — `{ key, errorType, message }`.
+  `validation.warnings` here and `validation.errors` (topic 3) differ only by
+  the array name.
+
+```json
+// 201 create
+{ "data": { "movementId": "25HRA0B2" }, "validation": { "warnings": [] } }
+// 200 update
+{ "data": null, "validation": { "warnings": [] } }
+// 200 list (reference data)
+{ "data": [ /* items */ ], "meta": {} }
+```
+
+Note this envelope is a change from today's flat shape, so it applies to the
+new endpoints; the deprecated Phase 1 receipt endpoints may keep their
+existing flat response. Collapsing the duplicated inline schemas into one
+reusable definition, and fixing the `wasteTrackingId` typing, is left for when
+we write the OpenAPI spec.
 
 ### 3. `4xx` & `5xx` response format
 
