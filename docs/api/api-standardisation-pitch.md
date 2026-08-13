@@ -128,12 +128,38 @@ authenticated caller?
 **In the draft spec:** no correlation / request id modelled on any request or
 response.
 
-**In the code today:** already solved by the CDP platform — `@defra/hapi-tracing`
-propagates the `x-cdp-request-id` header, surfaces it in logs as `trace.id`,
-and forwards it to downstream calls. This needs **documenting** in the spec,
-not inventing.
+**In the code today:** the CDP platform propagates a trace id *internally* —
+`@defra/hapi-tracing` reads the inbound `x-cdp-request-id` header, surfaces it
+in logs as `trace.id`, and forwards it to downstream calls. But it is
+**read-only inbound and never returned to the client**, and it is **not
+generated** when the header is absent. So a client currently has no way to
+learn the trace id for a request.
 
-**Proposal:** _TBD — to discuss._
+**Requirement:** a client must be able to obtain the trace id for their
+request, so that when something goes wrong they can quote it back to us and we
+can find that request in our logs.
+
+**Proposal:**
+
+1. **Guarantee a trace id exists** for every request — use CDP's inbound
+   `x-cdp-request-id`; if it is absent, generate one server-side so every
+   request is traceable.
+2. **Echo it back on every response** (success *and* error) under a
+   **public** header, **`x-request-id`**. The value is the internal CDP trace
+   id, but the public name deliberately does **not** leak the platform — we
+   keep `x-cdp-request-id` for inbound/internal use only and map the same
+   value onto `x-request-id` on the way out. This is the core change.
+3. **Surface it in the error body too** — a top-level `traceId` on `4xx`/`5xx`
+   responses — so a developer sees it without inspecting headers (ties into
+   the error-format decision in topic 3).
+4. **Document it** in the OpenAPI spec: the `x-request-id` response header on
+   all responses, the `traceId` field on the error schema, and guidance to
+   include it when contacting support.
+
+Keep it minimal: the header echo is the essential part; the error-body field
+is a developer-friendly addition. If cross-vendor distributed tracing is ever
+needed, a standard `traceparent` header can be added alongside without
+breaking `x-request-id`.
 
 ### 7. Governance — keeping the conventions true
 
