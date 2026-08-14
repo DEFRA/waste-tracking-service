@@ -1,8 +1,8 @@
 # Moved
 
-This document has moved to the **Digital Waste Tracking API Docs** repository.
+This document has moved to the **Digital Waste Tracking API Docs** site.
 
-**New location:** [Plan](https://github.com/DEFRA/digital-waste-tracking-api-docs/blob/main/docs/collections/plan.md)
+**New location:** [Plan](https://defra.github.io/digital-waste-tracking-api-docs/preview/collections/plan/)
 
 This branch (`alpha_collections`) is no longer maintained or published.
 Please update any bookmarks or shared links to point at the location above.

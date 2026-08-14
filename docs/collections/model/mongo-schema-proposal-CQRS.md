@@ -1,8 +1,8 @@
 # Moved
 
-This document has moved to the **Digital Waste Tracking API Docs** repository.
+This document has moved to the **Digital Waste Tracking API Docs** site.
 
-**New location:** [Mongo schema proposal — CQRS (Option C)](https://github.com/DEFRA/digital-waste-tracking-api-docs/blob/main/docs/collections/model/mongo-schema-proposal-CQRS.md)
+**New location:** [Mongo schema proposal — CQRS (Option C)](https://defra.github.io/digital-waste-tracking-api-docs/preview/collections/model/mongo-schema-proposal-CQRS/)
 
 This branch (`alpha_collections`) is no longer maintained or published.
 Please update any bookmarks or shared links to point at the location above.
