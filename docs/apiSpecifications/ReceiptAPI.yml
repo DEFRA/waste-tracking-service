@@ -536,7 +536,6 @@ components:
         - weight
         - containsPops
         - containsHazardous
-        - disposalOrRecoveryCodes
       properties:
         ewcCodes:
           type: array
