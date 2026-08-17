@@ -1035,25 +1035,33 @@ This first phase of the digital waste tracking rollout will focus on capturing a
 <h2 id="steps">Steps</h2>
 <h3 id="step-1-before-the-waste-moves">Step 1: before the waste moves</h3>
 <h4 id="broker-or-dealer-or-other-waste-operator-outsourcing-the-transit-of-their-waste">Broker or dealer (or other waste operator outsourcing the transit of their waste)</h4>
-<p>1 Creates a waste movement record/ticket.
-2 Passes the waste transfer note/consignment note to the waste carrier.
-3 Passes the waste movement record/ticket to the waste carrier.</p>
+<ol>
+<li>Creates a waste movement record/ticket.</li>
+<li>Passes the waste transfer note/consignment note to the waste carrier.</li>
+<li>Passes the waste movement record/ticket to the waste carrier.</li>
+</ol>
 <h4 id="carrier-back-office-employee-typically">Carrier (back-office employee, typically)</h4>
 <p>Creates round for driver</p>
 <h3 id="step-2-waste-collection">Step 2: waste collection</h3>
 <h4 id="driver-on-behalf-of-carrier">Driver (on behalf of carrier)</h4>
-<p>1 Arrives at the waste collection point (multiple collection points if collecting in a ‘round’).
-2 Load lifts waste onto vehicle.
-3 Updates waste movement ‘ticket’ via load lift
-4 Passes waste transfer note/consignment note to producer</p>
+<ol>
+<li>Arrives at the waste collection point (multiple collection points if collecting in a ‘round’).</li>
+<li>Load lifts waste onto vehicle.</li>
+<li>Updates waste movement ‘ticket’ via load lift</li>
+<li>Passes waste transfer note/consignment note to producer</li>
+</ol>
 <h4 id="producer">Producer</h4>
-<p>1 Updates Waste Movement ‘ticket’ via outgoing weighbridge
-2 Creates waste transfer note/consignment note</p>
+<ol>
+<li>Updates Waste Movement ‘ticket’ via outgoing weighbridge</li>
+<li>Creates waste transfer note/consignment note</li>
+</ol>
 <h3 id="step-3-waste-transit">Step 3: waste transit</h3>
 <h4 id="driver-on-behalf-of-carrier_1">Driver (on behalf of carrier)</h4>
-<p>1 Leaves waste collection point.
-2 Transports waste (sometimes via other sites for additional collections – repeat step 2: waste collection).
-3 Arrives at waste receiving site.</p>
+<ol>
+<li>Leaves waste collection point.</li>
+<li>Transports waste (sometimes via other sites for additional collections – repeat step 2: waste collection).</li>
+<li>Arrives at waste receiving site.</li>
+</ol>
 <h3 id="step-4-waste-receipt">Step 4: waste receipt</h3>
 <h4 id="driver-on-behalf-of-carrier_2">Driver (on behalf of carrier)</h4>
 <p>Passes waste transfer note/consignment note to receiver</p>
@@ -1080,6 +1088,7 @@ This first phase of the digital waste tracking rollout will focus on capturing a
 <li>receiver details </li>
 <li>contact</li>
 <li>permits</li>
+<li>broker or dealer details</li>
 <li>waste classification</li>
 <li>weight and containers (estimate or actual)</li>
 <li>EWC code</li>
@@ -1091,26 +1100,22 @@ This first phase of the digital waste tracking rollout will focus on capturing a
 </ul>
 <h3 id="step-5-after-the-waste-has-moved">Step 5: after the waste has moved</h3>
 <h4 id="carrier">Carrier</h4>
-<ol>
-<li>Updates waste ‘ticket’ with actual data, if applicable.</li>
-</ol>
+<p>Updates waste ‘ticket’ with actual data, if applicable.</p>
 <h4 id="producer_1">Producer</h4>
 <ol>
 <li>Checks on the ‘fate of the waste’</li>
 <li>Contact carrier, broker or dealer for receipt details of waste  </li>
 </ol>
 <h4 id="receiver">Receiver</h4>
-<ol>
-<li>Updates the waste ‘ticket’ with actual data.</li>
-</ol>
+<p>Updates the waste ‘ticket’ with actual data.</p>
 <h4 id="dwt-service_1">DWT service</h4>
-<p>1 PATCH method can be called by the receiver’s software to make updates to the waste movement ‘ticket’:</p>
+<p>PATCH method can be called by the receiver’s software to make updates to the waste movement ‘ticket’:</p>
 <ul>
 <li>ReceiptDataset()</li>
 </ul>
 <p>A GET method is also available for use by the producer to check the fate of their waste.</p>
 <h4 id="dwt-data_1">DWT Data</h4>
-<p>1 dataset is available to be queried by receivers’ software:</p>
+<p>Dataset is available to be queried by receivers’ software:</p>
 <ul>
 <li>Receipt dataset</li>
 </ul>
@@ -1251,10 +1256,18 @@ This first phase of the digital waste tracking rollout will focus on capturing a
         });
 
         // 2. Empty form labels — add visually-hidden text to icon-only labels
+        function labelHasText(label) {
+          var clone = label.cloneNode(true);
+          var els = clone.querySelectorAll('svg, img, .md-icon, .visually-hidden');
+          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
+          return !!clone.textContent.trim();
+        }
+
         function addLabelText(selector, text) {
           document.querySelectorAll(selector).forEach(function (label) {
             if (label.getAttribute('aria-hidden') === 'true') return;
             if (label.querySelector('.visually-hidden')) return;
+            if (labelHasText(label)) return;
             var span = document.createElement('span');
             span.className = 'visually-hidden';
             span.textContent = text;
@@ -1278,6 +1291,7 @@ This first phase of the digital waste tracking rollout will focus on capturing a
         // Navigation section toggle labels
         document.querySelectorAll('label[for^="__nav"], label[for^="nav-"]').forEach(function (label) {
           if (label.querySelector('.visually-hidden')) return;
+          if (labelHasText(label)) return;
           var nav = label.closest('.md-nav__item');
           var link = nav ? nav.querySelector('.md-nav__link') : null;
           var text = link ? 'Toggle ' + link.textContent.trim() : 'Toggle section';
@@ -1291,15 +1305,11 @@ This first phase of the digital waste tracking rollout will focus on capturing a
         document.querySelectorAll('label[for]').forEach(function (label) {
           if (label.getAttribute('aria-hidden') === 'true') return;
           if (label.querySelector('.visually-hidden')) return;
-          var clone = label.cloneNode(true);
-          var els = clone.querySelectorAll('svg, img, .md-icon');
-          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
-          if (!clone.textContent.trim()) {
-            var span = document.createElement('span');
-            span.className = 'visually-hidden';
-            span.textContent = label.getAttribute('title') || 'Toggle';
-            label.appendChild(span);
-          }
+          if (labelHasText(label)) return;
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = label.getAttribute('title') || 'Toggle';
+          label.appendChild(span);
         });
 
         // Catch any inputs/selects without any label (missing form label)
@@ -1317,10 +1327,17 @@ This first phase of the digital waste tracking rollout will focus on capturing a
         // Skip labels already hidden from assistive technology (e.g. the
         // decorative .md-overlay) so the visible, functional control keeps its
         // label instead of being the one demoted to a span.
+        // Also skip Material's CSS-only toggles (.md-toggle), which are driven
+        // by two working labels by design — for a nav section, the open link
+        // and the drawer's back arrow both target the same checkbox — so
+        // demoting either breaks navigation at narrow widths. Those checkboxes
+        // are display:none, so AXE never reports them as multiply-labelled.
         var labelsByFor = {};
         document.querySelectorAll('label[for]').forEach(function (label) {
           if (label.getAttribute('aria-hidden') === 'true') return;
           var forId = label.getAttribute('for');
+          var target = document.getElementById(forId);
+          if (target && target.classList.contains('md-toggle')) return;
           if (!labelsByFor[forId]) labelsByFor[forId] = [];
           labelsByFor[forId].push(label);
         });

@@ -1021,21 +1021,21 @@
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>  <span class="c1">#use requests library</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span> 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_cognito_token</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">,</span> <span class="n">token_url</span><span class="p">):</span> <span class="c1"># your clientID, Client Secret and OAuth URL</span>
-    <span class="n">client_credentials</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">client_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">client_secret</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">client_credentials</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">client_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">client_secret</span><span class="si">}</span><span class="s2">"</span>
     <span class="n">encoded_credentials</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">client_credentials</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> 
-    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Basic </span><span class="si">{</span><span class="n">encoded_credentials</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-www-form-urlencoded&quot;</span> <span class="p">}</span>
-    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;grant_type&quot;</span><span class="p">:</span> <span class="s2">&quot;client_credentials&quot;</span><span class="p">,</span> <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">client_id</span><span class="p">,</span> <span class="s2">&quot;client_secret&quot;</span><span class="p">:</span> <span class="n">client_secret</span><span class="p">,</span> <span class="p">}</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">token_url</span><span class="si">}</span><span class="s2">/oauth2/token&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span> 
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Basic </span><span class="si">{</span><span class="n">encoded_credentials</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/x-www-form-urlencoded"</span> <span class="p">}</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"grant_type"</span><span class="p">:</span> <span class="s2">"client_credentials"</span><span class="p">,</span> <span class="s2">"client_id"</span><span class="p">:</span> <span class="n">client_id</span><span class="p">,</span> <span class="s2">"client_secret"</span><span class="p">:</span> <span class="n">client_secret</span><span class="p">,</span> <span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">token_url</span><span class="si">}</span><span class="s2">/oauth2/token"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span> 
     <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span> 
     <span class="n">token_response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> 
-    <span class="k">return</span> <span class="n">token_response</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">token_response</span><span class="p">[</span><span class="s2">"access_token"</span><span class="p">]</span>
 </code></pre></div>
 </li>
 <li>Submit the access/bearer token to use the API. 
 
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span> 
 <span class="k">def</span><span class="w"> </span><span class="nf">make_api_request</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">api_url</span><span class="p">):</span> <span class="c1"># your access token and the api url here</span>
-    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span> 
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span> 
     <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
     <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span> 
     <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> 
@@ -1215,10 +1215,18 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
         });
 
         // 2. Empty form labels — add visually-hidden text to icon-only labels
+        function labelHasText(label) {
+          var clone = label.cloneNode(true);
+          var els = clone.querySelectorAll('svg, img, .md-icon, .visually-hidden');
+          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
+          return !!clone.textContent.trim();
+        }
+
         function addLabelText(selector, text) {
           document.querySelectorAll(selector).forEach(function (label) {
             if (label.getAttribute('aria-hidden') === 'true') return;
             if (label.querySelector('.visually-hidden')) return;
+            if (labelHasText(label)) return;
             var span = document.createElement('span');
             span.className = 'visually-hidden';
             span.textContent = text;
@@ -1242,6 +1250,7 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
         // Navigation section toggle labels
         document.querySelectorAll('label[for^="__nav"], label[for^="nav-"]').forEach(function (label) {
           if (label.querySelector('.visually-hidden')) return;
+          if (labelHasText(label)) return;
           var nav = label.closest('.md-nav__item');
           var link = nav ? nav.querySelector('.md-nav__link') : null;
           var text = link ? 'Toggle ' + link.textContent.trim() : 'Toggle section';
@@ -1255,15 +1264,11 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
         document.querySelectorAll('label[for]').forEach(function (label) {
           if (label.getAttribute('aria-hidden') === 'true') return;
           if (label.querySelector('.visually-hidden')) return;
-          var clone = label.cloneNode(true);
-          var els = clone.querySelectorAll('svg, img, .md-icon');
-          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
-          if (!clone.textContent.trim()) {
-            var span = document.createElement('span');
-            span.className = 'visually-hidden';
-            span.textContent = label.getAttribute('title') || 'Toggle';
-            label.appendChild(span);
-          }
+          if (labelHasText(label)) return;
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = label.getAttribute('title') || 'Toggle';
+          label.appendChild(span);
         });
 
         // Catch any inputs/selects without any label (missing form label)
@@ -1281,10 +1286,17 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
         // Skip labels already hidden from assistive technology (e.g. the
         // decorative .md-overlay) so the visible, functional control keeps its
         // label instead of being the one demoted to a span.
+        // Also skip Material's CSS-only toggles (.md-toggle), which are driven
+        // by two working labels by design — for a nav section, the open link
+        // and the drawer's back arrow both target the same checkbox — so
+        // demoting either breaks navigation at narrow widths. Those checkboxes
+        // are display:none, so AXE never reports them as multiply-labelled.
         var labelsByFor = {};
         document.querySelectorAll('label[for]').forEach(function (label) {
           if (label.getAttribute('aria-hidden') === 'true') return;
           var forId = label.getAttribute('for');
+          var target = document.getElementById(forId);
+          if (target && target.classList.contains('md-toggle')) return;
           if (!labelsByFor[forId]) labelsByFor[forId] = [];
           labelsByFor[forId].push(label);
         });

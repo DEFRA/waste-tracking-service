@@ -1141,12 +1141,12 @@ Production: http://waste-tracking.api.defra.gov.uk/
 <p>A request starts with a command and a URL specifying the method and the API endpoint or server you want to interact with, in this case the Waste Tracking Service. An example is shown below.</p>
 <div class="highlight"><pre><span></span><code>curl --request POST \
   --url http://waste-tracking.api.defra.gov.uk/
-  --header &#39;authorization: Bearer eyJraWQiOiJQYnJiZXZ \
-  --header &#39;content-type: application/json&#39; \
-  --data &#39;{
-  &quot;apiCode&quot;: &quot;b74cbf3c-e9e2-43f3-bd6b-009d37a8d677&quot;,
-  &quot;dateTimeReceived&quot;: &quot;2025-10-15T11:05:05.310Z&quot;,
-  &quot;reasonForNoConsignmentCode&quot;: &quot;Carrier did not provide documentation&quot;
+  --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZ \
+  --header 'content-type: application/json' \
+  --data '{
+  "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
+  "dateTimeReceived": "2025-10-15T11:05:05.310Z",
+  "reasonForNoConsignmentCode": "Carrier did not provide documentation"
 </code></pre></div>
 <p>This is broken down as follows: </p>
 <ul>
@@ -1158,168 +1158,168 @@ Production: http://waste-tracking.api.defra.gov.uk/
 <ul>
 <li>The header information containing the Bearer Token and the content type</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="mi">--</span><span class="err">header</span><span class="w"> </span><span class="err">&#39;au</span><span class="kc">t</span><span class="err">horiza</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="p">:</span><span class="w"> </span><span class="err">Bearer</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="mi">--</span><span class="err">header</span><span class="w"> </span><span class="err">'au</span><span class="kc">t</span><span class="err">horiza</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="p">:</span><span class="w"> </span><span class="err">Bearer</span><span class="w"> </span>
 <span class="w"> </span><span class="err">eyJraWQiOiJQY</span><span class="kc">n</span><span class="err">JiZXZv</span>
-<span class="w"> </span><span class="mi">--</span><span class="err">header</span><span class="w"> </span><span class="err">&#39;co</span><span class="kc">ntent</span><span class="mi">-</span><span class="kc">t</span><span class="err">ype</span><span class="p">:</span><span class="w"> </span><span class="err">applica</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/jso</span><span class="kc">n</span><span class="err">&#39;</span><span class="w"> </span><span class="err">\</span>
+<span class="w"> </span><span class="mi">--</span><span class="err">header</span><span class="w"> </span><span class="err">'co</span><span class="kc">ntent</span><span class="mi">-</span><span class="kc">t</span><span class="err">ype</span><span class="p">:</span><span class="w"> </span><span class="err">applica</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/jso</span><span class="kc">n</span><span class="err">'</span><span class="w"> </span><span class="err">\</span>
 </code></pre></div>
 <ul>
 <li>The Request Body</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="mi">--</span><span class="w"> </span><span class="err">da</span><span class="kc">ta</span><span class="w"> </span><span class="err">&#39;</span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;apiCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b74cbf3c-e9e2-43f3-bd6b-009d37a8d677&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;dateTimeReceived&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-15T11:05:05.310Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;reasonForNoConsignmentCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NO_DOC_WITH_WASTE&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="mi">--</span><span class="w"> </span><span class="err">da</span><span class="kc">ta</span><span class="w"> </span><span class="err">'</span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"apiCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b74cbf3c-e9e2-43f3-bd6b-009d37a8d677"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"dateTimeReceived"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-10-15T11:05:05.310Z"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"reasonForNoConsignmentCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NO_DOC_WITH_WASTE"</span>
 </code></pre></div>
 <p>The Request Body is the essential part of an API <b>POST</b> or <b>PUT</b> request, it contains important data fields that a waste receiver needs to report about a waste movement. </p>
 <p>An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:</p>
 <p><div class="highlight"><pre><span></span><code><span class="p p-Indicator">{</span>
-<span class="w">  </span><span class="s">&quot;apiCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;1f83215e-4b90-4785-9ab2-2614839aa2e9&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;dateTimeReceived&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;2025-11-20T12:26:24.281Z&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;reasonForNoConsignmentCode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;NO_DOC_WITH_WASTE&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">  </span><span class="s">&quot;wasteItems&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">  </span><span class="s">"apiCode"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"1f83215e-4b90-4785-9ab2-2614839aa2e9"</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">"dateTimeReceived"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"2025-11-20T12:26:24.281Z"</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">"reasonForNoConsignmentCode"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"NO_DOC_WITH_WASTE"</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="s">"wasteItems"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">    </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;ewcCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">        </span><span class="s">&quot;200121&quot;</span>
+<span class="w">      </span><span class="s">"ewcCodes"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">        </span><span class="s">"200121"</span>
 <span class="w">      </span><span class="p p-Indicator">],</span>
-<span class="w">      </span><span class="s">&quot;wasteDescription&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Industrial</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">containing</span><span class="nv"> </span><span class="s">persistent</span><span class="nv"> </span><span class="s">organic</span><span class="nv"> </span><span class="s">pollutants</span><span class="nv"> </span><span class="s">(POPs)</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">hazardous</span><span class="nv"> </span><span class="s">heavy</span><span class="nv"> </span><span class="s">metals</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">decommissioned</span><span class="nv"> </span><span class="s">electrical</span><span class="nv"> </span><span class="s">equipment</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">contaminated</span><span class="nv"> </span><span class="s">soil&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;physicalForm&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Mixed&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;numberOfContainers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">15</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;typeOfContainers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;SKI&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;weight&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;metric&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Tonnes&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;amount&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.2</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;isEstimate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
+<span class="w">      </span><span class="s">"wasteDescription"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Industrial</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">containing</span><span class="nv"> </span><span class="s">persistent</span><span class="nv"> </span><span class="s">organic</span><span class="nv"> </span><span class="s">pollutants</span><span class="nv"> </span><span class="s">(POPs)</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">hazardous</span><span class="nv"> </span><span class="s">heavy</span><span class="nv"> </span><span class="s">metals</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">decommissioned</span><span class="nv"> </span><span class="s">electrical</span><span class="nv"> </span><span class="s">equipment</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">contaminated</span><span class="nv"> </span><span class="s">soil"</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"physicalForm"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Mixed"</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"numberOfContainers"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">15</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"typeOfContainers"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"SKI"</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"weight"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">"metric"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Tonnes"</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">"amount"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.2</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">"isEstimate"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;containsPops&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;pops&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;sourceOfComponents&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PROVIDED_WITH_WASTE&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;components&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">      </span><span class="s">"containsPops"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"pops"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">"sourceOfComponents"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"PROVIDED_WITH_WASTE"</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">"components"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;CHL&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">250</span>
+<span class="w">            </span><span class="s">"code"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"CHL"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">250</span>
 <span class="w">          </span><span class="p p-Indicator">},</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;TOX&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">156.4</span>
+<span class="w">            </span><span class="s">"code"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"TOX"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">156.4</span>
 <span class="w">          </span><span class="p p-Indicator">},</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;DCF&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.8</span>
+<span class="w">            </span><span class="s">"code"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"DCF"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.8</span>
 <span class="w">          </span><span class="p p-Indicator">},</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;DDT&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.2</span>
+<span class="w">            </span><span class="s">"code"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"DDT"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.2</span>
 <span class="w">          </span><span class="p p-Indicator">}</span>
 <span class="w">        </span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;containsHazardous&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;hazardous&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;hazCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">          </span><span class="s">&quot;HP_1&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">          </span><span class="s">&quot;HP_3&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">          </span><span class="s">&quot;HP_6&quot;</span>
+<span class="w">      </span><span class="s">"containsHazardous"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"hazardous"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">"hazCodes"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">          </span><span class="s">"HP_1"</span><span class="p p-Indicator">,</span>
+<span class="w">          </span><span class="s">"HP_3"</span><span class="p p-Indicator">,</span>
+<span class="w">          </span><span class="s">"HP_6"</span>
 <span class="w">        </span><span class="p p-Indicator">],</span>
-<span class="w">        </span><span class="s">&quot;sourceOfComponents&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PROVIDED_WITH_WASTE&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;components&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">        </span><span class="s">"sourceOfComponents"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"PROVIDED_WITH_WASTE"</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">"components"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Mercury&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.35</span>
+<span class="w">            </span><span class="s">"name"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Mercury"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.35</span>
 <span class="w">          </span><span class="p p-Indicator">},</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Arsenic&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">300</span>
+<span class="w">            </span><span class="s">"name"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Arsenic"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">300</span>
 <span class="w">          </span><span class="p p-Indicator">},</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Chromium&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.42</span>
+<span class="w">            </span><span class="s">"name"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Chromium"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.42</span>
 <span class="w">          </span><span class="p p-Indicator">},</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Lead&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.89</span>
+<span class="w">            </span><span class="s">"name"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Lead"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.89</span>
 <span class="w">          </span><span class="p p-Indicator">}</span>
 <span class="w">        </span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;disposalOrRecoveryCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">      </span><span class="s">"disposalOrRecoveryCodes"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">        </span><span class="p p-Indicator">{</span>
-<span class="w">          </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;R1&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">          </span><span class="s">&quot;weight&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;metric&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Tonnes&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;amount&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.75</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;isEstimate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">false</span>
+<span class="w">          </span><span class="s">"code"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"R1"</span><span class="p p-Indicator">,</span>
+<span class="w">          </span><span class="s">"weight"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">            </span><span class="s">"metric"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Tonnes"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"amount"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.75</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"isEstimate"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">false</span>
 <span class="w">          </span><span class="p p-Indicator">}</span>
 <span class="w">        </span><span class="p p-Indicator">}</span>
 <span class="w">      </span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="p p-Indicator">},</span>
 <span class="w">    </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;ewcCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">        </span><span class="s">&quot;150110&quot;</span>
+<span class="w">      </span><span class="s">"ewcCodes"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">        </span><span class="s">"150110"</span>
 <span class="w">      </span><span class="p p-Indicator">],</span>
-<span class="w">      </span><span class="s">&quot;wasteDescription&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Secondary</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">containing</span><span class="nv"> </span><span class="s">plastic</span><span class="nv"> </span><span class="s">packaging</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">minor</span><span class="nv"> </span><span class="s">contaminants&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;physicalForm&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Solid&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;numberOfContainers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">5</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;typeOfContainers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;SKI&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;weight&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;metric&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Tonnes&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;amount&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.1</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;isEstimate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
+<span class="w">      </span><span class="s">"wasteDescription"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Secondary</span><span class="nv"> </span><span class="s">waste</span><span class="nv"> </span><span class="s">containing</span><span class="nv"> </span><span class="s">plastic</span><span class="nv"> </span><span class="s">packaging</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">minor</span><span class="nv"> </span><span class="s">contaminants"</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"physicalForm"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Solid"</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"numberOfContainers"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">5</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"typeOfContainers"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"SKI"</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"weight"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">"metric"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Tonnes"</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">"amount"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.1</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">"isEstimate"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;containsPops&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">false</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;pops&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;sourceOfComponents&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;NOT_PROVIDED&quot;</span>
+<span class="w">      </span><span class="s">"containsPops"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">false</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"pops"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">"sourceOfComponents"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"NOT_PROVIDED"</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;containsHazardous&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;hazardous&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">        </span><span class="s">&quot;hazCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-<span class="w">          </span><span class="s">&quot;HP_6&quot;</span>
+<span class="w">      </span><span class="s">"containsHazardous"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">true</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"hazardous"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">        </span><span class="s">"hazCodes"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">          </span><span class="s">"HP_6"</span>
 <span class="w">        </span><span class="p p-Indicator">],</span>
-<span class="w">        </span><span class="s">&quot;sourceOfComponents&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PROVIDED_WITH_WASTE&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">        </span><span class="s">&quot;components&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">        </span><span class="s">"sourceOfComponents"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"PROVIDED_WITH_WASTE"</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">"components"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">          </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Arsenic&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;concentration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">75</span>
+<span class="w">            </span><span class="s">"name"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Arsenic"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"concentration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">75</span>
 <span class="w">          </span><span class="p p-Indicator">}</span>
 <span class="w">        </span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="p p-Indicator">},</span>
-<span class="w">      </span><span class="s">&quot;disposalOrRecoveryCodes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">      </span><span class="s">"disposalOrRecoveryCodes"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">        </span><span class="p p-Indicator">{</span>
-<span class="w">          </span><span class="s">&quot;code&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;R1&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">          </span><span class="s">&quot;weight&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">            </span><span class="s">&quot;metric&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Tonnes&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;amount&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.75</span><span class="p p-Indicator">,</span>
-<span class="w">            </span><span class="s">&quot;isEstimate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">false</span>
+<span class="w">          </span><span class="s">"code"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"R1"</span><span class="p p-Indicator">,</span>
+<span class="w">          </span><span class="s">"weight"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">            </span><span class="s">"metric"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Tonnes"</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"amount"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">0.75</span><span class="p p-Indicator">,</span>
+<span class="w">            </span><span class="s">"isEstimate"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">false</span>
 <span class="w">          </span><span class="p p-Indicator">}</span>
 <span class="w">        </span><span class="p p-Indicator">}</span>
 <span class="w">      </span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="p p-Indicator">],</span>
-<span class="w">  </span><span class="s">&quot;carrier&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w">  </span>
-<span class="w">    </span><span class="s">&quot;organisationName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Carrier</span><span class="nv"> </span><span class="s">Ltd&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;registrationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;CBDL999999&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;321</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">Street,</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">City&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;postcode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;TC2</span><span class="nv"> </span><span class="s">2CD&quot;</span>
+<span class="w">  </span><span class="s">"carrier"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w">  </span>
+<span class="w">    </span><span class="s">"organisationName"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Carrier</span><span class="nv"> </span><span class="s">Ltd"</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">"registrationNumber"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"CBDL999999"</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">"address"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">"fullAddress"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"321</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">Street,</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">City"</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"postcode"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"TC2</span><span class="nv"> </span><span class="s">2CD"</span>
 <span class="w">    </span><span class="p p-Indicator">},</span>
-<span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;test@carrier.com&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;01234567890&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;meansOfTransport&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Road&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;vehicleRegistration&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;AB12</span><span class="nv"> </span><span class="s">CDE&quot;</span>
+<span class="w">    </span><span class="s">"emailAddress"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"test@carrier.com"</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">"phoneNumber"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"01234567890"</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">"meansOfTransport"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Road"</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">"vehicleRegistration"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"AB12</span><span class="nv"> </span><span class="s">CDE"</span>
 <span class="w">  </span><span class="p p-Indicator">},</span>
-<span class="w">  </span><span class="s">&quot;receiver&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">    </span><span class="s">&quot;siteName&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;Receiver</span><span class="nv"> </span><span class="s">Ltd&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;emailAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;receiver@test.com&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;phoneNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;01234567890&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">    </span><span class="s">&quot;authorisationNumber&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;PPC/A/9999999&quot;</span>
+<span class="w">  </span><span class="s">"receiver"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="s">"siteName"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"Receiver</span><span class="nv"> </span><span class="s">Ltd"</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">"emailAddress"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"receiver@test.com"</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">"phoneNumber"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"01234567890"</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">"authorisationNumber"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"PPC/A/9999999"</span>
 <span class="w">             </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="p p-Indicator">}</span><span class="err">,</span>
-<span class="w">    </span><span class="s">&quot;regulatoryPositionStatements&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">    </span><span class="s">"regulatoryPositionStatements"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
 <span class="w">      </span><span class="nv">123</span><span class="p p-Indicator">,</span>
 <span class="w">      </span><span class="nv">456</span>
 <span class="w">    </span><span class="p p-Indicator">]</span>
 <span class="w"> </span><span class="w w-Error"> </span><span class="p p-Indicator">{,</span>
-<span class="w">  </span><span class="s">&quot;receipt&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">    </span><span class="s">&quot;address&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
-<span class="w">      </span><span class="s">&quot;fullAddress&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;123</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">Street,</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">City&quot;</span><span class="p p-Indicator">,</span>
-<span class="w">      </span><span class="s">&quot;postcode&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;TC1</span><span class="nv"> </span><span class="s">2AB&quot;</span>
+<span class="w">  </span><span class="s">"receipt"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="s">"address"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">"fullAddress"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"123</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">Street,</span><span class="nv"> </span><span class="s">Test</span><span class="nv"> </span><span class="s">City"</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">"postcode"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"TC1</span><span class="nv"> </span><span class="s">2AB"</span>
 <span class="w">    </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="p p-Indicator">}</span>
 <span class="p p-Indicator">}</span>
@@ -1487,10 +1487,18 @@ A description of each of the fields contained in the <a href="../receipt-data-de
         });
 
         // 2. Empty form labels — add visually-hidden text to icon-only labels
+        function labelHasText(label) {
+          var clone = label.cloneNode(true);
+          var els = clone.querySelectorAll('svg, img, .md-icon, .visually-hidden');
+          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
+          return !!clone.textContent.trim();
+        }
+
         function addLabelText(selector, text) {
           document.querySelectorAll(selector).forEach(function (label) {
             if (label.getAttribute('aria-hidden') === 'true') return;
             if (label.querySelector('.visually-hidden')) return;
+            if (labelHasText(label)) return;
             var span = document.createElement('span');
             span.className = 'visually-hidden';
             span.textContent = text;
@@ -1514,6 +1522,7 @@ A description of each of the fields contained in the <a href="../receipt-data-de
         // Navigation section toggle labels
         document.querySelectorAll('label[for^="__nav"], label[for^="nav-"]').forEach(function (label) {
           if (label.querySelector('.visually-hidden')) return;
+          if (labelHasText(label)) return;
           var nav = label.closest('.md-nav__item');
           var link = nav ? nav.querySelector('.md-nav__link') : null;
           var text = link ? 'Toggle ' + link.textContent.trim() : 'Toggle section';
@@ -1527,15 +1536,11 @@ A description of each of the fields contained in the <a href="../receipt-data-de
         document.querySelectorAll('label[for]').forEach(function (label) {
           if (label.getAttribute('aria-hidden') === 'true') return;
           if (label.querySelector('.visually-hidden')) return;
-          var clone = label.cloneNode(true);
-          var els = clone.querySelectorAll('svg, img, .md-icon');
-          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
-          if (!clone.textContent.trim()) {
-            var span = document.createElement('span');
-            span.className = 'visually-hidden';
-            span.textContent = label.getAttribute('title') || 'Toggle';
-            label.appendChild(span);
-          }
+          if (labelHasText(label)) return;
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = label.getAttribute('title') || 'Toggle';
+          label.appendChild(span);
         });
 
         // Catch any inputs/selects without any label (missing form label)
@@ -1553,10 +1558,17 @@ A description of each of the fields contained in the <a href="../receipt-data-de
         // Skip labels already hidden from assistive technology (e.g. the
         // decorative .md-overlay) so the visible, functional control keeps its
         // label instead of being the one demoted to a span.
+        // Also skip Material's CSS-only toggles (.md-toggle), which are driven
+        // by two working labels by design — for a nav section, the open link
+        // and the drawer's back arrow both target the same checkbox — so
+        // demoting either breaks navigation at narrow widths. Those checkboxes
+        // are display:none, so AXE never reports them as multiply-labelled.
         var labelsByFor = {};
         document.querySelectorAll('label[for]').forEach(function (label) {
           if (label.getAttribute('aria-hidden') === 'true') return;
           var forId = label.getAttribute('for');
+          var target = document.getElementById(forId);
+          if (target && target.classList.contains('md-toggle')) return;
           if (!labelsByFor[forId]) labelsByFor[forId] = [];
           labelsByFor[forId].push(label);
         });
