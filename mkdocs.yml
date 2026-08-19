@@ -51,7 +51,7 @@ nav:
     - Welcome to the Receipt of Waste API: README.md
     - Register as a Software Provider: api-register-as-a-software-provider.md
     - Getting Started Guide: api-receipt-of-waste-getting-started-guide.md
-    #- Receipt of Waste Data Definitions: api-receipt-data-definitions.md
+    - Receipt of Waste Data Definitions: api-receipt-data-definitions.md
     - Authentication Guide: api-authentication-guide.md
     - Codes for testing and production: api-codes-for-testing-and-production.md
     - Production Approval Tests (PAT): api-production-approval-tests.md
