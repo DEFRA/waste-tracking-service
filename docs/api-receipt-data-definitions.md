@@ -39,8 +39,7 @@ They are a draft and may be updated to reflect changes to policy, legislation an
 | ----------------------------------------------------------------------------------------------------------- |  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Contains POPs (mandatory)                                               | Does the waste contai persistent organic pollutants (POPs) true or false.                                                            | 
 | POP code (mandatory)                                                                                                  | A code related to a POP chemical name, for example, END, HCBC, PCNS, SCCPS.                                                                                                                                                                                            
-| Source of Component (mandatory)          |How the POP component details were determined e.g. own testing, from guidance.  
-| 
+| Source of Component (mandatory)          |How the POP component details were determined e.g. own testing, from guidance.  |
 | POP concentration value  (optional)                                                                                    | The concentration of the POPS, mg per kg.  |
 
 ## Hazardous Waste Data
@@ -51,7 +50,7 @@ They are a draft and may be updated to reflect changes to policy, legislation an
 | Chemical or biological component name (mandatory)                                                                           | For example, Mercury.                                                                                                                                                                      |
 | Component concentration value (optional)                                                                              |  The concentration of the hazardous component, mg per kg.  For example, 30mg per kg.|
 
-## Disposal or Recovery Codes:
+## Disposal or Recovery Codes
 | Data field                                                                                                  |  Description                                                                                                                                                                                                                                                                              |
 | ----------------------------------------------------------------------------------------------------------- |  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                                                                    |
 | Disposal / recovery code (mandatory) |A code that determines the most appropriate treatment and recovery option for your waste. For each EWC code there must be at least one D or R code. |
