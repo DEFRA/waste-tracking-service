@@ -891,9 +891,12 @@
 
 <p><a class="md-button" href="../">← Back to Top</a></p>
 <h1 id="receipt-of-waste-data-definitions">Receipt of Waste - Data Definitions</h1>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p><strong><code>From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.</code></strong></p>
+</div>
 <p>Are you a waste receiver or software provider and want to get involved? <a href="api-software-developer-onboarding-process.md">Sign up for our Digital Waste Tracking Service</a></p>
-<p>These draft data definition tables describe the information we expect to be recorded by the future waste tracking service when a receiving site accepts or rejects waste.</p>
-<p>They are a draft and may be updated to reflect changes to policy, legislation and feedback received from those in the waste industry.</p>
+<p>These data definition tables describe the information we expect to be recorded by the waste tracking service when a receiving site accepts waste.</p>
 <h2 id="movement-details">Movement Details</h2>
 <table>
 <thead>
@@ -904,31 +907,31 @@
 </thead>
 <tbody>
 <tr>
-<td>API Code (mandatory)</td>
+<td>API Code</td>
 <td>The waste receiver's unique 6-digit code obtained during registration.</td>
 </tr>
 <tr>
-<td>Date/time received (mandatory)</td>
+<td>Date/time received</td>
 <td>This is the date and exact time waste was received at the site.</td>
 </tr>
 <tr>
-<td>Your unique reference ID (optional)</td>
+<td>Your unique reference ID</td>
 <td>For example, a weighbridge ticket number or waste transfer note number.</td>
 </tr>
 <tr>
-<td>Other references for movement (optional)</td>
+<td>Other references for movement</td>
 <td>Other references for this movement given by the receiver or others.</td>
 </tr>
 <tr>
-<td>Special handling requirements (optional)</td>
+<td>Special handling requirements</td>
 <td>Handling instructions for waste that has the potential to cause harm.</td>
 </tr>
 <tr>
-<td>Reasons for not having a consignment (conditional)</td>
+<td>Reasons for not having a consignment</td>
 <td>Reason for not providing a hazardous waste consignment code.</td>
 </tr>
 <tr>
-<td>Hazardous waste consignment code  (conditional)</td>
+<td>Hazardous waste consignment code</td>
 <td>Hazardous waste consignment code.</td>
 </tr>
 </tbody>
@@ -943,40 +946,36 @@
 </thead>
 <tbody>
 <tr>
-<td>EWC code (mandatory)</td>
+<td>EWC code</td>
 <td>A 6-digit code that classifies and describes the waste item, there could be multiple EWC codes for one item in certain scenarios</td>
 </tr>
 <tr>
-<td>Waste description (mandatory)</td>
+<td>Waste description</td>
 <td>A detailed description of the waste item, including physical characteristics, composition and if it’s potentially hazardous.</td>
 </tr>
 <tr>
-<td>Physical Form (mandatory)</td>
+<td>Physical Form</td>
 <td>For example, gas, liquid, solid, powder, sludge or mixed.</td>
 </tr>
 <tr>
-<td>Number of containers (mandatory)</td>
+<td>Number of containers</td>
 <td>Number of containers containing in the waste received</td>
 </tr>
 <tr>
-<td>Type of containers (mandatory)</td>
+<td>Type of containers</td>
 <td>The type of container containing the waste received. For example, large industrial skips.</td>
 </tr>
 <tr>
-<td>Weight - unit of measurement (mandatory)</td>
+<td>Weight - unit of measurement</td>
 <td>Weight unit of measurement (for example, kilograms, grams or tonnes)</td>
 </tr>
 <tr>
-<td>Weight - amount (mandatory)</td>
+<td>Weight - amount</td>
 <td>Weight of the waste item.</td>
 </tr>
 <tr>
-<td>Is the waste weight estimated? (mandatory)</td>
+<td>Is the waste weight estimated?</td>
 <td>Is the weight of the waste item estimated, true or false.</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -990,19 +989,19 @@
 </thead>
 <tbody>
 <tr>
-<td>Contains POPs (mandatory)</td>
-<td>Does the waste contai persistent organic pollutants (POPs) true or false.</td>
+<td>Contains POPs</td>
+<td>Does the waste contain persistent organic pollutants (POPs) true or false.</td>
 </tr>
 <tr>
-<td>POP code (mandatory)</td>
+<td>POP code</td>
 <td>A code related to a POP chemical name, for example, END, HCBC, PCNS, SCCPS.</td>
 </tr>
 <tr>
-<td>Source of Component (mandatory)</td>
+<td>Source of Component</td>
 <td>How the POP component details were determined e.g. own testing, from guidance.</td>
 </tr>
 <tr>
-<td>POP concentration value  (optional)</td>
+<td>POP concentration value</td>
 <td>The concentration of the POPS, mg per kg.</td>
 </tr>
 </tbody>
@@ -1017,19 +1016,19 @@
 </thead>
 <tbody>
 <tr>
-<td>Contains hazardous? (mandatory)</td>
+<td>Contains hazardous?</td>
 <td>Does the waste contain Hazardous components, true or false.</td>
 </tr>
 <tr>
-<td>Hazardous property codes (Haz code) (optional)</td>
+<td>Hazardous property codes (Haz code)</td>
 <td>A code used to classify hazardous waste, for example HP 1 (Explosive waste) or HP 2 (Oxidising waste).</td>
 </tr>
 <tr>
-<td>Chemical or biological component name (mandatory)</td>
+<td>Chemical or biological component name</td>
 <td>For example, Mercury.</td>
 </tr>
 <tr>
-<td>Component concentration value (optional)</td>
+<td>Component concentration value</td>
 <td>The concentration of the hazardous component, mg per kg.  For example, 30mg per kg.</td>
 </tr>
 </tbody>
@@ -1044,15 +1043,15 @@
 </thead>
 <tbody>
 <tr>
-<td>Disposal / recovery code (mandatory)</td>
+<td>Disposal / recovery code</td>
 <td>A code that determines the most appropriate treatment and recovery option for your waste. For each EWC code there must be at least one D or R code.</td>
 </tr>
 <tr>
-<td>Weight - unit of measurement (mandatory)</td>
+<td>Weight - unit of measurement</td>
 <td>Unit of measurement (Grams, kilograms or tonnes)</td>
 </tr>
 <tr>
-<td>Weight - amount (mandatory)</td>
+<td>Weight - amount</td>
 <td>Is the weight of waste covered by the disposal or recovery code estimated, true or false?</td>
 </tr>
 </tbody>
@@ -1071,27 +1070,27 @@
 <td>The registration number of the carrier delivering the waste movement.</td>
 </tr>
 <tr>
-<td>Reason for no Registration Number (conditional)</td>
+<td>Reason for no Registration Number</td>
 <td>Reason for not having the carrier registration number.</td>
 </tr>
 <tr>
-<td>Carrier organisation name  (mandatory)</td>
+<td>Carrier organisation name</td>
 <td>The organisation name of the carrier delivering the waste movement.</td>
 </tr>
 <tr>
-<td>Carrier address (optional)</td>
+<td>Carrier address</td>
 <td>The address of the carrier organisation delivering the waste movement.</td>
 </tr>
 <tr>
-<td>Carrier post code (mandatory)</td>
+<td>Carrier post code</td>
 <td>The postcode of the carrier organisation delivering the waste movement.</td>
 </tr>
 <tr>
-<td>Carrier contact email address (optional)</td>
+<td>Carrier contact email address</td>
 <td>The contact email address of the carrier organisation delivering the waste movement.</td>
 </tr>
 <tr>
-<td>Carrier contact phone number (optional)</td>
+<td>Carrier contact phone number</td>
 <td>The contact phone number of the carrier organisation delivering the waste movement.</td>
 </tr>
 <tr>
@@ -1099,7 +1098,7 @@
 <td>The registration number of the vehicle delivering the waste movement</td>
 </tr>
 <tr>
-<td>Means of transport (mandatory)</td>
+<td>Means of transport</td>
 <td>The method of transport used in delivering the waste movement, for example, road, rail, air or sea.</td>
 </tr>
 </tbody>
@@ -1114,27 +1113,27 @@
 </thead>
 <tbody>
 <tr>
-<td>Broker or dealer organisation name (mandatory)</td>
+<td>Broker or dealer organisation name</td>
 <td>The organisation name of the broker or dealer acting as the intermediary in arranging the waste movement.</td>
 </tr>
 <tr>
-<td>Broker or dealer address (optional)</td>
+<td>Broker or dealer address</td>
 <td>The address of the broker or dealer organisation acting as the intermediary in arranging the waste movement.</td>
 </tr>
 <tr>
-<td>Broker or dealer post code (mandatory)</td>
+<td>Broker or dealer post code</td>
 <td>The postcode of the broker or dealer organisation acting as the intermediary in arranging the waste movement.</td>
 </tr>
 <tr>
-<td>Broker or dealer email address (optional)</td>
+<td>Broker or dealer email address</td>
 <td>The contact email address of the broker or dealer organisation acting as the intermediary in arranging the waste movement.</td>
 </tr>
 <tr>
-<td>Broker or dealer phone number (optional)</td>
+<td>Broker or dealer phone number</td>
 <td>The contact phone number of the broker or dealer organisation acting as the intermediary in arranging the waste movement.</td>
 </tr>
 <tr>
-<td>Broker or dealer registration number (optional)</td>
+<td>Broker or dealer registration number</td>
 <td>The registration number of the broker or dealer organisation acting as the intermediary in arranging the waste movement.</td>
 </tr>
 </tbody>
@@ -1149,23 +1148,23 @@
 </thead>
 <tbody>
 <tr>
-<td>Receiver site name (mandatory)</td>
+<td>Receiver site name</td>
 <td>The name of the site receiving the waste movement.</td>
 </tr>
 <tr>
-<td>Receiver email address (optional)</td>
+<td>Receiver email address</td>
 <td>The contact email address of the site receiving the waste</td>
 </tr>
 <tr>
-<td>Receiver phone number (optional)</td>
+<td>Receiver phone number</td>
 <td>The contact phone number of the site receiving the waste movement.</td>
 </tr>
 <tr>
-<td>Receiver’s authorisation number (mandatory)</td>
+<td>Receiver’s authorisation number</td>
 <td>The permit number of the site receiving the waste allows a site to accept waste for recovery or disposal.</td>
 </tr>
 <tr>
-<td>Regulatory position statements (optional)</td>
+<td>Regulatory position statements</td>
 <td>The regulatory position statement appropriate for the site</td>
 </tr>
 </tbody>
@@ -1180,11 +1179,11 @@
 </thead>
 <tbody>
 <tr>
-<td>Receipt address (mandatory)</td>
+<td>Receipt address</td>
 <td>The address of the site receiving the waste movement.</td>
 </tr>
 <tr>
-<td>Receipt post code (mandatory)</td>
+<td>Receipt post code</td>
 <td>The postcode of the site receiving the waste movement</td>
 </tr>
 </tbody>
