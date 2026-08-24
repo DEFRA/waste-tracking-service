@@ -4,14 +4,15 @@
 
 This document explains what API Codes are and where to use them.
 
-## What are the Testing and Production API Codes?
+## What are the Production and Testing API Codes?
 
-The API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. 
+The production API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. It is a unique sixteen byte identifier for the receiving organisation. 
 
 [![API Code listed in API Specifaction](api-apiCode.png)](api-apiCode.png)
 ### Using the API Code
 - When software developers begin testing their software against the API, they need to provide a ["Dummy" Test Code](#dummy-test-codes).
-- Once developers have been granted access to the Receipt of Waste API production environment, the Defra Team will issue receivers with a <b>Production API Code</b>. This is passed to  software developers so that they can set up a working connection to the Receipt of Waste Production service.
+- Once developers have been granted access to the Receipt of Waste API production environment, the Defra Team will issue receivers with an initial <b>Production API Code</b>. This is passed to software developers so that they can set up a working connection to the Receipt of Waste Production service. An organisation can have one or more apiCode. Following receipt of the initial apiCode, the apiCodes for an organisation are produced and managed by that organisation. 
+
 
 ### API Code as used in a PUT or POST request
 
@@ -38,7 +39,7 @@ The API Code (apiCode) is a mandatory (uuid) field used in a Request Body (recei
       ... etc
 ```
 
-## Dummy Test Codes
+### Dummy Test Codes
 
 There are ten dummy codes to choose from (see below). There are no restrictions, developers can select any code from the list.
 ```code
@@ -62,9 +63,10 @@ There are ten dummy codes to choose from (see below). There are no restrictions,
 
 10. 75ff9140-8617-406e-9163-2ba4907e645b
 ```
-## Changelog
+
+### Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 API Codes](https://github.com/DEFRA/waste-tracking-service/wiki/API-Codes-for-Testing-and-Production) GitHub wiki page
 
 
-<br/>Page last updated on July 29th 2026.
+<br/>Page last updated on January 12th 2026.
