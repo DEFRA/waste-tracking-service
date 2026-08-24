@@ -38,7 +38,7 @@ paths:
         "201":
           description: Success- The waste movement has been stored.
           headers:
-            service-charge-expiry-date:
+            x-service-charge-expiry-date:
               $ref: "#/components/headers/serviceChargeExpiryDate"
           content:
             application/json:
@@ -79,8 +79,8 @@ paths:
         "200":
           description: The waste movement receipt has been updated.
           headers:
-            service-charge-expiry-date:
-              $ref: "#/components/headers/serviceChargeExpiryDate"
+            x-service-charge-expiry-date:
+              $ref: "#/components/headers/x-service-charge-expiry-date"
           content:
             application/json:
               schema:
@@ -383,7 +383,7 @@ paths:
                       example: Endosulfan
 components:
   headers: 
-    serviceChargeExpiryDate:
+    x-service-charge-expiry-date:
       description: The date and time when the service charge payment expires. The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
         UTC is the global time standard and does not observe daylight saving time.
         BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
