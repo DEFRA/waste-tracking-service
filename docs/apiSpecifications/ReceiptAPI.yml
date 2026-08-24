@@ -410,7 +410,7 @@ components:
               apiCode:
                 type: string
                 format: uuid
-                description: This is a unique sixteen byte identifier for the receiving organisation. The apiCodes for an organisation are produced and managed by that organisation. An organisation can have one or more apiCodes.
+                description: This is a unique sixteen byte identifier for the receiving organisation. An organisation can have one or more apiCodes. The apiCodes for an organisation are produced and managed by that organisation.
                 example: ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg
               dateTimeReceived:
                 type: string
