@@ -39,7 +39,7 @@ paths:
           description: Success- The waste movement has been stored.
           headers:
             x-dwt-service-charge-expiry-date:
-              $ref: "#/components/headers/x-service-charge-expiry-date"
+              $ref: "#/components/headers/x-dwt-service-charge-expiry-date"
           content:
             application/json:
               schema:
