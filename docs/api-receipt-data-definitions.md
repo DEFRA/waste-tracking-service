@@ -1,4 +1,3 @@
-[← Back to Top](README.md){ .md-button }
 
 # Receipt of Waste - Data Definitions
 
