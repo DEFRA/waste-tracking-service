@@ -1,7 +1,4 @@
 
-[← Back to Top](README.md){ .md-button }
-
-
 # Receipt of Waste - API Authentication Guide
 
 To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. 
