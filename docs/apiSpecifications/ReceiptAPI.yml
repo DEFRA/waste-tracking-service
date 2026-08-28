@@ -807,10 +807,19 @@ components:
           type: string
           enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
           description: |
-            This describes how the waste is transported (road, rail, air, sea, piped, inland waterway, other)
-            <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
+            This describes how the waste is transported from the carrier to the receiver. 
+            <b>Note:</b> The field is case-sensitive, please use the case specified in the list.
+            <ul>
+            <li><b> Road </li>
+            <li><b> Rail </li>
+            <li><b> Air </li>
+            <li><b> Sea </li>
+            <li><b> Inland Waterway </li>
+            <li><b> Piped </li>
+            <li><b> Other </li>
+            </ul>
             <p><font color="green"><b>Business Rule:</b></font></p> 
-            Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
+            Must be one of the specified values in the list.
           example: Rail
     brokerOrDealer:
       type: object
@@ -1116,4 +1125,4 @@ components:
               message:
                 type: string
                 description: details of why the request was rejected.
-                example: Payment for the service is required before the organisation can submit or update waste receipt records.           
+                example: Payment for the service is required before the organisation can submit or update waste receipt records.              
