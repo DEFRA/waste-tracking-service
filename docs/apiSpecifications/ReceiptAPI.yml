@@ -1125,4 +1125,4 @@ components:
               message:
                 type: string
                 description: details of why the request was rejected.
-                example: Payment for the service is required before the organisation can submit or update waste receipt records.              
+                example: Payment for the service is required before the organisation can submit or update waste receipt records.
