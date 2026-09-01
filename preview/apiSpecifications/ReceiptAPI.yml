@@ -38,8 +38,8 @@ paths:
         "201":
           description: Success- The waste movement has been stored.
           headers:
-            x-dwt-service-charge-expiry-date:
-              $ref: "#/components/headers/x-dwt-service-charge-expiry-date"
+            service-charge-expiry-date:
+              $ref: "#/components/headers/service-charge-expiry-date"
               description: The date and time when the service charge payment expires. 
                 The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
                 UTC is the global time standard and does not observe daylight saving time.
@@ -83,8 +83,8 @@ paths:
         "200":
           description: The waste movement receipt has been updated.
           headers:
-            x-dwt-service-charge-expiry-date:
-              $ref: "#/components/headers/x-dwt-service-charge-expiry-date"
+            service-charge-expiry-date:
+              $ref: "#/components/headers/service-charge-expiry-date"
               description: The date and time when the service charge payment expires. The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
                 UTC is the global time standard and does not observe daylight saving time.
                 BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
@@ -390,7 +390,7 @@ paths:
                       example: Endosulfan
 components:
   headers: 
-    x-dwt-service-charge-expiry-date:
+    service-charge-expiry-date:
       description: The date and time when the service charge payment expires. The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
         UTC is the global time standard and does not observe daylight saving time.
         BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
@@ -478,8 +478,8 @@ components:
                   <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
-                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.reasonForNoConsignmentCode is provided it must be either “NON_HAZ_WASTE_TRANSFER”, “NO_DOC_WITH_WASTE” or “HWRC_RECEIPT”. </li>
+                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided, then a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
+                  <li>If receiveMovementRequest.reasonForNoConsignmentCode is provided, then it must be one from the 'Reason Code' column in the table above</li>
                   </ul>
                 example: NO_DOC_WITH_WASTE
               yourUniqueReference:
@@ -807,10 +807,19 @@ components:
           type: string
           enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
           description: |
-            This describes how the waste is transported (road, rail, air, sea, piped, inland waterway, other)
-            <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
+            This describes how the waste is transported from the carrier to the receiver. 
+            <b>Note:</b> The field is case-sensitive, please use the case specified in the list.
+            <ul>
+            <li><b> Road </li>
+            <li><b> Rail </li>
+            <li><b> Air </li>
+            <li><b> Sea </li>
+            <li><b> Inland Waterway </li>
+            <li><b> Piped </li>
+            <li><b> Other </li>
+            </ul>
             <p><font color="green"><b>Business Rule:</b></font></p> 
-            Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
+            Must be one of the specified values in the list.
           example: Rail
     brokerOrDealer:
       type: object
