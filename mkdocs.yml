@@ -1,4 +1,4 @@
-site_name: Defra Digital Waste Tracking Developer Guide
+site_name: "PROTOTYPE Digital Waste Tracking: Software Developer Guide"
 site_url: https://defra.github.io/waste-tracking-service
 repo_url: https://github.com/DEFRA/waste-tracking-service
 remote_branch: gh-pages
@@ -11,7 +11,7 @@ theme:
     - announce.dismiss  
     - navigation.tabs
     - navigation.tabs.sticky
-    - navigation.indexes 
+    - navigation.indexes
     - content.code.copy
     - search.suggest
     - search.share
@@ -46,26 +46,28 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 nav:
-  - About Waste Tracking: 
-    - README.md
-    - storyboards.md
-    - use-cases.md
-    - initial-scope.md
-  - Phase 1 Receipt of Waste:
-    - api-landing-page.md
-    - receivers-process-diagram.md
-    - api-software-developer-onboarding-process.md
-    - api-specification.md
-    - receipt-data-definitions.md 
-    - api-authentication-guide.md
-    - api-codes-for-testing-and-production.md
-    - production-approval-tests.md
-    - api-testing-and-examples.md
-    - roadmap.md
-    - api-terms-of-service.md
-    - faq.md    
+  - Receipt of Waste:
+    - October Reporting Deadlines: api-reporting-deadlines.md
+    - Welcome to the Receipt of Waste API: README.md
+    - Register as a Software Provider: api-register-as-a-software-provider.md
+    - Getting Started Guide: api-receipt-of-waste-getting-started-guide.md
+    - Receipt of Waste Data Definitions: api-receipt-data-definitions.md
+    - Authentication Guide: api-authentication-guide.md
+    - Codes for testing and production: api-codes-for-testing-and-production.md
+    - Production Approval Tests (PAT): api-production-approval-tests.md
+    - Testing and examples: api-testing-and-examples.md
+    - Terms of service: api-terms-of-service.md
+    - FAQ: faq.md
+  - API:
+    - Receipt API Specification: api-specification.md
+    #- Collections API Specification: api-specification-collections.md
 extra_css:
   - stylesheets/extra.css
+  - https://unpkg.com/swagger-ui-dist/swagger-ui.css
+extra_javascript:
+  - swagger-initializer.js
+  - https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js
+  - https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js
 edit_uri: edit/main/docs/
 plugins:
   - material/search
@@ -85,8 +87,8 @@ markdown_extensions:
       toc_depth: 1
 extra:
   version:
-    provider: mike
-    default: production
+    # provider: mike
+    # default: production
   social:
     - icon: fontawesome/solid/paper-plane 
       link: mailto:wasteuserresearch@defra.gov.uk
@@ -105,5 +107,4 @@ extra:
 #    provider: google
 
 #    property: G-SKK1DY4NVV
-
 
