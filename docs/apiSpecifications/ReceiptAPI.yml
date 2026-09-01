@@ -478,8 +478,8 @@ components:
                   <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
-                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.reasonForNoConsignmentCode is provided it must be either “NON_HAZ_WASTE_TRANSFER”, “NO_DOC_WITH_WASTE” or “HWRC_RECEIPT”. </li>
+                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided, then a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
+                  <li>If receiveMovementRequest.reasonForNoConsignmentCode is provided, then it must be one from the 'Reason Code' column in the table above</li>
                   </ul>
                 example: NO_DOC_WITH_WASTE
               yourUniqueReference:
@@ -1125,4 +1125,4 @@ components:
               message:
                 type: string
                 description: details of why the request was rejected.
-                example: Payment for the service is required before the organisation can submit or update waste receipt records.
+                example: Payment for the service is required before the organisation can submit or update waste receipt records.           
