@@ -55,7 +55,7 @@ Receivers accept terms and conditions manually via email, after which they recei
 
 ### Changelog
 
-You can find the changelog for this document in the [Onboarding Software Developers](https://github.com/DEFRA/waste-tracking-service/wiki/Software-Developer-Onboarding-Process) GitHub wiki page
+You can find the changelog for this document in the [Sign-up as a Software Developer](https://github.com/DEFRA/waste-tracking-service/wiki/Software-Developer-Onboarding-Process) GitHub wiki page
 
 
 <br/>Page last updated on July 23rd 2026.
