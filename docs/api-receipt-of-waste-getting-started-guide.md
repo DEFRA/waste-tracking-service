@@ -276,6 +276,6 @@ This means that if a user bursts over 200 hits per second for a short time - thi
 
 ## Changelog
 
-You can find the changelog for this document in the [Receipt API v1.0 Landing Page](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog) GitHub wiki.
+You can find the changelog for this document in the [Receipt API v1.0 Getting Started Guide](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Getting-Started-Guide-Changelog) GitHub wiki.
 
-<br/>Page last updated on March 2nd 2026.
+<br/>Page last updated on September 2nd 2026.
