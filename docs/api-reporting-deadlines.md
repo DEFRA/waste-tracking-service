@@ -12,5 +12,5 @@ As a software provider you should ensure your software is ready for the required
 ## Key Steps to Integrate With the API:
 
 1. [Register as a software provider](README.md) for the Receipt of Waste API Service.
-2. Complete your [integration with the API](Receipt-API.md). You can also refer to the [API Getting Started Guide](api-receipt-of-waste-getting-started-guide.md).
+2. Complete your integration with the API, you can refer to the [API Getting Started Guide](api-receipt-of-waste-getting-started-guide.md).
 3. Complete your [PAT scenarios](api-production-approval-tests.md) and send the results to the DWT team to get access to production.
