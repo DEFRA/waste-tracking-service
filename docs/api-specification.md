@@ -3,7 +3,7 @@
     
 # Receipt of Waste - API Specification
 
-Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-software-developer-onboarding-process.md). 
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-register-as-a-software-provider.md). 
 
 These APIs are currently in Public Beta stage. They may be updated to reflect changes to policy, legislation and user feedback.
 
