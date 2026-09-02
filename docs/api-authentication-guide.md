@@ -1,7 +1,7 @@
-# Receipt of Waste - API Authentication Guide
-
 !!! info
     **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
+
+# Receipt of Waste - API Authentication Guide
 
 To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. 
 
