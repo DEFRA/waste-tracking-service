@@ -58,4 +58,4 @@ Receivers accept terms and conditions manually via email, after which they recei
 You can find the changelog for this document in the [Sign-up as a Software Developer](https://github.com/DEFRA/waste-tracking-service/wiki/Sign‐up-as-a-Software-Developer) GitHub wiki page
 
 
-<br/>Page last updated on July 23rd 2026.
+<br/>Page last updated on September 2nd 2026.
