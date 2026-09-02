@@ -1,8 +1,7 @@
-
-# October Deadline - What you need to do soon
-
 !!! info
     **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
+
+# October Deadline - What you need to do soon
     
 ## What the Reporting Deadlines Mean for Software Providers
 
