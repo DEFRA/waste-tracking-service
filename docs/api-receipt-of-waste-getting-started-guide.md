@@ -238,7 +238,7 @@ An example of a complete cURL Receive Waste API Request Body used by the POST an
   }
 }
 ```
-A description of each of the fields contained in the [API Specification.](api-receipt-data-definitions.md)
+A description of each of the fields contained in the [Data Definitions Page](api-receipt-data-definitions.md)
 ### Validating a Collection of Requests and Responses
 
 We have assembled a collection of [Bruno test scripts](api-testing-and-examples.md) to help you learn about working with the Receipt API. 
