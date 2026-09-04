@@ -1,6 +1,5 @@
-
-[← Back to Top](README.md){ .md-button }
-
+!!! info
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
 
 # Receipt of Waste - API Authentication Guide
 
@@ -66,7 +65,6 @@ Sequence Diagram for Authentication Flow
 </body>
 </html>
 
-
 ## What is the OAuth login URL for my API?
 
 ```code
@@ -75,7 +73,4 @@ Production: https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncogni
 Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com 
 ```
 
-## Changelog
-
-You can find the changelog for this document in the [Receipt API v1.0 Authentication Guide](https://github.com/DEFRA/waste-tracking-service/wiki/Authentication-Guide-Changelog) GitHub wiki.
 <br/>Page last updated on May 28th 2026.

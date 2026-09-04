@@ -1,9 +1,8 @@
-!!! Information
-    The Private Beta Phase has ended. The service is now in **Public Beta**
-
-# About digital waste tracking
-
-Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-software-developer-onboarding-process.md).
+!!! Important
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
+    
+# Register for the Digital Waste Tracking Service
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-register-as-a-software-provider.md).
 
 The Department for Environment, Food & Rural Affairs (Defra) intend to transform how data about waste movements is collected and shared with the regulators across all 4 UK nations. It will be mandatory for Waste Receivers to report waste they’ve received from October 2026\.
 
@@ -29,7 +28,7 @@ We are currently talking to the following groups of people to help us learn abou
 
 ### How to get involved
 
-We are inviting waste receivers to [join the Waste Tracking Service](api-software-developer-onboarding-process.md).
+We are inviting waste receivers to [join the Waste Tracking Service](api-register-as-a-software-provider.md).
 
 We are also planning further user research and other opportunities for people in the waste industry to give feedback and test the solutions we're looking to develop. To register interest in taking part, [sign up for the waste tracking user panel](https://defragroup.eu.qualtrics.com/jfe/form/SV_9QqfQNqEnI7ecDQ).<br>
 

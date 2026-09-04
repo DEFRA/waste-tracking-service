@@ -1,4 +1,5 @@
-[← Back to Top](README.md){ .md-button }
+!!! Important
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
 
 # Testing and Production API Codes
 
@@ -8,14 +9,13 @@ This document explains what API Codes are and where to use them.
 
 The production API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. It is a unique sixteen byte identifier for the receiving organisation. 
 
-[![API Code listed in API Specifaction](api-apiCode.png)](api-apiCode.png)
+[![API Code listed in API Specification](api-apiCode.png)](api-apiCode.png)
+
 ### Using the API Code
 - When software developers begin testing their software against the API, they need to provide a ["Dummy" Test Code](#dummy-test-codes).
 - Once developers have been granted access to the Receipt of Waste API production environment, the Defra Team will issue receivers with an initial <b>Production API Code</b>. This is passed to software developers so that they can set up a working connection to the Receipt of Waste Production service. An organisation can have one or more apiCode. Following receipt of the initial apiCode, the apiCodes for an organisation are produced and managed by that organisation. 
 
-
 ### API Code as used in a PUT or POST request
-
 
 ```json
 {
@@ -39,7 +39,7 @@ The production API Code (apiCode) is a mandatory (uuid) field used in a Request 
       ... etc
 ```
 
-### Dummy Test Codes
+#### Dummy Test Codes
 
 There are ten dummy codes to choose from (see below). There are no restrictions, developers can select any code from the list.
 ```code
@@ -63,10 +63,31 @@ There are ten dummy codes to choose from (see below). There are no restrictions,
 
 10. 75ff9140-8617-406e-9163-2ba4907e645b
 ```
+#### Dummy Code for error code 402 Unpaid Response
+
+To test the 402 error response for the `service charge payment expiry date`, a single dummy code is available to test in a POST or PUT request.
+
+```code
+a64f3f1a-f20b-4da2-8ff7-3b256dc77ce9
+```
+For example:
+
+```json
+{
+  "apiCode": "a64f3f1a-f20b-4da2-8ff7-3b256dc77ce9",
+  "dateTimeReceived": "2025-11-20T12:26:24.281Z",
+  "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE",
+  "wasteItems": [
+    {
+      "ewcCodes": [
+        "200121"
+      ],
+      ... etc
+```
 
 ### Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 API Codes](https://github.com/DEFRA/waste-tracking-service/wiki/API-Codes-for-Testing-and-Production) GitHub wiki page
 
 
-<br/>Page last updated on January 12th 2026.
+<br/>Page last updated on September 3rd 2026.

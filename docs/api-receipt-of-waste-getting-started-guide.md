@@ -1,0 +1,281 @@
+
+!!! Important
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
+
+# The Receipt of Waste API - Getting Started Guide
+
+## Introduction
+This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026. 
+
+## Receipt API Overview
+
+Click on the link for the latest version of the Receipt of Waste [API OAS Specification](../apiSpecifications/).
+
+### Receipt of Waste Process Flow
+
+[![receivers only](initial-scope-receivers-only.png)](initial-scope-receivers-only.png)
+
+## Getting Started 
+Work through these short sections on practical preparation and use of the API:
+
+- [Getting started](#getting-started)
+- [Authentication](#authentication)
+- [Making API Requests](#making-api-requests)
+- [Validating a Collection of Requests and Responses](#validating-a-collection-of-requests-and-responses)
+- [Getting help from the API support team](#getting-help-by-email)
+
+### Prerequisite Steps (Developers)
+
+To develop using the Receipt of Waste API, you must:
+
+- Be familiar with HTTP, RESTful services and JSON and OAuth.
+- Have received your client id and secret. These will be sent to the developer after signing up for the service.
+- Be familiar with the API's [terms of service](api-terms-of-service.md).
+
+These are the necessary steps:
+
+1. Developers need to [sign-up for the service](api-register-as-a-software-provider.md) using the on-boarding form. They will then be issued a client id and secret.
+
+2. Gain access to the test environment. The URL is shown below:
+   ```code
+   http://waste-tracking.integration.api.defra.gov.uk/
+   ```
+
+3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#authentication).
+
+
+4. To begin testing, you also need a Dummy API Code. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
+
+5. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](api-production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md). 
+
+      When you’ve completed developing and testing your integration, please [email](mailto:WasteTracking_Developers@defra.gov.uk) a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. See the support email links listed [below](#getting-help-by-email).
+
+6. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive a client ID and secret for the production environment. 
+
+You can now begin sending waste movements to the Waste Tracking Service.
+
+### Prerequisite Steps (Receivers)
+
+1. Waste Receivers need to [sign-up for the service](api-register-as-a-software-provider.md) using the on-boarding form.
+2. Accept the API Terms and Conditions.
+3. Get the [Production API Code](api-codes-for-testing-and-production.md). After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.
+
+### Authentication
+
+To start using the Receipt API, you need first to authenticate your access using your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token and make your first receipt of waste movement request. 
+
+For a more detailed description with code snippets, refer to this [authentication information](api-authentication-guide.md).
+
+## Making API requests
+
+Before sending any requests to the Receipt of Waste API, make sure that you are addressing the following points in your software:
+
+The base URLs of the test and production environments are as follows:
+
+```code 
+Test: http://waste-tracking.integration.api.defra.gov.uk/
+
+Production: http://waste-tracking.api.defra.gov.uk/
+```
+
+### What Makes up a Receive Waste Movement Request?
+
+A request starts with a command and a URL specifying the method and the API endpoint or server you want to interact with, in this case the Waste Tracking Service. An example is shown below.
+
+```curl
+curl --request POST \
+  --url http://waste-tracking.api.defra.gov.uk/
+  --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZ \
+  --header 'content-type: application/json' \
+  --data '{
+  "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
+  "dateTimeReceived": "2025-10-15T11:05:05.310Z",
+  "reasonForNoConsignmentCode": "Carrier did not provide documentation"
+```
+
+This is broken down as follows: 
+
+- The cURL command and URL
+
+```json
+curl --request POST \
+  --url http://waste-tracking.api.defra.gov.uk/
+```
+
+- The header information containing the Bearer Token and the content type
+
+```json
+ --header 'authorization: Bearer 
+ eyJraWQiOiJQYnJiZXZv
+ --header 'content-type: application/json' \
+```
+
+- The Request Body
+
+```json
+-- data '{
+  "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
+  "dateTimeReceived": "2025-10-15T11:05:05.310Z",
+  "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE"
+```
+
+The Request Body is the essential part of an API <b>POST</b> or <b>PUT</b> request, it contains important data fields that a waste receiver needs to report about a waste movement. 
+
+An example of a complete cURL Receive Waste API Request Body used by the POST and PUT methods is as follows:
+
+```yaml
+{
+  "apiCode": "ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg",
+  "dateTimeReceived": "UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00",
+  "hazardousWasteConsignmentCode": "CJ32LE/A0001",
+  "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE",
+  "yourUniqueReference": "wTBrdgAA020",
+  "otherReferencesForMovement": [
+    {
+      "label": "PO Number",
+      "reference": "PO-12345"
+    },
+    {
+      "label": "Waste Ticket",
+      "reference": "WT-67890"
+    },
+    {
+      "label": "Haulier Note",
+      "reference": "HN-11111"
+    }
+  ],
+  "specialHandlingRequirements": "The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.",
+  "wasteItems": [
+    {
+      "ewcCodes": [
+        200108,
+        150109
+      ],
+      "wasteDescription": "Basic mixed construction and demolition waste, this includes recyclable house bricks, gypsum plaster and slates.",
+      "physicalForm": "Sludge",
+      "numberOfContainers": 2,
+      "typeOfContainers": "SKI",
+      "weight": {
+        "metric": "Tonnes",
+        "amount": 150,
+        "isEstimate": true
+      },
+      "containsPops": true,
+      "pops": {
+        "sourceOfComponents": "PROVIDED_WITH_WASTE",
+        "components": [
+          {
+            "code": "PFHXS",
+            "concentration": 12.5
+          }
+        ]
+      },
+      "containsHazardous": true,
+      "hazardous": {
+        "sourceOfComponents": "PROVIDED_WITH_WASTE",
+        "hazCodes": [
+          "HP_5",
+          "HP_10"
+        ],
+        "components": [
+          {
+            "name": "lead",
+            "concentration": 25.5
+          }
+        ]
+      },
+      "disposalOrRecoveryCodes": [
+        {
+          "code": "\"R1\"\n",
+          "weight": {
+            "metric": "Tonnes",
+            "amount": 150,
+            "isEstimate": true
+          }
+        }
+      ]
+    }
+  ],
+  "carrier": {
+    "registrationNumber": "CBDL6",
+    "reasonForNoRegistrationNumber": "ON_SITE",
+    "organisationName": "Waste Carriers Lite Ltd",
+    "address": {
+      "fullAddress": "26a Oil Drum Lane, London, UK",
+      "postcode": "W12 7ZL"
+    },
+    "emailAddress": "mailbox@example.co.uk",
+    "phoneNumber": "020 4756 XXXX",
+    "vehicleRegistration": "RNT 493",
+    "meansOfTransport": "Rail"
+  },
+  "brokerOrDealer": {
+    "organisationName": "Waste Disposal Ltd",
+    "address": {
+      "fullAddress": "26a Oil Drum Lane, London, UK",
+      "postcode": "W12 7ZL"
+    },
+    "emailAddress": "mailbox@example.co.uk",
+    "phoneNumber": "020 4756 XXXX",
+    "registrationNumber": "CBDL6"
+  },
+  "receiver": {
+    "siteName": "string",
+    "emailAddress": "mailbox@example.co.uk",
+    "phoneNumber": "020 4756 XXXX",
+    "authorisationNumber": "EPR/DD2522BF",
+    "regulatoryPositionStatements": [
+      343,
+      456,
+      789
+    ]
+  },
+  "receipt": {
+    "address": {
+      "fullAddress": "26a Oil Drum Lane, London, UK",
+      "postcode": "W12 7ZL"
+    }
+  }
+}
+```
+A description of each of the fields contained in the [Data Definitions Page](api-receipt-data-definitions.md)
+### Validating a Collection of Requests and Responses
+
+We have assembled a collection of [Bruno test scripts](api-testing-and-examples.md) to help you learn about working with the Receipt API. 
+
+## Error Responses
+
+A detailed description of the error responses for this API can be found in the [Receipt API v1.0 Reference Guide](../apiSpecifications/).
+
+## Service Rate Limits
+
+200 hits per second soft limit.
+ 
+This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving 
+**Rate Limit Exceeded** 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.
+
+## Related API Documentation
+[Receipt of Waste - API v1.0 Reference Guide](../apiSpecifications/)
+
+[Receipt of Waste - API Production Approval Tests](api-production-approval-tests.md)
+
+[Receipt of Waste Policy Website](https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service)
+
+[Receipt of Waste API Data Definitions](api-receipt-data-definitions.md)
+
+[FAQs](faq.md)
+
+
+## Getting help by email
+
+- For developers: <font color="blue"><b>WasteTracking_Developers@defra.gov.uk</b></font>
+
+- For receivers: <font color="blue"><b>WasteTracking_Testing@defra.gov.uk</b></font>
+
+- All users can also post questions/comments in our discussions forum using this link <a href="https://github.com/DEFRA/waste-tracking-service/discussions"></a>.
+
+## Changelog
+
+You can find the changelog for this document in the [Receipt API v1.0 Getting Started Guide](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Getting-Started-Guide-Changelog) GitHub wiki.
+
+<br/>Page last updated on September 2nd 2026.

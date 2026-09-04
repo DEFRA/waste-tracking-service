@@ -1,4 +1,4 @@
-[← Back to Top](README.md){ .md-button }
+[← Back](README.md){ .md-button }
 
 # Accessibility Statement
 This accessibility statement applies to the Digital Waste Tracking API documentation website, available at https://defra.github.io/waste-tracking-service/production

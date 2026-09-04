@@ -1,13 +1,13 @@
-[← Back to Top](README.md){ .md-button }
 
-# Software Developer Onboarding Process
+!!! Important
+    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
 
-## This document outlines the steps involved in the API software developer onboarding process. 
+# Sign up as a Software Provider for the Receipt of Waste API Service
 
-[![Steps involved in onboarding software developers](api-software_developer_onboarding_steps.png)](api-software_developer_onboarding_steps.png)
+## Background
+From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the Report Receipt of Waste Service. In Northern Ireland and Scotland, this comes into effect on 1 January 2027. To enable software developers to integrate with the service and its API, this site provides comprehensive software developer documentation.
 
-### Follow the steps in the above diagram with the following corresponding steps:
-
+## Process
 ### 1. Register for the Receipt of Waste (RoW) API Service
 The sign-up link for registration is available from our [qualtrics survey pages](https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U). See the button below.
 
@@ -27,7 +27,7 @@ Developers can use the available GET reference data endpoints to retrieve necess
 
 ### 4. Execute the Production Approval Test (PAT) Scenarios
 
-Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. Refer to the [Production Approval Tests](production-approval-tests.md). 
+Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. Refer to the [Production Approval Tests](api-production-approval-tests.md). 
 
 These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.
 
