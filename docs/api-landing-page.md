@@ -143,7 +143,7 @@ curl --request POST \
   --data '{
   "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
-  "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE"
+      "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE"
 ```
 
 This is broken down as follows: 
