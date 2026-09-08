@@ -10,6 +10,7 @@ info:
      <ul>
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
+     <li><p>This API <font color="green"><b>POST</b></font> method is used to submit one or more Production Approval Tests (PAT) scenarioes for validation. It returns a 200 response with the validation results for each scenario submitted. <b> Note: </b>This endpoint is available in the Ext-Test environment only and is <b>not available in Production</b>.</p></li>
      <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
      <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of Hazardous Property Codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
@@ -105,7 +106,52 @@ paths:
         "402":
           $ref: "#/components/responses/402"          
         "404":
-          description: Movement not found. The waste tracking ID used is not correct.
+          description: Movement not found. The waste tracking ID used is not correct.   
+  /production-approval-tests:
+    post:
+       description:
+         Endpoint used to to submit one or more Production Approval Tests (PAT) scenarioes for validation. It returns a 200 response with the validation results for each scenario submitted.  
+         This endpoint is available in the Ext-Test environment only and is not available in Production.
+       requestBody:  
+         required: true
+         content:
+           application/json:
+             schema:
+               type: array
+               minItems: 1
+               items:
+                 type: object
+                 required:
+                  - scenarioId
+                  - wasteTrackingId
+                 properties:
+                   scenarioId:
+                     type: string
+                     enum:
+                       - R01
+                       - R02
+                       - R03
+                       - R04
+                       - R05
+                       - R07
+                       - C01
+                       - C02
+                       - B01
+                       - P01
+                       - H01
+                       - H03
+                       - X01
+                     description: The name of the Production Approval Test scenario being submitted for validation. This is used to identify the scenario in the response.
+                     example: R01
+                   wasteTrackingId:
+                     type: string
+                     description: The waste tracking ID associated with the    scenario.
+                     example: 25HRA0B2
+       responses:
+         '200': 
+           description: Production Approval Tests processed successfully.
+         '400':
+          description: Validation error.
   /reference-data/ewc-codes:
     get:
       description: |
