@@ -1,8 +1,4 @@
-
-!!! Important
-    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
-
-# The Receipt of Waste API - Getting Started Guide
+# The Receipt of Waste API - Getting Started Developer Guide
 
 ## Introduction
 This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026. 
