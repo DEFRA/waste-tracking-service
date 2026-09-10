@@ -48,7 +48,7 @@ theme:
 nav:
   - Receipt of Waste:
     - Welcome to the Receipt of Waste API: README.md
-    - Register as a Software Provider: api-register-as-a-software-provider.md
+    - Register and Onboard as a Software Provider: api-register-as-a-software-provider.md
     - Getting Started Developer Guide: api-receipt-of-waste-getting-started-guide.md
     - Receipt of Waste Data Definitions: api-receipt-data-definitions.md
     - Authentication Guide: api-authentication-guide.md
