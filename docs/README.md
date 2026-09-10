@@ -37,4 +37,4 @@ Timelines for the Digital Waste Tracking Project are available [here](https://ww
 
 You can find the changelog for this document in the [Receipt API v1.0 README](https://github.com/DEFRA/waste-tracking-service/wiki/README-Changelog) GitHub wiki.<br>
 
-<br/>Page last updated on January 14th 2026.
+<br/>Page last updated on September 10th 2026.
