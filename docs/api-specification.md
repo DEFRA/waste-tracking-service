@@ -1,6 +1,3 @@
-!!! info
-    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally, using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
-    
 # Receipt of Waste - API Specification
 
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-register-as-a-software-provider.md). 
@@ -18,12 +15,12 @@ The swagger specification is published on the Swagger API hub:
 
 - [receipt of waste API specification](../apiSpecifications/)
 
-[![image](defra-spec.png)](defra-spec.png)
+- [![image](defra-spec.png)](defra-spec.png)
 
 ## API Change Log
 The following page lists all of the changes to the API specification since it was first published:
 
 - [receipt of waste API change log](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog)
 
-<br/>Page last updated on April 10th 2026.
+<br/>Page last updated on September 10th 2026.
 
