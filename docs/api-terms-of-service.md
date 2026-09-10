@@ -1,5 +1,3 @@
-!!! Important
-    **`From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the report receipt of waste service. In Northern Ireland and Scotland this comes into effect on 1 January 2027.`**
 # Digital Waste Tracking API Terms Of Service
 
 ## Terms of Service for Software Services Integrating with the Digital Waste Tracking Receipt of Waste API
@@ -19,8 +17,6 @@ The DWT API is designed to support the UK’s transition to a circular economy a
 - Only authorised users may access the production API environment; access to the sandbox environment is available for testing.
 
 - Before accessing the production API environment, software developers are expected to review the technical documentation in full to ensure that you have integrated as per the technical specification. 
-
-
 
 ### Software Developers' Responsibilities
 
@@ -130,16 +126,10 @@ As a software developer or operator of a service consuming the Defra Digital Was
 
     You are encouraged to take responsibility for keeping your users and customers up to date with your implementation timescales and progress to aid their planning and adoption. 
 
-### Reference Material
-
-Terms of use -[Defra API Developer Portal - GOV.UK](https://developer-portal.trade.defra.gov.uk/documentation/terms-of-use)
-
-Also HMRC Terms Of Use - [HMRC Developer Hub - GOV.UK](https://developer.service.hmrc.gov.uk/api-documentation/docs/terms-of-use#introduction)<br><br>
-
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Terms of Service](https://github.com/DEFRA/waste-tracking-service/wiki/Terms-of-Service-Changelog) GitHub wiki.
 
 
-Page last updated on April 27th 2026
+Page last updated on  September 10th 2026
 
