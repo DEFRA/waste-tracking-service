@@ -1,7 +1,3 @@
-
-[← Back to Top](README.md){ .md-button }
-
-
 # Receipt of Waste - API Authentication Guide
 
 To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. 
@@ -66,7 +62,6 @@ Sequence Diagram for Authentication Flow
 </body>
 </html>
 
-
 ## What is the OAuth login URL for my API?
 
 ```code
@@ -75,7 +70,4 @@ Production: https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncogni
 Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com 
 ```
 
-## Changelog
-
-You can find the changelog for this document in the [Receipt API v1.0 Authentication Guide](https://github.com/DEFRA/waste-tracking-service/wiki/Authentication-Guide-Changelog) GitHub wiki.
 <br/>Page last updated on May 28th 2026.

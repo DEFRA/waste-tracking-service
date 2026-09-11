@@ -1,5 +1,3 @@
-[← Back to Top](README.md){ .md-button }
-
 # Testing and Production API Codes
 
 This document explains what API Codes are and where to use them.

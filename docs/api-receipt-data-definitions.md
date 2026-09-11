@@ -1,10 +1,10 @@
-[← Back to Top](README.md){ .md-button }
-
 # Receipt of Waste - Data Definitions
 
-Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-software-developer-onboarding-process.md)
+Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](README.md)
 
-These data definition tables describe the information we expect to be recorded by the waste tracking service when a receiving site accepts waste.
+These draft data definition tables describe the information we expect to be recorded by the future waste tracking service when a receiving site accepts or rejects waste.
+
+They are a draft and may be updated to reflect changes to policy, legislation and feedback received from those in the waste industry.
 
 
 ## Movement Details 

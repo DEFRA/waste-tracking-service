@@ -1,5 +1,3 @@
-[← Back to Top](README.md){ .md-button }
-
 # Receipt of Waste API - Frequently asked questions (FAQs)
 
 | Topic                 | Question                                             | Answer                                                                                                                                                           |
