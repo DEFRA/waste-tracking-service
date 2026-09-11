@@ -1014,13 +1014,13 @@
 <p><a class="md-button" href="../">← Back to Top</a></p>
 <h1 id="testing-and-production-api-codes">Testing and Production API Codes</h1>
 <p>This document explains what API Codes are and where to use them.</p>
-<h2 id="what-are-the-testing-and-production-api-codes">What are the Testing and Production API Codes?</h2>
-<p>The API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. </p>
-<p><a href="../api-apiCode.png"><img alt="API Code listed in API Specifaction" src="../api-apiCode.png" /></a></p>
+<h2 id="what-are-the-production-and-testing-api-codes">What are the Production and Testing API Codes?</h2>
+<p>The production API Code (apiCode) is a mandatory (uuid) field used in a Request Body (receiveMovementRequest) of the Receipt API POST or PUT request. It is a unique sixteen byte identifier for the receiving organisation. </p>
+<p><a href="../api-apiCode.png"><img alt="API Code listed in API Specification" src="../api-apiCode.png" /></a></p>
 <h3 id="using-the-api-code">Using the API Code</h3>
 <ul>
 <li>When software developers begin testing their software against the API, they need to provide a <a href="#dummy-test-codes">"Dummy" Test Code</a>.</li>
-<li>Once developers have been granted access to the Receipt of Waste API production environment, the Defra Team will issue receivers with a <b>Production API Code</b>. This is passed to  software developers so that they can set up a working connection to the Receipt of Waste Production service.</li>
+<li>Once developers have been granted access to the Receipt of Waste API production environment, the Defra Team will issue receivers with an initial <b>Production API Code</b>. This is passed to software developers so that they can set up a working connection to the Receipt of Waste Production service. An organisation can have one or more apiCode. Following receipt of the initial apiCode, the apiCodes for an organisation are produced and managed by that organisation. </li>
 </ul>
 <h3 id="api-code-as-used-in-a-put-or-post-request">API Code as used in a PUT or POST request</h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
@@ -1043,7 +1043,7 @@
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="err">...</span><span class="w"> </span><span class="err">e</span><span class="kc">t</span><span class="err">c</span>
 </code></pre></div>
-<h2 id="dummy-test-codes">Dummy Test Codes</h2>
+<h4 id="dummy-test-codes">Dummy Test Codes</h4>
 <p>There are ten dummy codes to choose from (see below). There are no restrictions, developers can select any code from the list.
 <div class="highlight"><pre><span></span><code>1. 1f83215e-4b90-4785-9ab2-2614839aa2e9
 
@@ -1065,9 +1065,25 @@
 
 10. 75ff9140-8617-406e-9163-2ba4907e645b
 </code></pre></div></p>
-<h2 id="changelog">Changelog</h2>
+<h4 id="dummy-code-for-error-code-402-unpaid-response">Dummy Code for error code 402 Unpaid Response</h4>
+<p>To test the 402 error response for the <code>service charge payment expiry date</code>, a single dummy code is available to test in a POST or PUT request.</p>
+<p><div class="highlight"><pre><span></span><code>a64f3f1a-f20b-4da2-8ff7-3b256dc77ce9
+</code></pre></div>
+For example:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"apiCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a64f3f1a-f20b-4da2-8ff7-3b256dc77ce9"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"dateTimeReceived"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-11-20T12:26:24.281Z"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"reasonForNoConsignmentCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NO_DOC_WITH_WASTE"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"wasteItems"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"ewcCodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"200121"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="err">...</span><span class="w"> </span><span class="err">e</span><span class="kc">t</span><span class="err">c</span>
+</code></pre></div>
+<h3 id="changelog">Changelog</h3>
 <p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/API-Codes-for-Testing-and-Production">Receipt API v1.0 API Codes</a> GitHub wiki page</p>
-<p><br/>Page last updated on July 29th 2026.</p>
+<p><br/>Page last updated on September 3rd 2026.</p>
 
 
 

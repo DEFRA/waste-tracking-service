@@ -39,7 +39,11 @@ paths:
           description: Success- The waste movement has been stored.
           headers:
             service-charge-expiry-date:
-              $ref: "#/components/headers/serviceChargeExpiryDate"
+              $ref: "#/components/headers/service-charge-expiry-date"
+              description: The date and time when the service charge payment expires. 
+                The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
+                UTC is the global time standard and does not observe daylight saving time.
+                BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
           content:
             application/json:
               schema:
@@ -80,7 +84,10 @@ paths:
           description: The waste movement receipt has been updated.
           headers:
             service-charge-expiry-date:
-              $ref: "#/components/headers/serviceChargeExpiryDate"
+              $ref: "#/components/headers/service-charge-expiry-date"
+              description: The date and time when the service charge payment expires. The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
+                UTC is the global time standard and does not observe daylight saving time.
+                BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
           content:
             application/json:
               schema:
@@ -383,7 +390,7 @@ paths:
                       example: Endosulfan
 components:
   headers: 
-    serviceChargeExpiryDate:
+    service-charge-expiry-date:
       description: The date and time when the service charge payment expires. The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
         UTC is the global time standard and does not observe daylight saving time.
         BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
@@ -410,7 +417,7 @@ components:
               apiCode:
                 type: string
                 format: uuid
-                description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service.
+                description: This is a unique sixteen byte identifier for the receiving organisation. An organisation can have one or more apiCodes. The apiCodes for an organisation are produced and managed by that organisation.
                 example: ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg
               dateTimeReceived:
                 type: string
@@ -471,8 +478,8 @@ components:
                   <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
                   <p><font color="green"><b>Business Rules:</b></font></p> 
                   <ul>
-                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
-                  <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “NON_HAZ_WASTE_TRANSFER”, “NO_DOC_WITH_WASTE” or “HWRC_RECEIPT”. </li>
+                  <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided, then a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
+                  <li>If receiveMovementRequest.reasonForNoConsignmentCode is provided, then it must be one from the 'Reason Code' column in the table above</li>
                   </ul>
                 example: NO_DOC_WITH_WASTE
               yourUniqueReference:
@@ -800,10 +807,19 @@ components:
           type: string
           enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
           description: |
-            This describes how the waste is transported (road, rail, air, sea, piped, inland waterway, other)
-            <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
+            This describes how the waste is transported from the carrier to the receiver. 
+            <b>Note:</b> The field is case-sensitive, please use the case specified in the list.
+            <ul>
+            <li><b> Road </li>
+            <li><b> Rail </li>
+            <li><b> Air </li>
+            <li><b> Sea </li>
+            <li><b> Inland Waterway </li>
+            <li><b> Piped </li>
+            <li><b> Other </li>
+            </ul>
             <p><font color="green"><b>Business Rule:</b></font></p> 
-            Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
+            Must be one of the specified values in the list.
           example: Rail
     brokerOrDealer:
       type: object
@@ -873,7 +889,11 @@ components:
               <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
               <p><font color="blue"><b>England:</b></font></p>
               <ul>
-                <li>EAWML99999, WML99999, EAWML999999, WML999999, EXX9999XX, EPR/XX9999XX, XX9999XX/D9999, EPR/XX9999XX/D9999 (the last two example authorisation number formats with D’s represent permit numbers with mobile deployments)</li>
+                <li>EAWML99999, WML99999, EAWML999999, WML999999, EPR/XX9999XX</li>
+              </ul>
+              For Mobile Deployments, D’s prefix deployment numbers as part of permit numbers:
+              <ul>
+                <li>XX9999XX/D9999, XX9999XX/D99999, EPR/XX9999XX/D9999, EPR/XX9999XX/D99999S</li>
               </ul>
               <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
               <ul>
