@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/preview/api-landing-page/">
+        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/preview/api-receipt-of-waste-getting-started-guide/">
       
       
-        <link rel="prev" href="../initial-scope/">
+        <link rel="prev" href="../api-register-as-a-software-provider/">
       
       
-        <link rel="next" href="../receivers-process-diagram/">
+        <link rel="next" href="../api-receipt-data-definitions/">
       
       
         
@@ -25,7 +25,7 @@
     
     
       
-        <title>Introduction to Phase 1 the Receipt of Waste API - Defra Digital Waste Tracking Developer Guide</title>
+        <title>Getting Started Developer Guide - Defra Digital Waste Tracking Developer Guide</title>
       
     
     
@@ -119,6 +119,8 @@
     
       <link rel="stylesheet" href="../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -144,7 +146,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-phase-1-receipt-of-waste-api" class="md-skip">
+        <a href="#the-receipt-of-waste-api-getting-started-developer-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -152,10 +154,6 @@
     <div data-md-component="announce">
       
     </div>
-    
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-      </div>
     
     
       
@@ -183,7 +181,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction to Phase 1 the Receipt of Waste API
+              Getting Started Developer Guide
             
           </span>
         </div>
@@ -293,17 +291,19 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href=".." class="md-tabs__link">
           
   
   
     
   
-  About Waste Tracking
+  Receipt of Waste
 
         </a>
       </li>
@@ -315,19 +315,17 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../api-specification/" class="md-tabs__link">
           
   
   
     
   
-  Phase 1 Receipt of Waste
+  API
 
         </a>
       </li>
@@ -391,6 +389,8 @@
       
   
   
+    
+  
   
   
     
@@ -398,172 +398,6 @@
       
         
           
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href=".." class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    About Waste Tracking
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    About Waste Tracking
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storyboards/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Storyboards
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../use-cases/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Use cases
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../initial-scope/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Initial scope
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
         
       
         
@@ -598,17 +432,18 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href=".." class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
     
   
-    Phase 1 Receipt of Waste
+    Receipt of Waste
   
 
     
@@ -616,19 +451,55 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Phase 1 Receipt of Waste
+    Receipt of Waste
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-register-as-a-software-provider/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Register and Onboard as a Software Provider
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -653,7 +524,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction to Phase 1 the Receipt of Waste API
+    Getting Started Developer Guide
   
 
     
@@ -675,98 +546,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../receivers-process-diagram/" class="md-nav__link">
+      <a href="../api-receipt-data-definitions/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Receivers process diagram
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-software-developer-onboarding-process/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api software developer onboarding process
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-specification/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api specification
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../receipt-data-definitions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Receipt data definitions
+    Receipt of Waste Data Definitions
   
 
     
@@ -794,7 +581,7 @@
   <span class="md-ellipsis">
     
   
-    Api authentication guide
+    Authentication Guide
   
 
     
@@ -822,7 +609,7 @@
   <span class="md-ellipsis">
     
   
-    Api codes for testing and production
+    Codes for testing and production
   
 
     
@@ -843,14 +630,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../production-approval-tests/" class="md-nav__link">
+      <a href="../api-production-approval-tests/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Production approval tests
+    Production Approval Tests (PAT)
   
 
     
@@ -878,35 +665,7 @@
   <span class="md-ellipsis">
     
   
-    Api testing and examples
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../roadmap/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Roadmap
+    Testing and examples
   
 
     
@@ -934,7 +693,7 @@
   <span class="md-ellipsis">
     
   
-    Api terms of service
+    Terms of service
   
 
     
@@ -962,7 +721,96 @@
   <span class="md-ellipsis">
     
   
-    Faq
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-specification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Receipt API Specification
   
 
     
@@ -1004,82 +852,20 @@
     
       
     
-    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-landing-page.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-receipt-of-waste-getting-started-guide.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<div class="admonition information">
-<p class="admonition-title">Information</p>
-<p>The Private Beta Phase has ended. The service is now in <strong>Public Beta</strong></p>
-</div>
-<p><a class="md-button" href="../">← Back to Top</a></p>
-<p>Version 1.1 issued April 10th 2026</p>
-<h1 id="welcome-to-phase-1-receipt-of-waste-api">Welcome to Phase 1 - Receipt of Waste API</h1>
+<h1 id="the-receipt-of-waste-api-getting-started-developer-guide">The Receipt of Waste API - Getting Started Developer Guide</h1>
 <h2 id="introduction">Introduction</h2>
-<p>This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026.</p>
-<p><strong>Note:</strong> During this document's life-time some of the existing features of the API might be enhanced. You should periodically review the Waste Tracking Service (DWT) Receipt API <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog">Changelog</a>.</p>
+<p>This page introduces waste receivers, software developers and third party software providers to the Waste Tracking Service (DWT) Receipt API. Using this page, receivers and developers can get started with the digital processes involved in reporting details of each waste movement arriving at their site. This will be mandatory from October 2026. </p>
 <h2 id="receipt-api-overview">Receipt API Overview</h2>
 <p>Click on the link for the latest version of the Receipt of Waste <a href="../apiSpecifications/">API OAS Specification</a>.</p>
 <h3 id="receipt-of-waste-process-flow">Receipt of Waste Process Flow</h3>
 <p><a href="../initial-scope-receivers-only.png"><img alt="receivers only" src="../initial-scope-receivers-only.png" /></a></p>
-<p>The API is based on REST principles and currently has seven endpoints. They return data in JSON format and use standard HTTP error response codes, see the table below.</p>
-<table>
-<thead>
-<tr>
-<th>Endpoint</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>POST</b></td>
-<td>is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</td>
-</tr>
-<tr>
-<td><b>PUT</b></td>
-<td>is used to update a waste tracking record using a waste tracking ID query parameter to identify the movement. It returns a validation result.</td>
-</tr>
-<tr>
-<td><b>GET</b></td>
-<td>is used to retrieve a list of European Waste Codes (EWC).</td>
-</tr>
-<tr>
-<td><b>GET</b></td>
-<td>is used to retrieve a list of hazardous waste codes (called Special Waste Codes in Scotland).</td>
-</tr>
-<tr>
-<td><b>GET</b></td>
-<td>is used to retrieve a list of Disposal or Recovery codes.</td>
-</tr>
-<tr>
-<td><b>GET</b></td>
-<td>is used to retrieve a list of Container Types.</td>
-</tr>
-<tr>
-<td><b>GET</b></td>
-<td>is used to retrieve a list of Waste POP Codes.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Note:</strong> At present the API endpoints relate only to Great Britain and Northern Ireland.</p>
-<h2 id="api-status">API Status</h2>
-<p>This version of the Receipt of Waste API:</p>
-<ul>
-<li>supports <strong>only</strong> the API v1.0 Receipt of Waste API for Public Beta customers.</li>
-<li>click on this link to see a <a href="../roadmap/">roadmap to the Receipt API</a>.</li>
-</ul>
-<h2 id="related-api-documentation">Related API Documentation</h2>
-<p><a href="../apiSpecifications/">Receipt of Waste - API v1.0 Reference Guide</a></p>
-<p><a href="../production-approval-tests/">Receipt of Waste - API Production Approval Tests</a></p>
-<p><a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service">Receipt of Waste Policy Website</a></p>
-<p><a href="../roadmap/">Receipt of Waste Roadmap</a></p>
-<p><a href="../receipt-data-definitions/">Receipt of Waste API Data Definitions</a></p>
-<p><a href="../use-cases/">Use Cases</a></p>
-<p><a href="../">API README</a></p>
-<p><a href="../faq/">FAQs</a></p>
 <h2 id="getting-started">Getting Started</h2>
 <p>Work through these short sections on practical preparation and use of the API:</p>
 <ul>
@@ -1099,7 +885,7 @@
 <p>These are the necessary steps:</p>
 <ol>
 <li>
-<p>Developers need to <a href="../api-software-developer-onboarding-process/">sign-up for the service</a> using the on-boarding form. They will then be issued a client id and secret.</p>
+<p>Developers need to <a href="../api-register-as-a-software-provider/">sign-up for the service</a> using the on-boarding form. They will then be issued a client id and secret.</p>
 </li>
 <li>
 <p>Gain access to the test environment. The URL is shown below:
@@ -1113,7 +899,7 @@
 <p>To begin testing, you also need a Dummy API Code. See <a href="../api-codes-for-testing-and-production/#dummy-test-codes">API Codes for Testing and Production</a>.</p>
 </li>
 <li>
-<p>Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have <a href="../production-approval-tests/">implemented the specification in its entirety</a>. Ensure that all scenarios have been implemented. Some useful test scripts can <a href="../api-testing-and-examples/">be found here</a>. </p>
+<p>Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have <a href="../api-production-approval-tests/">implemented the specification in its entirety</a>. Ensure that all scenarios have been implemented. Some useful test scripts can <a href="../api-testing-and-examples/">be found here</a>. </p>
 <p>When you’ve completed developing and testing your integration, please <a href="mailto:WasteTracking_Developers@defra.gov.uk">email</a> a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. See the support email links listed <a href="#getting-help-by-email">below</a>.</p>
 </li>
 <li>
@@ -1123,7 +909,7 @@
 <p>You can now begin sending waste movements to the Waste Tracking Service.</p>
 <h3 id="prerequisite-steps-receivers">Prerequisite Steps (Receivers)</h3>
 <ol>
-<li>Waste Receivers need to <a href="../api-software-developer-onboarding-process/">sign-up for the service</a> using the on-boarding form.</li>
+<li>Waste Receivers need to <a href="../api-register-as-a-software-provider/">sign-up for the service</a> using the on-boarding form.</li>
 <li>Accept the API Terms and Conditions.</li>
 <li>Get the <a href="../api-codes-for-testing-and-production/">Production API Code</a>. After successfully completing the on-boarding programme, an API Code will be issued to the Receivers and from them, to their Software Vendors who store them and then set up the connection to the Waste Tracking Service. This code uniquely identifies your organization within the Digital Waste Tracking service.</li>
 </ol>
@@ -1146,7 +932,7 @@ Production: http://waste-tracking.api.defra.gov.uk/
   --data '{
   "apiCode": "b74cbf3c-e9e2-43f3-bd6b-009d37a8d677",
   "dateTimeReceived": "2025-10-15T11:05:05.310Z",
-      "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE"
+  "reasonForNoConsignmentCode": "NO_DOC_WITH_WASTE"
 </code></pre></div>
 <p>This is broken down as follows: </p>
 <ul>
@@ -1286,7 +1072,7 @@ Production: http://waste-tracking.api.defra.gov.uk/
 <span class="w">  </span><span class="p p-Indicator">}</span>
 <span class="p p-Indicator">}</span>
 </code></pre></div>
-A description of each of the fields contained in the <a href="../receipt-data-definitions/">API Specification.</a></p>
+A description of each of the fields contained in the <a href="../api-receipt-data-definitions/">Data Definitions Page</a></p>
 <h3 id="validating-a-collection-of-requests-and-responses">Validating a Collection of Requests and Responses</h3>
 <p>We have assembled a collection of <a href="../api-testing-and-examples/">Bruno test scripts</a> to help you learn about working with the Receipt API. </p>
 <h2 id="error-responses">Error Responses</h2>
@@ -1295,30 +1081,25 @@ A description of each of the fields contained in the <a href="../receipt-data-de
 <p>200 hits per second soft limit.</p>
 <p>This means that if a user bursts over 200 hits per second for a short time - this is acceptable. If they stay above the limit for a significant time they will start receiving 
 <strong>Rate Limit Exceeded</strong> 429 status codes. User's software should handle the response using best development practices like exponential back-offs and retries.</p>
+<h2 id="related-api-documentation">Related API Documentation</h2>
+<p><a href="../apiSpecifications/">Receipt of Waste - API v1.0 Reference Guide</a></p>
+<p><a href="../api-production-approval-tests/">Receipt of Waste - API Production Approval Tests</a></p>
+<p><a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service">Receipt of Waste Policy Website</a></p>
+<p><a href="../api-receipt-data-definitions/">Receipt of Waste API Data Definitions</a></p>
+<p><a href="../faq/">FAQs</a></p>
 <h2 id="getting-help-by-email">Getting help by email</h2>
 <ul>
-<li>
-<p>For developers: <font color="blue"><b><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></b></font></p>
-</li>
-<li>
-<p>For receivers: <font color="blue"><b><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#84;&#101;&#115;&#116;&#105;&#110;&#103;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#84;&#101;&#115;&#116;&#105;&#110;&#103;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></b></font></p>
-</li>
-<li>
-<p>All users can also post questions/comments in our discussions forum using this link <a href="https://github.com/DEFRA/waste-tracking-service/discussions"></a>.</p>
-</li>
+<li>For developers: <font color="blue"><b><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></b></font></li>
 </ul>
 <h2 id="changelog">Changelog</h2>
-<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Landing-Page-Changelog">Receipt API v1.0 Landing Page</a> GitHub wiki.</p>
-<p><br/>Page last updated on March 2nd 2026.</p>
+<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-API-Getting-Started-Guide-Changelog">Receipt API v1.0 Getting Started Guide</a> GitHub wiki.</p>
+<p><br/>Page last updated on September 2nd 2026.</p>
 
 
 
 
 
 
-
-  
-  
 
 
 
@@ -1410,11 +1191,17 @@ A description of each of the fields contained in the <a href="../receipt-data-de
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "search.suggest", "search.share", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "production", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "search.suggest", "search.share", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
   
       <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../apiSpecifications/dist/swagger-initializer.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
       
     
   <script>
