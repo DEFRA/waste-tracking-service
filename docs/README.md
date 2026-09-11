@@ -1,6 +1,3 @@
-!!! Information
-    Dear Users, we have made a few housekeeping changes to our website. These changes improve the look-and-feel of the website and have reduced some duplication of information found   elsewhere. We look forward to receiving any comments you may have.
-
 # Register for the Digital Waste Tracking Service
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-register-as-a-software-provider.md).
 
