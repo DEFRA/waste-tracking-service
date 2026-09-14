@@ -978,8 +978,7 @@ components:
               </ul>
               <p><font color="green"><b>Business Rule:</b></font></p> 
               If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code listed in EUR-Lex. 
-          example: |
-            "R1"
+          example: R1
         weight:
           $ref: "#/components/schemas/weight"
     weight:
