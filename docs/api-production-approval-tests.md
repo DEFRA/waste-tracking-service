@@ -4,7 +4,7 @@ When you’ve completed developing and testing your integration, please send a t
 
 <b>Sending Production Approval Tests</b>
 
-Email the corresponding Waste Tracking IDs used for each of these scenarios to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
+Email the corresponding Waste Tracking IDs used for each of these scenarios, along with your Client ID (do not include your secret), to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
 
 The scenarios to be demonstrated are:<br>
 - <b>R01</b> Basic Waste receipt - single waste item<br>
@@ -210,4 +210,4 @@ And I should receive a Waste Tracking ID<br>
 ## Changelog
 
 You can find the changelog for this document in the [Receipt API v1.0 Production Approval Tests](https://github.com/DEFRA/waste-tracking-service/wiki/Production-Approval-Tests) GitHub wiki.
-<br/>Page last updated on May 20th 2026.
+<br/>Page last updated on September 14th 2026.
