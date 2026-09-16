@@ -443,8 +443,7 @@ components:
       schema:
         type: string
         format: date-time
-        example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
-  requestBodies:
+        example: 2025-09-15T12:12:28
     receiveMovementRequest:
       description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
       required: true
