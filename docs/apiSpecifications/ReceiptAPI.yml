@@ -10,7 +10,6 @@ info:
      <ul>
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
-     <li><p>This API <font color="green"><b>POST</b></font> method is used to submit one or more Production Approval Tests (PAT) scenarioes for validation. It returns a 200 response with the validation results for each scenario submitted. <b> Note: </b>This endpoint is available in the Ext-Test environment only and is <b>not available in Production</b>.</p></li>
      <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
      <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of Hazardous Property Codes (called Special Waste Codes in Scotland).</p></li>
      <li><p>The third <font color="blue"><b>GET</b></font> method is used to retrieve a list of Disposal or Recovery codes.</p></li>
