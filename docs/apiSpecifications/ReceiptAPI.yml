@@ -168,7 +168,7 @@ paths:
                       type: string
                       description: |
                         The EWC code.<br>
-                      example: 010101
+                      example: "010101"
                     isHazardous:
                       type: boolean
                       description: True if the EWC code is for hazardous waste, otherwise False. The full list of valid EWC codes is returned by the GET ewc-codes method.
@@ -397,7 +397,7 @@ components:
       schema:
         type: string
         format: date-time
-        example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
+        example: "2025-09-15T12:12:28Z"
   requestBodies:
     receiveMovementRequest:
       description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
@@ -426,7 +426,7 @@ components:
                   This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
                   UTC is the global time standard and does not observe daylight saving time.
                   BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
-                example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
+                example: "2025-09-15T12:12:28Z"
               hazardousWasteConsignmentCode:
                 type: string
                 description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
@@ -448,9 +448,9 @@ components:
                 type: string
                 enum:
                   [
-                    "Non-Haz Waste Transfer",
-                    "No documentation provided with Waste",
-                    "Household Waste Recycling Centre Receipt"
+                    "NON_HAZ_WASTE_TRANSFER",
+                    "NO_DOC_WITH_WASTE",
+                    "HWRC_RECEIPT"
                   ]
                 description: If you have not provided a hazardous waste consignment code, then there are three reason codes you can choose to provide. See the table below.
                   <table border="1">
@@ -562,8 +562,8 @@ components:
               - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
               - From one to a maximum of five codes per movement can be provided.</p>
           example:
-            - 200108
-            - 150109
+            - "010101"
+            - "200108"
         wasteDescription:
           type: string
           description: A detailed description of a specific waste material including its physical characteristics, composition and any potential hazards associated with it. 
