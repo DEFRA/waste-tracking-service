@@ -19,7 +19,7 @@ info:
      <b>Note-</b> This API specification is currently in Public Beta stage.
   termsOfService: https://defra.github.io/waste-tracking-service/production/api-terms-of-service/
   contact:
-    name: Reciept of Waste API Support
+    name: Receipt of Waste API Support
     email: WasteTracking_Developers@defra.gov.uk 
 servers:
   - url: https://waste-tracking.api.defra.gov.uk
@@ -105,7 +105,7 @@ paths:
         "402":
           $ref: "#/components/responses/402"          
         "404":
-          description: Movement not found. The waste tracking ID used is not correct.
+          description: Movement not found. The waste tracking ID used is not correct.   
   /reference-data/ewc-codes:
     get:
       description: |
@@ -397,7 +397,7 @@ components:
       schema:
         type: string
         format: date-time
-        example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
+        example: 2025-09-15T12:12:28
   requestBodies:
     receiveMovementRequest:
       description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
@@ -426,7 +426,7 @@ components:
                   This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
                   UTC is the global time standard and does not observe daylight saving time.
                   BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
-                example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
+                example: 2025-09-15T12:12:28
               hazardousWasteConsignmentCode:
                 type: string
                 description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
@@ -745,11 +745,11 @@ components:
              <p><b>Home Nations Codes:</b></p>
              <p><b>General Format</b> where 9 is a digit 0-9</p>
              <p><font color="blue"><b>Wales NRW:</b></font></p>
-                CBDL9, CBDL99, CBDU999 (1+ digits)
-                <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
+                CBDU999 (3+ digits)
+                <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
-                CBDL9, CBDL99, CBDU999 (1+ digits)
-                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
+                 CBDU999 (3+ digits)
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>                         
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999, PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
@@ -761,7 +761,7 @@ components:
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>General Format</b> where 9 is a digit 0-9</p>
-          example: CBDL6
+          example: CBDL999
         reasonForNoRegistrationNumber:
           type: string
           description: |
@@ -848,11 +848,11 @@ components:
              <p><b>Home Nations Codes:</b></p>
              <p><b>General Format</b> where 9 is a digit 0-9</p>
              <p><font color="blue"><b>Wales NRW:</b></font></p>
-                CBDL999999, CBDU999999
-                <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
+                CBDU999 (3+ digits)
+                <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
-                CBDL999999, CBDU999999
-                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
+                 CBDU999 (3+ digits)
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>                      
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999 and PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
@@ -864,7 +864,7 @@ components:
                 ROC UT 9999
                 ROCLT9999<p></p><p></p>
                 <p><b>Note:</b> where 9 is a digit 0-9</p>
-          example: CBDL6
+          example: CBDL999
     receiver:
       type: object
       required:
