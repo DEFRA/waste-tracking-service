@@ -9,6 +9,7 @@ info:
      <p>The API is based on REST principles and uses seven endpoints: <font color="green"><b>POST</b></font>, <font color="orange"><b>PUT</b></font> and five <font color="blue"><b>GET</b></font> methods that return data in JSON format. It uses standard HTTP error response codes.</p>
      <ul>
      <li><p>The API <font color="green"><b>POST</b></font> method is used to create a record for a waste movement that has arrived at a waste receiving site. It returns a waste tracking ID and a validation result.</p></li>
+     <li><p>This API <font color="green"><b>POST</b></font> method is used to submit one or more Production Approval Tests (PAT) scenarioes for validation. It returns a 200 response with the validation results for each scenario submitted. <b> Note: </b>This endpoint is available in the Ext-Test environment only and is <b>not available in Production</b>.</p></li>
      <li><p>The API <font color="orange"><b>PUT</b></font> method is used to update a waste tracking record using a waste tracking ID to identify the movement. It returns a validation result.</p></li>
      <li><p>The first <font color="blue"><b>GET</b></font> method is used to retrieve a list of European Waste Codes (EWC).</p></li>
      <li><p>The second <font color="blue"><b>GET</b></font> method is used to retrieve a list of Hazardous Property Codes (called Special Waste Codes in Scotland).</p></li>
@@ -40,10 +41,6 @@ paths:
           headers:
             service-charge-expiry-date:
               $ref: "#/components/headers/service-charge-expiry-date"
-              description: The date and time when the service charge payment expires. 
-                The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
-                UTC is the global time standard and does not observe daylight saving time.
-                BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
           content:
             application/json:
               schema:
@@ -63,7 +60,7 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "402":
-          $ref: "#/components/responses/402"        
+          $ref: "#/components/responses/402"
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
@@ -85,9 +82,6 @@ paths:
           headers:
             service-charge-expiry-date:
               $ref: "#/components/headers/service-charge-expiry-date"
-              description: The date and time when the service charge payment expires. The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
-                UTC is the global time standard and does not observe daylight saving time.
-                BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
           content:
             application/json:
               schema:
@@ -103,9 +97,38 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "402":
-          $ref: "#/components/responses/402"          
+          $ref: "#/components/responses/402"
         "404":
           description: Movement not found. The waste tracking ID used is not correct.   
+  /production-approval-tests:
+    post:
+      description:
+        Endpoint used to to submit one or more Production Approval Tests (PAT) scenarioes for validation. It returns a 200 response with the validation results for each scenario submitted.
+        A request may contain one or more PAT scenarios. Each scenario is validated independently and the response returns a validation result for every scenario submitted.<p>
+        This endpoint is available in the Ext-Test environment only, it is not available in Production.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              minItems: 1
+              items:
+                $ref: "#/components/schemas/patScenario"
+            example:
+              - scenarioId: R01
+                wasteTrackingId: 25HRA0B2
+              - scenarioId: H01
+                wasteTrackingId: 25XYZ122
+      responses:
+        '200': 
+          description: Production Approval Tests processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/patSubmissionResponse"
+        '400':
+          $ref: "#/components/responses/400"
   /reference-data/ewc-codes:
     get:
       description: |
@@ -397,7 +420,7 @@ components:
       schema:
         type: string
         format: date-time
-        example: 2025-09-15T12:12:28
+        example: 2025-09-15T12:12:28z
   requestBodies:
     receiveMovementRequest:
       description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
@@ -426,7 +449,7 @@ components:
                   This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
                   UTC is the global time standard and does not observe daylight saving time.
                   BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
-                example: 2025-09-15T12:12:28
+                example: 2025-09-15T12:12:28z
               hazardousWasteConsignmentCode:
                 type: string
                 description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
@@ -532,6 +555,63 @@ components:
               receipt:
                 $ref: "#/components/schemas/receipt"
   schemas:
+    patScenario:
+      type: object
+      required:
+        - scenarioId
+        - wasteTrackingId
+      properties:
+        scenarioId:
+          type: string
+          enum:
+            - R01
+            - R02
+            - R03
+            - R04
+            - R05
+            - R07
+            - C01
+            - C02
+            - B01
+            - P01
+            - H01
+            - H03
+            - X01
+          description: The name of the Production Approval Test scenario being submitted for    validation. This is used to identify the scenario in the response. <p>
+            <p><font color="green"><b>Business Rules:</b></font></p>
+            - Must be a valid PAT scenario identifier
+            - The `scenarioId` values must not be duplicated within a request.
+          example: R01
+        wasteTrackingId:
+          type: string
+          description: |
+            The waste tracking ID associated with the scenario. 
+            The Waste Tracking ID must exist and must be valid for the Software Provider submitting the request. 
+            A single Waste Tracking ID may be submitted against multiple scenarios.
+          example: 25HRA0B2
+    patResult:
+      type: object
+      properties: 
+        scenarioId:
+          type: string
+        wasteTrackingId:
+          type: string
+        status:
+          type: string
+          enum:
+            - Pass
+            - Fail
+        message:
+          type: string
+    patSubmissionResponse:
+      type: object
+      properties:
+        submissionId:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/patResult"
     wasteItem:
       type: object
       required:
@@ -749,7 +829,7 @@ components:
                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
                  CBDU999 (3+ digits)
-                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>                         
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999, PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
@@ -851,8 +931,8 @@ components:
                 CBDU999 (3+ digits)
                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
-                 CBDU999 (3+ digits)
-                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>                      
+                CBDU999 (3+ digits)
+                <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999 and PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
@@ -1128,4 +1208,4 @@ components:
               message:
                 type: string
                 description: details of why the request was rejected.
-                example: Payment for the service is required before the organisation can submit or update waste receipt records.           
+                example: Payment for the service is required before the organisation can submit or update waste receipt records.    
