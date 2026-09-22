@@ -1169,6 +1169,11 @@ components:
                        "errorType": "InvalidFormat",
                        "message": "Site authorisation number must be in a valid UK format"
                       },
+                      {
+                       "key": "0.scenarioId",
+                       "errorType": "InvalidValue",
+                       "message": "\"[0].scenarioId\" must be one of [R01, R02, R03, R04, R05, R07, C01, C02, B01, P01, H01, H03, X01]"
+                      },
                  ]
                 }
                 }
@@ -1208,4 +1213,4 @@ components:
               message:
                 type: string
                 description: details of why the request was rejected.
-                example: Payment for the service is required before the organisation can submit or update waste receipt records.    
+                example: Payment for the service is required before the organisation can submit or update waste receipt records.
