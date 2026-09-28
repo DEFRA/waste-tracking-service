@@ -889,7 +889,7 @@
 </li>
 <li>
 <p>Gain access to the test environment. The URL is shown below:
-   <div class="highlight"><pre><span></span><code>http://waste-tracking.integration.api.defra.gov.uk/
+   <div class="highlight"><pre><span></span><code>https://waste-tracking.integration.api.defra.gov.uk/
 </code></pre></div></p>
 </li>
 <li>
@@ -919,14 +919,14 @@
 <h2 id="making-api-requests">Making API requests</h2>
 <p>Before sending any requests to the Receipt of Waste API, make sure that you are addressing the following points in your software:</p>
 <p>The base URLs of the test and production environments are as follows:</p>
-<div class="highlight"><pre><span></span><code>Test: http://waste-tracking.integration.api.defra.gov.uk/
+<div class="highlight"><pre><span></span><code>Test: https://waste-tracking.integration.api.defra.gov.uk/
 
-Production: http://waste-tracking.api.defra.gov.uk/
+Production: https://waste-tracking.api.defra.gov.uk/
 </code></pre></div>
 <h3 id="what-makes-up-a-receive-waste-movement-request">What Makes up a Receive Waste Movement Request?</h3>
 <p>A request starts with a command and a URL specifying the method and the API endpoint or server you want to interact with, in this case the Waste Tracking Service. An example is shown below.</p>
 <div class="highlight"><pre><span></span><code>curl --request POST \
-  --url http://waste-tracking.api.defra.gov.uk/
+  --url https://waste-tracking.api.defra.gov.uk/
   --header 'authorization: Bearer eyJraWQiOiJQYnJiZXZ \
   --header 'content-type: application/json' \
   --data '{
@@ -939,7 +939,7 @@ Production: http://waste-tracking.api.defra.gov.uk/
 <li>The cURL command and URL</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="err">curl</span><span class="w"> </span><span class="mi">--</span><span class="err">reques</span><span class="kc">t</span><span class="w"> </span><span class="err">POST</span><span class="w"> </span><span class="err">\</span>
-<span class="w">  </span><span class="mi">--</span><span class="err">url</span><span class="w"> </span><span class="err">h</span><span class="kc">tt</span><span class="err">p</span><span class="p">:</span><span class="c1">//waste-tracking.api.defra.gov.uk/</span>
+<span class="w">  </span><span class="mi">--</span><span class="err">url</span><span class="w"> </span><span class="err">h</span><span class="kc">tt</span><span class="err">ps</span><span class="p">:</span><span class="c1">//waste-tracking.api.defra.gov.uk/</span>
 </code></pre></div>
 <ul>
 <li>The header information containing the Bearer Token and the content type</li>
