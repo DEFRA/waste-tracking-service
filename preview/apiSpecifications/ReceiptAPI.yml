@@ -40,10 +40,6 @@ paths:
           headers:
             service-charge-expiry-date:
               $ref: "#/components/headers/service-charge-expiry-date"
-              description: The date and time when the service charge payment expires. 
-                The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
-                UTC is the global time standard and does not observe daylight saving time.
-                BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
           content:
             application/json:
               schema:
@@ -63,7 +59,7 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "402":
-          $ref: "#/components/responses/402"        
+          $ref: "#/components/responses/402"
   /movements/{wasteTrackingId}/receive:
     put:
       description: |
@@ -85,9 +81,6 @@ paths:
           headers:
             service-charge-expiry-date:
               $ref: "#/components/headers/service-charge-expiry-date"
-              description: The date and time when the service charge payment expires. The API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
-                UTC is the global time standard and does not observe daylight saving time.
-                BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
           content:
             application/json:
               schema:
@@ -103,7 +96,7 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "402":
-          $ref: "#/components/responses/402"          
+          $ref: "#/components/responses/402"
         "404":
           description: Movement not found. The waste tracking ID used is not correct.   
   /reference-data/ewc-codes:
@@ -397,7 +390,7 @@ components:
       schema:
         type: string
         format: date-time
-        example: 2025-09-15T12:12:28
+        example: 2025-09-15T12:12:28z
   requestBodies:
     receiveMovementRequest:
       description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
@@ -426,7 +419,7 @@ components:
                   This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
                   UTC is the global time standard and does not observe daylight saving time.
                   BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
-                example: 2025-09-15T12:12:28
+                example: 2025-09-15T12:12:28z
               hazardousWasteConsignmentCode:
                 type: string
                 description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
@@ -602,7 +595,7 @@ components:
           type: boolean
           description: |
             Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
-                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. 
+            Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. 
           example: true
         pops:
           type: object
@@ -648,10 +641,41 @@ components:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
-                      <p><font color="green"><b>Business Rule:</b></font></p> 
-                      Optional field. If provided, must be a positive decimal number (greater than 0)
+                    nullable: true
+                    description: |
+                      The concentration of the POP component in milligrams per kilogram (mg/kg).<br>
+                      Where an exact concentration is known, provide the measured value without a `concentrationOperator`.<br>
+
+                      Where only a threshold or limit is known, provide the numeric threshold in this field and use <code>concentrationOperator<code> to indicate whether the actual concentration is less than or greater than that value.<br>
+                      <p><font color="green"><b>Business Rules:</b></font></p>
+                      <ul>
+                      <li>This field is optional.</li>
+                      <li>The value may be <code>null</code> when no <code>concentrationOperator</code> is supplied.</li>
+                      <li>If a <code>concentrationOperator</code> is supplied, this field is required and must contain a number.</li>
+                      <li>If a number is provided, it must be greater than 0.</li>
+                      <li>Do not include the unit of measurement or a comparison symbol in this field.</li>
+                      <li>If no operator is supplied, the number is treated as the reported concentration.</li>
+                      <li>If an operator is supplied, the number represents the comparison threshold.</li>
+                      </ul>
                     example: 12.5
+                  concentrationOperator:
+                    type: string
+                    enum:
+                      - "<"
+                      - ">"
+                    description: |
+                      Indicates how the actual concentration with the value provided in `concentration`. 
+                      - `<` means the actual concentration is less than the supplied value.
+                      - `>` means the actual concentration is greater than the supplied value.
+                      <p><font color="green"><b>Business Rules:</b></font></p>
+                      <ul>
+                      <li>This field is optional.</li>
+                      <li>If provided, <code>concentration</code> is required and must contain a number.</li>
+                      <li>Do not provide an operator when <code>concentration</code> is <code>null</code>.</li>
+                      <li>The accepted values are <code>&lt;</code> and <code>&gt;</code>.</li>
+                      <li>Other operators, including <code>'>'</code> and <code>'>'</code>, are not accepted.</li>
+                      </ul>
+                    example: ">"                
               description: |
                 The list of POP components.
                 <p><font color="green"><b>Business Rules:</b></font></p>
@@ -699,7 +723,7 @@ components:
                 - The field is case-sensitive, please use the case specified for the code returned by the GET method.
                 </ul>
                  <p><font color="green"><b>Business Rule:</b></font></p> 
-                 If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
+                 If provided, each value must be a valid hazardous property code returned by the reference-data endpoint. Codes are case-sensitive. 
               example:
                 - HP_5
                 - HP_10
@@ -716,16 +740,45 @@ components:
                     type: string
                     description: Name of the hazardous component, e.g. Mercury.
                       <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, must be a valid chemical or biological component name.
+                      Optional field. If provided, it must be a valid chemical or biological component name.
                     example: lead
                   concentration:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the hazardous component in milligrams per kilo, e.g. 30mg per kg.
-                      <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, must be a positive numeric value (greater than 0).
-                    example: 25.5
+                    nullable: true
+                    description: |
+                      The concentration of the Hazardous component in milligrams per kilogram (mg/kg).<br>
+                      - Where an exact concentration is known, provide the measured value without a `concentrationOperator`.
+                      - Where the concentration is known only to have exceeded a threshold, provide the numeric threshold in this field and use `>` as the  `concentrationOperator`.
+                      <p><font color="green"><b>Business Rules:</b></font></p> 
+                      <ul>
+                      <li>This field is optional.</li>
+                      <li>The value may be <code>null</code> when no <code>concentrationOperator</code> is supplied.</li>
+                      <li>If a <code>concentrationOperator</code> is supplied, this field is required and must contain a number.</li>
+                      <li>If a number is provided, it must be greater than 0.</li>
+                      <li>Do not include the unit of measurement or a comparison symbol in this field.</li>
+                      <li>If no operator is supplied, the number is treated as the reported concentration.</li>
+                      <li>If an operator is supplied, the number represents the threshold that was exceeded.</li>
+                      </ul>
+                    example: 12.5
+                  concentrationOperator:
+                    type: string
+                    enum:
+                      - ">"
+                    description: |
+                      Indicates that the actual concentration of the hazardous component is greater than the value supplied in
+                      `concentration`.<br>
+                      The only accepted value is `>`.<br
+                      The `<` operator is not accepted for hazardous components.<br>
+                      <p><font color="green"><b>Business Rules:</b></font></p>
+                      <li>This field is optional.</li>
+                      <li>If provided, <code>concentration</code> is required and must contain a number.</li>
+                      <li>Do not provide an operator when <code>concentration</code> is <code>null</code>.</li>
+                      <li>The only accepted value is <code>&gt;</code>.</li>
+                      <li>The operators <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> are not accepted.</li>
+                      </ul>
+                    example: ">"
         disposalOrRecoveryCodes:
           type: array
           items:
@@ -851,8 +904,8 @@ components:
                 CBDU999 (3+ digits)
                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
-                 CBDU999 (3+ digits)
-                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>                      
+                CBDU999 (3+ digits)
+                <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999 and PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
@@ -1128,4 +1181,4 @@ components:
               message:
                 type: string
                 description: details of why the request was rejected.
-                example: Payment for the service is required before the organisation can submit or update waste receipt records.           
+                example: Payment for the service is required before the organisation can submit or update waste receipt records.
