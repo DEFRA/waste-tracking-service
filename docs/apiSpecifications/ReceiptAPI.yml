@@ -650,7 +650,7 @@ components:
                       <p><font color="green"><b>Business Rules:</b></font></p>
                       <ul>
                       <li>This field is optional.</li>
-                      <li>The value may be <code>null</code when no <code>concentrationOperator</code> is supplied.</li>
+                      <li>The value may be <code>null</code> when no <code>concentrationOperator</code> is supplied.</li>
                       <li>If a <code>concentrationOperator</code> is supplied, this field is required and must contain a number.</li>
                       <li>If a number is provided, it must be greater than 0.</li>
                       <li>Do not include the unit of measurement or a comparison symbol in this field.</li>
@@ -754,7 +754,7 @@ components:
                       <p><font color="green"><b>Business Rules:</b></font></p> 
                       <ul>
                       <li>This field is optional.</li>
-                      <li>The value may be <code>null</code when no <code>concentrationOperator</code> is supplied.</li>
+                      <li>The value may be <code>null</code> when no <code>concentrationOperator</code> is supplied.</li>
                       <li>If a <code>concentrationOperator</code> is supplied, this field is required and must contain a number.</li>
                       <li>If a number is provided, it must be greater than 0.</li>
                       <li>Do not include the unit of measurement or a comparison symbol in this field.</li>
