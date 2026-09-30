@@ -99,7 +99,7 @@ paths:
         "402":
           $ref: "#/components/responses/402"
         "404":
-          description: Movement not found. The waste tracking ID used is not correct.   
+          description: Movement not found. The waste tracking ID used is not correct.
   /production-approval-tests:
     post:
       description:
@@ -118,7 +118,7 @@ paths:
             example:
               - scenarioId: R01
                 wasteTrackingId: 25HRA0B2
-              - scenarioId: H01
+              - scenarioId: R02
                 wasteTrackingId: 25XYZ122
       responses:
         '200': 
@@ -570,11 +570,9 @@ components:
             - R04
             - R05
             - R07
-            - C01
             - C02
             - B01
             - P01
-            - H01
             - H03
             - X01
           description: The name of the Production Approval Test scenario being submitted for    validation. This is used to identify the scenario in the response. <p>
@@ -682,7 +680,7 @@ components:
           type: boolean
           description: |
             Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
-                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. 
+            Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. 
           example: true
         pops:
           type: object
@@ -728,10 +726,41 @@ components:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
-                      <p><font color="green"><b>Business Rule:</b></font></p> 
-                      Optional field. If provided, must be a positive decimal number (greater than 0)
+                    nullable: true
+                    description: |
+                      The concentration of the POP component in milligrams per kilogram (mg/kg).<br>
+                      Where an exact concentration is known, provide the measured value without a `concentrationOperator`.<br>
+
+                      Where only a threshold or limit is known, provide the numeric threshold in this field and use <b>concentrationOperator</b> to indicate whether the actual concentration is less than or greater than that value.<br>
+                      <p><font color="green"><b>Business Rules:</b></font></p>
+                      <ul>
+                      <li>This field is optional.</li>
+                      <li>The value may be <b>null</b> when no <b>concentrationOperator</b> is supplied. However, a 201 warning is returned saying that a concentration value is recommended when the source of components is one of PROVIDED WITH WASTE, GUIDANCE or OWN_TESTING.</li>
+                      <li>If a <b>concentrationOperator</b> is supplied, this field is required and must contain a number.</li>
+                      <li>If a number is provided, it must be greater than 0.</li>
+                      <li>Do not include the unit of measurement or a comparison symbol in this field.</li>
+                      <li>If no operator is supplied, the number is treated as the reported concentration.</li>
+                      <li>If an operator is supplied, the number represents the comparison threshold.</li>
+                      </ul>
                     example: 12.5
+                  concentrationOperator:
+                    type: string
+                    enum:
+                      - "<"
+                      - ">"
+                    description: |
+                      Indicates how the actual concentration compares with the value provided in `concentration`. 
+                      - `<` means the actual concentration is less than the supplied value.
+                      - `>` means the actual concentration is greater than the supplied value.
+                      <p><font color="green"><b>Business Rules:</b></font></p>
+                      <ul>
+                      <li>This field is optional.</li>
+                      <li>If provided, <b>concentration</b> is required and must contain a number.</li>
+                      <li>Do not provide an operator when <b>concentration</b> is <b>null</b>.</li>
+                      <li>The accepted values are <b><</b> and <b>></b>.</li>
+                      <li>Other operators, including <b>'=>'</b> and <b>'<='</b>, are not accepted.</li>
+                      </ul>
+                    example: ">"                
               description: |
                 The list of POP components.
                 <p><font color="green"><b>Business Rules:</b></font></p>
@@ -778,8 +807,8 @@ components:
                 - A list of all Hazardous Property Codes can be obtained using the GET hazardous-property-codes method.<br>
                 - The field is case-sensitive, please use the case specified for the code returned by the GET method.
                 </ul>
-                 <p><font color="green"><b>Business Rule:</b></font></p> 
-                 If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
+                 <p><font color="green"><b>Business Rule:</b></font></p>
+                 If provided, each value must be a valid hazardous property code returned by the reference-data endpoint. Codes are case-sensitive. 
               example:
                 - HP_5
                 - HP_10
@@ -796,16 +825,45 @@ components:
                     type: string
                     description: Name of the hazardous component, e.g. Mercury.
                       <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, must be a valid chemical or biological component name.
+                      Optional field. If provided, it must be a valid chemical or biological component name.
                     example: lead
                   concentration:
                     type: number
                     minimum: 0
                     exclusiveMinimum: true
-                    description: The concentration of the hazardous component in milligrams per kilo, e.g. 30mg per kg.
-                      <p><font color="green"><b>Business Rule:</b></font></p>
-                      Optional field. If provided, must be a positive numeric value (greater than 0).
-                    example: 25.5
+                    nullable: true
+                    description: |
+                      The concentration of the Hazardous component in milligrams per kilogram (mg/kg).<br>
+                      - Where an exact concentration is known, provide the measured value without a `concentrationOperator`.
+                      - Where the concentration is known only to have exceeded a threshold, provide the numeric threshold in this field and use `>` as the  `concentrationOperator`.
+                      <p><font color="green"><b>Business Rules:</b></font></p> 
+                      <ul>
+                      <li>This field is optional.</li>
+                      <li>The value may be <b>null</b> when no concentrationOperator is supplied. However, a 201 warning is returned saying that a concentration value is recommended when the source of components is one of PROVIDED WITH WASTE, GUIDANCE or OWN_TESTING.</li>
+                      <li>If a concentrationOperator is supplied, this field is required and must contain a number.</li>
+                      <li>If a number is provided, it must be greater than 0.</li>
+                      <li>Do not include the unit of measurement or a comparison symbol in this field.</li>
+                      <li>If no operator is supplied, the number is treated as the reported concentration.</li>
+                      <li>If an operator is supplied, the number represents the threshold that was exceeded.</li>
+                      </ul>
+                    example: 12.5
+                  concentrationOperator:
+                    type: string
+                    enum:
+                      - ">"
+                    description: |
+                      Indicates that the actual concentration of the hazardous component is greater than the value supplied in
+                      `concentration`.<br>
+                      The only accepted value is `>`.<br
+                      The `<` operator is not accepted for hazardous components.<br>
+                      <p><font color="green"><b>Business Rules:</b></font></p>
+                      <li>This field is optional.</li>
+                      <li>If provided, <b>concentration</b> is required and must contain a number.</li>
+                      <li>Do not provide an operator when <b>concentration</b> is <b>null</b>.</li>
+                      <li>The only accepted value is <b>></b>.</li>
+                      <li>The operators <b> '>=' </b> and <b> '<=' </b> are not accepted.</li>
+                      </ul>
+                    example: ">"
         disposalOrRecoveryCodes:
           type: array
           items:
@@ -829,7 +887,7 @@ components:
                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
              <p><font color="blue"><b>England:</b></font></p>
                  CBDU999 (3+ digits)
-                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>                         
              <p><font color="blue"><b>Scotland SEPA:</b></font></p>
                 WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999, PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).
                 <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
@@ -1172,7 +1230,7 @@ components:
                       {
                        "key": "0.scenarioId",
                        "errorType": "InvalidValue",
-                       "message": "\"[0].scenarioId\" must be one of [R01, R02, R03, R04, R05, R07, C01, C02, B01, P01, H01, H03, X01]"
+                       "message": "\"[0].scenarioId\" must be one of [R01, R02, R03, R04, R05, R07, C02, B01, P01, H01, H03, X01]"
                       },
                  ]
                 }
