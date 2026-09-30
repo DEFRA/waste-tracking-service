@@ -646,12 +646,12 @@ components:
                       The concentration of the POP component in milligrams per kilogram (mg/kg).<br>
                       Where an exact concentration is known, provide the measured value without a `concentrationOperator`.<br>
 
-                      Where only a threshold or limit is known, provide the numeric threshold in this field and use <code>concentrationOperator<code> to indicate whether the actual concentration is less than or greater than that value.<br>
+                      Where only a threshold or limit is known, provide the numeric threshold in this field and use <b>concentrationOperator</b> to indicate whether the actual concentration is less than or greater than that value.<br>
                       <p><font color="green"><b>Business Rules:</b></font></p>
                       <ul>
                       <li>This field is optional.</li>
-                      <li>The value may be <code>null</code> when no <code>concentrationOperator</code> is supplied.</li>
-                      <li>If a <code>concentrationOperator</code> is supplied, this field is required and must contain a number.</li>
+                      <li>The value may be <b>null</b> when no <b>concentrationOperator</b> is supplied. However, a 201 warning is returned saying that a concentration value is recommended when the source of components is one of PROVIDED WITH WASTE, GUIDANCE or OWN_TESTING.</li>
+                      <li>If a <b>concentrationOperator</b> is supplied, this field is required and must contain a number.</li>
                       <li>If a number is provided, it must be greater than 0.</li>
                       <li>Do not include the unit of measurement or a comparison symbol in this field.</li>
                       <li>If no operator is supplied, the number is treated as the reported concentration.</li>
@@ -664,16 +664,16 @@ components:
                       - "<"
                       - ">"
                     description: |
-                      Indicates how the actual concentration with the value provided in `concentration`. 
+                      Indicates how the actual concentration compares with the value provided in `concentration`. 
                       - `<` means the actual concentration is less than the supplied value.
                       - `>` means the actual concentration is greater than the supplied value.
                       <p><font color="green"><b>Business Rules:</b></font></p>
                       <ul>
                       <li>This field is optional.</li>
-                      <li>If provided, <code>concentration</code> is required and must contain a number.</li>
-                      <li>Do not provide an operator when <code>concentration</code> is <code>null</code>.</li>
-                      <li>The accepted values are <code>&lt;</code> and <code>&gt;</code>.</li>
-                      <li>Other operators, including <code>'>'</code> and <code>'>'</code>, are not accepted.</li>
+                      <li>If provided, <b>concentration</b> is required and must contain a number.</li>
+                      <li>Do not provide an operator when <b>concentration</b> is <b>null</b>.</li>
+                      <li>The accepted values are <b><</b> and <b>></b>.</li>
+                      <li>Other operators, including <b>'=>'</b> and <b>'<='</b>, are not accepted.</li>
                       </ul>
                     example: ">"                
               description: |
@@ -754,8 +754,8 @@ components:
                       <p><font color="green"><b>Business Rules:</b></font></p> 
                       <ul>
                       <li>This field is optional.</li>
-                      <li>The value may be <code>null</code> when no <code>concentrationOperator</code> is supplied.</li>
-                      <li>If a <code>concentrationOperator</code> is supplied, this field is required and must contain a number.</li>
+                      <li>The value may be <b>null</b> when no concentrationOperator is supplied. However, a 201 warning is returned saying that a concentration value is recommended when the source of components is one of PROVIDED WITH WASTE, GUIDANCE or OWN_TESTING.</li>
+                      <li>If a concentrationOperator is supplied, this field is required and must contain a number.</li>
                       <li>If a number is provided, it must be greater than 0.</li>
                       <li>Do not include the unit of measurement or a comparison symbol in this field.</li>
                       <li>If no operator is supplied, the number is treated as the reported concentration.</li>
@@ -773,10 +773,10 @@ components:
                       The `<` operator is not accepted for hazardous components.<br>
                       <p><font color="green"><b>Business Rules:</b></font></p>
                       <li>This field is optional.</li>
-                      <li>If provided, <code>concentration</code> is required and must contain a number.</li>
-                      <li>Do not provide an operator when <code>concentration</code> is <code>null</code>.</li>
-                      <li>The only accepted value is <code>&gt;</code>.</li>
-                      <li>The operators <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> are not accepted.</li>
+                      <li>If provided, <b>concentration</b> is required and must contain a number.</li>
+                      <li>Do not provide an operator when <b>concentration</b> is <b>null</b>.</li>
+                      <li>The only accepted value is <b>></b>.</li>
+                      <li>The operators <b> '>=' </b> and <b> '<=' </b> are not accepted.</li>
                       </ul>
                     example: ">"
         disposalOrRecoveryCodes:
