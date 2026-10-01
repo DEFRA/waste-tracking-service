@@ -17,8 +17,6 @@ Submit the scenario ID and corresponding Waste Tracking ID for each successful s
 
 This endpoint can **only be used** in the External Test environment.
 
-Error scenarios do not produce a Waste Tracking ID, so they cannot be checked using this endpoint. Record the date and time when you performed each error scenario instead.
-
 <b>Note:</b> Using this endpoint does not replace the formal production approval process, You must still send your Client ID and PAT evidence to WasteTracking_Developers@defra.gov.uk for formal review.<br>
 
 ## The scenarios to be demonstrated are:<br>
