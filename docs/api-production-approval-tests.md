@@ -2,11 +2,27 @@
 
 When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. 
 
-<b>Sending Production Approval Tests</b>
+## Sending Production Approval Tests
 
 Email the corresponding Waste Tracking IDs used for each of these scenarios, along with your Client ID (do not include your secret), to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
 
-The scenarios to be demonstrated are:<br>
+### Pre-test your PAT Submissions
+
+Before sending your Production Approval Test results to the DWT team, you can pre-test them using the endpoint:
+
+```code
+POST /production-approval-tests
+```
+Submit the scenario ID and corresponding Waste Tracking ID for each successful scenario you want to check. The endpoint returns the validation result for each submission, allowing you to identify and correct issues before sending your results to the DWT team.
+
+This endpoint can **only be used** in the External Test environment.
+
+Error scenarios do not produce a Waste Tracking ID, so they cannot be checked using this endpoint. Record the date and time when you performed each error scenario instead.
+
+<b>Note:</b> Using this endpoint does not replace the formal production approval process, You must still send your Client ID and PAT evidence to WasteTracking_Developers@defra.gov.uk for formal review.<br>
+
+## The scenarios to be demonstrated are:<br>
+
 - <b>R01</b> Basic Waste receipt - single waste item<br>
 - <b>R02</b> Basic waste receipt - with multiple waste items<br>
 - <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
