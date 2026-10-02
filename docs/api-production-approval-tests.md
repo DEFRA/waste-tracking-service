@@ -6,18 +6,85 @@ When you’ve completed developing and testing your integration, please send a t
 
 Email the corresponding Waste Tracking IDs used for each of these scenarios, along with your Client ID (do not include your secret), to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.
 
-### Pre-test your PAT Submissions
+### Pre-test Your PAT Submissions
 
 Before sending your Production Approval Test results to the DWT team, you can pre-test them using the endpoint:
 
 ```code
 POST /production-approval-tests
 ```
+
 Submit the scenario ID and corresponding Waste Tracking ID for each successful scenario you want to check. The endpoint returns the validation result for each submission, allowing you to identify and correct issues before sending your results to the DWT team.
 
 This endpoint can **only be used** in the External Test environment.
 
-<b>Note:</b> Using this endpoint does not replace the formal production approval process, You must still send your Client ID and PAT evidence to WasteTracking_Developers@defra.gov.uk for formal review.<br>
+<b>Note:</b> Using this endpoint does not replace the formal production approval process. You must still send your Client ID and PAT evidence to WasteTracking_Developers@defra.gov.uk for formal review.<br>
+
+### Pre-test PAT Request and Response Format
+
+Send a JSON array containing one or more PAT scenarios to:
+
+```http
+POST /production-approval-tests
+```
+
+Each scenario must contain:
+
+- `scenarioId` — the identifier of the PAT scenario being checked
+- `wasteTrackingId` — the Waste Tracking ID returned when the corresponding receipt was successfully submitted
+
+You can use the same Waste Tracking ID for more than one scenario where the receipt satisfies the requirements of each scenario. Do not include the same `scenarioId` more than once in a single request.
+
+**Example request**
+
+```json
+[
+  {
+    "scenarioId": "R01",
+    "wasteTrackingId": "26BHUT6U"
+  },
+  {
+    "scenarioId": "R02",
+    "wasteTrackingId": "26BHUT6U"
+  }
+]
+```
+
+The API validates each scenario independently and returns:
+
+- a unique `submissionId` for the PAT submission
+- a result for each scenario
+- the submitted scenario ID and Waste Tracking ID
+- a `Pass` or `Fail` status
+- a message explaining a failed result
+
+**Example response**
+
+```json
+{
+  "submissionId": "6a992f0a70be5b2a9436bf9c",
+  "results": [
+    {
+      "scenarioId": "R01",
+      "wasteTrackingId": "26BHUT6U",
+      "status": "Pass",
+      "message": ""
+    },
+    {e
+      "scenarioId": "R02",
+      "wasteTrackingId": "26BHUT6U",
+      "status": "Fail",
+      "message": "Expected more than 1 waste item for R02, found 1"
+    }
+  ]
+}
+```
+
+A failed scenario does not prevent the API from returning results for the other scenarios in the same request. Review each result and correct any failed scenarios before sending your PAT evidence to the DWT team.
+
+The endpoint can only check PAT scenarios that have a Waste Tracking ID. For rejection scenarios, where no Waste Tracking ID is generated, record the date and time when the test was performed and include this information in your formal PAT evidence.
+
+For the complete request and response schemas, refer to the ReceiptAPI specification https://defra.github.io/waste-tracking-service/preview/api-specification/
 
 ## The scenarios to be demonstrated are:<br>
 
