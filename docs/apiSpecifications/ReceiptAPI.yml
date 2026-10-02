@@ -576,7 +576,7 @@ components:
             - H01
             - H03
             - X01
-          description: The name of the Production Approval Test scenario being submitted for    validation. This is used to identify the scenario in the response. <p>
+          description: The name of the Production Approval Test scenario being submitted for validation. This is used to identify the scenario in the response. <p>
             <p><font color="green"><b>Business Rules:</b></font></p>
             - Must be a valid PAT scenario identifier
             - The `scenarioId` values must not be duplicated within a request.
