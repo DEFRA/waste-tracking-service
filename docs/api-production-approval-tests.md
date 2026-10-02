@@ -70,7 +70,7 @@ The API validates each scenario independently and returns:
       "status": "Pass",
       "message": ""
     },
-    {e
+    {
       "scenarioId": "R02",
       "wasteTrackingId": "26BHUT6U",
       "status": "Fail",
