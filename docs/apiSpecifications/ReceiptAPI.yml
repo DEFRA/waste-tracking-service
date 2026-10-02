@@ -101,27 +101,42 @@ paths:
           description: Movement not found. The waste tracking ID used is not correct.
   /production-approval-tests:
     post:
-      description:
-        Endpoint used to to submit one or more Production Approval Tests (PAT) scenarioes for validation. It returns a 200 response with the validation results for each scenario submitted.
-        A request may contain one or more PAT scenarios. Each scenario is validated independently and the response returns a validation result for every scenario submitted.<p>
-        This endpoint is available in the Ext-Test environment only, it is not available in Production.
+      description: |
+        Submit one or more Production Approval Test scenarios for validation.<br>
+        Each scenario is validated independently. The response contains a result for every scenario submitted.<br>
+        A `200 OK` response means that the request was processed. It does not mean
+        that every scenario passed. Check the `status` and `message` returned for
+        each result.<br>
+        The same Waste Tracking ID may be used for different scenario IDs, but each scenario ID may appear only once in a request.<br>
+        Rejection scenarios C01 and H02 cannot be submitted through this
+        endpoint because they do not generate Waste Tracking IDs.<br>
+        This endpoint is available in the External Test environment only.
+        It is not available in the Production environment.
+      servers:
+        - url: https://waste-tracking.integration.api.defra.gov.uk
+          description: External Test environment        
       requestBody:
         required: true
+        description: |
+          A json array containing one or more Production Approval Test scenario submissions.          
         content:
           application/json:
             schema:
               type: array
+              title: ProductionApprovalTestRequest
               minItems: 1
               items:
                 $ref: "#/components/schemas/patScenario"
             example:
               - scenarioId: R01
                 wasteTrackingId: 25HRA0B2
-              - scenarioId: H01
+              - scenarioId: R02
                 wasteTrackingId: 25XYZ122
       responses:
         '200': 
-          description: Production Approval Tests processed successfully.
+          description: Production Approval Tests processed successfully.<br>
+            A result is returned for every scenario submitted. Review the `status`
+            and `message` in each result to determine whether an individual scenario passed or failed.
           content:
             application/json:
               schema:
@@ -159,7 +174,6 @@ paths:
               "subChapter": "Wastes from mineral excavation",
               "description": "Wastes from mineral non-metalliferous excavation"
             }, ... cont
-
             ```
             The response fields: "isHazardous", "entryTypeDescription", "chapter" and "subChapter" correspond directly to the hierarchical structure of the waste classification system for EWC codes.<br><br>
             <p><b>isHazardous</b><br>
@@ -556,6 +570,7 @@ components:
   schemas:
     patScenario:
       type: object
+      additionalProperties: false
       required:
         - scenarioId
         - wasteTrackingId
@@ -569,49 +584,116 @@ components:
             - R04
             - R05
             - R07
-            - C01
             - C02
             - B01
             - P01
             - H01
             - H03
             - X01
-          description: The name of the Production Approval Test scenario being submitted for validation. This is used to identify the scenario in the response. <p>
+          description:
+            The identifier of the Production Approval Test scenario being submitted for validation.<br>
+            The scenario identifier is included in the corresponding result returned by the API.<br>
             <p><font color="green"><b>Business Rules:</b></font></p>
-            - Must be a valid PAT scenario identifier
-            - The `scenarioId` values must not be duplicated within a request.
+            <ul>
+            <li>The value must be one of the supported PAT scenario identifiers.</li>
+            <li>Each <b>scenarioId</b> must appear only once within a request.</li>
+            <li>Rejection scenarios C01 and H02 cannot be submitted because they do not generate a Waste Tracking ID.</li>
+            </ul>
           example: R01
         wasteTrackingId:
           type: string
-          description: |
+          description: 
             The waste tracking ID associated with the scenario. 
-            The Waste Tracking ID must exist and must be valid for the Software Provider submitting the request. 
-            A single Waste Tracking ID may be submitted against multiple scenarios.
+            <p><font color="green"><b>Business Rules:</b></font></p>
+            <ul>
+            <li>The Waste Tracking ID must be supplied as a string.</li>
+            <li>Only one Waste Tracking ID can be supplied for each scenario.</li>
+            <li>The same Waste Tracking ID may be submitted for different scenarios.</li>
+            <li>The Waste Tracking ID must exist and be available to the software provider submitting the request.</li>
+            </ul>
           example: 25HRA0B2
     patResult:
       type: object
+      additionalProperties: false
+      required:
+        - scenarioId
+        - wasteTrackingId
+        - status
+        - message        
       properties: 
         scenarioId:
           type: string
+          enum:
+            - R01
+            - R02
+            - R03
+            - R04
+            - R05
+            - R07
+            - C02
+            - B01
+            - P01
+            - H01
+            - H03
+            - X01
+          description: |
+              The identifier of the Production Approval Test scenario that was validated.
+          example: R01            
         wasteTrackingId:
           type: string
+          description: 
+            The Waste Tracking ID submitted for the Production Approval Test scenario.
+          example: 26BHUT6U
         status:
           type: string
           enum:
             - Pass
             - Fail
+          description: |
+            The result of validating the receipt against the requirements of the PAT scenario.<br>
+            - `Pass`: The receipt satisfies the scenario requirements.<br>
+            - `Fail`: The receipt does not satisfy one or more scenario requirements.<br>
+            Values are case-sensitive.
+          example: Pass
         message:
           type: string
+          description: |
+            Additional information about the validation result.<br>
+            For a failed scenario, the message explains why the receipt did not satisfy the scenario requirements.<br>
+            The value is an empty string when the scenario passes.
+            example: ""       
     patSubmissionResponse:
       type: object
+      additionalProperties: false
+      required:
+        - submissionId
+        - results
       properties:
         submissionId:
           type: string
+          description: |
+            A unique identifier for this PAT validation submission.<br>
+            Treat this value as an opaque identifier. Do not attempt to derive information from its format.
+          example: 6a992f0a70be5b2a9436bf9c
         results:
           type: array
+          minItems: 1
+          description:
+            The validation results for the submitted PAT scenarios.<br>
+            One result is returned for each scenario in the request. Check the`status` and `message` for every result.
           items:
             $ref: "#/components/schemas/patResult"
-
+      example:
+        submissionId: 6a992f0a70be5b2a9436bf9c
+        results:
+          - scenarioId: R01
+            wasteTrackingId: 26BHUT6U
+            status: Pass
+            message: ""
+          - scenarioId: R02
+            wasteTrackingId: 26BHUT6U
+            status: Fail
+            message: Expected more than 1 waste item for R02, found 1
     wasteItem:
       type: object
       required:
@@ -642,8 +724,7 @@ components:
               - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
               - From one to a maximum of five codes per movement can be provided.</p>
           example:
-            - 200108
-            - 150109
+            200108
         wasteDescription:
           type: string
           description: A detailed description of a specific waste material including its physical characteristics, composition and any potential hazards associated with it. 
@@ -1232,7 +1313,7 @@ components:
                       {
                        "key": "0.scenarioId",
                        "errorType": "InvalidValue",
-                       "message": "\"[0].scenarioId\" must be one of [R01, R02, R03, R04, R05, R07, C01, C02, B01, P01, H01, H03, X01]"
+                       "message": "\"[0].scenarioId\" must be one of [R01, R02, R03, R04, R05, R07, C02, B01, P01, H01, H03, X01]"
                       },
                  ]
                 }
