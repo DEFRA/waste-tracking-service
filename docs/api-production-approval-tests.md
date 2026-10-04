@@ -84,13 +84,9 @@ Check the `status` and `message` returned for each result:
 
 Correct and repeat any failed scenario before sending your PAT evidence to the DWT team.
 
-!!! note "External Test only"
-
-    The `POST /production-approval-tests` endpoint is available only in the External Test environment. It is not available in Production.
-
-!!! warning "Rejection scenarios"
-
-    C01 and H02 cannot be submitted through this endpoint because those scenarios reject the Receipt API request and do not generate a Waste Tracking ID. Record the date and time when you perform these scenarios and include that information in your formal PAT evidence.
+<b>Note:</b>:<br>
+- The `POST /production-approval-tests` endpoint is available only in the External Test environment. It is not available in Production<br>
+- C01 and H02 cannot be submitted through this endpoint because those scenarios reject the Receipt API request and do not generate a Waste Tracking ID. Record the date and time when you perform these scenarios and include that information in your formal PAT evidence.
 
 ## The scenarios to be demonstrated are:<br>
 
