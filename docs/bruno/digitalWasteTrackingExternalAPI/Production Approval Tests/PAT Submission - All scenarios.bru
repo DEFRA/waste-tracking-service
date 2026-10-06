@@ -1,0 +1,70 @@
+meta {
+  name: PAT Submission - All scenarios
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/production-approval-tests
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+    {
+      "scenarioId": "R01",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "R02",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "R03",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "R04",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "R05",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "R07",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "C02",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "B01",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "P01",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "H01",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "H03",
+      "wasteTrackingId": ""
+    },
+    {
+      "scenarioId": "X01",
+      "wasteTrackingId": ""
+    }
+  ]  
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

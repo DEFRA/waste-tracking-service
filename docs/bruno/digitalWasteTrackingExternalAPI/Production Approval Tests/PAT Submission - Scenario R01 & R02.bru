@@ -1,0 +1,30 @@
+meta {
+  name: PAT Submission - Scenario R01 & R02
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/production-approval-tests
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+    {
+      "scenarioId": "R01",
+      "wasteTrackingId": "{{wasteTrackingId}}"
+    },
+    {
+      "scenarioId": "R02",
+      "wasteTrackingId": "{{wasteTrackingId}}"
+    }
+  ]  
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
