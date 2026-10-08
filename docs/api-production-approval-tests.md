@@ -239,7 +239,7 @@ so that complex waste streams are correctly classified and recorded.
 **And** I have a waste movement<br>
 **And** the movement contains hazardous components<br>
 **And** the movement contains POPs components<br>
-**When** I submit the waste movement receipt
+**When** I submit the waste movement receipt<br>
 **Then** the waste movement receipt should be created<br>
 **And** I should receive a Waste Tracking ID
 
