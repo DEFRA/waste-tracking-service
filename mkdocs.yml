@@ -54,6 +54,7 @@ nav:
     - Authentication Guide: api-authentication-guide.md
     - Codes for testing and production: api-codes-for-testing-and-production.md
     - Production Approval Tests (PAT): api-production-approval-tests.md
+    - Production Approval Tests (PAT) Self Certification: api-production-approval-tests-self-verification.md
     - Testing and examples: api-testing-and-examples.md
     - Terms of service: api-terms-of-service.md
     - FAQ: faq.md
