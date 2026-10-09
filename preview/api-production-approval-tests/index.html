@@ -14,7 +14,7 @@
         <link rel="prev" href="../api-codes-for-testing-and-production/">
       
       
-        <link rel="next" href="../api-testing-and-examples/">
+        <link rel="next" href="../api-production-approval-tests-self-verification/">
       
       
         
@@ -418,6 +418,8 @@
       
         
       
+        
+      
     
     
     
@@ -658,6 +660,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../api-production-approval-tests-self-verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production Approval Tests (PAT) Self Certification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api-testing-and-examples/" class="md-nav__link">
         
   
@@ -860,168 +890,339 @@
 
 
 <h1 id="receipt-of-waste-api-production-approval-tests">Receipt of Waste - API Production Approval Tests</h1>
-<p>When you’ve completed developing and testing your integration, please send a test submission for each of these scenarios and note down the corresponding Waste Tracking ID’s so we can review. </p>
-<p><b>Sending Production Approval Tests</b></p>
-<p>Email the corresponding Waste Tracking IDs used for each of these scenarios, along with your Client ID (do not include your secret), to: <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a>. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested.</p>
-<p>The scenarios to be demonstrated are:<br>
-- <b>R01</b> Basic Waste receipt - single waste item<br>
-- <b>R02</b> Basic waste receipt - with multiple waste items<br>
-- <b>R03</b> Basic Waste receipt - with means of transport ‘Road’<br>
-- <b>R04</b> Basic waste Receipt - with no 'Disposal or Recovery’ codes<br>
-- <b>R05</b> Basic waste Receipt - with multiple 'Disposal or Recovery’ codes<br>
-- <b>R07</b> Basic waste Receipt - with multiple EWC codes<br>
-- <b>C01</b> Basic waste Receipt - with no Carrier registration number and no reason<br>
-- <b>C02</b> Basic waste Receipt - with no Carrier registration number and reason<br> 
-- <b>B01</b> Basic waste Receipt - with a Broker / Dealer<br>
-- <b>P01</b> POPs Waste Receipt - multiple POPs components<br>
-- <b>H01</b> Hazardous Waste Receipt - multiple hazardous components<br>
-- <b>H02</b> Hazardous Waste Receipt - with no Consignment Note Code and no reason<br>
-- <b>H03</b> Hazardous Waste Receipt - with no Consignment Note Code and a reason<br>
-- <b>X01</b> Hazardous &amp; POPs Waste Receipt<br></p>
-<p>Below are a list of Gherkin style Scenarios outlining, in a behavioural sense, the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:<br>
-- ”Scenario” - A title for Given, When, and Then combinations illustrating a behaviour that can occur within a system<br>
-- ”Given” - A precondition step outlining a state a system needs to be in<br>
-- ”When” - An action step that can be carried out by a user/actor within a system<br>
-- ”Then” - An expectation step of what should be achieved by the combination of the Given and When steps<br></p>
-<p>The following is not an exhaustive set of tests and you will be expected to review our documentation in full to ensure that you have integrated as per the specification.</p>
-<h2 id="feature-basic-receipt-of-waste-scenarios">Feature: Basic Receipt of Waste Scenarios</h2>
-<p>As a user,<br />
-I want to submit a waste movement receipt,<br> 
-so that I can record the receipt of a waste item.<br> </p>
-<h3 id="scenario-submit-basic-receipt-of-waste-with-single-waste-item-r01">Scenario: Submit basic receipt of waste with single waste item (R01)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And there is a single waste item<br>
-And there is an accompanying ‘Disposal or Recovery’ code<br>
-And there are no POPs properties<br>
-And there are no Hazardous properties<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h3 id="scenario-submit-basic-receipt-of-waste-with-multiple-waste-items-r02">Scenario: Submit basic receipt of waste with multiple waste items (R02)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And there are multiple waste items<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h3 id="scenario-submit-basic-receipt-of-waste-with-road-transport-r03">Scenario: Submit basic receipt of waste with Road transport (R03)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And the means of transport is ‘Road’<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h3 id="scenario-submit-basic-receipt-of-waste-with-no-disposal-or-recovery-codes-r04">Scenario: Submit basic receipt of waste with no Disposal or Recovery codes (R04)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And there are no accompanying ‘Disposal or Recovery’ codes<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br>
-And I should receive a warning about missing codes<br></p>
-<h3 id="scenario-submit-basic-receipt-of-waste-with-multiple-disposal-or-recovery-codes-r05">Scenario: Submit basic receipt of waste with multiple Disposal or Recovery codes (R05)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And there is a single waste item<br>
-And there are multiple accompanying ‘Disposal or Recovery’ codes<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h3 id="scenario-submit-basic-receipt-of-waste-with-multiple-ewc-codes-r07">Scenario: Submit basic receipt of waste with multiple EWC codes (R07)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And there are at least two EWC codes<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h2 id="feature-carrier-details-scenarios">Feature: Carrier Details Scenarios</h2>
-<p>As a user,<br>
-I want to submit a receipt of waste with appropriate carrier information,<br>
-so that the movement is properly documented and compliant.<br></p>
-<h3 id="scenario-submit-basic-waste-receipt-with-no-carrier-registration-number-and-no-reason-c01">Scenario: Submit Basic waste Receipt - with no Carrier registration number and no reason (C01)</h3>
-<p>Given I have authenticated
-And I have a waste movement
-And there is no carrier registration number
-And a reason for no registration number is NOT provided
-When I attempt to submit the waste movement receipt
-Then the waste movement receipt should be rejected</p>
-<h3 id="scenario-submit-receipt-of-waste-with-no-carrier-registration-number-and-reason-c02">Scenario: Submit receipt of waste with no carrier registration number and reason (C02)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And there is no carrier registration number, i.e. <strong>registrationNumber</strong> is null<br>
-And a reason for no registration number is provided<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h2 id="feature-brokerdealer-scenarios">Feature: Broker/Dealer Scenarios</h2>
-<p>As a user,<br>
-I want to submit waste movement receipts involving brokers or dealers,<br>
-so that all parties in the waste movement chain are properly recorded.<br></p>
-<h3 id="scenario-submit-receipt-of-waste-with-brokerdealer-involvement-b01">Scenario: Submit receipt of waste with Broker/Dealer involvement (B01)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And there is a Broker/Dealer involved in the movement<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h2 id="feature-pops-waste-scenarios">Feature: POPs Waste Scenarios</h2>
-<p>As a user,<br>
-I want to submit waste movement receipts containing POPs components,<br>
-so that persistent organic pollutants are properly tracked and managed.<br></p>
-<h3 id="scenario-submit-receipt-of-waste-with-multiple-pops-components-p01">Scenario: Submit receipt of waste with multiple POPs components (P01)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And it contains multiple POPs Components<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h2 id="feature-hazardous-waste-scenarios">Feature: Hazardous Waste Scenarios</h2>
-<p>As a user,<br>
-I want to submit waste movement receipts containing hazardous components,<br>
-so that hazardous waste is properly classified and tracked.<br></p>
-<h3 id="scenario-submit-receipt-of-waste-with-multiple-hazardous-components-h01">Scenario: Submit receipt of waste with multiple hazardous components (H01)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And it contains multiple Hazardous Components<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h3 id="scenario-submit-receipt-of-hazardous-waste-with-no-consignment-note-code-and-no-reason-h02">Scenario: Submit receipt of hazardous waste with no Consignment Note Code and no reason (H02)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And it contains Hazardous Components<br>
-And there is no Consignment Note Code, i.e. <strong>hazardousWasteConsignmentCode</strong> is null<br>
-And no reason is provided<br>
-When I attempt to submit the waste movement receipt<br>
-Then the waste movement receipt should be rejected<br>
-And I should receive an error message<br></p>
-<h3 id="scenario-submit-receipt-of-hazardous-waste-with-no-consignment-note-code-but-with-reason-h03">Scenario: Submit receipt of hazardous waste with no Consignment Note Code but with reason (H03)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And it contains Hazardous Components<br>
-And there is no Consignment Note Code<br>
-And a reason is provided<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<h2 id="feature-combined-hazardous-and-pops-scenarios">Feature: Combined Hazardous and POPs Scenarios</h2>
-<p>As a user,<br>
-I want to submit waste movement receipts containing both hazardous and POPs components,<br>
-so that complex waste streams are properly classified and tracked.<br></p>
-<h3 id="scenario-submit-receipt-of-waste-with-both-hazardous-and-pops-components-x01">Scenario: Submit receipt of  waste with both hazardous and POPs components (X01)</h3>
-<p>Given I have authenticated<br>
-And I have a waste movement<br>
-And it contains Hazardous Components<br>
-And it contains POPs components<br>
-When I submit the waste movement receipt<br>
-Then the waste movement receipt should be created<br>
-And I should receive a Waste Tracking ID<br></p>
-<p><strong>Note:</strong> If during testing, software developers find that the scenarios do not fit their software package, they should contact the developer support team at:<br><br>
-<font color="blue"><b><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></b></font><br></p>
+<p>When you have completed developing and testing your integration, complete every Production Approval Test (PAT) scenario applicable to your software and self-certify based on your own assessment that the results meet the specified requirements. Not all scenarios will apply to every product — see the <a href="../api-production-approval-tests-self-verification/">PAT test guidance page</a> on interpreting your results to help identify which apply to your market segment.</p>
+<h2 id="confirming-your-production-approval-tests">Confirming Your Production Approval Tests</h2>
+<p>Once you’re satisfied your software meets the requirements, email <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a> to confirm self-certification is complete and to request your production credentials.</p>
+<p>Defra does not review, validate, mark or approve individual PAT results, this is a self-service process and production credentials are issued on the basis of your own confirmation, not Defra’s assessment</p>
+<h2 id="complete-and-self-certify-your-production-approval-tests">Complete and Self-Certify Your Production Approval Tests</h2>
+<p>Use the External Test environment to complete the applicable PAT scenarios. Check <a href="#check-your-pat-results">here</a> for examples of request and response formats.</p>
+<p>Before using POST /production-approval-tests, submit a test movement to POST /movements/receive that meets the conditions of the PAT scenario. Record the Waste Tracking ID returned in the successful 201 Created response and use it with the corresponding scenario ID in your PAT request.</p>
+<p>For scenarios that successfully create a waste receipt, record the Waste Tracking ID returned by the Receipt of Waste API. You will use the Waste Tracking ID to check the result of the scenario using:</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST /production-approval-tests</span>
+</code></pre></div>
+<p>You may use the same Waste Tracking ID for different scenarios where the submitted receipt satisfies the requirements of each scenario.</p>
+<p>C01 and H02 are rejection scenarios. These scenarios do not generate Waste Tracking IDs. Complete them separately and confirm that your software receives and handles the expected error response.</p>
+<p>Every applicable scenario must pass before you self-certify your integration.</p>
+<p>After all applicable scenarios have passed, complete the approved self-certification process to confirm that:</p>
+<ul>
+<li>you completed every PAT scenario applicable to your integration</li>
+<li>every applicable scenario passed against the published criteria</li>
+<li>you resolved and repeated every failed scenario</li>
+<li>C01 and H02 produced and handled the expected error responses</li>
+<li>there are no unresolved <code>Fail</code> results</li>
+<li>your integration is ready to proceed to production credentials</li>
+</ul>
+<p><b>Important Note:</b> Do not send your client secret as part of the self-certification or production credentials request.</p>
+<h2 id="pat-scenarios">PAT Scenarios</h2>
+<p>The scenarios to be demonstrated are:</p>
+<ul>
+<li><strong>R01</strong> Basic waste receipt with a single waste item</li>
+<li><strong>R02</strong> Basic waste receipt with multiple waste items</li>
+<li><strong>R03</strong> Basic waste receipt with means of transport set to <code>Road</code></li>
+<li><strong>R04</strong> Basic waste receipt with no Disposal or Recovery codes</li>
+<li><strong>R05</strong> Basic waste receipt with multiple Disposal or Recovery codes</li>
+<li><strong>R07</strong> Basic waste receipt with multiple EWC codes</li>
+<li><strong>C01</strong> Basic waste receipt with no carrier registration number and no reason</li>
+<li><strong>C02</strong> Basic waste receipt with no carrier registration number and a reason</li>
+<li><strong>B01</strong> Basic waste receipt with a broker or dealer</li>
+<li><strong>P01</strong> POPs waste receipt with multiple POPs components</li>
+<li><strong>H01</strong> Hazardous waste receipt with multiple hazardous components</li>
+<li><strong>H02</strong> Hazardous waste receipt with no consignment note code and no reason</li>
+<li><strong>H03</strong> Hazardous waste receipt with no consignment note code and a reason</li>
+<li><strong>X01</strong> Waste receipt containing both hazardous and POPs components</li>
+</ul>
+<h2 id="understand-the-scenario-format">Understand the Scenario Format</h2>
+<p>Below are a list of Gherkin style Scenarios outlining, in a behavioural sense, the scenarios to be demonstrated. As a quick note on Gherkin Scenarios:<br>The scenarios use a Given, When and Then format:</p>
+<ul>
+<li><strong>Scenario</strong> describes the behaviour being tested.</li>
+<li><strong>Given</strong> describes the required starting conditions.</li>
+<li><strong>When</strong> describes the action performed by the Software Vendor.</li>
+<li><strong>Then</strong> describes the expected result.</li>
+</ul>
+<p>These scenarios do not replace the complete API specification and developer guidance. You are responsible for ensuring that your integration complies with all applicable requirements.</p>
+<h2 id="complete-the-pat-scenarios">Complete the PAT Scenarios</h2>
+<h3 id="feature-basic-receipt-of-waste-scenarios">Feature: Basic Receipt of Waste Scenarios</h3>
+<p>As a Software Vendor,<br />
+I want to submit waste movement receipts, so that I can record the receipt of waste items.</p>
+<h3 id="r01-submit-a-basic-waste-receipt-with-a-single-waste-item">R01: Submit a basic waste receipt with a single waste item</h3>
+<p><strong>Given</strong> I have authenticated<br />
+<strong>And</strong> I have a waste movement<br />
+<strong>And</strong> there is a single waste item<br />
+<strong>And</strong> there is an accompanying Disposal or Recovery code<br />
+<strong>And</strong> there are no POPs properties<br />
+<strong>And</strong> there are no hazardous properties<br />
+<strong>When</strong> I submit the waste movement receipt<br />
+<strong>Then</strong> the waste movement receipt should be created<br />
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h3 id="r02-submit-a-basic-waste-receipt-with-multiple-waste-items">R02: Submit a basic waste receipt with multiple waste items</h3>
+<p><strong>Given</strong> I have authenticated<br />
+<strong>And</strong> I have a waste movement<br />
+<strong>And</strong> there are multiple waste items<br />
+<strong>When</strong> I submit the waste movement receipt<br />
+<strong>Then</strong> the waste movement receipt should be created<br />
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h3 id="r03-submit-a-basic-waste-receipt-with-road-transport">R03: Submit a basic waste receipt with Road transport</h3>
+<p><strong>Given</strong> I have authenticated<br />
+<strong>And</strong> I have a waste movement<br />
+<strong>And</strong> the means of transport is <code>Road</code><br />
+<strong>When</strong> I submit the waste movement receipt<br />
+<strong>Then</strong> the waste movement receipt should be created<br />
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h3 id="r04-submit-a-basic-waste-receipt-with-no-disposal-or-recovery-codes">R04: Submit a basic waste receipt with no Disposal or Recovery codes</h3>
+<p><strong>Given</strong> I have authenticated<br />
+<strong>And</strong> I have a waste movement<br />
+<strong>And</strong> there are no accompanying Disposal or Recovery codes<br />
+<strong>When</strong> I submit the waste movement receipt<br />
+<strong>Then</strong> the waste movement receipt should be created<br />
+<strong>And</strong> I should receive a Waste Tracking ID<br />
+<strong>And</strong> I should receive a warning about the missing codes</p>
+<h3 id="r05-submit-a-basic-waste-receipt-with-multiple-disposal-or-recovery-codes">R05: Submit a basic waste receipt with multiple Disposal or Recovery codes</h3>
+<p><strong>Given</strong> I have authenticated<br />
+<strong>And</strong> I have a waste movement<br />
+<strong>And</strong> there is a single waste item<br />
+<strong>And</strong> there are multiple accompanying Disposal or Recovery codes<br />
+<strong>When</strong> I submit the waste movement receipt<br />
+<strong>Then</strong> the waste movement receipt should be created<br />
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h3 id="r07-submit-a-basic-waste-receipt-with-multiple-ewc-codes">R07: Submit a basic waste receipt with multiple EWC codes</h3>
+<p><strong>Given</strong> I have authenticated<br />
+<strong>And</strong> I have a waste movement<br />
+<strong>And</strong> there are at least two EWC codes<br />
+<strong>When</strong> I submit the waste movement receipt<br />
+<strong>Then</strong> the waste movement receipt should be created<br />
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h3 id="feature-carrier-details-scenarios">Feature: Carrier details scenarios</h3>
+<p>As a Software Vendor,<br />
+I want to submit a receipt with appropriate carrier information,<br />
+so that the waste movement is correctly documented.</p>
+<h3 id="c01-submit-a-receipt-with-no-carrier-registration-number-and-no-reason">C01: Submit a receipt with no carrier registration number and no reason</h3>
+<p><strong>Given</strong> I have authenticated<br />
+<strong>And</strong> I have a waste movement<br />
+<strong>And</strong> there is no carrier registration number<br />
+<strong>And</strong> a reason for not providing a registration number is not provided<br />
+<strong>When</strong> I attempt to submit the waste movement receipt<br />
+<strong>Then</strong> the waste movement receipt should be rejected<br />
+<strong>And</strong> I should receive an error response<br />
+<strong>And</strong> I should not receive a Waste Tracking ID</p>
+<h3 id="c02-submit-a-receipt-with-no-carrier-registration-number-but-with-a-reason">C02: Submit a receipt with no carrier registration number but with a reason</h3>
+<p><strong>Given</strong> I have authenticated<br />
+<strong>And</strong> I have a waste movement<br />
+<strong>And</strong> <code>carrier.registrationNumber</code> is <code>null</code><br>
+<strong>And</strong> a valid reason for not providing a registration number is provided<br>
+<strong>When</strong> I submit the waste movement receipt<br>
+<strong>Then</strong> the waste movement receipt should be created<br>
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h3 id="feature-broker-or-dealer-scenarios">Feature: Broker or dealer scenarios</h3>
+<p>As a Software Vendor,<br>
+I want to submit receipts involving brokers or dealers,<br>
+so that the parties involved in the waste movement are recorded.</p>
+<h3 id="b01-submit-a-receipt-with-broker-or-dealer-involvement">B01: Submit a receipt with broker or dealer involvement</h3>
+<p><strong>Given</strong> I have authenticated<br>
+<strong>And</strong> I have a waste movement<br>
+<strong>And</strong> a broker or dealer is involved in the movement<br>
+<strong>When</strong> I submit the waste movement receipt<br>
+<strong>Then</strong> the waste movement receipt should be created<br>
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h3 id="feature-pops-waste-scenarios">Feature: POPs waste scenarios</h3>
+<p>As a Software Vendor,<br>
+I want to submit receipts containing POPs components,<br>
+so that persistent organic pollutants are recorded.</p>
+<h3 id="p01-submit-a-receipt-with-multiple-pops-components">P01: Submit a receipt with multiple POPs components</h3>
+<p><strong>Given</strong> I have authenticated<br>
+<strong>And</strong> I have a waste movement<br>
+<strong>And</strong> the movement contains multiple POPs components<br>
+<strong>When</strong> I submit the waste movement receipt<br>
+<strong>Then</strong> the waste movement receipt should be created<br>
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h3 id="feature-hazardous-waste-scenarios">Feature: Hazardous waste scenarios</h3>
+<p>As a Software Vendor, I want to submit receipts containing hazardous components, so that hazardous waste is correctly classified and recorded.</p>
+<h3 id="h01-submit-a-hazardous-waste-receipt-with-multiple-hazardous-components">H01: Submit a hazardous waste receipt with multiple hazardous components</h3>
+<p><strong>Given</strong> I have authenticated<br>
+<strong>And</strong> I have a waste movement<br>
+<strong>And</strong> the movement contains multiple hazardous components<br>
+<strong>When</strong> I submit the waste movement receipt<br>
+<strong>Then</strong> the waste movement receipt should be created<br>
+<strong>And</strong> I should receive a Waste Tracking ID<br></p>
+<h3 id="h02-submit-hazardous-waste-with-no-consignment-note-code-and-no-reason">H02: Submit hazardous waste with no consignment note code and no reason</h3>
+<p><strong>Given</strong> I have authenticated<br>
+<strong>And</strong> I have a waste movement<br>
+<strong>And</strong> the movement contains hazardous components<br>
+<strong>And</strong> <code>hazardousWasteConsignmentCode</code> is <code>null</code><br>
+<strong>And</strong> no reason is provided<br>
+<strong>When</strong> I attempt to submit the waste movement receipt<br>
+<strong>Then</strong> the waste movement receipt should be rejected<br>
+<strong>And</strong> I should receive an error response<br>
+<strong>And</strong> I should not receive a Waste Tracking ID</p>
+<h3 id="h03-submit-hazardous-waste-with-no-consignment-note-code-but-with-a-reason">H03: Submit hazardous waste with no consignment note code but with a reason</h3>
+<p><strong>Given</strong> I have authenticated<br>
+<strong>And</strong> I have a waste movement<br>
+<strong>And</strong> the movement contains hazardous components<br>
+<strong>And</strong> no hazardous waste consignment note code is provided<br>
+<strong>And</strong> a valid reason is provided<br>
+<strong>When</strong> I submit the waste movement receipt<br>
+<strong>Then</strong> the waste movement receipt should be created<br>
+<strong>And</strong> I should receive a Waste Tracking ID<br></p>
+<h3 id="feature-combined-hazardous-and-pops-scenarios">Feature: Combined hazardous and POPs scenarios</h3>
+<p>As a Software Vendor,<br>
+I want to submit receipts containing both hazardous and POPs components,<br>
+so that complex waste streams are correctly classified and recorded.</p>
+<h3 id="x01-submit-a-receipt-containing-both-hazardous-and-pops-components">X01: Submit a receipt containing both hazardous and POPs components</h3>
+<p><strong>Given</strong> I have authenticated<br>
+<strong>And</strong> I have a waste movement<br>
+<strong>And</strong> the movement contains hazardous components<br>
+<strong>And</strong> the movement contains POPs components<br>
+<strong>When</strong> I submit the waste movement receipt<br>
+<strong>Then</strong> the waste movement receipt should be created<br>
+<strong>And</strong> I should receive a Waste Tracking ID</p>
+<h2 id="check-your-pat-results">Check Your PAT Results</h2>
+<p>Use the following endpoint to check successful PAT scenarios against the published pass and fail criteria:</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST /production-approval-tests</span>
+</code></pre></div>
+<p>The endpoint is available in the External Test environment only. It is not available in Production.</p>
+<p>Submit the scenario ID and corresponding Waste Tracking ID for each scenario you want to check.</p>
+<p>The endpoint returns a separate result for every submitted scenario:</p>
+<ul>
+<li><code>Pass</code> means that the submitted receipt satisfies the requirements of that scenario.</li>
+<li><code>Fail</code> means that the submitted receipt does not satisfy one or more requirements. The <code>message</code> explains why the scenario failed.</li>
+</ul>
+<p>For a more detailed explanation, refer to the PAT result <a href="../api-production-approval-tests-self-verification/">Self-Service Interpretation Guide</a> page.</p>
+<p>A <code>200 OK</code> response means that the PAT request was processed. It does not mean that every submitted scenario passed.</p>
+<p>You must check the <code>status</code> returned for every result.</p>
+<h3 id="request-format">Request format</h3>
+<p>The request body must be a JSON array containing at least one scenario.</p>
+<p>Each item must contain:</p>
+<ul>
+<li><code>scenarioId</code> – the supported PAT scenario identifier</li>
+<li><code>wasteTrackingId</code> – the Waste Tracking ID returned when the corresponding receipt was created</li>
+</ul>
+<p>You may use the same Waste Tracking ID for different scenarios where the receipt satisfies the requirements of each scenario.</p>
+<p>You <strong>must not</strong> include the same <code>scenarioId</code> more than once in a request.</p>
+<p>The endpoint supports the following scenario IDs:</p>
+<div class="highlight"><pre><span></span><code>R01
+R02
+R03
+R04
+R05
+R07
+C02
+B01
+P01
+H01
+H03
+X01
+</code></pre></div>
+<p>C01 and H02 cannot be submitted through this endpoint because they do not generate Waste Tracking IDs.</p>
+<h3 id="example-request">Example request</h3>
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="p">{</span>
+<span class="nt">"scenarioId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"R01"</span><span class="p">,</span>
+<span class="nt">"wasteTrackingId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25HRA0B2"</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="nt">"scenarioId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"R02"</span><span class="p">,</span>
+<span class="nt">"wasteTrackingId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25XYZ122"</span>
+<span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<h3 id="example-curl-request">Example cURL request</h3>
+<p>Replace <code>YOUR_ACCESS_TOKEN</code> with an access token obtained using your External Test credentials.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--request<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+--url<span class="w"> </span><span class="s2">"https://waste-tracking.integration.api.defra.gov.uk/production-approval-tests"</span><span class="w"> </span><span class="se">\</span>
+--header<span class="w"> </span><span class="s2">"Authorization: Bearer YOUR_ACCESS_TOKEN"</span><span class="w"> </span><span class="se">\</span>
+--header<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+--header<span class="w"> </span><span class="s2">"Accept: application/json"</span><span class="w"> </span><span class="se">\</span>
+--data<span class="w"> </span><span class="s1">'[</span>
+<span class="s1">{</span>
+<span class="s1">"scenarioId": "R01",</span>
+<span class="s1">"wasteTrackingId": "25HRA0B2"</span>
+<span class="s1">},</span>
+<span class="s1">{</span>
+<span class="s1">"scenarioId": "R02",</span>
+<span class="s1">"wasteTrackingId": "25XYZ122"</span>
+<span class="s1">}</span>
+<span class="s1">]'</span>
+</code></pre></div>
+<p>Do not include a client secret in the request or in any communication with the DWT team.</p>
+<h3 id="example-response">Example response</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="nt">"submissionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6a992f0a70be5b2a9436bf9c"</span><span class="p">,</span>
+<span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="p">{</span>
+<span class="nt">"scenarioId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"R01"</span><span class="p">,</span>
+<span class="nt">"wasteTrackingId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25HRA0B2"</span><span class="p">,</span>
+<span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pass"</span><span class="p">,</span>
+<span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="nt">"scenarioId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"R02"</span><span class="p">,</span>
+<span class="nt">"wasteTrackingId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25XYZ122"</span><span class="p">,</span>
+<span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fail"</span><span class="p">,</span>
+<span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Expected more than 1 waste item for R02, found 1"</span>
+<span class="p">}</span>
+<span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In this example:</p>
+<ul>
+<li>R01 passed.</li>
+<li>R02 failed because the associated receipt contained only one waste item.</li>
+<li>The <code>200 OK</code> response confirms that the request was processed, not that both scenarios passed.</li>
+</ul>
+<h2 id="resolve-every-failed-result">Resolve every failed result</h2>
+<p>Every applicable scenario must return <code>Pass</code> before you self-certify your integration.</p>
+<p>A <code>Fail</code> result means that the scenario has not been completed successfully.</p>
+<p>If a scenario fails:</p>
+<ol>
+<li>Read the returned <code>message</code>.</li>
+<li>Review the submitted receipt against the scenario criteria.</li>
+<li>Correct your integration or test data.</li>
+<li>Submit a new Receipt of Waste record if necessary.</li>
+<li>Repeat the PAT check using the appropriate Waste Tracking ID.</li>
+<li>Confirm that the scenario returns <code>Pass</code>.</li>
+</ol>
+<p>You must not disregard or override a <code>Fail</code> result.</p>
+<p>You must not self-certify your integration while any applicable scenario has an unresolved <code>Fail</code> result.</p>
+<h2 id="verify-rejection-scenarios">Verify rejection scenarios</h2>
+<p>C01 and H02 are rejection scenarios.</p>
+<p>A correctly implemented integration must:</p>
+<ul>
+<li>receive an error response</li>
+<li>not receive a Waste Tracking ID</li>
+<li>handle the error response correctly</li>
+</ul>
+<p>Because these scenarios do not generate Waste Tracking IDs, they cannot be submitted through:</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST /production-approval-tests</span>
+</code></pre></div>
+<p>Complete C01 and H02 separately and confirm that your software receives and handles the expected error for each scenario.</p>
+<h2 id="self-certify-your-pat-results">Self-Certify Your PAT results</h2>
+<p>After every applicable PAT scenario has passed, you must confirm that testing is complete and that your integration is ready to proceed to production credentials.</p>
+<p>Your self-certification should confirm that:</p>
+<ul>
+<li>you completed every PAT scenario applicable to your integration</li>
+<li>every applicable scenario passed against the published criteria</li>
+<li>you resolved and repeated every failed scenario</li>
+<li>C01 and H02 produced and handled the expected error responses</li>
+<li>there are no unresolved <code>Fail</code> results</li>
+<li>your integration is ready to proceed to production credentials</li>
+</ul>
+<h3 id="confirmation-statement">Confirmation statement</h3>
+<p>Use the following statement when completing the approved production credentials request process:</p>
+<div class="highlight"><pre><span></span><code>We confirm that we have completed all Production Approval Test scenarios applicable to our integration, based on the waste industry we serve and the types of waste our software handles. We have assessed the results using the PAT Self-Service Interpretation Guide. All applicable scenarios have passed the published criteria. Where a scenario does not apply to our integration, we have recorded the reason and can provide it on request. All other failed results have been resolved, including confirming that applicable rejection scenarios produce and handle the expected error responses.
+
+We declare that, in our judgement, our integration is ready for production credentials.
+</code></pre></div>
+<p>By making this confirmation, the Software Vendor takes responsibility for the completeness and outcome of its Production Approval Testing.</p>
+<p>Self-certification confirms that the Software Vendor considers its integration ready to proceed to the production credentials process. It is not a Defra review, validation or approval of individual PAT results.</p>
+<h2 id="production-credentials">Production credentials</h2>
+<p>After self-certifying that testing is complete, follow the production credentials request process provided during Software Vendor onboarding.</p>
+<p>Do not include your client secret in the request or in an email.</p>
+<p>Production credentials must only be stored and used in accordance with the API Terms of Service and your organisation’s security procedures.</p>
+<h2 id="contact-developer-support">Contact developer support</h2>
+<p>If a PAT scenario does not fit your software product, or you need help interpreting the published criteria, contact:</p>
+<p><strong><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></strong></p>
+<p>Developer support can clarify the documentation and technical requirements. Contacting the support team does not replace the Software Vendor’s responsibility to complete and self-certify its PAT results.</p>
 <h2 id="changelog">Changelog</h2>
-<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Production-Approval-Tests">Receipt API v1.0 Production Approval Tests</a> GitHub wiki.
-<br/>Page last updated on September 14th 2026.</p>
+<p>You can find the changelog for this page in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Production-Approval-Tests">Production-Approval-Tests</a> GitHub wiki page.</p>
 
 
 

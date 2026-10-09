@@ -8,30 +8,32 @@
       
       
       
-        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/preview/">
+        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/preview/api-production-approval-tests-self-verification/">
       
       
+        <link rel="prev" href="../api-production-approval-tests/">
       
-        <link rel="next" href="api-register-as-a-software-provider/">
+      
+        <link rel="next" href="../api-testing-and-examples/">
       
       
         
       
       
-      <link rel="icon" href="favicons/moj.ico">
+      <link rel="icon" href="../favicons/moj.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Welcome to the Receipt of Waste API - Defra Digital Waste Tracking Developer Guide</title>
+        <title>Production Approval Tests (PAT) Self Certification - Defra Digital Waste Tracking Developer Guide</title>
       
     
     
   
-      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
   
@@ -100,7 +102,7 @@
   <style>:root{.md-tag.md-tag--draft{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5.5%202C3.6%202%202%203.6%202%205.5v13C2%2020.4%203.6%2022%205.5%2022H16l6-6V5.5C22%203.6%2020.4%202%2018.5%202zm.3%202h12.5c1%200%201.8.8%201.8%201.8V15h-1.5c-1.9%200-3.5%201.6-3.5%203.5V20H5.8c-1%200-1.8-.8-1.8-1.8V5.8C4%204.8%204.8%204%205.8%204%22/%3E%3C/svg%3E');}.md-tag.md-tag--accepted{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M18.5%202h-13C3.6%202%202%203.6%202%205.5v13C2%2020.4%203.6%2022%205.5%2022H16l6-6V5.5C22%203.6%2020.4%202%2018.5%202M20%2015h-1.5c-1.9%200-3.5%201.6-3.5%203.5V20H5.8c-1%200-1.8-.8-1.8-1.8V5.8C4%204.8%204.8%204%205.8%204h12.5c1%200%201.8.8%201.8%201.8V15m-4.9-6.8%201.5%201.5-6%206-3.5-3.5%201.5-1.5%202%202z%22/%3E%3C/svg%3E');}.md-tag.md-tag--proposed{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M13%2011h3v2h-3v3h-2v-3H8v-2h3V8h2zm9-5.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--deprecated{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%2011h8v2H8zm14-5.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--superseded{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M11%2015h2v2h-2zm0-2h2V7h-2zm11-7.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--rejected{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M16%209.4%2013.4%2012l2.6%202.6-1.4%201.4-2.6-2.6L9.4%2016%208%2014.6l2.6-2.6L8%209.4%209.4%208l2.6%202.6L14.6%208zm6-3.9V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}}</style>
 
     
-<link rel="stylesheet" href="assets/stylesheets/extra.css" />
+<link rel="stylesheet" href="../assets/stylesheets/extra.css" />
 
     
       
@@ -115,11 +117,11 @@
       
     
     
-      <link rel="stylesheet" href="stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
       <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -144,7 +146,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#register-for-the-digital-waste-tracking-service" class="md-skip">
+        <a href="#receipt-of-waste-pat-self-service-interpretation-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -160,9 +162,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Defra Digital Waste Tracking Developer Guide" class="md-header__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
+    <a href=".." title="Defra Digital Waste Tracking Developer Guide" class="md-header__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
       
-  <img src="logos/moj.png" alt="logo">
+  <img src="../logos/moj.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -179,7 +181,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome to the Receipt of Waste API
+              Production Approval Tests (PAT) Self Certification
             
           </span>
         </div>
@@ -295,7 +297,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="." class="md-tabs__link">
+        <a href=".." class="md-tabs__link">
           
   
   
@@ -317,7 +319,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="api-specification/" class="md-tabs__link">
+        <a href="../api-specification/" class="md-tabs__link">
           
   
   
@@ -361,9 +363,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Defra Digital Waste Tracking Developer Guide" class="md-nav__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
+    <a href=".." title="Defra Digital Waste Tracking Developer Guide" class="md-nav__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
       
-  <img src="logos/moj.png" alt="logo">
+  <img src="../logos/moj.png" alt="logo">
 
     </a>
     Defra Digital Waste Tracking Developer Guide
@@ -436,7 +438,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="." class="md-nav__link md-nav__link--active">
+            <a href=".." class="md-nav__link ">
               
   
   
@@ -454,7 +456,7 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_1" id="__nav_1_label" tabindex="">
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -480,7 +482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-register-as-a-software-provider/" class="md-nav__link">
+      <a href="../api-register-as-a-software-provider/" class="md-nav__link">
         
   
   
@@ -508,7 +510,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-receipt-of-waste-getting-started-guide/" class="md-nav__link">
+      <a href="../api-receipt-of-waste-getting-started-guide/" class="md-nav__link">
         
   
   
@@ -536,7 +538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-receipt-data-definitions/" class="md-nav__link">
+      <a href="../api-receipt-data-definitions/" class="md-nav__link">
         
   
   
@@ -564,7 +566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-authentication-guide/" class="md-nav__link">
+      <a href="../api-authentication-guide/" class="md-nav__link">
         
   
   
@@ -592,7 +594,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-codes-for-testing-and-production/" class="md-nav__link">
+      <a href="../api-codes-for-testing-and-production/" class="md-nav__link">
         
   
   
@@ -620,7 +622,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-production-approval-tests/" class="md-nav__link">
+      <a href="../api-production-approval-tests/" class="md-nav__link">
         
   
   
@@ -645,10 +647,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="api-production-approval-tests-self-verification/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -664,6 +675,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -676,7 +688,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-testing-and-examples/" class="md-nav__link">
+      <a href="../api-testing-and-examples/" class="md-nav__link">
         
   
   
@@ -704,7 +716,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-terms-of-service/" class="md-nav__link">
+      <a href="../api-terms-of-service/" class="md-nav__link">
         
   
   
@@ -732,7 +744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="faq/" class="md-nav__link">
+      <a href="../faq/" class="md-nav__link">
         
   
   
@@ -821,7 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-specification/" class="md-nav__link">
+      <a href="../api-specification/" class="md-nav__link">
         
   
   
@@ -870,37 +882,190 @@
     
       
     
-    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/README.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-production-approval-tests-self-verification.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="register-for-the-digital-waste-tracking-service">Register for the Digital Waste Tracking Service</h1>
-<p>Are you a waste receiver or software provider and want to get involved? <a href="api-register-as-a-software-provider/">Sign up for our Digital Waste Tracking Service</a>.</p>
-<p>The Department for Environment, Food &amp; Rural Affairs (Defra) intend to transform how data about waste movements is collected and shared with the regulators across all 4 UK nations. It will be mandatory for Waste Receivers to report waste they’ve received from October 2026.</p>
-<p>Using this link you can read more about the <a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/mandatory-digital-waste-tracking">digital waste tracking policy on GOV.UK</a>.</p>
-<p>To get the latest updates from Defra on circular economy reforms (including waste tracking), <a href="https://confirmsubscription.com/h/t/EBFF97EEADC3DECE">sign up to receive our newsletter</a>.</p>
-<h2 id="submitting-data-about-waste-movements-planned-changes">Submitting data about waste movements: planned changes</h2>
-<p>We are exploring the development of new APIs to integrate with waste management software and other systems. By having waste carriers and receivers submit data via APIs, we can give regulators a more joined-up and comprehensive picture of all waste movements.</p>
-<p>This site contains draft details for the technical design of the service, including a list of data definitions, and a link to the draft API specification.</p>
-<h2 id="how-we-are-engaging-with-the-waste-industry">How we are engaging with the waste industry</h2>
-<p>We want to test how people will report waste they’ve received as early as we can, including learning about any barriers to delivering it. We welcome feedback from people in the waste industry to help us do this.</p>
-<p>We are currently talking to the following groups of people to help us learn about any barriers to us delivering this new service:</p>
+<h1 id="receipt-of-waste-pat-self-service-interpretation-guide">Receipt of Waste PAT Self-Service Interpretation Guide</h1>
+<p>When you have completed developing and testing your integration, you must run a test submission for each relevant scenario and self-certify, based on your own assessment that the results meet the specified requirements.</p>
+<p>Not every scenario applies to every software product.</p>
+<p>Use this page to:</p>
 <ul>
-<li>waste carriers</li>
-<li>waste receivers</li>
-<li>waste management software suppliers</li>
+<li>identify which scenarios apply to your market segment</li>
+<li>understand what constitutes a <code>Pass</code> or <code>Fail</code></li>
+<li>determine whether a scenario is outside the scope of your software</li>
 </ul>
-<h3 id="how-to-get-involved">How to get involved</h3>
-<p>We are inviting waste receivers to <a href="api-register-as-a-software-provider/">join the Waste Tracking Service</a>.</p>
-<p>We are also planning further user research and other opportunities for people in the waste industry to give feedback and test the solutions we're looking to develop. To register interest in taking part, <a href="https://defragroup.eu.qualtrics.com/jfe/form/SV_9QqfQNqEnI7ecDQ">sign up for the waste tracking user panel</a>.<br></p>
-<h3 id="timelines-for-the-digital-waste-tracking-project">Timelines for the Digital Waste Tracking Project</h3>
-<p>Timelines for the Digital Waste Tracking Project are available <a href="https://www.gov.uk/government/publications/digital-waste-tracking-service/digital-waste-tracking-service#timelines">here</a>.</p>
-<h3 id="changelog">Changelog</h3>
-<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/README-Changelog">Receipt API v1.0 README</a> GitHub wiki.<br></p>
-<p><br/>Page last updated on January 14th 2026.</p>
+<h2 id="confirm-your-production-approval-tests">Confirm your Production Approval Tests</h2>
+<p>Defra does not review, mark or approve your test results. This is a self-service process and production credentials are issued based on your confirmation rather than Defra’s assessment.</p>
+<p>The guidance on this page is therefore your primary safeguard when self-certifying your results.</p>
+<p>The scenarios covered by this guidance are:</p>
+<ul>
+<li><strong>R01</strong> Basic receipt with a single waste item</li>
+<li><strong>R02</strong> Basic receipt with multiple waste items</li>
+<li><strong>R03</strong> Basic receipt with transport set to <code>Road</code></li>
+<li><strong>R04</strong> Basic receipt with no Disposal or Recovery codes</li>
+<li><strong>R05</strong> Basic receipt with multiple Disposal or Recovery codes</li>
+<li><strong>R07</strong> Basic receipt with multiple EWC codes</li>
+<li><strong>C01</strong> No carrier registration number and no reason</li>
+<li><strong>C02</strong> No carrier registration number but with a reason</li>
+<li><strong>B01</strong> Broker or dealer involved</li>
+<li><strong>P01</strong> POPs receipt with multiple POPs components</li>
+<li><strong>H01</strong> Hazardous receipt with multiple hazardous components</li>
+<li><strong>H02</strong> Hazardous receipt with no consignment note code and no reason</li>
+<li><strong>H03</strong> Hazardous receipt with no consignment note code but with a reason</li>
+<li><strong>X01</strong> Combined hazardous and POPs receipt</li>
+</ul>
+<p>R06 was withdrawn by Defra. There is no test associated with this scenario ID.</p>
+<h2 id="self-certification-and-your-obligations">Self-Certification and Your Obligations</h2>
+<p>PAT is a self-certification process.</p>
+<p>You submit test payloads to the Receipt of Waste API in Defra’s External Test environment. You can then use the PAT endpoint to obtain a <code>Pass</code> or <code>Fail</code> result for each supported scenario.</p>
+<p>You must assess the results and self-certify that your testing is complete before emailing Defra to request production credentials.</p>
+<p>Under the <a href="../api-terms-of-service/">API Terms of Service</a>:</p>
+<ul>
+<li>you must ensure your software aligns with the API specification so that submitted data validates correctly</li>
+<li>you must support your users and customers in meeting their legal obligations</li>
+</ul>
+<p>This guidance is intended to help you make an informed and evidenced decision about your results.</p>
+<p>Where an explanation says that a result may be expected for a particular market segment, this provides context for your own assessment. It is not a dispensation from any applicable requirement.</p>
+<p>Proceeding to production with a known capability gap is at your own and your customers’ risk. This includes the risk of failing to comply with the applicable Digital Waste Tracking regulations.</p>
+<h2 id="how-self-certification-works">How Self-Certification Works</h2>
+<ol>
+<li>Submit a test Receipt of Waste payload to the API in Defra’s External Test environment.</li>
+<li>Record the Waste Tracking ID returned for a successfully created receipt.</li>
+<li>Submit the scenario ID and Waste Tracking ID to the PAT endpoint.</li>
+<li>Review the <code>Pass</code> or <code>Fail</code> result returned for the scenario.</li>
+<li>Use the guidance on this page to interpret the result.</li>
+<li>Correct and repeat any scenario that identifies an applicable capability gap.</li>
+<li>Once you are satisfied that you have completed the applicable scenarios successfully, self-certify by emailing <strong><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></strong> to confirm completion and request production credentials.</li>
+</ol>
+<p>Defra does not check or approve your individual results.</p>
+<p>Not every scenario applies to every market segment. For each scenario, this guidance explains:</p>
+<ul>
+<li>what a <code>Pass</code> means</li>
+<li>what a <code>Fail</code> means</li>
+<li>whether the result may indicate a capability gap</li>
+<li>whether the scenario may be outside your product’s scope</li>
+<li>what action may be required before you proceed</li>
+</ul>
+<p>The guidance is not an exhaustive interpretation of every possible result. You must also review the PAT guidance and API specification in full.</p>
+<p><strong>Note</strong> Regulation references</p>
+<div class="highlight"><pre><span></span><code>Regulation references on this page relate to the England regulations. If you operate in Wales, Scotland or Northern Ireland, refer to the equivalent provisions in the regulations that apply in that nation. Paragraph numbering may differ.
+</code></pre></div>
+<h1 id="basic-receipt-of-waste-scenarios">Basic Receipt of Waste scenarios</h1>
+<h2 id="r01-basic-receipt-with-a-single-waste-item">R01: Basic receipt with a single waste item</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Mandatory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with one fully classified waste item and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the product can create a basic waste receipt containing a single waste item.</li>
+<li><strong>Underlying reason:</strong> A receipt requires the complete waste-classification data model, including the EWC code, waste description, Disposal or Recovery code and carrier details.</li>
+<li><strong>What it proves:</strong> The software holds the core required waste-receipt data model and can submit a conformant record.</li>
+<li><strong>If Pass:</strong> The result demonstrates that the product holds the core waste-receipt data model and submitted a conformant record. No further action is required for this scenario.</li>
+<li><strong>If Fail:</strong> This indicates a genuine capability or payload gap. Correct the issue and repeat the scenario. This is not a market-segmentation issue.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 14(1)(b) of the Digital Waste Tracking (England) Regulations 2026 requires the D code, R code, or both to be recorded for each waste code on the receipt. Recording the specified information is required under regulation 4(5)(a). If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> R01 is a mandatory basic test. Your software cannot proceed to the production credentials process while this scenario fails.</li>
+</ul>
+<h2 id="r02-basic-receipt-with-multiple-waste-items">R02: Basic receipt with multiple waste items</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Mandatory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with multiple separately classified waste items and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that multiple waste items on one receipt can be classified separately.</li>
+<li><strong>Underlying reason:</strong> Mixed loads must be classified item by item. Applying one classification to the complete load, or submitting multiple receipts for one received load, can degrade data quality.</li>
+<li><strong>What it proves:</strong> The product classifies each waste item separately instead of combining a mixed load under one code or requiring separate receipts for one load.</li>
+<li><strong>If Pass:</strong> The result demonstrates that the software allows waste items to be classified individually.</li>
+<li><strong>If Fail:</strong> This indicates a genuine capability gap. The software does not support the capture of multiple waste items under one waste receipt. Correct the issue and repeat the scenario.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 13 covers the waste code or codes for the controlled waste. Paragraph 14 requires weight, Disposal or Recovery code and container information to be recorded for each waste code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> This is a mandatory requirement. The capability gap must be resolved before you request production credentials.</li>
+</ul>
+<h2 id="r03-basic-receipt-with-road-transport">R03: Basic receipt with Road transport</h2>
+<ul>
+<li><strong>Category:</strong> Basic</li>
+<li><strong>Test flow:</strong> A receipt is submitted with the transport mode set to <code>Road</code> and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the transport mode can be captured on a receipt.</li>
+<li><strong>Underlying reason:</strong> The receipt must record the transport mode.</li>
+<li><strong>What it proves:</strong> The product records the mode used to transport the waste.</li>
+<li><strong>If Pass:</strong> The result demonstrates that the product recorded Road as the transport mode.</li>
+<li><strong>If Fail:</strong> If your customers use road transport, this indicates a genuine capability gap because the product did not record the mode of transport. If your product exclusively supports non-road transport, the scenario may be outside its scope.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 10 requires the mode or modes of transport to be recorded. These include road, rail, sea, air, inland waterway and pipe. Paragraph 11 also requires the vehicle registration number for each vehicle where Road is a recorded mode. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If your customers use road transport, resolve the failure before requesting production credentials.</li>
+</ul>
+<h2 id="r04-basic-receipt-with-no-disposal-or-recovery-codes">R04: Basic receipt with no Disposal or Recovery codes</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with the Disposal or Recovery code omitted from a waste item. A Waste Tracking ID and warning are returned.</li>
+<li><strong>Aim:</strong> Confirm that a warning is returned when the Disposal or Recovery code is omitted.</li>
+<li><strong>Underlying reason:</strong> Although the Disposal or Recovery code is not mandatory API data, it is expected. The API therefore returns a warning when it is omitted.</li>
+<li><strong>What it proves:</strong> The API can create the record and return a warning. If your user interface makes the code mandatory, you may be unable to submit this scenario.</li>
+<li><strong>If Pass:</strong> The product created the record and received a Waste Tracking ID even though a Disposal or Recovery code was not provided.</li>
+<li><strong>If Fail:</strong> This may mean your product’s validation is working as intended. If your user interface makes the Disposal or Recovery code mandatory, your software cannot submit a payload that omits it. In that case, the inability to reach the API warning can indicate stricter data-quality validation rather than a capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 14(1)(b) covers the Disposal or Recovery code expected for each waste code. This scenario tests API behaviour when that information is absent. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If the result is caused by intentional validation that always requires a valid Disposal or Recovery code, record that evidence as part of your self-verification. If the cause is unknown or the product unintentionally prevents correct processing, investigate and resolve it before requesting production credentials.</li>
+</ul>
+<h2 id="r05-basic-receipt-with-multiple-disposal-or-recovery-codes">R05: Basic receipt with multiple Disposal or Recovery codes</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted containing one waste item with multiple Disposal or Recovery codes and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the data model can contain more than one Disposal or Recovery code for one waste item.</li>
+<li><strong>Underlying reason:</strong> A single waste item can have multiple Disposal or Recovery codes.</li>
+<li><strong>What it proves:</strong> The product can record multiple Disposal or Recovery codes for each waste item.</li>
+<li><strong>If Pass:</strong> The product’s data model correctly carries more than one Disposal or Recovery code on a single waste item.</li>
+<li><strong>If Fail:</strong> This may indicate that the product only allows one Disposal or Recovery code per waste item. If the product serves users who need to record more than one code, this is a capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 14(1) covers recording a D or R code against each waste code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> Assess whether your customers need to record multiple Disposal or Recovery codes for one waste item. If they do, resolve the capability gap before requesting production credentials.</li>
+</ul>
+<h2 id="r06-withdrawn-scenario">R06: Withdrawn scenario</h2>
+<p>R06 has been removed from the PAT scenario set by Defra. There is no test associated with this scenario ID.</p>
+<h2 id="r07-basic-receipt-with-multiple-ewc-codes">R07: Basic receipt with multiple EWC codes</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with multiple EWC codes for a waste item and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that multiple EWC codes can be submitted for one waste item.</li>
+<li><strong>Underlying reason:</strong> One waste item can have more than one EWC code.</li>
+<li><strong>What it proves:</strong> The product can record multiple EWC codes for one waste item, including dual coding where applicable.</li>
+<li><strong>If Pass:</strong> The product successfully recorded multiple EWC codes for one waste item.</li>
+<li><strong>If Fail:</strong> This may indicate that the product can record only one EWC code for each waste item or models a dual-classification load as separate items. Assess whether your users need to record multiple EWC codes for one item.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 13 refers to the “waste code(s)” for the controlled waste. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If your users need to record multiple EWC codes for one waste item, resolve the capability gap before requesting production credentials.</li>
+</ul>
+<h1 id="carrier-details-scenarios">Carrier details scenarios</h1>
+<h2 id="c01-no-carrier-registration-number-and-no-reason">C01: No carrier registration number and no reason</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted for an unregistered carrier without a reason. An error is returned and no Waste Tracking ID is generated.</li>
+<li><strong>Aim:</strong> Confirm that the system refuses an unregistered-carrier movement when no reason is provided.</li>
+<li><strong>Underlying reason:</strong> An unregistered carrier cannot move waste unless an appropriate reason is recorded.</li>
+<li><strong>What it proves:</strong> The product blocks the invalid record. An error is returned and no Waste Tracking ID is generated.</li>
+<li><strong>If Pass:</strong> The system refused the unregistered-carrier movement because no reason was provided. No Waste Tracking ID was returned. If a Waste Tracking ID is generated, the scenario has failed.</li>
+<li><strong>If Fail:</strong> This may mean your client-side validation blocked the submission before it reached the API. If the software correctly prevents the invalid record from being created, retain evidence of that behaviour as part of your self-verification.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, paragraph 7 requires a reason to be recorded where the transporter does not have a carrier registration or transporter authorisation number. Regulations 16(2)(a) and 19(2)(a), read with regulation 4(4), address a failure to complete the specified steps. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> Determine whether the result was caused by intentional client-side validation. If the product can submit an invalid movement without a registration number or reason, resolve the gap before requesting production credentials.</li>
+</ul>
+<h2 id="c02-no-carrier-registration-number-but-with-a-reason">C02: No carrier registration number but with a reason</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted for an unregistered carrier with a reason. A Waste Tracking ID is returned and the reason is recorded.</li>
+<li><strong>Aim:</strong> Confirm that a reason can be captured when the carrier is not registered.</li>
+<li><strong>Underlying reason:</strong> An unregistered carrier may be submitted when an appropriate reason is provided.</li>
+<li><strong>What it proves:</strong> The product supports the controlled-exception path.</li>
+<li><strong>If Pass:</strong> The product returned a Waste Tracking ID and recorded the reason for the missing carrier registration number.</li>
+<li><strong>If Fail:</strong> If the software does not permit unregistered carriers, its own validation may prevent this scenario. If the product permits unregistered carriers but cannot capture the reason, this is a capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 7 requires the reason to be recorded where the transporter does not have a carrier registration or transporter authorisation number. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If your product supports unregistered-carrier movements, it must capture the reason. Resolve any related capability gap before requesting production credentials.</li>
+</ul>
+<h1 id="broker-or-dealer-scenarios">Broker or dealer scenarios</h1>
+<h2 id="b01-broker-or-dealer-involved">B01: Broker or dealer involved</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with a broker or dealer present and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the product captures the broker or dealer, rather than only the carrier.</li>
+<li><strong>Underlying reason:</strong> Where a broker or dealer arranged the movement, that party must be recorded.</li>
+<li><strong>What it proves:</strong> The product records broker or dealer involvement.</li>
+<li><strong>If Pass:</strong> The product captured the broker or dealer involved in the movement.</li>
+<li><strong>If Fail:</strong> This may be outside the scope of a product serving only customers who deal directly with carriers. If any customers use brokers or dealers, the absence of this capability is a genuine gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 9 requires the name, address, contact details and registration or authorisation number of a broker or dealer who arranged the transportation. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+</ul>
 
 
 
@@ -955,7 +1120,7 @@
       </a>
       <br /><br />
       <img
-        src="assets/images/ogl.png"
+        src="../assets/images/ogl.png"
         alt="Open Government Licence logo"
       />
       All content is available under the
@@ -967,7 +1132,7 @@
         Open Government Licence v3.0</a
       >
       , except where otherwise stated <br><br><br>
-      <a href="api-accessibility-statement/" target="_blank" rel="noopener">Accessibility Statement</a>
+      <a href="../api-accessibility-statement/" target="_blank" rel="noopener">Accessibility Statement</a>
     </div>
 
     <div class="md-copyright">
@@ -977,7 +1142,7 @@
         rel="noopener"
       >
         <img
-          src="assets/images/govuk-crest-2x.png"
+          src="../assets/images/govuk-crest-2x.png"
           width="125"
           height="102"
           alt="Gov UK Crest"
@@ -998,13 +1163,13 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["announce.dismiss", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "search.suggest", "search.share", "content.action.view", "toc.integrate"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "search.suggest", "search.share", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
   
-      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
-        <script src="apiSpecifications/dist/swagger-initializer.js"></script>
+        <script src="../apiSpecifications/dist/swagger-initializer.js"></script>
       
         <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
       
