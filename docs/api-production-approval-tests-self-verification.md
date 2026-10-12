@@ -198,3 +198,87 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **If Pass:** The product captured the broker or dealer involved in the movement.
 - **If Fail:** This may be outside the scope of a product serving only customers who deal directly with carriers. If any customers use brokers or dealers, the absence of this capability is a genuine gap.
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 9 requires the name, address, contact details and registration or authorisation number of a broker or dealer who arranged the transportation. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
+- **Before you proceed:** Confirm whether broker or dealer involvement applies to your customer base. If it does, resolve the capability gap before requesting production credentials.
+
+# POPs waste scenarios
+
+## P01: POPs receipt with multiple POPs components
+
+- **Category:** POPs – Advisory
+- **Test flow:** A receipt is submitted containing one waste item with multiple POPs components and a Waste Tracking ID is returned.
+- **Aim:** Confirm that POPs details can be captured.
+- **Underlying reason:** POPs require specific management controls, and identifying them is important for safe and compliant treatment.
+- **What it proves:** The product can capture multiple POPs components for one waste item.
+- **If Pass:** The product correctly recorded multiple POPs components for a single waste item.
+- **If Fail:** The scenario may be outside the scope of a product that does not serve the POPs waste market. If your customers handle POPs waste, the inability to model multiple POPs components is a capability gap.
+- **Regulation reference:** England only. Schedule 1, Part 2, paragraphs 15(1)(b) and 16 cover the recording of relevant POPs substance information and concentration, or the reason why that information was not provided. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
+- **Before you proceed:** Confirm whether your customers handle POPs waste. If they do, resolve any inability to record multiple POPs components before requesting production credentials.
+
+# Hazardous waste scenarios
+
+## H01: Hazardous receipt with multiple hazardous components
+
+- **Category:** Hazardous – Advisory
+- **Test flow:** A receipt is submitted containing one waste item with multiple hazardous components and a Waste Tracking ID is returned.
+- **Aim:** Confirm that multiple hazardous components can be captured for one waste item.
+- **Underlying reason:** Hazardous movements may require component information and hazardous-property codes.
+- **What it proves:** The product can capture multiple hazardous components for one waste item.
+- **If Pass:** The product successfully recorded multiple hazardous components, including hazardous-property codes and component information.
+- **If Fail:** The scenario may be outside the scope of a product that does not support the hazardous waste market. If any customers handle hazardous waste, the absence of component or hazardous-property fields is a live capability gap.
+- **Regulation reference:** England only. Schedule 1, Part 2, paragraph 15 covers hazardous-property codes and component or concentration values where waste has a hazardous property. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
+- **Before you proceed:** If any of your customers handle hazardous waste, even occasionally, resolve the capability gap before requesting production credentials.
+
+## H02: No consignment note code and no reason
+
+- **Category:** Hazardous – Advisory
+- **Test flow:** A hazardous receipt is submitted without a consignment note code or reason. An error is returned and no Waste Tracking ID is generated.
+- **Aim:** Confirm that the system refuses a hazardous movement that does not contain a consignment note code or a reason for its absence.
+- **Underlying reason:** A hazardous movement must contain a hazardous waste consignment note code or a valid reason for not providing one.
+- **What it proves:** The product blocks the invalid record.
+- **If Pass:** The system refused the hazardous movement and did not return a Waste Tracking ID. If a Waste Tracking ID is generated, the scenario has failed.
+- **If Fail:** Your software’s own validation may have blocked the request before it reached the API. If the software correctly requires the consignment note code or a reason, retain evidence of that behaviour as part of your self-verification.
+- **Regulation reference:** England only. Schedule 1, Part 2, paragraph 8 requires the consignment note code to be recorded for hazardous waste or, where there is no code, the reason why. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
+- **Before you proceed:** Confirm whether the result was caused by intentional client-side validation. If the product can submit hazardous waste without the code or a reason, resolve the gap before requesting production credentials.
+
+## H03: No consignment note code but with a reason
+
+- **Category:** Hazardous – Advisory
+- **Test flow:** A hazardous receipt is submitted without a consignment note code but with a reason. A Waste Tracking ID is returned and the reason is recorded.
+- **Aim:** Confirm that hazardous waste can be submitted without a consignment note code when a valid reason is provided.
+- **Underlying reason:** A hazardous movement must contain a hazardous waste consignment note code or a reason for its absence.
+- **What it proves:** The product supports the controlled exception where a reason is recorded instead of the consignment note code.
+- **If Pass:** The product returned a Waste Tracking ID and recorded the reason for the missing consignment note code.
+- **If Fail:** The scenario may be outside the scope of a product that does not support hazardous waste. If the product supports hazardous waste but cannot capture the reason, this is a capability gap.
+- **Regulation reference:** England only. Schedule 1, Part 2, paragraph 8 requires the reason to be recorded where there is no hazardous waste consignment note code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
+- **Before you proceed:** If your customers handle hazardous waste and may use this exception, resolve any inability to capture the reason before requesting production credentials.
+
+# Combined hazardous and POPs scenarios
+
+## X01: Combined hazardous and POPs receipt
+
+- **Category:** Hazardous and POPs – Advisory
+- **Test flow:** A receipt containing both hazardous and POPs information is submitted and a Waste Tracking ID is returned.
+- **Aim:** Confirm that the product handles a composite waste item containing both hazardous and POPs properties.
+- **Underlying reason:** Some waste is both hazardous and POPs-containing. The data model must be able to represent both.
+- **What it proves:** The product supports a combined hazardous and POPs receipt.
+- **If Pass:** The product handled the combined hazardous and POPs receipt correctly.
+- **If Fail:** The scenario may be outside the scope of a product that serves neither the hazardous nor POPs waste markets. If your customers handle either or both, the failure may indicate missing hazardous-component, hazardous-property or POPs-component capabilities.
+- **Regulation reference:** England only. Schedule 1, Part 2, paragraph 15 covers hazardous properties and related information. Paragraph 16 covers persistent organic pollutants. Both apply where the receipt contains hazardous and POPs waste. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
+- **Before you proceed:** If any of your customers could receive combined hazardous and POPs-containing waste, resolve any related capability gaps before requesting production credentials.
+
+## Contact developer support
+
+If, after reviewing this guidance against your test result, you believe a test is behaving incorrectly or your circumstances are not covered, email:
+
+**WasteTracking_Developers@defra.gov.uk**
+
+Include:
+
+- your organisation name
+- the PAT scenario ID
+- a clear description of the issue
+- your specific technical question
+
+Do not include your client secret.
+
+The developer support mailbox can help clarify the documentation and technical behaviour. It does not review, mark or approve your PAT results.
