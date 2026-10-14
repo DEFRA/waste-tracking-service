@@ -207,8 +207,7 @@ paths:
                       errors:
                       - key: 0.scenarioId
                         errorType: InvalidValue
-                        message: '"[0].scenarioId" must be one of [R01, R02, R03, R04, R05, R07, C02, B01, P01, H01, H03,
-                          X01]'
+                        message: '"[0].scenarioId" must be one of [R01, R02, R03, R04, R05, R07, C02, B01, P01, H01, H03, X01]'
                 missingWasteTrackingId:
                   summary: Waste Tracking ID not provided
                   value:
