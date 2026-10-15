@@ -418,6 +418,8 @@
       
         
       
+        
+      
     
     
     
@@ -658,6 +660,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../api-production-approval-tests-self-verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production Approval Tests (PAT) Self Certification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api-testing-and-examples/" class="md-nav__link">
         
   
@@ -861,7 +891,7 @@
 
 <h1 id="register-and-onboard-as-a-software-provider-for-the-receipt-of-waste-api-service">Register and Onboard as a Software Provider for the Receipt of Waste API Service</h1>
 <h2 id="background">Background</h2>
-<p>From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the Report Receipt of Waste Service. In Northern Ireland and Scotland, this comes into effect on 1 January 2027. To enable software developers to integrate with the service and its API, this site provides comprehensive software developer documentation.</p>
+<p>From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the Report Receipt of Waste Service. In Northern Ireland and Scotland, this comes into effect on 1 January 2027. To enable software developers to integrate with the service and its API, this site provides comprehensive software provider documentation.</p>
 <h2 id="process">Process</h2>
 <h3 id="1-register-for-the-receipt-of-waste-row-api-service">1. Register for the Receipt of Waste (RoW) API Service</h3>
 <p>The sign-up link for registration is available from our <a href="https://defragroup.eu.qualtrics.com/jfe/form/SV_8Bpqs5H0nP7jW9U">qualtrics survey pages</a>. See the button below.</p>
@@ -874,25 +904,23 @@
 <p>Using the provided test credentials, software developers begin building the integration between their software and the Receipt of Waste API.</p>
 <p>Developers can use the available GET reference data endpoints to retrieve necessary codes for container types, hazardous properties, and other required data.</p>
 <h3 id="4-execute-the-production-approval-test-pat-scenarios">4. Execute the Production Approval Test (PAT) Scenarios</h3>
-<p>Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. Refer to the <a href="../api-production-approval-tests/">Production Approval Tests</a>. </p>
+<p>Once the integration is built, software developers must execute Production Approval Test (PAT) scenarios. Refer to the <a href="../api-production-approval-tests/">Production Approval Tests</a>. </p>
 <p>These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.</p>
 <p>Scenarios range from basic waste receipts with a single item to complex mixtures of hazardous and persistent organic pollutants (POPs) components.</p>
-<h3 id="5-share-wt-ids-for-each-pat-scenario-with-the-dwt-team">5. Share WT IDs for Each PAT Scenario with the DWT Team</h3>
-<p>Upon successful completion of the tests, the developer must provide the Waste Tracking (WT) ID for each executed PAT scenario to the DWT team.</p>
-<h3 id="6-the-dwt-team-review-pat-scenarios">6. The DWT Team Review PAT Scenarios</h3>
-<p>The DWT team reviews the submitted IDs for the production approval test scenarios to ensure they satisfy the teams expectations.</p>
-<h3 id="7-receive-acceptance-of-pats-from-the-dwt-team">7. Receive Acceptance of PATs from the DWT Team</h3>
-<p>The software developer receives a formal acceptance from the DWT team once their PAT scenarios have been successfully reviewed.</p>
-<h3 id="8-receive-production-credentials-from-the-dwt-team">8. Receive Production Credentials from the DWT Team</h3>
-<p>Once the terms of service are agreed to, the DWT team issues the production credentials and API Code to the software developer.</p>
-<h3 id="9-connect-to-the-production-environment">9. Connect to the Production Environment</h3>
-<p>The software developer uses the production credentials to establish a connection to the live production environment.</p>
-<h3 id="10-the-dwt-team-onboards-receivers">10. The DWT Team Onboards Receivers</h3>
-<p>The DWT team then onboards waste receivers of the software developer who have already registered their interest in the service.</p>
+<h3 id="5-interpret-your-pat-results-and-self-certification">5. Interpret Your PAT Results and Self-Certification</h3>
+<p>For each scenario you’ve run, check your Pass or Fail result via the PAT results endpoint. Use the <a href="../api-production-approval-tests-self-verification/">PAT Self-Service Guidance</a> to interpret what your result means — including whether a Fail reflects a genuine gap, an expected outcome for your market segment, or your own software’s validation working as intended — and self-certify, based on your own assessment, that your software meets the requirements. Defra does not review, mark or approve your results at this stage.  </p>
+<h3 id="6-confirm-self-certification-with-the-dwt-team">6. Confirm Self-Certification with the DWT Team</h3>
+<p>Once you’re satisfied your software meets the requirements, email <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a> to confirm self-certification is complete and request your production credentials.  </p>
+<h3 id="7-receive-production-credentials-from-the-dwt-team">7. Receive Production Credentials from the DWT Team</h3>
+<p>Once the terms of service are agreed to, the DWT team issues the production credentials and API Code to the software provider.</p>
+<h3 id="8-connect-to-the-production-environment">8. Connect to the Production Environment</h3>
+<p>The software provider uses the production credentials to establish a connection to the live production environment.</p>
+<h3 id="9-the-dwt-team-onboards-receivers">9. The DWT Team Onboards Receivers</h3>
+<p>The DWT team then onboards waste receivers of the software provider who have already registered their interest in the service.</p>
 <p>Receivers accept terms and conditions manually via email, after which they receive their own API codes to share with their software teams to begin submitting real waste movement data.</p>
 <h3 id="changelog">Changelog</h3>
-<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Sign‐up-as-a-Software-Developer">Register and Onboard as a Software Developer</a> GitHub wiki page</p>
-<p><br/>Page last updated on September 10th 2026.</p>
+<p>You can find the changelog for this document in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Sign‐up-as-a-Software-Developer">Register and Onboard as a Software Provider</a> GitHub wiki page</p>
+<p><br/>Page last updated on October 14th 2026.</p>
 
 
 

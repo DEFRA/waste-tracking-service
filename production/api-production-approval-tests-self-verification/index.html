@@ -1,0 +1,1443 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://defra.github.io/waste-tracking-service/production/api-production-approval-tests-self-verification/">
+      
+      
+        <link rel="prev" href="../api-production-approval-tests/">
+      
+      
+        <link rel="next" href="../api-testing-and-examples/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../favicons/moj.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Production Approval Tests (PAT) Self Certification - Defra Digital Waste Tracking Developer Guide</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+  
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+    
+      
+      
+        
+      
+      
+    
+  
+  
+  <style>:root{.md-tag.md-tag--draft{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5.5%202C3.6%202%202%203.6%202%205.5v13C2%2020.4%203.6%2022%205.5%2022H16l6-6V5.5C22%203.6%2020.4%202%2018.5%202zm.3%202h12.5c1%200%201.8.8%201.8%201.8V15h-1.5c-1.9%200-3.5%201.6-3.5%203.5V20H5.8c-1%200-1.8-.8-1.8-1.8V5.8C4%204.8%204.8%204%205.8%204%22/%3E%3C/svg%3E');}.md-tag.md-tag--accepted{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M18.5%202h-13C3.6%202%202%203.6%202%205.5v13C2%2020.4%203.6%2022%205.5%2022H16l6-6V5.5C22%203.6%2020.4%202%2018.5%202M20%2015h-1.5c-1.9%200-3.5%201.6-3.5%203.5V20H5.8c-1%200-1.8-.8-1.8-1.8V5.8C4%204.8%204.8%204%205.8%204h12.5c1%200%201.8.8%201.8%201.8V15m-4.9-6.8%201.5%201.5-6%206-3.5-3.5%201.5-1.5%202%202z%22/%3E%3C/svg%3E');}.md-tag.md-tag--proposed{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M13%2011h3v2h-3v3h-2v-3H8v-2h3V8h2zm9-5.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--deprecated{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%2011h8v2H8zm14-5.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--superseded{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M11%2015h2v2h-2zm0-2h2V7h-2zm11-7.5V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}.md-tag.md-tag--rejected{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M16%209.4%2013.4%2012l2.6%202.6-1.4%201.4-2.6-2.6L9.4%2016%208%2014.6l2.6-2.6L8%209.4%209.4%208l2.6%202.6L14.6%208zm6-3.9V16l-6%206H5.5C3.6%2022%202%2020.4%202%2018.5v-13C2%203.6%203.6%202%205.5%202h13C20.4%202%2022%203.6%2022%205.5m-2%20.3c0-1-.8-1.8-1.8-1.8H5.8C4.8%204%204%204.8%204%205.8v12.5c0%201%20.8%201.8%201.8%201.8H15v-1.5c0-1.9%201.6-3.5%203.5-3.5H20z%22/%3E%3C/svg%3E');}}</style>
+
+    
+<link rel="stylesheet" href="../assets/stylesheets/extra.css" />
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#receipt-of-waste-pat-self-service-interpretation-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Defra Digital Waste Tracking Developer Guide" class="md-header__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
+      
+  <img src="../logos/moj.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Defra Digital Waste Tracking Developer Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Production Approval Tests (PAT) Self Certification
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DEFRA/waste-tracking-service" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href=".." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Receipt of Waste
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api-specification/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Defra Digital Waste Tracking Developer Guide" class="md-nav__button md-logo" aria-label="Defra Digital Waste Tracking Developer Guide" data-md-component="logo">
+      
+  <img src="../logos/moj.png" alt="logo">
+
+    </a>
+    Defra Digital Waste Tracking Developer Guide
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DEFRA/waste-tracking-service" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href=".." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Receipt of Waste
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Receipt of Waste
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-register-as-a-software-provider/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Register and Onboard as a Software Provider
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-receipt-of-waste-getting-started-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-receipt-data-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Receipt of Waste Data Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-authentication-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-codes-for-testing-and-production/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Codes for testing and production
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-production-approval-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production Approval Tests (PAT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production Approval Tests (PAT) Self Certification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-testing-and-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing and examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-terms-of-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terms of service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-specification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Receipt API Specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+    
+      
+    
+    <a href="https://github.com/DEFRA/waste-tracking-service/raw/main/docs/api-production-approval-tests-self-verification.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="receipt-of-waste-pat-self-service-interpretation-guide">Receipt of Waste PAT Self-Service Interpretation Guide</h1>
+<p>When you have completed developing and testing your integration, you must run a test submission for each relevant scenario and self-certify, based on your own assessment that the results meet the specified requirements.</p>
+<p>Not every scenario applies to every software product.</p>
+<p>Use this page to:</p>
+<ul>
+<li>identify which scenarios apply to your market segment</li>
+<li>understand what constitutes a <code>Pass</code> or <code>Fail</code></li>
+<li>determine whether a scenario is outside the scope of your software</li>
+</ul>
+<h2 id="confirm-your-production-approval-tests">Confirm your Production Approval Tests</h2>
+<p>Defra does not review, mark or approve your test results. This is a self-service process and production credentials are issued based on your confirmation rather than Defra’s assessment.</p>
+<p>The guidance on this page is therefore your primary safeguard when self-certifying your results.</p>
+<p>The scenarios covered by this guidance are:</p>
+<ul>
+<li><strong>R01</strong> Basic receipt with a single waste item</li>
+<li><strong>R02</strong> Basic receipt with multiple waste items</li>
+<li><strong>R03</strong> Basic receipt with transport set to <code>Road</code></li>
+<li><strong>R04</strong> Basic receipt with no Disposal or Recovery codes</li>
+<li><strong>R05</strong> Basic receipt with multiple Disposal or Recovery codes</li>
+<li><strong>R07</strong> Basic receipt with multiple EWC codes</li>
+<li><strong>C01</strong> No carrier registration number and no reason</li>
+<li><strong>C02</strong> No carrier registration number but with a reason</li>
+<li><strong>B01</strong> Broker or dealer involved</li>
+<li><strong>P01</strong> POPs receipt with multiple POPs components</li>
+<li><strong>H01</strong> Hazardous receipt with multiple hazardous components</li>
+<li><strong>H02</strong> Hazardous receipt with no consignment note code and no reason</li>
+<li><strong>H03</strong> Hazardous receipt with no consignment note code but with a reason</li>
+<li><strong>X01</strong> Combined hazardous and POPs receipt</li>
+</ul>
+<p>R06 was withdrawn by Defra. There is no test associated with this scenario ID.</p>
+<h2 id="self-certification-and-your-obligations">Self-Certification and Your Obligations</h2>
+<p>PAT is a self-certification process.</p>
+<p>You submit test payloads to the Receipt of Waste API in Defra’s External Test environment. You can then use the PAT endpoint to obtain a <code>Pass</code> or <code>Fail</code> result for each supported scenario.</p>
+<p>You must assess the results and self-certify that your testing is complete before emailing Defra to request production credentials.</p>
+<p>Under the <a href="../api-terms-of-service/">API Terms of Service</a>:</p>
+<ul>
+<li>you must ensure your software aligns with the API specification so that submitted data validates correctly</li>
+<li>you must support your users and customers in meeting their legal obligations</li>
+</ul>
+<p>This guidance is intended to help you make an informed and evidenced decision about your results.</p>
+<p>Where an explanation says that a result may be expected for a particular market segment, this provides context for your own assessment. It is not a dispensation from any applicable requirement.</p>
+<p>Proceeding to production with a known capability gap is at your own and your customers’ risk. This includes the risk of failing to comply with the applicable Digital Waste Tracking regulations.</p>
+<h2 id="how-self-certification-works">How Self-Certification Works</h2>
+<ol>
+<li>Submit a test Receipt of Waste payload to the API in Defra’s External Test environment.</li>
+<li>Record the Waste Tracking ID returned for a successfully created receipt.</li>
+<li>Submit the scenario ID and Waste Tracking ID to the PAT endpoint.</li>
+<li>Review the <code>Pass</code> or <code>Fail</code> result returned for the scenario.</li>
+<li>Use the guidance on this page to interpret the result.</li>
+<li>Correct and repeat any scenario that identifies an applicable capability gap.</li>
+<li>Once you are satisfied that you have completed the applicable scenarios successfully, self-certify by emailing <strong><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></strong> to confirm completion and request production credentials.</li>
+</ol>
+<p>Defra does not check or approve your individual results.</p>
+<p>Not every scenario applies to every market segment. For each scenario, this guidance explains:</p>
+<ul>
+<li>what a <code>Pass</code> means</li>
+<li>what a <code>Fail</code> means</li>
+<li>whether the result may indicate a capability gap</li>
+<li>whether the scenario may be outside your product’s scope</li>
+<li>what action may be required before you proceed</li>
+</ul>
+<p>The guidance is not an exhaustive interpretation of every possible result. You must also review the PAT guidance and API specification in full.</p>
+<p><strong>Note</strong> Regulation references</p>
+<div class="highlight"><pre><span></span><code>Regulation references on this page relate to the England regulations. If you operate in Wales, Scotland or Northern Ireland, refer to the equivalent provisions in the regulations that apply in that nation. Paragraph numbering may differ.
+</code></pre></div>
+<h1 id="basic-receipt-of-waste-scenarios">Basic Receipt of Waste scenarios</h1>
+<h2 id="r01-basic-receipt-with-a-single-waste-item">R01: Basic receipt with a single waste item</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Mandatory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with one fully classified waste item and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the product can create a basic waste receipt containing a single waste item.</li>
+<li><strong>Underlying reason:</strong> A receipt requires the complete waste-classification data model, including the EWC code, waste description, Disposal or Recovery code and carrier details.</li>
+<li><strong>What it proves:</strong> The software holds the core required waste-receipt data model and can submit a conformant record.</li>
+<li><strong>If Pass:</strong> The result demonstrates that the product holds the core waste-receipt data model and submitted a conformant record. No further action is required for this scenario.</li>
+<li><strong>If Fail:</strong> This indicates a genuine capability or payload gap. Correct the issue and repeat the scenario. This is not a market-segmentation issue.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 14(1)(b) of the Digital Waste Tracking (England) Regulations 2026 requires the D code, R code, or both to be recorded for each waste code on the receipt. Recording the specified information is required under regulation 4(5)(a). If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> R01 is a mandatory basic test. Your software cannot proceed to the production credentials process while this scenario fails.</li>
+</ul>
+<h2 id="r02-basic-receipt-with-multiple-waste-items">R02: Basic receipt with multiple waste items</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Mandatory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with multiple separately classified waste items and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that multiple waste items on one receipt can be classified separately.</li>
+<li><strong>Underlying reason:</strong> Mixed loads must be classified item by item. Applying one classification to the complete load, or submitting multiple receipts for one received load, can degrade data quality.</li>
+<li><strong>What it proves:</strong> The product classifies each waste item separately instead of combining a mixed load under one code or requiring separate receipts for one load.</li>
+<li><strong>If Pass:</strong> The result demonstrates that the software allows waste items to be classified individually.</li>
+<li><strong>If Fail:</strong> This indicates a genuine capability gap. The software does not support the capture of multiple waste items under one waste receipt. Correct the issue and repeat the scenario.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 13 covers the waste code or codes for the controlled waste. Paragraph 14 requires weight, Disposal or Recovery code and container information to be recorded for each waste code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> This is a mandatory requirement. The capability gap must be resolved before you request production credentials.</li>
+</ul>
+<h2 id="r03-basic-receipt-with-road-transport">R03: Basic receipt with Road transport</h2>
+<ul>
+<li><strong>Category:</strong> Basic</li>
+<li><strong>Test flow:</strong> A receipt is submitted with the transport mode set to <code>Road</code> and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the transport mode can be captured on a receipt.</li>
+<li><strong>Underlying reason:</strong> The receipt must record the transport mode.</li>
+<li><strong>What it proves:</strong> The product records the mode used to transport the waste.</li>
+<li><strong>If Pass:</strong> The result demonstrates that the product recorded Road as the transport mode.</li>
+<li><strong>If Fail:</strong> If your customers use road transport, this indicates a genuine capability gap because the product did not record the mode of transport. If your product exclusively supports non-road transport, the scenario may be outside its scope.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 10 requires the mode or modes of transport to be recorded. These include road, rail, sea, air, inland waterway and pipe. Paragraph 11 also requires the vehicle registration number for each vehicle where Road is a recorded mode. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If your customers use road transport, resolve the failure before requesting production credentials.</li>
+</ul>
+<h2 id="r04-basic-receipt-with-no-disposal-or-recovery-codes">R04: Basic receipt with no Disposal or Recovery codes</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with the Disposal or Recovery code omitted from a waste item. A Waste Tracking ID and warning are returned.</li>
+<li><strong>Aim:</strong> Confirm that a warning is returned when the Disposal or Recovery code is omitted.</li>
+<li><strong>Underlying reason:</strong> Although the Disposal or Recovery code is not mandatory API data, it is expected. The API therefore returns a warning when it is omitted.</li>
+<li><strong>What it proves:</strong> The API can create the record and return a warning. If your user interface makes the code mandatory, you may be unable to submit this scenario.</li>
+<li><strong>If Pass:</strong> The product created the record and received a Waste Tracking ID even though a Disposal or Recovery code was not provided.</li>
+<li><strong>If Fail:</strong> This may mean your product’s validation is working as intended. If your user interface makes the Disposal or Recovery code mandatory, your software cannot submit a payload that omits it. In that case, the inability to reach the API warning can indicate stricter data-quality validation rather than a capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 14(1)(b) covers the Disposal or Recovery code expected for each waste code. This scenario tests API behaviour when that information is absent. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If the result is caused by intentional validation that always requires a valid Disposal or Recovery code, record that evidence as part of your self-verification. If the cause is unknown or the product unintentionally prevents correct processing, investigate and resolve it before requesting production credentials.</li>
+</ul>
+<h2 id="r05-basic-receipt-with-multiple-disposal-or-recovery-codes">R05: Basic receipt with multiple Disposal or Recovery codes</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted containing one waste item with multiple Disposal or Recovery codes and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the data model can contain more than one Disposal or Recovery code for one waste item.</li>
+<li><strong>Underlying reason:</strong> A single waste item can have multiple Disposal or Recovery codes.</li>
+<li><strong>What it proves:</strong> The product can record multiple Disposal or Recovery codes for each waste item.</li>
+<li><strong>If Pass:</strong> The product’s data model correctly carries more than one Disposal or Recovery code on a single waste item.</li>
+<li><strong>If Fail:</strong> This may indicate that the product only allows one Disposal or Recovery code per waste item. If the product serves users who need to record more than one code, this is a capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 14(1) covers recording a D or R code against each waste code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> Assess whether your customers need to record multiple Disposal or Recovery codes for one waste item. If they do, resolve the capability gap before requesting production credentials.</li>
+</ul>
+<h2 id="r06-withdrawn-scenario">R06: Withdrawn scenario</h2>
+<p>R06 has been removed from the PAT scenario set by Defra. There is no test associated with this scenario ID.</p>
+<h2 id="r07-basic-receipt-with-multiple-ewc-codes">R07: Basic receipt with multiple EWC codes</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with multiple EWC codes for a waste item and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that multiple EWC codes can be submitted for one waste item.</li>
+<li><strong>Underlying reason:</strong> One waste item can have more than one EWC code.</li>
+<li><strong>What it proves:</strong> The product can record multiple EWC codes for one waste item, including dual coding where applicable.</li>
+<li><strong>If Pass:</strong> The product successfully recorded multiple EWC codes for one waste item.</li>
+<li><strong>If Fail:</strong> This may indicate that the product can record only one EWC code for each waste item or models a dual-classification load as separate items. Assess whether your users need to record multiple EWC codes for one item.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 13 refers to the “waste code(s)” for the controlled waste. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If your users need to record multiple EWC codes for one waste item, resolve the capability gap before requesting production credentials.</li>
+</ul>
+<h1 id="carrier-details-scenarios">Carrier details scenarios</h1>
+<h2 id="c01-no-carrier-registration-number-and-no-reason">C01: No carrier registration number and no reason</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted for an unregistered carrier without a reason. An error is returned and no Waste Tracking ID is generated.</li>
+<li><strong>Aim:</strong> Confirm that the system refuses an unregistered-carrier movement when no reason is provided.</li>
+<li><strong>Underlying reason:</strong> An unregistered carrier cannot move waste unless an appropriate reason is recorded.</li>
+<li><strong>What it proves:</strong> The product blocks the invalid record. An error is returned and no Waste Tracking ID is generated.</li>
+<li><strong>If Pass:</strong> The system refused the unregistered-carrier movement because no reason was provided. No Waste Tracking ID was returned. If a Waste Tracking ID is generated, the scenario has failed.</li>
+<li><strong>If Fail:</strong> This may mean your client-side validation blocked the submission before it reached the API. If the software correctly prevents the invalid record from being created, retain evidence of that behaviour as part of your self-verification.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, paragraph 7 requires a reason to be recorded where the transporter does not have a carrier registration or transporter authorisation number. Regulations 16(2)(a) and 19(2)(a), read with regulation 4(4), address a failure to complete the specified steps. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> Determine whether the result was caused by intentional client-side validation. If the product can submit an invalid movement without a registration number or reason, resolve the gap before requesting production credentials.</li>
+</ul>
+<h2 id="c02-no-carrier-registration-number-but-with-a-reason">C02: No carrier registration number but with a reason</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted for an unregistered carrier with a reason. A Waste Tracking ID is returned and the reason is recorded.</li>
+<li><strong>Aim:</strong> Confirm that a reason can be captured when the carrier is not registered.</li>
+<li><strong>Underlying reason:</strong> An unregistered carrier may be submitted when an appropriate reason is provided.</li>
+<li><strong>What it proves:</strong> The product supports the controlled-exception path.</li>
+<li><strong>If Pass:</strong> The product returned a Waste Tracking ID and recorded the reason for the missing carrier registration number.</li>
+<li><strong>If Fail:</strong> If the software does not permit unregistered carriers, its own validation may prevent this scenario. If the product permits unregistered carriers but cannot capture the reason, this is a capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 7 requires the reason to be recorded where the transporter does not have a carrier registration or transporter authorisation number. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If your product supports unregistered-carrier movements, it must capture the reason. Resolve any related capability gap before requesting production credentials.</li>
+</ul>
+<h1 id="broker-or-dealer-scenarios">Broker or dealer scenarios</h1>
+<h2 id="b01-broker-or-dealer-involved">B01: Broker or dealer involved</h2>
+<ul>
+<li><strong>Category:</strong> Basic – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted with a broker or dealer present and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the product captures the broker or dealer, rather than only the carrier.</li>
+<li><strong>Underlying reason:</strong> Where a broker or dealer arranged the movement, that party must be recorded.</li>
+<li><strong>What it proves:</strong> The product records broker or dealer involvement.</li>
+<li><strong>If Pass:</strong> The product captured the broker or dealer involved in the movement.</li>
+<li><strong>If Fail:</strong> This may be outside the scope of a product serving only customers who deal directly with carriers. If any customers use brokers or dealers, the absence of this capability is a genuine gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 9 requires the name, address, contact details and registration or authorisation number of a broker or dealer who arranged the transportation. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> Confirm whether broker or dealer involvement applies to your customer base. If it does, resolve the capability gap before requesting production credentials.</li>
+</ul>
+<h1 id="pops-waste-scenarios">POPs waste scenarios</h1>
+<h2 id="p01-pops-receipt-with-multiple-pops-components">P01: POPs receipt with multiple POPs components</h2>
+<ul>
+<li><strong>Category:</strong> POPs – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted containing one waste item with multiple POPs components and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that POPs details can be captured.</li>
+<li><strong>Underlying reason:</strong> POPs require specific management controls, and identifying them is important for safe and compliant treatment.</li>
+<li><strong>What it proves:</strong> The product can capture multiple POPs components for one waste item.</li>
+<li><strong>If Pass:</strong> The product correctly recorded multiple POPs components for a single waste item.</li>
+<li><strong>If Fail:</strong> The scenario may be outside the scope of a product that does not serve the POPs waste market. If your customers handle POPs waste, the inability to model multiple POPs components is a capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraphs 15(1)(b) and 16 cover the recording of relevant POPs substance information and concentration, or the reason why that information was not provided. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> Confirm whether your customers handle POPs waste. If they do, resolve any inability to record multiple POPs components before requesting production credentials.</li>
+</ul>
+<h1 id="hazardous-waste-scenarios">Hazardous waste scenarios</h1>
+<h2 id="h01-hazardous-receipt-with-multiple-hazardous-components">H01: Hazardous receipt with multiple hazardous components</h2>
+<ul>
+<li><strong>Category:</strong> Hazardous – Advisory</li>
+<li><strong>Test flow:</strong> A receipt is submitted containing one waste item with multiple hazardous components and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that multiple hazardous components can be captured for one waste item.</li>
+<li><strong>Underlying reason:</strong> Hazardous movements may require component information and hazardous-property codes.</li>
+<li><strong>What it proves:</strong> The product can capture multiple hazardous components for one waste item.</li>
+<li><strong>If Pass:</strong> The product successfully recorded multiple hazardous components, including hazardous-property codes and component information.</li>
+<li><strong>If Fail:</strong> The scenario may be outside the scope of a product that does not support the hazardous waste market. If any customers handle hazardous waste, the absence of component or hazardous-property fields is a live capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 15 covers hazardous-property codes and component or concentration values where waste has a hazardous property. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If any of your customers handle hazardous waste, even occasionally, resolve the capability gap before requesting production credentials.</li>
+</ul>
+<h2 id="h02-no-consignment-note-code-and-no-reason">H02: No consignment note code and no reason</h2>
+<ul>
+<li><strong>Category:</strong> Hazardous – Advisory</li>
+<li><strong>Test flow:</strong> A hazardous receipt is submitted without a consignment note code or reason. An error is returned and no Waste Tracking ID is generated.</li>
+<li><strong>Aim:</strong> Confirm that the system refuses a hazardous movement that does not contain a consignment note code or a reason for its absence.</li>
+<li><strong>Underlying reason:</strong> A hazardous movement must contain a hazardous waste consignment note code or a valid reason for not providing one.</li>
+<li><strong>What it proves:</strong> The product blocks the invalid record.</li>
+<li><strong>If Pass:</strong> The system refused the hazardous movement and did not return a Waste Tracking ID. If a Waste Tracking ID is generated, the scenario has failed.</li>
+<li><strong>If Fail:</strong> Your software’s own validation may have blocked the request before it reached the API. If the software correctly requires the consignment note code or a reason, retain evidence of that behaviour as part of your self-verification.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 8 requires the consignment note code to be recorded for hazardous waste or, where there is no code, the reason why. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> Confirm whether the result was caused by intentional client-side validation. If the product can submit hazardous waste without the code or a reason, resolve the gap before requesting production credentials.</li>
+</ul>
+<h2 id="h03-no-consignment-note-code-but-with-a-reason">H03: No consignment note code but with a reason</h2>
+<ul>
+<li><strong>Category:</strong> Hazardous – Advisory</li>
+<li><strong>Test flow:</strong> A hazardous receipt is submitted without a consignment note code but with a reason. A Waste Tracking ID is returned and the reason is recorded.</li>
+<li><strong>Aim:</strong> Confirm that hazardous waste can be submitted without a consignment note code when a valid reason is provided.</li>
+<li><strong>Underlying reason:</strong> A hazardous movement must contain a hazardous waste consignment note code or a reason for its absence.</li>
+<li><strong>What it proves:</strong> The product supports the controlled exception where a reason is recorded instead of the consignment note code.</li>
+<li><strong>If Pass:</strong> The product returned a Waste Tracking ID and recorded the reason for the missing consignment note code.</li>
+<li><strong>If Fail:</strong> The scenario may be outside the scope of a product that does not support hazardous waste. If the product supports hazardous waste but cannot capture the reason, this is a capability gap.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 8 requires the reason to be recorded where there is no hazardous waste consignment note code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If your customers handle hazardous waste and may use this exception, resolve any inability to capture the reason before requesting production credentials.</li>
+</ul>
+<h1 id="combined-hazardous-and-pops-scenarios">Combined hazardous and POPs scenarios</h1>
+<h2 id="x01-combined-hazardous-and-pops-receipt">X01: Combined hazardous and POPs receipt</h2>
+<ul>
+<li><strong>Category:</strong> Hazardous and POPs – Advisory</li>
+<li><strong>Test flow:</strong> A receipt containing both hazardous and POPs information is submitted and a Waste Tracking ID is returned.</li>
+<li><strong>Aim:</strong> Confirm that the product handles a composite waste item containing both hazardous and POPs properties.</li>
+<li><strong>Underlying reason:</strong> Some waste is both hazardous and POPs-containing. The data model must be able to represent both.</li>
+<li><strong>What it proves:</strong> The product supports a combined hazardous and POPs receipt.</li>
+<li><strong>If Pass:</strong> The product handled the combined hazardous and POPs receipt correctly.</li>
+<li><strong>If Fail:</strong> The scenario may be outside the scope of a product that serves neither the hazardous nor POPs waste markets. If your customers handle either or both, the failure may indicate missing hazardous-component, hazardous-property or POPs-component capabilities.</li>
+<li><strong>Regulation reference:</strong> England only. Schedule 1, Part 2, paragraph 15 covers hazardous properties and related information. Paragraph 16 covers persistent organic pollutants. Both apply where the receipt contains hazardous and POPs waste. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.</li>
+<li><strong>Before you proceed:</strong> If any of your customers could receive combined hazardous and POPs-containing waste, resolve any related capability gaps before requesting production credentials.</li>
+</ul>
+<h2 id="contact-developer-support">Contact developer support</h2>
+<p>If, after reviewing this guidance against your test result, you believe a test is behaving incorrectly or your circumstances are not covered, email:</p>
+<p><strong><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;">&#87;&#97;&#115;&#116;&#101;&#84;&#114;&#97;&#99;&#107;&#105;&#110;&#103;&#95;&#68;&#101;&#118;&#101;&#108;&#111;&#112;&#101;&#114;&#115;&#64;&#100;&#101;&#102;&#114;&#97;&#46;&#103;&#111;&#118;&#46;&#117;&#107;</a></strong></p>
+<p>Include:</p>
+<ul>
+<li>your organisation name</li>
+<li>the PAT scenario ID</li>
+<li>a clear description of the issue</li>
+<li>your specific technical question</li>
+</ul>
+<p>Do not include your client secret.</p>
+<p>The developer support mailbox can help clarify the documentation and technical behaviour. It does not review, mark or approve your PAT results.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+  <footer class="md-footer">
+    <div class="md-footer-meta__inner md-grid">
+       <div class="md-copyright">
+       
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:wasteuserresearch@defra.gov.uk" target="_blank" rel="noopener" title="Contact us here" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/defra/waste-tracking-service" target="_blank" rel="noopener" title="Our DWT service is available here" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>  Made with
+      <a
+        href="https://squidfunk.github.io/mkdocs-material/"
+        target="_blank"
+        rel="noopener"
+      >
+        Material for MkDocs
+      </a>
+      <br /><br />
+      <img
+        src="../assets/images/ogl.png"
+        alt="Open Government Licence logo"
+      />
+      All content is available under the
+      <a
+        href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+        target="_blank"
+        rel="noopener"
+      >
+        Open Government Licence v3.0</a
+      >
+      , except where otherwise stated <br><br><br>
+      <a href="../api-accessibility-statement/" target="_blank" rel="noopener">Accessibility Statement</a>
+    </div>
+
+    <div class="md-copyright">
+      <a
+        href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+        target="_blank"
+        rel="noopener"
+      >
+        <img
+          src="../assets/images/govuk-crest-2x.png"
+          width="125"
+          height="102"
+          alt="Gov UK Crest"
+        />
+        <br />
+        © Crown copyright
+      </a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "search.suggest", "search.share", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+  
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../apiSpecifications/dist/swagger-initializer.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+      
+    
+  <script>
+    (function () {
+      function fixAccessibility() {
+        // 1. Search dialog accessible name (AXE fix)
+        var dlg = document.querySelector('.md-search[role="dialog"]');
+        if (dlg) {
+          var hasName = dlg.hasAttribute('aria-label') || dlg.hasAttribute('aria-labelledby');
+          if (!hasName) {
+            dlg.setAttribute('aria-label', 'Search this site');
+          }
+        }
+
+        // 1b. Landmarks — the drawer overlay (.md-overlay) is a decorative
+        // click-to-close layer rendered as a direct child of <body>, outside
+        // every landmark. Hide it from assistive technology so all exposed
+        // page content stays within a landmark (AXE "region") and it isn't
+        // announced as a duplicate of the header navigation toggle.
+        document.querySelectorAll('.md-overlay').forEach(function (overlay) {
+          overlay.setAttribute('aria-hidden', 'true');
+        });
+
+        // 1c. Unique landmarks — Material wraps each code block's "Copy to
+        // clipboard" button in <nav class="md-code__nav"> with no accessible
+        // name, so a page with several code blocks exposes multiple identical,
+        // unnamed navigation landmarks (AXE "landmark-unique"). These are
+        // button containers rather than real navigation, so drop the landmark
+        // role; the copy button itself stays in the accessibility tree.
+        document.querySelectorAll('nav.md-code__nav').forEach(function (codeNav) {
+          codeNav.setAttribute('role', 'none');
+        });
+
+        // 2. Empty form labels — add visually-hidden text to icon-only labels
+        function labelHasText(label) {
+          var clone = label.cloneNode(true);
+          var els = clone.querySelectorAll('svg, img, .md-icon, .visually-hidden');
+          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
+          return !!clone.textContent.trim();
+        }
+
+        function addLabelText(selector, text) {
+          document.querySelectorAll(selector).forEach(function (label) {
+            if (label.getAttribute('aria-hidden') === 'true') return;
+            if (label.querySelector('.visually-hidden')) return;
+            if (labelHasText(label)) return;
+            var span = document.createElement('span');
+            span.className = 'visually-hidden';
+            span.textContent = text;
+            label.appendChild(span);
+          });
+        }
+
+        addLabelText('label[for="__drawer"]', 'Toggle navigation');
+        addLabelText('label[for="__search"]', 'Toggle search');
+
+        // Palette toggle labels
+        document.querySelectorAll('label[for^="__palette"]').forEach(function (label) {
+          if (label.querySelector('.visually-hidden')) return;
+          var title = label.getAttribute('title') || 'Toggle colour scheme';
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = title;
+          label.appendChild(span);
+        });
+
+        // Navigation section toggle labels
+        document.querySelectorAll('label[for^="__nav"], label[for^="nav-"]').forEach(function (label) {
+          if (label.querySelector('.visually-hidden')) return;
+          if (labelHasText(label)) return;
+          var nav = label.closest('.md-nav__item');
+          var link = nav ? nav.querySelector('.md-nav__link') : null;
+          var text = link ? 'Toggle ' + link.textContent.trim() : 'Toggle section';
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = text;
+          label.appendChild(span);
+        });
+
+        // Catch any remaining labels that only contain SVG/icons
+        document.querySelectorAll('label[for]').forEach(function (label) {
+          if (label.getAttribute('aria-hidden') === 'true') return;
+          if (label.querySelector('.visually-hidden')) return;
+          if (labelHasText(label)) return;
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = label.getAttribute('title') || 'Toggle';
+          label.appendChild(span);
+        });
+
+        // Catch any inputs/selects without any label (missing form label)
+        document.querySelectorAll('input, select, textarea').forEach(function (input) {
+          if (input.type === 'hidden') return;
+          if (input.getAttribute('aria-label') || input.getAttribute('aria-labelledby')) return;
+          var id = input.id;
+          if (id && document.querySelector('label[for="' + id + '"]')) return;
+          // No label found — add aria-label
+          var name = input.getAttribute('name') || input.getAttribute('placeholder') || input.type || 'input';
+          input.setAttribute('aria-label', name.charAt(0).toUpperCase() + name.slice(1));
+        });
+
+        // 3. Multiple form labels — replace duplicate labels with spans.
+        // Skip labels already hidden from assistive technology (e.g. the
+        // decorative .md-overlay) so the visible, functional control keeps its
+        // label instead of being the one demoted to a span.
+        // Also skip Material's CSS-only toggles (.md-toggle), which are driven
+        // by two working labels by design — for a nav section, the open link
+        // and the drawer's back arrow both target the same checkbox — so
+        // demoting either breaks navigation at narrow widths. Those checkboxes
+        // are display:none, so AXE never reports them as multiply-labelled.
+        var labelsByFor = {};
+        document.querySelectorAll('label[for]').forEach(function (label) {
+          if (label.getAttribute('aria-hidden') === 'true') return;
+          var forId = label.getAttribute('for');
+          var target = document.getElementById(forId);
+          if (target && target.classList.contains('md-toggle')) return;
+          if (!labelsByFor[forId]) labelsByFor[forId] = [];
+          labelsByFor[forId].push(label);
+        });
+        Object.keys(labelsByFor).forEach(function (forId) {
+          var labels = labelsByFor[forId];
+          if (labels.length > 1) {
+            for (var i = 1; i < labels.length; i++) {
+              var span = document.createElement('span');
+              span.innerHTML = labels[i].innerHTML;
+              span.className = labels[i].className;
+              span.setAttribute('aria-hidden', 'true');
+              labels[i].parentNode.replaceChild(span, labels[i]);
+            }
+          }
+        });
+
+        // 6. Empty links — add aria-label to social icon links
+        document.querySelectorAll('.md-social__link').forEach(function (link) {
+          if (!link.textContent.trim() && !link.getAttribute('aria-label')) {
+            var href = link.getAttribute('href') || '';
+            if (href.indexOf('mailto:') !== -1) {
+              link.setAttribute('aria-label', 'Send email');
+            } else if (href.indexOf('github') !== -1) {
+              link.setAttribute('aria-label', 'GitHub repository');
+            } else {
+              link.setAttribute('aria-label', 'External link');
+            }
+          }
+        });
+
+        // 7. Missing fieldset — wrap palette toggles in a fieldset
+        var palette = document.querySelector('.md-header__option');
+        if (palette && palette.tagName !== 'FIELDSET' && !palette.querySelector('fieldset')) {
+          var fieldset = document.createElement('fieldset');
+          fieldset.className = palette.className;
+          fieldset.style.border = 'none';
+          fieldset.style.padding = '0';
+          fieldset.style.margin = '0';
+          var legend = document.createElement('legend');
+          legend.className = 'visually-hidden';
+          legend.textContent = 'Colour scheme';
+          fieldset.appendChild(legend);
+          while (palette.firstChild) {
+            fieldset.appendChild(palette.firstChild);
+          }
+          palette.parentNode.replaceChild(fieldset, palette);
+        }
+
+        // 8. Palette toggle labels — remove title to avoid redundant title text
+        document.querySelectorAll('.md-header__option label, fieldset label').forEach(function (el) {
+          if (el.getAttribute('title') && el.querySelector('.visually-hidden')) {
+            el.removeAttribute('title');
+          }
+        });
+
+        // 9. Suspicious alt text — fix theme logo if generic
+        document.querySelectorAll('.md-header__button img, .md-logo img').forEach(function (img) {
+          var alt = img.getAttribute('alt') || '';
+          if (!alt || /^(logo|image|img|icon|picture)$/i.test(alt.trim())) {
+            img.setAttribute('alt', 'Defra Digital Waste Tracking home');
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixAccessibility);
+      } else {
+        fixAccessibility();
+      }
+      document.addEventListener('navigationend', fixAccessibility);
+    })();
+  </script>
+
+  </body>
+</html>
