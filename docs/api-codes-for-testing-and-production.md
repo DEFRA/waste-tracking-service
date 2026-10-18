@@ -10,7 +10,7 @@ The production API Code (apiCode) is a mandatory (uuid) field used in a Request 
 
 ### Using the API Code
 - When software developers begin testing their software against the API, they need to provide a ["Dummy" Test Code](#dummy-test-codes).
-- Once developers have been granted access to the Receipt of Waste API production environment, the Defra Team will issue receivers with an initial <b>Production API Code</b>. This is passed to software developers so that they can set up a working connection to the Receipt of Waste Production service. An organisation can have one or more apiCode. Following receipt of the initial apiCode, the apiCodes for an organisation are produced and managed by that organisation. 
+- Once developers have been granted access to the Receipt of Waste API production environment they can begin onboarding waste organisations. The waste organisation must [register](https://www.gov.uk/guidance/report-receipt-of-waste) to report receipt of waste. After registration the waste organisation will be provided with an apiCode (API code). The apiCode is passed to software developers so that they can set up a working connection to the Receipt of Waste Production service. An organisation can have one or more apiCodes. Following receipt of the initial apiCode, the apiCodes for an organisation are produced and managed by that organisation. 
 
 ### API Code as used in a PUT or POST request
 
