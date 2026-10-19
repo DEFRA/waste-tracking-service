@@ -517,7 +517,7 @@ components:
       schema:
         type: string
         format: date-time
-        example: '2025-09-15T12:12:28Z'
+        example: '2025-09-15T12:12:28'
   requestBodies:
     receiveMovementRequest:
       description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the
@@ -548,7 +548,7 @@ components:
                   This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
                   UTC is the global time standard and does not observe daylight saving time.
                   BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
-                example: '2025-09-15T12:12:28Z'
+                example: '2025-09-15T12:12:28'
               hazardousWasteConsignmentCode:
                 type: string
                 description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory. <p><font color="red">England
