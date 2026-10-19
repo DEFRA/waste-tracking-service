@@ -59,7 +59,7 @@ Where your software is used by operators of permitted facilities, referred to as
 
 ### Our responsibilities
 
-We will:x
+We will:
 
 - aim to minimise changes to the API, limit changes to those that are essential and provide notification and, where possible, advance notice
 - ensure that minor API changes are backwards compatible
