@@ -1,0 +1,2261 @@
+openapi: 3.0.3
+
+info:
+  title: Digital Waste Tracking API
+  version: 0.2.5-alpha
+  description: |
+    Extension of the Phase 1 Receipt of Waste API toward a fuller
+    waste-movement journey covering creation, collection, drop-off,
+    receipt and producer tracking.
+
+    This 0.2.5-alpha revision completes the Phase 2 data layer: the
+    creation, collection and drop-off request bodies are now fully
+    specified (replacing the earlier placeholders), aligned with the
+    documentation-side Joi schemas, TypeScript types and worked examples.
+    The Phase 1 receipt schemas are preserved unchanged and extended
+    alongside; shared primitives (weight, address, validationResult) are
+    reused across both generations.
+
+    This specification is in alpha and is being developed alongside
+    User Research with carriers, receivers, drivers, brokers and
+    producers, and software vendors building on the API.
+
+    All operational endpoints return a shared validation envelope
+    (`validationResult`) consistent with the Phase 1 Receipt API.
+
+servers:
+  - url: https://api.example.defra.gov.uk/dwt
+    description: Placeholder server URL — replace with the real environment URL.
+
+tags:
+  - name: Movement
+    description: Create and manage a waste movement record.
+  - name: Collection
+    description: Record a collection event — waste passing from a producer to a driver.
+  - name: Drop-off
+    description: Record a drop-off event, generating a Transfer ID.
+  - name: Receipt
+    description: Record receipt of waste at a receiver site (Phase 1).
+  - name: Fate of waste
+    description: Producer-facing read-only query of a movement's status and outcome.
+  - name: Reference data
+    description: Lookup endpoints for codes used elsewhere in the API.
+
+components:
+
+  # ----------------------------------------------------------------------
+  # Reusable parameters
+  # ----------------------------------------------------------------------
+  parameters:
+
+    movementIdPath:
+      name: movementId
+      in: path
+      required: true
+      description: Movement ID minted by `POST /movements`.
+      schema:
+        $ref: '#/components/schemas/movementId'
+
+    transferIdPath:
+      name: transferId
+      in: path
+      required: true
+      description: Transfer ID minted by `POST /transfers`.
+      schema:
+        $ref: '#/components/schemas/transferId'
+
+  # ----------------------------------------------------------------------
+  # Schemas
+  #
+  # Organised in three layers, smallest first:
+  #   1. Identifiers and primitives (Movement ID, Transfer ID, weights, dates)
+  #   2. Common composites (address, organisation, validation envelope)
+  #   3. Domain entities (waste classification, hazardous, POPs, party details)
+  #   4. Request / response bodies per endpoint
+  # ----------------------------------------------------------------------
+  schemas:
+
+    # --- 1. Identifiers and primitives ----------------------------------
+
+    movementId:
+      type: string
+      description: |
+        Unique identifier for a waste movement. Minted by the server on
+        `POST /movements` and immutable thereafter. Short,
+        externally-shared, year-prefixed sqids (YY + alphanumerics, see
+        https://sqids.org/). Format is opaque to callers; do not parse.
+      example: 25HRA0B2
+
+    transferId:
+      type: string
+      description: |
+        Unique identifier for a drop-off, covering one or more Movement IDs
+        delivered together at a single receiver site. Minted by the server
+        on `POST /transfers`. Short, externally-shared,
+        year-prefixed sqids (YY + alphanumerics, see https://sqids.org/).
+        Format is opaque to callers; do not parse.
+      example: 25KMT4Z9
+
+    # Internal event identifiers (creationId, collectionId, dropOffId,
+    # receiptId) are UUIDs minted per event and used server-side only.
+    # They are NOT part of the public contract and are never returned in
+    # API responses, so they are not modelled here. Public resources are
+    # addressed solely by their public identifiers: movementId and
+    # transferId (and, on the deprecated Phase 1 path, wasteTrackingId).
+
+    wasteTrackingId:
+      type: string
+      pattern: '^[A-Z]{2}[A-Z0-9]{6}$'
+      description: |
+        Public Phase 1 tracking identifier returned by the deprecated
+        `POST /movements/receive` and used to address the deprecated
+        `PUT /movements/{wasteTrackingId}/receive`. Retained for backward
+        compatibility only. An 8-character sqid: a two-letter prefix
+        followed by six alphanumeric characters.
+      example: YY3F7K2Q
+
+
+    # --- 2. Common composites -------------------------------------------
+    #
+    # The `address` schema lives with the Phase 1 schemas further down
+    # (intentionally lowercase, single canonical shape across both
+    # generations of the API).
+
+    organisation:
+      type: object
+      required: [organisationName]
+      properties:
+        organisationName:
+          type: string
+        registrationNumber:
+          type: string
+          description: |
+            Carrier/Broker/Dealer registration number where applicable
+            (e.g. CBDU123456). Required for carriers and brokers; not
+            applicable to producers or receivers.
+        permitNumber:
+          type: string
+          description: |
+            Environmental permit number where applicable (e.g. EPR/AB1234CD).
+            Required for waste receivers; not applicable to producers,
+            carriers or brokers.
+        address:
+          $ref: '#/components/schemas/address'
+
+    notFoundError:
+      type: object
+      description: |
+        Body returned with a 404 on the collection and receipt reads/updates,
+        to distinguish a missing parent resource from a sub-resource that has
+        simply not been recorded yet. This lets a polling client tell a wrong
+        identifier (stop) from an event that has not happened yet (keep
+        polling).
+      required: [code]
+      properties:
+        code:
+          type: string
+          enum:
+            - MOVEMENT_NOT_FOUND
+            - COLLECTION_NOT_RECORDED
+            - TRANSFER_NOT_FOUND
+            - RECEIPT_NOT_RECORDED
+          description: |
+            `MOVEMENT_NOT_FOUND` / `TRANSFER_NOT_FOUND`: the parent resource
+            does not exist. `COLLECTION_NOT_RECORDED` / `RECEIPT_NOT_RECORDED`:
+            the parent exists but the event has not been recorded yet.
+          example: COLLECTION_NOT_RECORDED
+        message:
+          type: string
+          example: No collection has been recorded for this movement yet.
+
+
+    # --- 3. Domain entities ---------------------------------------------
+    #
+    # Precise Phase 2 entities, aligned with the documentation-side Joi
+    # schemas and TypeScript types (creationJoi.js, collectionJoi.js,
+    # dropOffJoi.js, sharedSchemas.js) and the worked examples in the
+    # *Event.js fixtures.
+    #
+    # Cross-field rules that OpenAPI 3.0 cannot express (mutual exclusivity,
+    # conditional requiredness, data-dependent checks such as the hazardous
+    # aggregation rule or the collection/creation length match) are stated in
+    # the field descriptions and enforced server-side.
+    #
+    # Shared primitives (weight, address, validationResult) and the full
+    # waste classification (wasteItem, with its nested pops/hazardous and
+    # optional disposalOrRecoveryCodes) are reused from the Phase 1 block
+    # further down rather than redefined.
+
+    otherReferenceForMovement:
+      type: object
+      required: [label, reference]
+      properties:
+        label:
+          type: string
+          minLength: 1
+          description: The type/label of the reference (e.g. transferNoteNumber, purchaseOrderNumber). Must be supplied together with its reference.
+          example: purchaseOrderNumber
+        reference:
+          type: string
+          minLength: 1
+          description: The reference value. Must be supplied together with its label.
+          example: PO-98765
+
+    addressWithFullAddress:
+      type: object
+      description: |
+        Address where both fullAddress and postcode are required. Used by the
+        collection site and drop-off place. Accepts UK postcodes and Irish
+        Eircodes (unlike the receipt address, which is UK-only).
+      required: [fullAddress, postcode]
+      properties:
+        fullAddress:
+          type: string
+          example: 10 Industrial Way, Test City
+        postcode:
+          type: string
+          description: Accepts UK postcodes and Irish Eircodes.
+          example: TE1 2PQ
+
+    producerDetails:
+      type: object
+      description: |
+        Producer organisation and waste-source details, recorded at creation.
+
+        Conditional requiredness is driven by `wasteSource` and enforced
+        server-side:
+        - `Commercial` — `organisationName`, `authorisationNumber` and `sicCode`
+          are required.
+        - `Household` — the business-only fields (`organisationName`,
+          `authorisationNumber`, `sicCode`, `emailAddress`, `phoneNumber`) must
+          NOT be provided.
+        - `Municipal` — those fields are optional; final conditionality to be
+          confirmed with the BA.
+      required:
+        - wasteSource
+        - address
+        - councilMovement
+      properties:
+        wasteSource:
+          type: string
+          enum: [Household, Commercial, Municipal]
+          description: Origin of the waste. Drives conditional requiredness of the business-only fields. Case-sensitive.
+          example: Commercial
+        organisationName:
+          type: string
+          description: Producer organisation name. Required for Commercial; not applicable for Household.
+          example: ACME Waste Producers Ltd
+        authorisationNumber:
+          type: string
+          description: |
+            Environmental permit or exemption number the producer operates under.
+            Required for Commercial; optional for Municipal; not applicable for
+            Household. Validated against the same UK site-authorisation formats
+            as `receiver.authorisationNumber`.
+          example: EAS/P/123456
+        sicCode:
+          type: string
+          pattern: '^\d{5}$'
+          description: |
+            Five-digit Standard Industrial Classification code for the process
+            that created this waste. Required for Commercial; optional for
+            Municipal; not applicable for Household.
+          example: '38110'
+        emailAddress:
+          type: string
+          format: email
+          description: Producer contact email address. Not applicable for Household.
+          example: producer@example.com
+        phoneNumber:
+          type: string
+          description: Producer contact phone number. Not applicable for Household.
+          example: '01234567890'
+        address:
+          $ref: '#/components/schemas/address'
+        councilMovement:
+          type: boolean
+          description: Whether this movement is carried out by, or on behalf of, a council.
+          example: false
+
+    creationCarrierDetails:
+      type: object
+      description: |
+        Carrier details at creation. Same field structure as the Phase 1
+        `carrier`, but with relaxed requiredness: only `meansOfTransport` is
+        mandatory at creation, because full carrier details may not be known
+        when the movement is planned. Optional fields keep their integrity
+        rules when supplied (enforced server-side):
+          * `registrationNumber` and `reasonForNoRegistrationNumber` are mutually exclusive;
+          * `vehicleRegistration` is only valid when `meansOfTransport` is `Road`;
+          * `otherMeansOfTransport` is only valid when `meansOfTransport` is `Other`.
+        By collection and drop-off the full Phase 1 `carrier` shape applies
+        (registrationNumber/reason and Road vehicleRegistration become required).
+      required:
+        - meansOfTransport
+      properties:
+        meansOfTransport:
+          type: string
+          enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
+          description: How the waste is transported. The only mandatory carrier field at creation. Case-sensitive; 'Inland Waterway' includes a space.
+          example: Road
+        registrationNumber:
+          type: string
+          nullable: true
+          description: Carrier/Broker/Dealer registration number (e.g. CBDU123456). Optional at creation; if provided, must be a valid carrier registration format.
+          example: CBDU123456
+        reasonForNoRegistrationNumber:
+          type: string
+          enum: [ON_SITE, HOUSEHOLD, ONE_OFF, MARINE]
+          description: Reason a registration number is not supplied. Must not be supplied alongside a valid registrationNumber.
+          example: ONE_OFF
+        organisationName:
+          type: string
+          description: Carrier organisation name. Optional at creation.
+          example: Test Carrier Ltd
+        vehicleRegistration:
+          type: string
+          maxLength: 10
+          description: Vehicle registration number. Only valid when meansOfTransport is Road.
+          example: AB12 CDE
+        otherMeansOfTransport:
+          type: string
+          description: Free-text description of the transport method when meansOfTransport is Other.
+        emailAddress:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+        address:
+          $ref: '#/components/schemas/address'
+
+    creationReceiverDetails:
+      type: object
+      description: |
+        Intended receiver details recorded at creation. Required only when the
+        movement contains hazardous waste (enforced server-side). If `siteName`
+        is supplied, `authorisationNumber` and `address` (with fullAddress)
+        become required. These are provisional — the authoritative receiver is
+        confirmed at receipt, where the receiver is modelled by the Phase 1
+        `receiver` (which carries regulatoryPositionStatements and no address;
+        the receipt site address is the separate `receipt.address`).
+      properties:
+        siteName:
+          type: string
+          description: Name of the intended receiving site. If supplied, authorisationNumber and address are required.
+          example: Test Receiver Site
+        authorisationNumber:
+          type: string
+          description: Environmental permit/authorisation number for the receiving site, validated against UK site-authorisation formats. Required when siteName is supplied.
+          example: HP3456XX
+        emailAddress:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+        address:
+          allOf:
+            - $ref: '#/components/schemas/address'
+          description: Receiver site address. Required (with fullAddress) when siteName is supplied.
+
+    collectionSite:
+      type: object
+      description: Collection site details. The address is where the waste was physically collected, typically a producer site.
+      required: [address]
+      properties:
+        address:
+          allOf:
+            - $ref: '#/components/schemas/addressWithFullAddress'
+          description: Address where the waste was physically collected. Both fullAddress and postcode are required.
+
+    dropOffSite:
+      type: object
+      description: |
+        Carrier-declared drop-off place. A lighter site model than the receipt
+        `receiver`: it is not necessarily an official receiver site and does not
+        require a receiver authorisation number. Where the place operates under
+        an exemption (e.g. a WEX number), `exemptionNumber` may be supplied —
+        distinct from `receiver.authorisationNumber`. A receipt event may not
+        always follow a drop-off.
+      required: [siteName, address]
+      properties:
+        siteName:
+          type: string
+          description: Name of the carrier-declared site/place where the waste is dropped off or left.
+          example: Test Drop-off Site
+        exemptionNumber:
+          type: string
+          description: Optional exemption number for exempt places that store, treat, use or dispose of waste (e.g. a WEX number). Distinct from receiver.authorisationNumber.
+          example: WEX123456
+        address:
+          allOf:
+            - $ref: '#/components/schemas/addressWithFullAddress'
+          description: Mandatory physical address where the waste was dropped off (D-018). Both fullAddress and postcode are required.
+
+    driverDetails:
+      type: object
+      description: |
+        Reserved. Identifies the driver performing a collection or drop-off,
+        distinct from the carrier organisation. Not currently part of any event
+        request body (collection and drop-off do not carry driver details in
+        this revision); retained for a future revision. Currently carries name
+        only.
+      properties:
+        name:
+          type: string
+
+
+    # --- 4. Request and response bodies per endpoint --------------------
+
+    # POST /movements — single request shape (D-030: no discriminated union).
+    # `carrier` is always required (D-008); `brokerOrDealer` is present only
+    # when the movement is broker/dealer-initiated. `apiCode` identifies the
+    # submitting organisation — at creation the initiator, carrier or broker
+    # (D-027). Field names and shapes match the createMovement worked example.
+
+    createMovementRequest:
+      type: object
+      required:
+        - apiCode
+        - estimatedDateTimeCollected
+        - producer
+        - carrier
+        - wasteItems
+      properties:
+        apiCode:
+          type: string
+          format: uuid
+          description: |
+            Unique identifier of the submitting organisation, produced by the
+            Waste Tracking Service registration process. At creation the
+            submitter is the movement initiator (carrier or broker). The backend
+            may resolve this to an internal submittingOrganisation (D-027).
+          example: 25b14080-5e77-4f91-9957-2482a0cb8775
+        estimatedDateTimeCollected:
+          type: string
+          format: date-time
+          description: |
+            Estimated date and time the waste will be collected. The actual
+            collection time is recorded by the collection event and may differ.
+            ISO 8601 (UTC or BST).
+          example: 2025-09-15T08:00:00Z
+        hazardousWasteConsignmentCode:
+          type: string
+          description: |
+            Required when any waste item carries a hazardous EWC code. Must match
+            an accepted region-specific consignment code format (England & Wales,
+            Scotland, NI). Mutually exclusive with reasonForNoConsignmentCode.
+          example: CJ123E/A0001
+        reasonForNoConsignmentCode:
+          type: string
+          enum: [NON_HAZ_WASTE_TRANSFER, NO_DOC_WITH_WASTE, HWRC_RECEIPT]
+          description: |
+            Required when the movement contains hazardous waste and no
+            hazardousWasteConsignmentCode is provided. Mutually exclusive with
+            hazardousWasteConsignmentCode. Case-sensitive.
+        yourUniqueReference:
+          type: string
+          description: Caller's own reference. No format rules enforced.
+          example: CARRIER-JOB-001
+        otherReferencesForMovement:
+          type: array
+          items:
+            $ref: '#/components/schemas/otherReferenceForMovement'
+        specialHandlingRequirements:
+          type: string
+          maxLength: 5000
+          description: Special handling instructions (e.g. fragile, hazardous, temperature-sensitive).
+        producer:
+          $ref: '#/components/schemas/producerDetails'
+        carrier:
+          allOf:
+            - $ref: '#/components/schemas/creationCarrierDetails'
+          description: Carrier details. Always required at creation (D-008), with only meansOfTransport mandatory at this stage.
+        brokerOrDealer:
+          allOf:
+            - $ref: '#/components/schemas/brokerOrDealer'
+          description: Broker or dealer details. Required only when the movement is broker/dealer-initiated; omitted otherwise (D-008). Reuses the Phase 1 brokerOrDealer shape.
+        receiver:
+          allOf:
+            - $ref: '#/components/schemas/creationReceiverDetails'
+          description: Intended receiver. Required only when the movement contains hazardous waste (enforced server-side).
+        wasteItems:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/wasteItem'
+          description: |
+            At least one waste item. Reuses the Phase 1 wasteItem shape (full
+            classification, with disposalOrRecoveryCodes optional — D-031). At
+            creation, weights are typically estimates (weight.isEstimate true);
+            actual weights are recorded at collection.
+        isDeleted:
+          type: boolean
+          default: false
+          description: |
+            Soft-delete flag (D-009). Defaults to `false`. Must not be supplied
+            as `true` on create — only `PUT /movements/{movementId}` may set it
+            to `true`, and only while no Collection has been recorded against
+            this Movement; once a Collection exists the Movement can no longer
+            be deleted. Supplying `true` here is rejected as a `NotAllowed`
+            validation error.
+
+    createMovementResponse:
+      type: object
+      description: |
+        Returned on successful create. Mirrors the Phase 1 Receipt API
+        response shape — the public Movement ID and a validation envelope
+        carrying any warnings.
+      properties:
+        movementId:
+          $ref: '#/components/schemas/movementId'
+        validation:
+          type: object
+          properties:
+            warnings:
+              type: array
+              items:
+                $ref: '#/components/schemas/validationResult'
+
+    updateResponse:
+      type: object
+      description: |
+        Returned on a successful update (movement, collection or drop-off).
+        Mirrors the Phase 1 Receipt API PUT response — validation envelope
+        only, no identifier (it's already in the URL).
+      properties:
+        validation:
+          type: object
+          properties:
+            warnings:
+              type: array
+              items:
+                $ref: '#/components/schemas/validationResult'
+
+    # Collection event — POST /movements/{movementId}/collection.
+    #
+    # Records one event in a Movement's ordered collection sequence. The
+    # movementId is the path parameter and is not part of the body. Only actual
+    # weights are captured here; the full classification stays on the Movement
+    # from creation. A STATIC producer-to-driver pickup is followed by zero or
+    # more TRANSIT driver-to-driver handovers (D-029); POST appends the next
+    # event, PUT corrects/soft-deletes the latest active event.
+
+    collectionRequest:
+      type: object
+      required:
+        - apiCode
+        - actualDateTimeCollected
+        - carrier
+        - collection
+      properties:
+        apiCode:
+          type: string
+          format: uuid
+          description: |
+            Unique identifier of the submitting organisation (the carrier
+            recording the collection), produced by Waste Tracking Service
+            registration (D-027).
+          example: 25b14080-5e77-4f91-9957-2482a0cb8775
+        actualDateTimeCollected:
+          type: string
+          format: date-time
+          description: |
+            Actual date and time the waste was collected — not when the record
+            was submitted. For deferred or retrospective recording, back-fill the
+            real collection time. ISO 8601.
+          example: 2025-09-15T08:34:00Z
+        collectionType:
+          type: string
+          enum: [STATIC, TRANSIT]
+          default: STATIC
+          description: |
+            Whether this event is a `STATIC` producer-to-driver pickup or a
+            `TRANSIT` driver-to-driver handover (D-029). Optional; defaults to
+            `STATIC` when omitted.
+            <p><font color="green"><b>Business Rules:</b></font></p>
+            <ul>
+            <li>A Movement's collection events form one ordered sequence. The first active (non-deleted) event must be `STATIC`; every later active event must be `TRANSIT`.</li>
+            <li>`POST` appends the next event to the sequence. The sequence is closed once this Movement is named in a Drop-off's `movementIds` — a `POST` after that is rejected as a `BusinessRuleViolation`.</li>
+            <li>A single Movement is never split or forked across carriers: two loads moving between the same pair of drivers are two Movements, each with its own STATIC→TRANSIT* sequence. There is no cap on the number of TRANSIT events.</li>
+            </ul>
+          example: STATIC
+        yourUniqueReference:
+          type: string
+          description: Caller's own reference for this collection event (e.g. a weighbridge ticket number).
+          example: DRIVER-TRIP-001
+        otherReferencesForMovement:
+          type: array
+          items:
+            $ref: '#/components/schemas/otherReferenceForMovement'
+        carrier:
+          allOf:
+            - $ref: '#/components/schemas/carrier'
+          description: |
+            Carrier details confirmed at collection. Required even if unchanged
+            from creation (D-008). Uses the full Phase 1 carrier shape — by
+            collection the carrier is physically present, so the strict carrier
+            rules apply (registrationNumber/reason; vehicleRegistration for Road).
+        receivedFromCarrier:
+          allOf:
+            - $ref: '#/components/schemas/carrier'
+          description: |
+            The carrier this Movement was received *from* on a `TRANSIT`
+            (driver-to-driver) handover (D-029). Same shape as `carrier`.
+            <p><font color="green"><b>Business Rules:</b></font></p>
+            <ul>
+            <li>Required when `collectionType` is `TRANSIT`.</li>
+            <li>Must not be provided when `collectionType` is `STATIC` (mirrors the `registrationNumber`/`reasonForNoRegistrationNumber` mutual-exclusivity pattern).</li>
+            <li>Captured for the record only — it is not cross-checked against the preceding event's `carrier`; any discrepancy is left for regulators to detect (D-029).</li>
+            </ul>
+        collection:
+          $ref: '#/components/schemas/collectionSite'
+        isDeleted:
+          type: boolean
+          default: false
+          description: |
+            Soft-delete flag (D-009). Defaults to `false`. Must not be supplied
+            as `true` on create — only `PUT /movements/{movementId}/collection`
+            may set it to `true`, and only while this Movement has not yet been
+            referenced in a Drop-off; once a Drop-off references it the
+            Collection can no longer be deleted. Supplying `true` here is
+            rejected as a `NotAllowed` validation error.
+            <p><font color="green"><b>Business Rules (transit sequence, D-029):</b></font></p>
+            <ul>
+            <li>Only the *latest active* event in the Movement's collection sequence may be soft-deleted (tail-peel). Deleting the latest `TRANSIT` makes the prior event the new latest; the `STATIC` head can only be deleted when it is the sole remaining event.</li>
+            <li>Attempting to delete any earlier event is rejected as a `BusinessRuleViolation`.</li>
+            </ul>
+
+    recordCollectionResponse:
+      type: object
+      description: |
+        Returned on successful collection record — a validation envelope
+        with any warnings. The event is appended to the Movement's ordered
+        collection sequence and addressed by its position under
+        `/movements/{movementId}/collection`; no public collection identifier
+        is returned (D-012/D-016).
+      properties:
+        validation:
+          type: object
+          properties:
+            warnings:
+              type: array
+              items:
+                $ref: '#/components/schemas/validationResult'
+
+    movementResource:
+      description: |
+        A movement as stored. The create request body fields plus the
+        public `movementId`.
+      allOf:
+        - type: object
+          required: [movementId]
+          properties:
+            movementId:
+              $ref: '#/components/schemas/movementId'
+        - $ref: '#/components/schemas/createMovementRequest'
+
+    dropOffResource:
+      description: |
+        A drop-off as stored. The request body fields plus the public
+        `transferId`.
+      allOf:
+        - type: object
+          required: [transferId]
+          properties:
+            transferId:
+              $ref: '#/components/schemas/transferId'
+        - $ref: '#/components/schemas/dropOffRequest'
+
+    receiptResource:
+      description: |
+        A receipt event as stored. The receipt request body fields (same
+        shape as `receiveMovementRequest`) plus the public `transferId`.
+      allOf:
+        - type: object
+          required: [transferId]
+          properties:
+            transferId:
+              $ref: '#/components/schemas/transferId'
+        - $ref: '#/components/schemas/receiveMovementRequest'
+
+    # Drop-off event — POST /transfers.
+    #
+    # A single drop-off can cover one or more Movements delivered together
+    # (multi-collection case). The Transfer ID minted here is the aggregation
+    # point — one Transfer ID, many Movement IDs possible. The drop-off place is
+    # a lighter, carrier-declared site model (`dropOff`); a receipt may not
+    # always follow. No GET in v1; updates use PUT against the Transfer ID.
+
+    dropOffRequest:
+      type: object
+      required:
+        - apiCode
+        - movementIds
+        - actualDateTimeDropOff
+        - carrier
+        - dropOff
+      properties:
+        apiCode:
+          type: string
+          format: uuid
+          description: |
+            Unique identifier of the submitting organisation (the carrier
+            recording the drop-off), produced by Waste Tracking Service
+            registration (D-027).
+          example: 25b14080-5e77-4f91-9957-2482a0cb8775
+        movementIds:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/movementId'
+          description: |
+            One or more Movement IDs delivered together at the same drop-off
+            place. A single-collection run supplies an array of one; a
+            multi-collection run supplies every Movement delivered together.
+            Hazardous-waste constraint (D-010): if any referenced Movement
+            carries hazardous waste, exactly one Movement ID is permitted. This
+            depends on properties of the linked Movements not carried in the
+            body, so it is enforced server-side (see the endpoint description).
+        actualDateTimeDropOff:
+          type: string
+          format: date-time
+          description: Actual date and time the drop-off occurred — not the submission time. ISO 8601.
+          example: 2025-09-15T11:15:00Z
+        yourUniqueReference:
+          type: string
+          description: Caller's own reference for this drop-off event (e.g. a route sheet number).
+          example: DRIVER-RUN-AM-001
+        otherReferencesForMovement:
+          type: array
+          items:
+            $ref: '#/components/schemas/otherReferenceForMovement'
+        carrier:
+          allOf:
+            - $ref: '#/components/schemas/carrier'
+          description: Carrier performing the drop-off. Required (D-008); uses the full Phase 1 carrier shape.
+        dropOff:
+          $ref: '#/components/schemas/dropOffSite' 
+        isDeleted:
+          type: boolean
+          default: false
+          description: |
+            Soft-delete flag (D-009). Defaults to `false`. Must not be supplied
+            as `true` on create — only `PUT /transfers/{transferId}` may set it
+            to `true`, and only while no Receipt has been recorded against this
+            Transfer; once a Receipt exists the Transfer can no longer be
+            deleted. Supplying `true` here is rejected as a `NotAllowed`
+            validation error.
+
+    # PUT /transfers/{transferId} — restricted update body (D-017).
+    #
+    # A recorded drop-off is immutable under policy; the only property that may
+    # change is the soft-delete flag isDeleted (D-009). The drop-off PUT
+    # therefore accepts ONLY isDeleted (plus apiCode for caller identity). Every
+    # other dropOffRequest field is rejected with a NotAllowed validation error
+    # (additionalProperties: false). To correct a recorded drop-off, soft-delete
+    # it (isDeleted: true) and record a fresh drop-off via POST /transfers.
+    dropOffUpdateRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - apiCode
+        - isDeleted
+      properties:
+        apiCode:
+          type: string
+          format: uuid
+          description: |
+            Unique identifier of the submitting organisation (the carrier),
+            produced by Waste Tracking Service registration (D-027). Caller
+            identity only — not a mutable property of the drop-off record, so
+            its presence does not breach drop-off immutability (D-017).
+          example: 25b14080-5e77-4f91-9957-2482a0cb8775
+        isDeleted:
+          type: boolean
+          description: |
+            Soft-delete flag for the drop-off (D-009) — the ONLY property that
+            may be changed on a recorded drop-off (D-017). Setting true marks the
+            Transfer deleted; false restores it. Cannot be set true once a
+            Receipt has been recorded against the Transfer (BusinessRuleViolation).
+          example: true
+
+    dropOffResponse:
+      type: object
+      description: |
+        Returned on successful drop-off. Carries the new public Transfer ID
+        (which links all Movement IDs in this drop-off) and a validation
+        envelope with any warnings.
+      properties:
+        transferId:
+          $ref: '#/components/schemas/transferId'
+        validation:
+          type: object
+          properties:
+            warnings:
+              type: array
+              items:
+                $ref: '#/components/schemas/validationResult'
+
+    # ------------------------------------------------------------------
+    # Phase 1 schemas, preserved verbatim.
+    # Lowercase naming distinguishes them from the PascalCase schemas
+    # introduced for the new endpoints. They are referenced by Phase 1
+    # paths only.
+    # ------------------------------------------------------------------
+    wasteItem:
+      type: object
+      required:
+        - ewcCodes
+        - wasteDescription
+        - physicalForm
+        - typeOfContainers
+        - numberOfContainers
+        - weight
+        - containsPops
+        - containsHazardous
+      properties:
+        ewcCodes:
+          type: array
+          items:
+            type: string
+          maxItems: 5
+          description: |
+            An EWC code is a six digit code listed in the European Waste Catalogue (EWC) and the List of Wastes Regulations 2005 for the UK. 
+            The EWC catalog is a list of waste types which categorise waste based on a combination of what they are and the process or activity that produces them.<br><br>
+            Notes:<br> 
+            - users must already know their correct code before using the API <br>
+            - the GET ewc-codes method returns a reference for all EWC codes<br>
+            - there is <b>no maximum</b> number of waste items that can be entered per movement, but there is a maximum of <b>five</b> EWC codes that can be applied to each waste item, thus allowing for multiple EWC codes on some edge cases e.g. Clinical Waste<br><br>
+            To find an EWC code for a particular waste item, refer to the official <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 </a>document.<br><br>
+            POPs can also be present in hazardous and non-hazardous waste. See wasteItem.containsPops and wasteItem.pops for more information.<br>
+              <p><font color="green"><b>Business Rules:</b></font></p> 
+              - Must be six digits (no spaces) and be in the official wasteItem.ewcCode EWC catalog EUR-Lex.<br> 
+              - From one to a maximum of five codes per movement can be provided.</p>
+          example:
+            - 200108
+            - 150109
+        wasteDescription:
+          type: string
+          description: A detailed description of a specific waste material including its physical characteristics, composition and any potential hazards associated with it. 
+          example: Basic mixed construction and demolition waste, this includes recyclable house bricks, gypsum plaster and slates.
+        physicalForm:
+          type: string
+          enum: [Gas, Liquid, Solid, Powder, Sludge, Mixed]
+          description: This is the form of the waste. This could be a Gas, Liquid, Solid, Powder, Sludge or Mixed. 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            Must be “Gas”, “Liquid”, “Solid”, Powder”, “Sludge” or “Mixed”.
+            <b>Note:</b> The field is case-sensitive, please use the case specified in the description.
+          example: Sludge
+        numberOfContainers:
+          type: integer
+          minimum: 0
+          nullable: false
+          description: Number of containers for storing, transporting and disposing of waste materials. 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            This must be a non-negative integer (0 or greater).
+          example: 2
+        typeOfContainers:
+          type: string
+          nullable: false
+          description: |
+            Containers are receptacles used for 2storing, transporting and disposing of waste materials. They come in  various sizes and types, ranging from small desk-side bins to large industrial skips. Enter the container code, e.g. DRU for Drum.<br><br>
+            <b>Notes:</b><br>
+            - A list of all container types can be obtained using the GET container-types method.<br>
+            - The field is case-sensitive, please use the case specified for the code returned by the GET method.
+            <br>
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            Must be in typeOfContainers list.
+          example: SKI
+        weight:
+          $ref: "#/components/schemas/weight"
+        containsPops:
+          type: boolean
+          description: |
+            Does the waste consignment contain POPs? This should be a boolean value, i.e. true or false.
+                Persistent organic pollutants (POPs) are chemical substances that do not break down in the environment. They are a danger to human health and the environment. POPs can be present in hazardous and non-hazardous waste. 
+          example: true
+        pops:
+          type: object
+          required:
+            - sourceOfComponents
+          properties:
+            sourceOfComponents:
+              type: string
+              enum: [NOT_PROVIDED, PROVIDED_WITH_WASTE, GUIDANCE, OWN_TESTING]
+              description: |
+                Indicates the source of POP component details.
+                - NOT_PROVIDED: Carrier did not provide component details
+                - PROVIDED_WITH_WASTE: Components provided with the waste
+                - GUIDANCE: Components determined from guidance
+                - OWN_TESTING: Components determined from own testing<br><br>
+                 <b>Note:</b> The field is case-sensitive, please use the case specified in the list above.
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                <ul>
+                <li>Must be provided when wasteItem.containsPops is true</li>
+                <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, components are recommended but not required (validation warning if not provided)</li>
+                <li>If sourceOfComponents is GUIDANCE or OWN_TESTING, components are required (validation error if not provided)</li>
+                </ul>
+              example: PROVIDED_WITH_WASTE
+            components:
+              type: array
+              items:
+                type: object
+                required:
+                  - code
+                properties:
+                  code:
+                    type: string
+                    description: |
+                      The code of the POP (Persistent Organic Pollutant) component. 
+                      <b>Notes:</b><br>
+                      - A list of POP names and codes can be obtained using the GET pop-names method.<br>
+                      - The field is case-sensitive, please use the case specified for the code returned by the GET method.
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, it must be a valid POP code from the reference list returned by the GET method. The code is validated against reference data to ensure accuracy.
+                    example: PFHXS
+                  concentration:
+                    type: number
+                    minimum: 0
+                    exclusiveMinimum: true
+                    description: The concentration of the POP in mg per kg, e.g. 50 mg per kg of Chlordane. 
+                      <p><font color="green"><b>Business Rule:</b></font></p> 
+                      Optional field. If provided, must be a positive decimal number (greater than 0)
+                    example: 12.5
+              description: |
+                The list of POP components.
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                <ul>
+                <li>Must be provided when wasteItem.containsPops is true</li>
+                <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, an empty components array will generate a validation warning</li>
+                <li>If sourceOfComponents is GUIDANCE or OWN_TESTING, components are required and cannot be empty (validation error if not provided)</li>
+                </ul>
+        containsHazardous:
+              type: boolean
+              description: Does the waste consignment contain <b>Hazardous Properties</b>, true or false?. This is a mandatory indication. This is a boolean value, i.e. true (contains hazardous properties) or false (does not contain hazardous properties).
+              example: true        
+        hazardous:
+          type: object
+          required:
+            - sourceOfComponents
+          properties:
+            sourceOfComponents:
+              type: string
+              enum: [NOT_PROVIDED, PROVIDED_WITH_WASTE, GUIDANCE, OWN_TESTING]
+              description: |
+                Indicates the source of hazardous component details.
+                - NOT_PROVIDED: Carrier did not provide component details
+                - PROVIDED_WITH_WASTE: Components provided with the waste
+                - GUIDANCE: Components determined from guidance
+                - OWN_TESTING: Components determined from own testing
+                <p><font color="green"><b>Business Rules:</b></font></p>
+                <ul>
+                <li>Must be provided when wasteItem.containsHazardous is true</li>
+                <li>If sourceOfComponents is NOT_PROVIDED, components array must be empty or not provided</li>
+                <li>If sourceOfComponents is PROVIDED_WITH_WASTE, components are recommended but not required (validation warning if not provided)</li>
+                <li>If sourceOfComponents is GUIDANCE or OWN_TESTING, components are required (validation error if not provided)</li>
+                </ul>
+              example: PROVIDED_WITH_WASTE
+            hazCodes:
+              type: array
+              description: |
+                Hazardous property codes are a list of codes that identify the hazardous waste and the potential risks associated with waste materials, guiding their safe transportation and handling protocols. Common types could include codes, HP_1 - HP_15. The format of the code to be entered is HP_'number', e.g. HP_1 for Explosive, HP_2 for Oxidizing, etc.     
+                 <p>The official hazardous code list is found here in Appendix C:
+                 <a href="https://assets.publishing.service.gov.uk/media/6152d0b78fa8f5610b9c222b/Waste_classification_technical_guidance_WM3.pdf">Waste Classification Technical Guidance WM3 document.</a></p>
+                 <b>Notes:</b><br>
+                <ul>
+                - A list of all Hazardous Property Codes can be obtained using the GET hazardous-property-codes method.<br>
+                - The field is case-sensitive, please use the case specified for the code returned by the GET method.
+                </ul>
+                 <p><font color="green"><b>Business Rule:</b></font></p> 
+                 If wasteItem.containsHazardous is true then wasteItem.hazardous.hazCodes must be a valid code. 
+              example:
+                - HP_5
+                - HP_10
+              items:
+                type: string
+            components:
+              type: array
+              items:
+                type: object 
+                required:
+                  - name
+                properties:
+                  name:
+                    type: string
+                    description: Name of the hazardous component, e.g. Mercury.
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, must be a valid chemical or biological component name.
+                    example: lead
+                  concentration:
+                    type: number
+                    minimum: 0
+                    exclusiveMinimum: true
+                    description: The concentration of the hazardous component in milligrams per kilo, e.g. 30mg per kg.
+                      <p><font color="green"><b>Business Rule:</b></font></p>
+                      Optional field. If provided, must be a positive numeric value (greater than 0).
+                    example: 25.5
+        disposalOrRecoveryCodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/disposalOrRecoveryCode"
+    carrier:
+      type: object
+      required:
+        - registrationNumber
+        - organisationName
+        - meansOfTransport
+      properties:
+        registrationNumber:
+          type: string
+          nullable: true
+          description: |
+            <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
+             <p><b>Home Nations Codes:</b></p>
+             <p><b>General Format</b> where 9 is a digit 0-9</p>
+             <p><font color="blue"><b>Wales NRW:</b></font></p>
+                CBDL9, CBDL99, CBDU999 (1+ digits)
+                <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
+             <p><font color="blue"><b>England:</b></font></p>
+                CBDL9, CBDL99, CBDU999 (1+ digits)
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
+             <p><font color="blue"><b>Scotland SEPA:</b></font></p>
+                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
+                <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
+               <p>Current format – WCR/R/1234567</p>
+               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
+             <p><font color="blue"><b>Northern Ireland NI</b></font></p>
+                <p></p><p>ROC UT 9,ROC UT 99,ROC UT 999,ROC UT 9999,ROC UT 99999,  ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999 </p>
+                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note the spaces are not mandatory.<p></p> For example:
+                ROC UT 9999
+                ROCLT9999<p></p><p></p>
+                <p><b>General Format</b> where 9 is a digit 0-9</p>
+          example: CBDL6
+        reasonForNoRegistrationNumber:
+          type: string
+          description: |
+            If you have not provided a registration number, then here you must provide an appropriate reason code from the list below:
+            <ul>
+            <li><b>ON_SITE - Movement within the same premises</b> (e.g. waste transferred between different areas or authorisations on the same site)</li>
+            <li><b>HOUSEHOLD - Householder transporting own waste</b> (e.g. individual taking personal or household waste to a HWRC, not for profit)</li>
+            <li><b>ONE_OFF - One-off or infrequent waste transport</b> (carrier does not normally and regularly transport controlled waste)</li>
+            <li><b>MARINE - Marine transport covered by a marine licence/exemption</b> (waste moved by vessel in connection with a licensed marine operation)</li>
+            </ul>
+            <p><font color="green"><b>Business Rules:</b></font></p> 
+            <ul>
+            <li>If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber is required.</li>
+            <li>If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber should not be provided.</li>
+            </ul>
+          example: ON_SITE
+        organisationName:
+          type: string
+          description: The business name of the carrier. 
+          example: Waste Carriers Lite Ltd
+        address:
+          $ref: "#/components/schemas/address"
+        emailAddress:
+          type: string
+          format: email
+          description: The email address of the carrier.
+          example: mailbox@example.co.uk
+        phoneNumber:
+          type: string
+          description: The UK or international phone number of the carrier.
+          example: 020 4756 XXXX
+        vehicleRegistration:
+          type: string
+          maxLength: 10
+          description: This is the carrier's vehicle registration number. 
+            <p><font color="green"><b>Business Rules:</b></font></p> 
+            <ul>
+           <li>If carrier.meansOfTransport is “Road” then carrier.vehicleRegistration is required.</li>
+           <li>If carrier.meansOfTransport is not “Road” then carrier.vehicleRegistration is not applicable.</li>
+           </ul>
+          example: RNT 493
+        meansOfTransport:
+          type: string
+          enum: [Road, Rail, Air, Sea, Inland Waterway, Piped, Other]
+          description: |
+            This describes how the waste is transported (road, rail, air, sea, piped, inland waterway, other)
+            <b>Note:</b> The field is case-sensitive, please use the case specified in the business rule.
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            Must be either Road, Rail, Air, Sea, “Inland Waterway”, Piped or Other.
+          example: Rail
+    brokerOrDealer:
+      type: object
+      required:
+        - organisationName
+      properties:
+        organisationName:
+          type: string
+          description: The broker or dealer organisation name who arranged this transfer.
+          example: Waste Disposal Ltd
+        address:
+          $ref: "#/components/schemas/address"
+        emailAddress:
+          type: string
+          format: email
+          description: The email address of the carrier.
+          example: mailbox@example.co.uk
+        phoneNumber:
+          type: string
+          description: The UK or international phone number of the carrier.
+          example: 020 4756 XXXX
+        registrationNumber:
+          type: string
+          description: |
+             <p>A waste carrier registration number is a legal requirement for businesses that transport, buy, sell or dispose of waste. This license ensures that waste is handled and transported in a responsible and environmentally friendly manner.</p>
+             <p><b>Home Nations Codes:</b></p>
+             <p><b>General Format</b> where 9 is a digit 0-9</p>
+             <p><font color="blue"><b>Wales NRW:</b></font></p>
+                CBDL999999, CBDU999999
+                <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>              
+             <p><font color="blue"><b>England:</b></font></p>
+                CBDL999999, CBDU999999
+                 <p>i.e. CBD<font color="red"><b>U</b></font>999999 (Upper Tier) or CBD<font color="red"><b>L</b></font>999999 (Lower Tier), where "CBD" stands for "Carrier, Broker, Dealer"</p>             
+             <p><font color="blue"><b>Scotland SEPA:</b></font></p>
+                WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999
+                <p>Typically starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection Agency (SEPA).</p>  
+               <p>Current format – WCR/R/1234567</p>
+               <p>Previous formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456</p>
+             <p><font color="blue"><b>Northern Ireland (NI)</b></font></p>
+                ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999, ROC UT 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>
+                Include a prefix like ROC followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note that spaces are not mandatory.<p></p>
+                ROC UT 9999
+                ROCLT9999<p></p><p></p>
+                <p><b>Note:</b> where 9 is a digit 0-9</p>
+          example: CBDL6
+    receiver:
+      type: object
+      required:
+        - siteName
+        - authorisationNumber
+      properties:
+        siteName:
+          type: string
+          description: The name of the site receiving the waste.
+        emailAddress:
+          type: string
+          description: The email address of the organisation receiving the waste.
+          example: mailbox@example.co.uk
+        phoneNumber:
+          type: string
+          description: The UK or Irish phone number of the organisation receiving the waste.
+          example: 020 4756 XXXX
+        authorisationNumber:
+          type: string
+          description: |
+            This is the site's authorisation (permit) number that allows it to accept waste for intended recovery and disposal operation. Only one authorisation number is required per site.
+              <p>Home Nations Codes:</p>(<i>where 9 is a digit 0-9, X is a letter A-Z)</i>
+              <p><font color="blue"><b>England:</b></font></p>
+              <ul>
+                <li>EAWML999999, WML999999, EXX9999XX, XX9999XX/D9999, EPR/XX9999XX, PR/XX9999XX/D9999 (the last one with a D rep permit number with deployment)</li>
+              </ul>
+              <p><font color="blue"><b>Scotland (SEPA):</b></font></p>
+              <ul>
+                <li>PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999, WML/W/9999999, WML/E/9999999, WML/N/9999999, EAS/P/999999</li>
+              </ul>
+              <p><font color="blue"><b>Wales (NRW):</b></font></p>
+              <ul>
+                <li>XX9999XX, EPR/XX9999XX</li>
+              </ul>
+              <p><font color="blue"><b>Northern Ireland (NRI):</b></font></p>
+              <ul>
+                <li>P9999/99X, P9999/99X/V#, WPPC 99/99, WPPC 99/99/V#<p></p>
+                <font color="red">WML 99/# PAC/9999/WCL999
+                WML 99/# LN/99/#</font>
+                </li><p></p>
+                Please note the following explanation:<p></p>
+                WML 99/# (where # could mean any positive integer)
+                  <p>LN/99/# (where # could mean any positive integer and can also have 01,02,---09, 10-99,100-999, etc))</p>
+                  WML 99/# (Could have  /T appended) which means a transfer
+                  <p>LN/99/# (Could have any of the following (/M-modification, /V#-variation, /T-transfer, /C-closure) appended in any combination.</p>
+                 In V#, # means any positive integer.</li>
+                 <p></p>
+                 Rationale:
+                <p></p>
+                 Licences have file reference beginning WML and a licence number beginning LN.  Additional characters may be appended (/M-modification, /V#-variation, /T-transfer, /C-closure) eg WML 07/61 LN/13/02/M/V2, WML 19/36/T LN/10/35/T/M.  Format of licence number when granted following appeal to PAC can vary, eg WML 04/38 PAC/2014/WCL001
+                 <p>Further explanation below:</p>
+                <li>P9999/99X - Permit with division (e.g., P1234/56A)</li>
+                <li>P9999/99X/V# - Permit with version number (e.g., P1234/56A/V1)</li>
+                <li>WPPC 99/99 - Waste Prevention and Control (e.g., WPPC 12/34)</li>
+                <li>WPPC 99/99/V# - WPPC with version number (e.g., WPPC 12/34/V2)</li>
+                <li>WML 99/# - File reference (e.g., C)</li>
+                <li>WML 99/#/T - File reference with transfer (e.g., WML 19/36/T)</li>
+                <li>LN/99/# - Licence number (e.g., LN/13/02)</li>
+                <li>LN/99/# with suffixes - Licence with M, V#, T, C, or N in any combination (e.g., LN/13/02/M/V2)</li>
+                <li>PAC/9999/WCL999 - Planning Appeals Commission format (e.g., PAC/2014/WCL001)</li>
+                <li>WML 99/# LN/99/# - Combined file reference and licence (e.g., WML 07/61 LN/13/02/M/V2)</li>
+                <li>WML 99/# PAC/9999/WCL999 - Combined file reference and PAC (e.g., WML 04/38 PAC/2014/WCL001)</li>
+              </ul>
+              <p><font color="green"><b>Business Rules:</b></font></p>
+              <ul>
+                <li>Only one authorisation number is required per site</li>
+                <li>Must match a valid UK format pattern (case-insensitive)</li>
+                <li>All UK nation formats are accepted (no nation-specific validation)</li>
+                <li>Invalid formats will be rejected with error: "Site authorisation number must be in a valid UK format"</li>
+              </ul>
+          example: EPR/DD2522BF
+        regulatoryPositionStatements:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          description: |
+            An array of regulatory position statement (RPS) numbers. A regulatory position statement is issued when the Regulator (EA, SEPA, NIEA, NRW), doesn't require you to have a permit to carry out certain activities that they regulate. The statement will explain which activities you do not require a permit for. Each must be a positive integer.
+            <p><font color="green"><b>Business Rule:</b></font></p>
+            Must be positive integers (greater than 0).
+          example:
+            - 343
+            - 456
+            - 789
+    receipt:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          $ref: "#/components/schemas/receiptAddress"
+    disposalOrRecoveryCode:
+      type: object
+      required:
+        - code
+        - weight
+      properties:
+        code:
+          type: string
+          description: |
+             Disposal and Recovery Codes play a crucial role in categorising the methods by which waste is managed, whether through recovery or disposal processes. These codes (Recovery (R) and Disposal (D)) serve as a standardised system to ensure proper handling and treatment of waste materials. Specifically, they aid in classifying whether waste is to be recovered for further use or disposed of in a safe and environmentally responsible manner.
+             
+               <p><b>Notes:</b> 
+               <ul>
+               - The field is case-sensitive, please use the case specified for the code returned by the GET method.<br>
+               - A complete list of Disposal and Recovery Codes can be obtained using the GET Disposal and Recovery Codes method.<br>
+              </ul>
+              <p><font color="green"><b>Business Rule:</b></font></p> 
+              If disposalOrRecoveryCode.code entered, then it should be in the disposalOrRecoveryCode.code listed in EUR-Lex. 
+          example: |
+            "R1"
+        weight:
+          $ref: "#/components/schemas/weight"
+    weight:
+      type: object
+      required:
+        - metric
+        - amount
+        - isEstimate
+      properties:
+        metric:
+          type: string
+          enum: [Grams, Kilograms, Tonnes]
+          description: Unit of measurement in which the waste is being accepted. 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+             Must be “Grams”, “Kilograms” or “Tonnes”
+          example: Tonnes
+        amount:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+          description: Total weight of the waste in a unit specified - Grams - Kilograms - Tonnes
+            <p><font color="green">Business Rule:</font></p>
+            Must be a positive number (greater than 0). <b>Note-</b><p> Weight in terms of the Waste Item is the total weight of the waste being received.</p> <p> Weight in terms of the DisposalRecoveryCode is the total weight of the waste being disposed of or recovered for final treatment.</p>
+          example: 150
+        isEstimate:
+          type: boolean
+          description: Specifies whether the weight of waste is estimated. This a boolean value, i.e. true for estimated or false for not estimated.
+          example: true
+    validationResult:
+      type: object
+      properties:
+        key:
+          type: string
+          example: wasteItems[0].disposalOrRecoveryCodes
+        errorType:
+          type: string
+          description: |
+            can be one of the following type:
+            - NotProvided: A required field was not provided
+            - NotAllowed: The value provided is not allowed
+            - InvalidType: The value provided is of the wrong type
+            - InvalidFormat: The value provided is not in the correct format
+            - InvalidValue: The value provided is not valid based on the business rules
+            - OutOfRange: The value provided is outside the allowed range
+            - BusinessRuleViolation: The value provided violates a specific business rule.
+          example: NotProvided
+        message:
+          type: string
+          example: Success/Failure
+          description: Waste description is/is not successfully stored.
+    address:
+      type: object
+      required:
+        - postcode
+      properties:
+        fullAddress:
+          type: string
+          description: The business location address of the carrier or broker/dealer.
+          example: 26a Oil Drum Lane, London, UK
+        postcode:
+          type: string
+          description: A valid postcode must be included. <p><b>Note-</b></p> Carriers, Brokers/Dealers accept UK and Irish post codes. 
+          example: W12 7ZL
+    receiptAddress:
+      type: object
+      required:
+        - fullAddress
+        - postcode
+      properties:
+        fullAddress:
+          type: string
+          description: This is the address the waste is received at.
+          example: 26a Oil Drum Lane, London, UK
+        postcode:
+          type: string
+          description: A valid postcode must be included. <p><b>Note- </b></p> <p>Carriers, Brokers/Dealers accept UK and Irish post codes. Receivers accept only UK post codes.</p> 
+            <p><font color="green"><b>Business Rule:</b></font></p> 
+            Must be in specified receiptAddress.postcode format.
+          example: W12 7ZL
+
+    # Phase 1 receipt request schema — extracted from the requestBody
+    # so it can be reused by receiptResource (allOf) without a
+    # cross-section $ref.
+    receiveMovementRequest:
+      type: object
+      required:
+        - apiCode
+        - dateTimeReceived
+        - carrier
+        - wasteItems
+        - receiver
+        - receipt
+      properties:
+        apiCode:
+          type: string
+          format: uuid
+          description: This is the unique sixteen byte identifier of the receiving organisation produced by the registration process found within the Waste Tracking Service.
+          example: ba6eb330-4f7f-11eb-a2fb-67c34e9ac07cg
+        dateTimeReceived:
+          type: string
+          format: date-time
+          description: |
+            This is the date and exact time waste was received at the site. This API uses the UTC ISO 8601 and BST standards for machine-readable dates and times. <p>Key Differences:</p>
+            UTC is the global time standard and does not observe daylight saving time.
+            BST is UTC+1, used in the UK during daylight saving time (typically from late March to late October).
+          example: UTC - 2025-09-15T12:12:28Z, BST - 2025-09-15T13:12:28+01:00
+        hazardousWasteConsignmentCode:
+          type: string
+          description: Hazardous waste consignment code. If the EWC is HAZ, then this field is mandatory.
+              <p><font color="red">England & Wales:</font></p>
+              <p><i>Format-</i>  XXXXXX/YYYYY</p> Where XXXXXX can be a mixture of letters and/or numbers, i.e. alphanumeric.
+              <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The first XXXXXX part is made up of six alphanumeric characters and must be followed by a forward slash /<p> The YYYYY part is a five alphanumeric character unique identifier of the users' choice (no spaces or symbols).</p>
+              <p><font color="red">Scotland</font></p>
+              <p><i>Format-</i>  SA, SB or SC followed by a 7-digit number (e.g. SB1234567). Also known as Special Waste Consignment Note</p>
+              <p><font color="red">Northern Ireland and Eire:</font></p>
+              <p><i>Format-</i>  DA, DB or DC followed by a 7-digit number (e.g. DA5301234)</p><p></p>
+              <p><a href="https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code">More information here</a></p>
+              <p><font color="green"><b>Business Rule:</b></font></p>
+              <ul>
+              <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be in specified format.</li>
+               <li>If any waste.ewcCodes provided are considered “not hazardous” receiveMovementRequest.hazardousWasteConsignmentCode is not required.</li>
+               </ul>
+          example: CJ32LE/A0001
+        reasonForNoConsignmentCode:
+          type: string
+          enum:
+            [
+              "Non-Haz Waste Transfer",
+              "No documentation provided with Waste",
+              "Household Waste Recycling Centre Receipt"
+            ]
+          description: If you have not provided a hazardous waste consignment code, then there are three reason codes you can choose to provide. See the table below.
+            <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Reason</th>
+                            <th>Reason Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Non-Haz Waste Transfer</td>
+                            <td>NON_HAZ_WASTE_TRANSFER</td>
+                        </tr>
+                        <tr>
+                            <td>No documentation provided with Waste</td>
+                            <td>NO_DOC_WITH_WASTE</td>
+                        </tr>
+                        <tr>
+                            <td>Household Wast Recycling Centre Receipt</td>
+                            <td>HWRC_RECEIPT</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <b>Note:</b> The field is case-sensitive, please use the case for the code specified in the table.
+            <p><font color="green"><b>Business Rules:</b></font></p> 
+            <ul>
+            <li>If any waste.ewcCodes provided are considered hazardous and receiveMovementRequest.hazardousWasteConsignmentCode is not provided a receiveMovementRequest.reasonForNoConsignmentCode is required.</li>
+            <li>If receiveMovementRequest.hazardousWasteConsignmentCode is provided it must be either “NON_HAZ_WASTE_TRANSFER”, “NO_DOC_WITH_WASTE” or “HWRC_RECEIPT”. </li>
+            </ul>
+          example: NO_DOC_WITH_WASTE
+        yourUniqueReference:
+          type: string
+          description: This could be a unique weighbridge ticket number, waste transfer note number etc.
+          example: wTBrdgAA020
+        otherReferencesForMovement:
+          type: array
+          items:
+            type: object
+            required:
+              - label
+              - reference
+            properties:
+              label:
+                type: string
+                minLength: 1
+                description: The type/label of the reference (e.g., 'PO Number', 'Waste Ticket', 'Haulier Note')
+                example: PO Number
+              reference:
+                type: string
+                minLength: 1
+                description: The actual reference value
+                example: PO-12345
+          description: Optional array of label-reference pairs for additional tracking information
+          example:
+            - label: PO Number
+              reference: PO-12345
+            - label: Waste Ticket
+              reference: WT-67890
+            - label: Haulier Note
+              reference: HN-11111
+        specialHandlingRequirements:
+          type: string
+          maxLength: 5000
+          description: |
+            Required when abnormal hazardous waste and some non-hazardous waste contains harmful chemical, biological or physical characteristics that require some special handling to prevent harm. 
+          example: The waste must be fully inspected by the waste handler according to the Hazardous waste consignment and or EWC codes provided.
+        wasteItems:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/wasteItem"
+        carrier:
+          $ref: "#/components/schemas/carrier"
+        brokerOrDealer:
+          $ref: "#/components/schemas/brokerOrDealer"
+        receiver:
+          $ref: "#/components/schemas/receiver"
+        receipt:
+          $ref: "#/components/schemas/receipt"
+
+  # ----------------------------------------------------------------------
+  # Reusable request bodies (Phase 1)
+  # ----------------------------------------------------------------------
+  requestBodies:
+    receiveMovementRequest:
+      description: Details of the waste movement to be created or updated. The mandatory parameters to be included in the API call are the <b>apiCode, dateTimeReceived, carrier, wasteItems, receiver and receipt</b>.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/receiveMovementRequest'
+
+  # ----------------------------------------------------------------------
+  # Reusable responses
+  # ----------------------------------------------------------------------
+  responses:
+
+    "400":
+      description: Input was not in the correct format.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              validation:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/validationResult'
+
+# ======================================================================
+# Paths
+# ======================================================================
+paths:
+
+  /movements:
+    post:
+      tags: [Movement]
+      summary: Create a waste movement
+      description: |
+        Mints a new Movement ID. Carrier details are always required.
+        Broker details are required only when the movement is
+        broker-initiated. The Movement ID returned in the response
+        should be stored by the caller and used for any subsequent
+        updates or related events (collection, drop-off,
+        fate-of-waste query). `isDeleted` must not be supplied as `true`
+        here — it can only be set via `PUT /movements/{movementId}` (D-009).
+      operationId: createMovement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createMovementRequest'
+      responses:
+        "201":
+          description: Movement created. Body carries the new Movement ID and any validation warnings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createMovementResponse'
+        "400":
+          $ref: '#/components/responses/400'
+
+  /movements/{movementId}:
+    parameters:
+      - $ref: '#/components/parameters/movementIdPath'
+    put:
+      tags: [Movement]
+      summary: Update a waste movement
+      description: |
+        Update an existing movement using its Movement ID. Before applying
+        the update, the current record is snapshotted to a history store
+        and the live record's revision counter is incremented (D-034).
+
+        `isDeleted` may be set `true` here to soft-delete the Movement, but
+        only while no Collection has been recorded against it — once a
+        Collection exists, attempting to set `isDeleted: true` is rejected
+        as a `BusinessRuleViolation`. A deleted Movement can be restored by
+        a further `PUT` with `isDeleted: false`. While a Movement is
+        deleted, no Collection may be recorded or updated against it, and
+        it may not be named in a Drop-off's `movementIds` (D-009).
+      operationId: updateMovement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createMovementRequest'
+      responses:
+        "200":
+          description: Movement updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateResponse'
+        "400":
+          $ref: '#/components/responses/400'
+        "404":
+          description: Movement not found.
+
+  /movements/{movementId}/collection:
+    parameters:
+      - $ref: '#/components/parameters/movementIdPath'
+    post:
+      tags: [Collection]
+      summary: Record the collection for a movement
+      description: |
+        Append a collection event to the given Movement's ordered collection
+        sequence (D-029). The first event is a `STATIC` producer-to-driver
+        pickup; each subsequent event is a `TRANSIT` driver-to-driver
+        handover. Each call appends the next event and mints its (internal)
+        Collection ID — events are addressed by position in the sequence, not
+        by a public per-event id (D-012/D-016). See `collectionType` and
+        `receivedFromCarrier` on `collectionRequest` for the per-event rules.
+
+        The sequence is closed once this Movement is named in a Drop-off's
+        `movementIds` — a `POST` after that point is rejected as a
+        `BusinessRuleViolation`.
+
+        Also rejected as a `BusinessRuleViolation` if the Movement is
+        currently `isDeleted: true` (D-009). `isDeleted` must not be supplied
+        as `true` in this request — it can only be set via
+        `PUT /movements/{movementId}/collection`.
+      operationId: recordCollection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/collectionRequest'
+      responses:
+        "201":
+          description: Collection recorded. Body carries any validation warnings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recordCollectionResponse'
+        "400":
+          $ref: '#/components/responses/400'
+        "404":
+          description: Movement not found.
+    put:
+      tags: [Collection]
+      summary: Update the collection for a movement
+      description: |
+        Correct or soft-delete the *latest active* event in the given
+        Movement's collection sequence (D-029). `PUT` acts on the latest
+        active event only; correcting an arbitrary earlier event is out of
+        scope for v1 and is tracked as a follow-up (D-035). Before applying
+        the update, the current record is snapshotted to a history store and
+        the live record's revision counter is incremented (D-034).
+
+        Once the sequence is closed (this Movement has been named in a
+        Drop-off's `movementIds`), `PUT` is blocked entirely — both data
+        correction and soft-delete — for parity with the immutable drop-off
+        record (D-017); the attempt is rejected as a `BusinessRuleViolation`.
+
+        `isDeleted` may be set `true` here to soft-delete the latest active
+        event (tail-peel); the `STATIC` head can only be deleted when it is
+        the sole remaining event. A deleted event can be restored by a
+        further `PUT` with `isDeleted: false`. While the Collection is
+        deleted, this Movement may not be named in a Drop-off's `movementIds`
+        (D-009).
+      operationId: updateCollection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/collectionRequest'
+      responses:
+        "200":
+          description: Collection updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateResponse'
+        "400":
+          $ref: '#/components/responses/400'
+        "404":
+          description: |
+            Either the Movement does not exist (`MOVEMENT_NOT_FOUND`), or it
+            exists but no collection has yet been recorded to update
+            (`COLLECTION_NOT_RECORDED` — record it with `POST` first). The
+            `code` in the body distinguishes the two.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notFoundError'
+
+  /transfers:
+    post:
+      tags: [Drop-off]
+      summary: Record a drop-off
+      description: |
+        Record a drop-off event. Mints a new Transfer ID covering one or more
+        Movement IDs delivered together (carried in `movementIds`). In a
+        single-collection run `movementIds` is an array of one; in a
+        multi-collection run it carries every Movement being delivered.
+
+        The drop-off place is a lighter, carrier-declared site model (`dropOff`)
+        — not necessarily an official receiver site, and possibly an exempt
+        place. A receipt event may not always follow a drop-off.
+
+        Hazardous waste cannot be aggregated across Movements (D-010): if any
+        Movement named in `movementIds` carries hazardous waste, the request
+        must contain exactly one Movement ID. Multi-Movement drop-offs are
+        permitted only when every linked Movement is non-hazardous. This depends
+        on properties of the linked Movements that the request body does not
+        carry, so it is enforced server-side and surfaced as a
+        BusinessRuleViolation in `validation.warnings` (it may harden to a 400
+        in a later revision).
+
+        Every Movement named in `movementIds` must be active: a Movement that
+        is currently `isDeleted: true`, or whose Collection is currently
+        `isDeleted: true`, must not be referenced here. Either case is
+        rejected as a `BusinessRuleViolation` (D-009). `isDeleted` must not be
+        supplied as `true` in this request — it can only be set via
+        `PUT /transfers/{transferId}`.
+      operationId: recordDropOff
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dropOffRequest'
+      responses:
+        "201":
+          description: Drop-off recorded. Body carries the new Transfer ID and any validation warnings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dropOffResponse'
+        "400":
+          $ref: '#/components/responses/400'
+
+  /transfers/{transferId}:
+    parameters:
+      - $ref: '#/components/parameters/transferIdPath'
+    put:
+      tags: [Drop-off]
+      summary: Soft-delete or restore a drop-off
+      description: |
+        A recorded drop-off is immutable under policy (D-017): its place,
+        carrier, timestamp and `movementIds` cannot be edited after the event.
+        The only permitted change is the soft-delete flag `isDeleted` (D-009),
+        so this operation accepts the restricted `dropOffUpdateRequest` only —
+        any other field in the body is rejected with a `NotAllowed` validation
+        error.
+
+        Setting `isDeleted: true` soft-deletes the Transfer, but only while no
+        Receipt has been recorded against it — once a Receipt exists, attempting
+        to set `isDeleted: true` is rejected as a `BusinessRuleViolation`. A
+        deleted Transfer can be restored by a further `PUT` with
+        `isDeleted: false`. While the Transfer is deleted, no Receipt may be
+        recorded or updated against it (D-009). Before applying the change the
+        current record is snapshotted to a history store and the live record's
+        revision counter is incremented (D-034).
+
+        To correct a recorded drop-off, soft-delete it (`isDeleted: true`) and
+        record a fresh drop-off via `POST /transfers`.
+      operationId: updateDropOff
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dropOffUpdateRequest'
+      responses:
+        "200":
+          description: Drop-off soft-delete state updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateResponse'
+        "400":
+          $ref: '#/components/responses/400'
+        "404":
+          description: Transfer not found.
+
+  # ----------------------------------------------------------------------
+  # Phase 2 receipt endpoint — canonical.
+  #
+  # In Phase 2 a receipt is recorded against a Transfer (the drop-off
+  # aggregation point), so one receipt can cover the single or multiple
+  # Movements named in that drop-off. The request body is identical to the
+  # Phase 1 receiveMovementRequest; the only field captured in addition is
+  # the transferId, taken from the path and persisted on the receipt
+  # record. The receipt identifier returned is the Phase 1 wasteTrackingId
+  # (now an 8-char sqid, semantically the receiptId).
+  # ----------------------------------------------------------------------
+
+  /transfers/{transferId}/receipt:
+    parameters:
+      - $ref: '#/components/parameters/transferIdPath'
+    post:
+      tags: [Receipt]
+      summary: Record receipt of waste against a transfer
+      description: |
+        Records receipt of the waste delivered under the given Transfer.
+        Because a drop-off can aggregate one or more Movements, a single
+        receipt against the Transfer applies to all of them. The request
+        body is the same shape as the Phase 1 `/movements/receive` payload;
+        the `transferId` from the path is persisted on the stored receipt
+        record. Replaces the deprecated `POST /movements/receive`.
+
+        Waste details on the receipt may be cross-checked against the linked
+        Movement record — the classification declared at creation plus the
+        actual weights recorded at collection (D-006); the drop-off carries no
+        waste details and is not a source for the waste cross-check. Carrier
+        details may be cross-checked against the carrier on the Movement chain.
+        Where details differ, the difference is returned as an entry in
+        `validation.warnings` rather than rejected. The exact comparison rules
+        (including weight tolerance, since creation is an estimate and
+        collection an actual) are still being defined (D-021).
+
+        Rejected as a `BusinessRuleViolation` if the Transfer is currently
+        `isDeleted: true` (D-009). Receipt itself has no `isDeleted` field —
+        once recorded, a receipt is the terminal event in the chain and
+        cannot be soft-deleted.
+      operationId: recordReceipt
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "201":
+          description: |
+            Success — the receipt has been stored against the transfer.
+            The receipt is addressed by its Transfer ID
+            (`/transfers/{transferId}/receipt`); no internal receipt
+            identifier is returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Transfer not found.
+    put:
+      tags: [Receipt]
+      summary: Update a receipt recorded against a transfer
+      description: |
+        Updates the receipt previously recorded against the given Transfer.
+        Same request body as the Phase 1 receipt payload. Before applying
+        the update, the current record is snapshotted to a history store
+        and the live record's revision counter is incremented (D-034).
+      operationId: updateReceipt
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "200":
+          description: The receipt has been updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: |
+            Either the Transfer does not exist (`TRANSFER_NOT_FOUND`), or it
+            exists but no receipt has yet been recorded to update
+            (`RECEIPT_NOT_RECORDED`). The `code` in the body distinguishes the
+            two.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notFoundError"
+
+  # ----------------------------------------------------------------------
+  # Phase 1 receipt endpoints — DEPRECATED.
+  #
+  # Retained for backward compatibility only; superseded by
+  # POST/PUT /transfers/{transferId}/receipt. The {wasteTrackingId} path
+  # parameter is the Phase 1 wasteTrackingId (now the receiptId / an 8-char sqid)
+  # — it is NOT the Movement ID. Phase 1 schemas under #/components/schemas
+  # keep their
+  # lowercase naming (validationResult, wasteReceiver, etc.) as published.
+  # ----------------------------------------------------------------------
+
+  /movements/receive:
+    post:
+      tags: [Receipt]
+      summary: Record receipt of waste at a receiver site (Phase 1, deprecated)
+      deprecated: true
+      description: |
+        DEPRECATED — use `POST /transfers/{transferId}/receipt`. Retained
+        for backward compatibility. Endpoint used when waste is received but
+        the receiver has not yet recorded the waste movement. Generally at
+        this stage, the receiver does not have or use the waste tracking ID.
+        The waste tracking ID will be returned in the 201 response if the
+        movement is successfully stored.
+      operationId: createReceiptMovementLegacy
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "201":
+          description: Success — the waste movement has been stored.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wasteTrackingId:
+                    allOf:
+                      - $ref: "#/components/schemas/wasteTrackingId"
+                    description: |
+                      Public Phase 1 tracking identifier. Store it and use
+                      it to address the deprecated PUT
+                      `/movements/{wasteTrackingId}/receive`.
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+
+  /movements/{wasteTrackingId}/receive:
+    parameters:
+      - name: wasteTrackingId
+        in: path
+        required: true
+        description: |
+          The public Phase 1 `wasteTrackingId` returned by
+          `POST /movements/receive`, minted at receipt. It is a Phase 1
+          identifier — do not substitute a Phase 2 `movementId` here.
+        example: YY3F7K2Q
+        schema:
+          $ref: '#/components/schemas/wasteTrackingId'
+    put:
+      tags: [Receipt]
+      summary: Update a receipt of waste record (Phase 1, deprecated)
+      deprecated: true
+      description: |
+        DEPRECATED — use `PUT /transfers/{transferId}/receipt`. Retained for
+        backward compatibility. Endpoint to be used when waste is received
+        and the waste record is to be updated, using the receipt identifier
+        (Phase 1 `wasteTrackingId`) in the URL path.
+      operationId: updateReceiptMovementLegacy
+      requestBody:
+        $ref: "#/components/requestBodies/receiveMovementRequest"
+        required: true
+      responses:
+        "200":
+          description: The waste movement receipt has been updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validation:
+                    type: object
+                    properties:
+                      warnings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/validationResult"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          description: Movement not found. The details will still be stored in the Waste Tracking Service, the response informs the receiver that the carrier has provided incorrect details.
+
+  # ----------------------------------------------------------------------
+  # Producer-facing read-only query.
+  # ----------------------------------------------------------------------
+
+  /movements/{movementId}/fate-of-waste:
+    parameters:
+      - $ref: '#/components/parameters/movementIdPath'
+    get:
+      tags: [Fate of waste]
+      x-stability: proposal
+      summary: Producer query for the fate of their waste (proposal)
+      description: |
+        **Proposal only.** Producer-facing read-only query returning a
+        summary of what happened to a specific waste movement.
+        The `movementId` uniquely identifies the movement being queried.
+
+        Response schema is not yet defined — field content, timestamp
+        cardinality, treatment-code projection and onward-movement scope
+        are open questions pending BA and policy confirmation. See the
+        decisions register (D-019).
+      operationId: getFateOfWaste
+      responses:
+        "200":
+          description: Movement summary. Response schema to be defined.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Proposal — response fields to be defined.
+        "404":
+          description: Movement not found.
+
+  /reference-data/ewc-codes:
+    get:
+      tags: [Reference data]
+      operationId: listEwcCodes
+      description: |
+        Endpoint used to get a list of EWC codes. On success <b>200</b>, it returns a code list including a boolean value for the waste type, i.e. Hazardous equals true/false. It returns a <b>401</b> on failure.<br><br>        
+        Example Request
+        ```json
+        curl --request GET \ --url https://waste-tracking.api.defra.gov.uk/reference-data/ewc-codes \
+          --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldX...
+        ```
+      responses:
+        "200":
+          description: |
+            A truncated list of EWC codes obtained using the GET ewc-codes method<br><br>
+            ```json
+            [       
+            {
+              "code": "010101",
+              "isHazardous": false,
+              "entryTypeDesc": "Absolute non-hazardous",
+              "chapter": "Wastes resulting from exploration, mining, quarrying, and physical and chemical treatment of minerals",
+              "subChapter": "Wastes from mineral excavation",
+              "description": "Wastes from mineral metalliferous excavation"
+            },
+            {
+              "code": "010102",
+              "isHazardous": false,
+              "entryTypeDesc": "Absolute non-hazardous",
+              "chapter": "Wastes resulting from exploration, mining, quarrying, and physical and chemical treatment of minerals",
+              "subChapter": "Wastes from mineral excavation",
+              "description": "Wastes from mineral non-metalliferous excavation"
+            }, ... cont
+
+            ```
+            The response fields: "isHazardous", "entryTypeDescription", "chapter" and "subChapter" correspond directly to the hierarchical structure of the waste classification system for EWC codes.<br><br>
+            <p><b>isHazardous</b><br>
+            This boolean field indicates whether the waste code is classified as hazardous waste (true) or non-hazardous waste (false). This classification is crucial for regulatory compliance and handling procedures.<br><br>
+            <b>entryTypeDesc</b><br>
+            This describes the type of entry for the waste code. It indicates whether the entry is:<br>
+            - Absolute hazardous (always hazardous, marked with *)<br>
+            - Absolute non-hazardous (never hazardous)<br>
+            - Dual code entry (hazardous or non-hazardous depending on composition).This classification is important for determining if additional assessment is needed.<br><br>
+            <p><b>chapter</b><br>
+            Refers to the first two digits of the six-digit List of Waste (LoW) code. It defines the main category of waste, usually based on the industry or process generating the waste.<br><br>
+            Example:<br><br>
+            01 – Wastes from mining and physical/chemical treatment of minerals<br>
+            10 – Wastes from thermal processes<br><br>
+            </p>
+            <p><b>subChapter</b><br>
+            Corresponds to the third and fourth digits of the LoW code. It narrows down the category to a more specific process or material within the chapter.<br><br>
+            Example:<br><br>
+            10 02 – Wastes from the iron and steel industry<br><br>
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: |
+                        The EWC code.<br>
+                      example: 010101
+                    isHazardous:
+                      type: boolean
+                      description: True if the EWC code is for hazardous waste, otherwise False. The full list of valid EWC codes is returned by the GET ewc-codes method.
+                      example: true
+                    entryTypeDesc:
+                      type: string
+                      description: The EWC code entry type description.
+                      example: Absolute non-hazardous
+                    chapter:
+                      type: string
+                      description: The EWC code chapter.
+                      example: Wastes resulting from exploration, mining, quarrying, and physical and chemical treatment of minerals
+                    subChapter:
+                      type: string
+                      description: The EWC code sub-chapter.
+                      example: Wastes from mineral excavation
+                    description:
+                      type: string
+                      description: The EWC code description.
+                      example: Wastes from mineral metalliferous excavation
+  /reference-data/hazardous-property-codes:
+    get:
+      tags: [Reference data]
+      operationId: listHazardousPropertyCodes
+      description: |
+        Endpoint used to get a list of hazardous property codes. It returns a code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Example Request
+        ```json
+        curl --request GET \--url https://waste-tracking.api.defra.gov.uk/reference-data/hazardous-property-codes \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIybHRldXNlaHN...
+        ```
+      responses:
+        "200":
+          description: |
+            A truncated list of hazardous property codes obtained using the GET hazardous-property-codes method<br><br>
+            ```json
+            [
+            {
+              "code": "HP_1",
+              "shortDesc": "Explosive",
+              "longDesc": "Waste that can cause dangerous chemical reactions, producing gas that can damage surroundings (e.g., pyrotechnic or self-reactive waste)."
+            },
+            {
+              "code": "HP_2",
+              "shortDesc": "Oxidizing",
+              "longDesc": "Waste that can provide oxygen, causing or contributing to the combustion of other materials."
+            }, ... cont
+
+            ```
+            The response fields: "shortDesc" and "longDesc" <br><br>
+            <p><b>shortDesc</b> (Short Description)<br><br>
+            - A concise label or summary of the hazardous property.<br>
+            - Usually just a few words or a short phrase.<br>
+            - Intended for quick identification in tables, lists, or UI elements.<br><br>
+            Example: "Flammable Liquid" or "Acute Toxicity".<br><br>
+            </p>
+            <p><b>longDesc</b> (Long Description)<br><br>
+            - A more detailed explanation of the hazardous property.<br>
+            - Provides context, definitions, or conditions under which the hazard applies.<br>
+            - Often includes regulatory references or clarifications.
+            </p>
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The hazardous property code. The full list of valid hazardous property codes is returned by the GET hazardous-property-codes method.
+                      example: HP_1
+                    shortDesc:
+                      type: string
+                      description: The hazardous property code short description.
+                      example: Explosive
+                    longDesc:
+                      type: string
+                      description: The hazardous property code long description.
+                      example: Waste that can cause dangerous chemical reactions, producing gas that can damage surroundings (e.g., pyrotechnic or self-reactive waste)
+  /reference-data/disposal-or-recovery-codes:
+    get:
+      tags: [Reference data]
+      operationId: listDisposalOrRecoveryCodes
+      description: |
+        Endpoint used to get a list of disposal or recovery codes.<br>
+        Note: The field in the specification is case-sensitive, please use the case specified for the code.<br><br>
+        Example Request
+        ```json
+        curl --request GET \--url https://waste-tracking.api.defra.gov.uk/reference-data/disposal-or-recovery-codes \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9...
+        ```
+      responses:
+        "200":
+          description: |
+            A truncated list of disposal or recovery codes obtained using the GET disposal-or-recovery Codes method<br><br>
+            Success
+            ```json
+            [
+            {
+              "code": "R1",
+              "isNotRecoveryToFinalProduct": true,
+              "description": "Use principally as a fuel or other means to generate energy"
+            },
+            {
+              "code": "R2",
+              "isNotRecoveryToFinalProduct": false,
+              "description": "Solvent reclamation/regeneration"                                  
+            }, ... cont
+            ```
+            The field <b>isNotRecoveryToFinalProduct</b> is a boolean flag that indicates whether a specific recovery operation does not result in the manufacture of a new final product.<br><br>
+            If the value is true, it means that the recovery process is focused on reclaiming materials or energy without producing a new marketable product. If false, it indicates that the recovery operation leads to the creation of a new final product that can be used or sold.<br><br>
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: |
+                        The disposal or recovery code (D1-D15 for disposal operations, R1-R13 for recovery operations). 
+                        The full list of valid disposal or recovery codes is returned by the GET disposal-or-recovery-codesmethod.
+                      example: R1
+                    isNotRecoveryToFinalProduct:
+                      type: boolean
+                      description: True if the disposal or recovery code is not considered recovery to a final product, otherwise False.
+                      example: true
+                    description:
+                      type: string
+                      description: The disposal or recovery code description.
+                      example: Use principally as a fuel or other means to generate energy
+  /reference-data/container-types:
+    get:
+      tags: [Reference data]
+      operationId: listContainerTypes
+      description: | 
+        Endpoint used to get a list of container types. It returns a code list on <b>200</b> success, or a <b>401</b> on failure.<br>        
+          Note: The field returned by the method is case-sensitive, please use the case specified for the code.<br><br>
+        Example Request
+         ```json
+        curl --request GET \--url https://waste-tracking.api.defra.gov.uk/reference-data/container-types \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJw...
+        ```
+      responses:
+        "200": 
+          description: |
+            A truncated list of container type codes obtained using the GET container-types method<br><br>
+            
+            Success
+            ```json
+            [
+              {
+                "code": "BAG",
+                "description": "Bag / Sack (e.g. rubble bag, refuse sack)"
+              },
+              {
+                "code": "BAL",
+                "description": "Bale"
+              },
+              {
+                "code": "BOX",
+                "description": "Box / Carton / Crate"
+              }, ... cont
+            ```
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The container type. The full list of valid container type codes is returned by the GET container-types method
+                      example: WBI
+                    description:
+                      type: string
+                      description: The container type description.
+                      example: Wheelie Bin (any size)
+  /reference-data/pop-names:
+    get:
+      tags: [Reference data]
+      operationId: listPopNames
+      description: |
+        Endpoint used to get a list of POP (Persistent Organic Pollutant) name codes. It returns a code list on <b>200</b> success or a <b>401</b> on failure.<br><br>
+        Example Request
+         ```json
+        curl --request GET \--url https://waste-tracking.api.defra.gov.uk/reference-data/pop-names \
+        --header "authorization": Bearer eyJraWQiOiJQYnJiZXZvYUF5d1NQcG5KUWlsQXVCT1Q4aVdyNUFcL3RaQkZHaTk5TU5CTT0iLCJhbGciOiJSUzI1NiJ9...
+        ```
+      responses:
+        "200":
+          description: |
+            A truncated list of POP names obtained using the GET pop-names method<br><br>
+            Success<br><br>
+            ```json
+            [
+            {
+              "code": "END",
+              "chemicalName": "Endosulfan"
+            },
+            {
+              "code": "HCBD",
+              "chemicalName": "Hexachlorobutadiene"
+            },
+            {
+              "code": "PCNS",
+              "chemicalName": "Polychlorinated naphthalenes"
+            }, ... cont
+            ```
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The POP name. The full list of valid POP names is returned by the GET pop-names method.
+                      example: END
+                    chemicalName:
+                      type: string
+                      description: The POP chemical name.
+                      example: Endosulfan
