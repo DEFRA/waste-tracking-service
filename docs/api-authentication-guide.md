@@ -70,4 +70,108 @@ Production: https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncogni
 Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com 
 ```
 
-<br/>Page last updated on May 28th 2026.
+## Testing your credentials
+You can test your credentials using the following Curl commands. If the Curl command returns an error, your credentials were entered incorrectly. If the command returns an access token then your credentials are correct.
+
+Two Curl commands and python examples are provided, one for the production environment and one for the test environment.
+
+Replace `$CLIENTID` with your client ID and replace `$CLIENTSECRET` with your client secret.
+
+### Production Environment
+
+```curl
+curl --request POST 
+--url https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token 
+
+--user "$CLIENTID:$CLIENTSECRET" 
+
+--header 'Content-Type: application/x-www-form-urlencoded' 
+
+--data 'grant_type=client_credentials'
+
+```
+
+### Test Environment
+
+```curl
+curl --request POST 
+--url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token 
+
+-user "$CLIENTID:$CLIENTSECRET" 
+
+--header 'Content-Type: application/x-www-form-urlencoded' 
+
+--data 'grant_type=client_credentials'
+
+```
+
+### Python Examples
+
+**Production Environment**
+
+```python
+import requests
+
+def get_access_token(client_id, client_secret):
+    response = requests.post(
+        "https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token",
+        auth=(client_id, client_secret),
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data={
+            "grant_type": "client_credentials"
+        }
+    )
+
+    response.raise_for_status()
+
+    token_response = response.json()
+
+    return token_response["access_token"]
+
+
+# Example usage
+access_token = get_access_token(
+    "your-client-id",
+    "your-client-secret"
+)
+
+print(access_token)
+
+```
+
+**Test Environment**
+
+```python
+import requests
+
+def get_access_token(client_id, client_secret):
+    response = requests.post(
+        "https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token",
+        auth=(client_id, client_secret),
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data={
+            "grant_type": "client_credentials"
+        }
+    )
+
+    response.raise_for_status()
+
+    token_response = response.json()
+
+    return token_response["access_token"]
+
+
+# Example usage
+access_token = get_access_token(
+    "your-client-id",
+    "your-client-secret"
+)
+
+print(access_token)
+
+```
+<br>Page last updated on October 21st 2026.
