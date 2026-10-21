@@ -73,7 +73,7 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
 ## Testing your credentials
 You can test your credentials using the following Curl commands. If the Curl command returns an error, your credentials were entered incorrectly. If the command returns an access token then your credentials are correct.
 
-Two Curl commands and python examples are provided, one for the production environment and one for the test environment.
+Two Curl commands and a python example are provided, one for the production environment and one for the test environment.
 
 Replace `$CLIENTID` with your client ID and replace `$CLIENTSECRET` with your client secret.
 
@@ -113,12 +113,8 @@ curl --request POST
 import requests
 
 def get_access_token(client_id, client_secret):
-    response = requests.post(
-        "https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token",
+    response = requests.post("https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com",
         auth=(client_id, client_secret),
-        headers={
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
         data={
             "grant_type": "client_credentials"
         }
@@ -126,18 +122,25 @@ def get_access_token(client_id, client_secret):
 
     response.raise_for_status()
 
-    token_response = response.json()
-
-    return token_response["access_token"]
+    return response.json()["access_token"]
 
 
-# Example usage
-access_token = get_access_token(
-    "your-client-id",
-    "your-client-secret"
-)
+# Test credentials
+client_id = "YOUR_CLIENT_ID"
+client_secret = "YOUR_CLIENT_SECRET"
 
-print(access_token)
+try:
+    access_token = get_access_token(client_id, client_secret)
+
+    print("Authentication successful")
+    print("Access Token:")
+    print(access_token)
+
+except requests.exceptions.HTTPError as e:
+    print(f"Authentication failed: {e}")
+
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")
 
 ```
 
@@ -147,12 +150,8 @@ print(access_token)
 import requests
 
 def get_access_token(client_id, client_secret):
-    response = requests.post(
-        "https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token",
+    response = requests.post("https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token",
         auth=(client_id, client_secret),
-        headers={
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
         data={
             "grant_type": "client_credentials"
         }
@@ -160,18 +159,25 @@ def get_access_token(client_id, client_secret):
 
     response.raise_for_status()
 
-    token_response = response.json()
-
-    return token_response["access_token"]
+    return response.json()["access_token"]
 
 
-# Example usage
-access_token = get_access_token(
-    "your-client-id",
-    "your-client-secret"
-)
+# Test credentials
+client_id = "YOUR_CLIENT_ID"
+client_secret = "YOUR_CLIENT_SECRET"
 
-print(access_token)
+try:
+    access_token = get_access_token(client_id, client_secret)
+
+    print("Authentication successful")
+    print("Access Token:")
+    print(access_token)
+
+except requests.exceptions.HTTPError as e:
+    print(f"Authentication failed: {e}")
+
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")
 
 ```
 <br>Page last updated on October 21st 2026.
