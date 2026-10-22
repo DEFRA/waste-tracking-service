@@ -82,9 +82,9 @@ The guidance is not an exhaustive interpretation of every possible result. You m
 Regulation references on this page relate to the England regulations. If you operate in Wales, Scotland or Northern Ireland, refer to the equivalent provisions in the regulations that apply in that nation. Paragraph numbering may differ.
 ```
 
-# Basic Receipt of Waste scenarios
+## Basic Receipt of Waste scenarios
 
-## R01: Basic receipt with a single waste item
+### R01: Basic receipt with a single waste item
 
 - **Category:** Basic – Mandatory
 - **Test flow:** A receipt is submitted with one fully classified waste item and a Waste Tracking ID is returned.
@@ -96,7 +96,7 @@ Regulation references on this page relate to the England regulations. If you ope
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 14(1)(b) of the Digital Waste Tracking (England) Regulations 2026 requires the D code, R code, or both to be recorded for each waste code on the receipt. Recording the specified information is required under regulation 4(5)(a). If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** R01 is a mandatory basic test. Your software cannot proceed to the production credentials process while this scenario fails.
 
-## R02: Basic receipt with multiple waste items
+### R02: Basic receipt with multiple waste items
 
 - **Category:** Basic – Mandatory
 - **Test flow:** A receipt is submitted with multiple separately classified waste items and a Waste Tracking ID is returned.
@@ -108,7 +108,7 @@ Regulation references on this page relate to the England regulations. If you ope
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 13 covers the waste code or codes for the controlled waste. Paragraph 14 requires weight, Disposal or Recovery code and container information to be recorded for each waste code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** This is a mandatory requirement. The capability gap must be resolved before you request production credentials.
 
-## R03: Basic receipt with Road transport
+### R03: Basic receipt with Road transport
 
 - **Category:** Basic
 - **Test flow:** A receipt is submitted with the transport mode set to `Road` and a Waste Tracking ID is returned.
@@ -120,7 +120,7 @@ Regulation references on this page relate to the England regulations. If you ope
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 10 requires the mode or modes of transport to be recorded. These include road, rail, sea, air, inland waterway and pipe. Paragraph 11 also requires the vehicle registration number for each vehicle where Road is a recorded mode. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** If your customers use road transport, resolve the failure before requesting production credentials.
 
-## R04: Basic receipt with no Disposal or Recovery codes
+### R04: Basic receipt with no Disposal or Recovery codes
 
 - **Category:** Basic – Advisory
 - **Test flow:** A receipt is submitted with the Disposal or Recovery code omitted from a waste item. A Waste Tracking ID and warning are returned.
@@ -132,7 +132,7 @@ Regulation references on this page relate to the England regulations. If you ope
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 14(1)(b) covers the Disposal or Recovery code expected for each waste code. This scenario tests API behaviour when that information is absent. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** If the result is caused by intentional validation that always requires a valid Disposal or Recovery code, record that evidence as part of your self-verification. If the cause is unknown or the product unintentionally prevents correct processing, investigate and resolve it before requesting production credentials.
 
-## R05: Basic receipt with multiple Disposal or Recovery codes
+### R05: Basic receipt with multiple Disposal or Recovery codes
 
 - **Category:** Basic – Advisory
 - **Test flow:** A receipt is submitted containing one waste item with multiple Disposal or Recovery codes and a Waste Tracking ID is returned.
@@ -144,11 +144,11 @@ Regulation references on this page relate to the England regulations. If you ope
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 14(1) covers recording a D or R code against each waste code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** Assess whether your customers need to record multiple Disposal or Recovery codes for one waste item. If they do, resolve the capability gap before requesting production credentials.
 
-## R06: Withdrawn scenario
+### R06: Withdrawn scenario
 
 R06 has been removed from the PAT scenario set by Defra. There is no test associated with this scenario ID.
 
-## R07: Basic receipt with multiple EWC codes
+### R07: Basic receipt with multiple EWC codes
 
 - **Category:** Basic – Advisory
 - **Test flow:** A receipt is submitted with multiple EWC codes for a waste item and a Waste Tracking ID is returned.
@@ -160,9 +160,9 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 13 refers to the “waste code(s)” for the controlled waste. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** If your users need to record multiple EWC codes for one waste item, resolve the capability gap before requesting production credentials.
 
-# Carrier details scenarios
+## Carrier details scenarios
 
-## C01: No carrier registration number and no reason
+### C01: No carrier registration number and no reason
 
 - **Category:** Basic – Advisory
 - **Test flow:** A receipt is submitted for an unregistered carrier without a reason. An error is returned and no Waste Tracking ID is generated.
@@ -174,7 +174,7 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **Regulation reference:** England only. Schedule 1, paragraph 7 requires a reason to be recorded where the transporter does not have a carrier registration or transporter authorisation number. Regulations 16(2)(a) and 19(2)(a), read with regulation 4(4), address a failure to complete the specified steps. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** Determine whether the result was caused by intentional client-side validation. If the product can submit an invalid movement without a registration number or reason, resolve the gap before requesting production credentials.
 
-## C02: No carrier registration number but with a reason
+### C02: No carrier registration number but with a reason
 
 - **Category:** Basic – Advisory
 - **Test flow:** A receipt is submitted for an unregistered carrier with a reason. A Waste Tracking ID is returned and the reason is recorded.
@@ -186,9 +186,9 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 7 requires the reason to be recorded where the transporter does not have a carrier registration or transporter authorisation number. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** If your product supports unregistered-carrier movements, it must capture the reason. Resolve any related capability gap before requesting production credentials.
 
-# Broker or dealer scenarios
+## Broker or dealer scenarios
 
-## B01: Broker or dealer involved
+### B01: Broker or dealer involved
 
 - **Category:** Basic – Advisory
 - **Test flow:** A receipt is submitted with a broker or dealer present and a Waste Tracking ID is returned.
@@ -200,9 +200,9 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 9 requires the name, address, contact details and registration or authorisation number of a broker or dealer who arranged the transportation. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** Confirm whether broker or dealer involvement applies to your customer base. If it does, resolve the capability gap before requesting production credentials.
 
-# POPs waste scenarios
+## POPs waste scenarios
 
-## P01: POPs receipt with multiple POPs components
+### P01: POPs receipt with multiple POPs components
 
 - **Category:** POPs – Advisory
 - **Test flow:** A receipt is submitted containing one waste item with multiple POPs components and a Waste Tracking ID is returned.
@@ -214,9 +214,9 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraphs 15(1)(b) and 16 cover the recording of relevant POPs substance information and concentration, or the reason why that information was not provided. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** Confirm whether your customers handle POPs waste. If they do, resolve any inability to record multiple POPs components before requesting production credentials.
 
-# Hazardous waste scenarios
+## Hazardous waste scenarios
 
-## H01: Hazardous receipt with multiple hazardous components
+### H01: Hazardous receipt with multiple hazardous components
 
 - **Category:** Hazardous – Advisory
 - **Test flow:** A receipt is submitted containing one waste item with multiple hazardous components and a Waste Tracking ID is returned.
@@ -228,7 +228,7 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 15 covers hazardous-property codes and component or concentration values where waste has a hazardous property. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** If any of your customers handle hazardous waste, even occasionally, resolve the capability gap before requesting production credentials.
 
-## H02: No consignment note code and no reason
+### H02: No consignment note code and no reason
 
 - **Category:** Hazardous – Advisory
 - **Test flow:** A hazardous receipt is submitted without a consignment note code or reason. An error is returned and no Waste Tracking ID is generated.
@@ -240,7 +240,7 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 8 requires the consignment note code to be recorded for hazardous waste or, where there is no code, the reason why. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** Confirm whether the result was caused by intentional client-side validation. If the product can submit hazardous waste without the code or a reason, resolve the gap before requesting production credentials.
 
-## H03: No consignment note code but with a reason
+### H03: No consignment note code but with a reason
 
 - **Category:** Hazardous – Advisory
 - **Test flow:** A hazardous receipt is submitted without a consignment note code but with a reason. A Waste Tracking ID is returned and the reason is recorded.
@@ -252,9 +252,9 @@ R06 has been removed from the PAT scenario set by Defra. There is no test associ
 - **Regulation reference:** England only. Schedule 1, Part 2, paragraph 8 requires the reason to be recorded where there is no hazardous waste consignment note code. If you operate outside England, refer to the equivalent provisions in your nation’s regulations.
 - **Before you proceed:** If your customers handle hazardous waste and may use this exception, resolve any inability to capture the reason before requesting production credentials.
 
-# Combined hazardous and POPs scenarios
+## Combined hazardous and POPs scenarios
 
-## X01: Combined hazardous and POPs receipt
+### X01: Combined hazardous and POPs receipt
 
 - **Category:** Hazardous and POPs – Advisory
 - **Test flow:** A receipt containing both hazardous and POPs information is submitted and a Waste Tracking ID is returned.
