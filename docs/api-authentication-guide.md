@@ -73,9 +73,10 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
 ## Testing your credentials
 You can test your credentials using the following Curl commands. If the Curl command returns an error, your credentials were entered incorrectly. If the command returns an access token then your credentials are correct.
 
-Two Curl commands and a python example are provided, one for the production environment and one for the test environment.
+Two Curl commands and Python example scripts are provided, one each for the production and test environments.
 
-Replace `$CLIENTID` with your client ID and replace `$CLIENTSECRET` with your client secret.
+In the cURL scripts replace `$CLIENTID` with your client ID and replace `$CLIENTSECRET` with your client secret.
+In the Python scripts under `Test credentials` replace "YOUR_CLIENT_ID" with your client ID and replace "YOUR_CLIENT_SECRET" with your client secret.
 
 ### Production Environment
 
