@@ -4,7 +4,7 @@ To start using the Receipt API, you need your Client ID and Secret which you sho
 
 This process involves two steps: 
 <ol>
-    <li>Submit the client id and secret to the OAuth service to be granted an access token.
+<li>Submit the client id and secret to the OAuth service to be granted an access token.
 
 ```python
 import requests  #use requests library
@@ -71,9 +71,9 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
 ```
 
 ## Testing your credentials
-You can test your credentials using the following Curl and Python scripts. If the scripts return an error, your credentials were entered incorrectly. If the scripts return an access token then your credentials are correct.
+You can test your credentials using the following cURL and Python scripts. If the scripts return an error, your credentials were entered incorrectly. If the scripts return an access token then your credentials are correct.
 
-Two Curl and Python example scripts are provided, one each for the production and test environments.
+Two cURL and Python example scripts are provided, one each for the production and test environments.
 
 In the cURL scripts replace `$CLIENTID` with your client ID and replace `$CLIENTSECRET` with your client secret.
 In the Python scripts under `Test credentials`, replace "YOUR_CLIENT_ID" with your client ID and replace "YOUR_CLIENT_SECRET" with your client secret.
@@ -81,27 +81,21 @@ In the Python scripts under `Test credentials`, replace "YOUR_CLIENT_ID" with yo
 ### Production Environment
 
 ```curl
-curl --request POST 
---url https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token 
-
---user "$CLIENTID:$CLIENTSECRET" 
-
---header 'Content-Type: application/x-www-form-urlencoded' 
-
---data 'grant_type=client_credentials'
+curl --request POST \
+  --url "https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token" \
+  --user "$CLIENTID:$CLIENTSECRET" \
+  --header "Content-Type: application/x-www-form-urlencoded" \
+  --data "grant_type=client_credentials"
 
 ```
 
 ### Test Environment
 
 ```curl
-curl --request POST 
---url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token 
-
--user "$CLIENTID:$CLIENTSECRET" 
-
---header 'Content-Type: application/x-www-form-urlencoded' 
-
+curl --request POST \
+--url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token \
+--user "$CLIENTID:$CLIENTSECRET" \
+--header 'Content-Type: application/x-www-form-urlencoded' \
 --data 'grant_type=client_credentials'
 
 ```
