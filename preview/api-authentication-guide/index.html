@@ -893,7 +893,7 @@
 <p>To start using the Receipt API, you need your Client ID and Secret which you should have received via email. You will need this to apply to the OAuth service for an access token. </p>
 <p>This process involves two steps: </p>
 <ol>
-    <li>Submit the client id and secret to the OAuth service to be granted an access token.
+<li>Submit the client id and secret to the OAuth service to be granted an access token.
 
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>  <span class="c1">#use requests library</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span> 
@@ -953,7 +953,93 @@
 
 Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com 
 </code></pre></div>
-<p><br/>Page last updated on May 28th 2026.</p>
+<h2 id="testing-your-credentials">Testing your credentials</h2>
+<p>You can test your credentials using the following cURL and Python scripts. If the scripts return an error, your credentials were entered incorrectly. If the scripts return an access token then your credentials are correct.</p>
+<p>Two cURL and Python example scripts are provided, one each for the production and test environments.</p>
+<p>In the cURL scripts replace <code>$CLIENTID</code> with your client ID and replace <code>$CLIENTSECRET</code> with your client secret.
+In the Python scripts under <code>Test credentials</code>, replace "YOUR_CLIENT_ID" with your client ID and replace "YOUR_CLIENT_SECRET" with your client secret.</p>
+<h3 id="production-environment">Production Environment</h3>
+<div class="highlight"><pre><span></span><code>curl --request POST \
+  --url "https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token" \
+  --user "$CLIENTID:$CLIENTSECRET" \
+  --header "Content-Type: application/x-www-form-urlencoded" \
+  --data "grant_type=client_credentials"
+</code></pre></div>
+<h3 id="test-environment">Test Environment</h3>
+<div class="highlight"><pre><span></span><code>curl --request POST \
+--url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token \
+--user "$CLIENTID:$CLIENTSECRET" \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data 'grant_type=client_credentials'
+</code></pre></div>
+<h3 id="python-examples">Python Examples</h3>
+<p><strong>Production Environment</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_access_token</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com"</span><span class="p">,</span>
+        <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">),</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">"grant_type"</span><span class="p">:</span> <span class="s2">"client_credentials"</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"access_token"</span><span class="p">]</span>
+
+
+<span class="c1"># Test credentials</span>
+<span class="n">client_id</span> <span class="o">=</span> <span class="s2">"YOUR_CLIENT_ID"</span>
+<span class="n">client_secret</span> <span class="o">=</span> <span class="s2">"YOUR_CLIENT_SECRET"</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">access_token</span> <span class="o">=</span> <span class="n">get_access_token</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Authentication successful"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Access Token:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">access_token</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Authentication failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Test Environment</strong></p>
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_access_token</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token"</span><span class="p">,</span>
+        <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">),</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">"grant_type"</span><span class="p">:</span> <span class="s2">"client_credentials"</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"access_token"</span><span class="p">]</span>
+
+
+<span class="c1"># Test credentials</span>
+<span class="n">client_id</span> <span class="o">=</span> <span class="s2">"YOUR_CLIENT_ID"</span>
+<span class="n">client_secret</span> <span class="o">=</span> <span class="s2">"YOUR_CLIENT_SECRET"</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">access_token</span> <span class="o">=</span> <span class="n">get_access_token</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Authentication successful"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Access Token:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">access_token</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Authentication failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Request failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<br>Page last updated on October 21st 2026.</p>
 
 
 
