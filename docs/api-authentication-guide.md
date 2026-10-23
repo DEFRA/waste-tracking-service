@@ -4,7 +4,7 @@ To start using the Receipt API, you need your Client ID and Secret which you sho
 
 This process involves two steps: 
 <ol>
-    <li>Submit the client id and secret to the OAuth service to be granted an access token.
+<li>Submit the client id and secret to the OAuth service to be granted an access token.
 
 ```python
 import requests  #use requests library
@@ -70,4 +70,109 @@ Production: https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncogni
 Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com 
 ```
 
-<br/>Page last updated on May 28th 2026.
+## Testing your credentials
+You can test your credentials using the following cURL and Python scripts. If the scripts return an error, your credentials were entered incorrectly. If the scripts return an access token then your credentials are correct.
+
+Two cURL and Python example scripts are provided, one each for the production and test environments.
+
+In the cURL scripts replace `$CLIENTID` with your client ID and replace `$CLIENTSECRET` with your client secret.
+In the Python scripts under `Test credentials`, replace "YOUR_CLIENT_ID" with your client ID and replace "YOUR_CLIENT_SECRET" with your client secret.
+
+### Production Environment
+
+```curl
+curl --request POST \
+  --url "https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token" \
+  --user "$CLIENTID:$CLIENTSECRET" \
+  --header "Content-Type: application/x-www-form-urlencoded" \
+  --data "grant_type=client_credentials"
+
+```
+
+### Test Environment
+
+```curl
+curl --request POST \
+--url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token \
+--user "$CLIENTID:$CLIENTSECRET" \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data 'grant_type=client_credentials'
+
+```
+
+### Python Examples
+
+**Production Environment**
+
+```python
+import requests
+
+def get_access_token(client_id, client_secret):
+    response = requests.post("https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com",
+        auth=(client_id, client_secret),
+        data={
+            "grant_type": "client_credentials"
+        }
+    )
+
+    response.raise_for_status()
+
+    return response.json()["access_token"]
+
+
+# Test credentials
+client_id = "YOUR_CLIENT_ID"
+client_secret = "YOUR_CLIENT_SECRET"
+
+try:
+    access_token = get_access_token(client_id, client_secret)
+
+    print("Authentication successful")
+    print("Access Token:")
+    print(access_token)
+
+except requests.exceptions.HTTPError as e:
+    print(f"Authentication failed: {e}")
+
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")
+
+```
+
+**Test Environment**
+
+```python
+import requests
+
+def get_access_token(client_id, client_secret):
+    response = requests.post("https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token",
+        auth=(client_id, client_secret),
+        data={
+            "grant_type": "client_credentials"
+        }
+    )
+
+    response.raise_for_status()
+
+    return response.json()["access_token"]
+
+
+# Test credentials
+client_id = "YOUR_CLIENT_ID"
+client_secret = "YOUR_CLIENT_SECRET"
+
+try:
+    access_token = get_access_token(client_id, client_secret)
+
+    print("Authentication successful")
+    print("Access Token:")
+    print(access_token)
+
+except requests.exceptions.HTTPError as e:
+    print(f"Authentication failed: {e}")
+
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")
+
+```
+<br>Page last updated on October 21st 2026.
