@@ -902,12 +902,19 @@
 <li><a href="../apiSpecifications/">receipt of waste API specification</a></li>
 </ul>
 <p><a href="../defra-spec.png"><img alt="image" src="../defra-spec.png" /></a></p>
+<h2 id="recent-and-upcoming-changes">Recent and Upcoming Changes</h2>
+<h3 id="reporting-hazardous-and-pops-concentrations-as-a-threshold">Reporting hazardous and POPs concentrations as a threshold</h3>
+<p>We are soon adding a new <code>concentrationOperator</code> field alongside <code>concentration</code> on the hazardous and POPs components in <code>wasteItems</code>. This change will allow a concentration to be reported as a threshold as well as an exact measured value.</p>
+<p>Where only a limit is known, put the numeric threshold in <code>concentration</code> and the symbol in <code>concentrationOperator</code>. The <code>&gt;</code> symbol is accepted for hazardous components and either <code>&lt;</code> or <code>&gt;</code> for POPs. Concentrations are still recorded in mg/kg, and the value for <code>concentration</code> must be a number greater than zero with no symbol or unit included. Omit <code>concentrationOperator</code> when you are reporting an exact value and do not send it when <code>concentration</code> is null. A null <code>concentration</code> continues to return a 201 response with a warning that a <code>concentration</code> value is recommended when <code>sourceOfComponents</code> is <code>PROVIDED_WITH_WASTE</code>, <code>GUIDANCE</code> or <code>OWN_TESTING</code>.</p>
+<p>This is an enhancement rather than a breaking change, meaning submission via existing integrations can continue without change. This has been introduced in response to user feedback supported by the agency regulators. If your users receive hazardous or POPs waste, we strongly recommend implementing it at your earliest opportunity.</p>
+<p><strong>Known issue:</strong> Sending both <code>concentration</code> and <code>concentrationOperator</code> as null returns a 400 response stating that the concentration must be specified. Omitting <code>concentrationOperator</code> rather than sending it as null, causes the movement to be created with a warning that a value for <code>concentration</code> is recommended. A fix is coming in a later release.</p>
+<p>Full field descriptions and validation rules are in the <a href="../apiSpecifications/">Receipt of waste API specification</a>.</p>
 <h2 id="api-change-log">API Change Log</h2>
 <p>The following page lists all of the changes to the API specification since it was first published:</p>
 <ul>
 <li><a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog">receipt of waste API change log</a></li>
 </ul>
-<p><br/>Page last updated on October 10th 2026.</p>
+<p><br/>Page last updated on October 21st 2026.</p>
 
 
 
