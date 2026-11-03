@@ -979,7 +979,7 @@ components:
                     description: |
                       Indicates that the actual concentration of the hazardous component is greater than the value supplied in
                       `concentration`.<br>
-                      The only accepted value is `>`.<br
+                      The only accepted value is `>`.<br>
                       The `<` operator is not accepted for hazardous components.<br>
                       <p><font color="green"><b>Business Rules:</b></font></p>
                       <li>This field is optional.</li>
