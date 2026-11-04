@@ -34,9 +34,44 @@
 }
 
 /* Configure the header */
+
+/* The accessibility script in main.html replaces the label[for="__search"]
+   inside .md-search__form with a <span> (aria-hidden). This breaks the
+   Material theme rule `.md-search__icon[for="__search"]` which sets
+   position:absolute. Restore it here targeting by class instead. */
+.md-search__form > .md-search__icon {
+  position: absolute;
+  inset-inline-start: 0.5rem;
+  top: 0.3rem;
+  z-index: 2;
+}
+
+@media screen and (min-width: 60em) {
+  .md-search__form > .md-search__icon {
+    pointer-events: none;
+  }
+  /* On desktop only the magnifying glass shows; hide the back-arrow SVG.
+     Use last-of-type, not last-child: the accessibility script appends a
+     visually-hidden <span> inside the icon, so the arrow is not :last-child. */
+  .md-search__form > .md-search__icon svg:last-of-type {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 59.984375em) {
+  .md-search__form > .md-search__icon {
+    inset-inline-start: 0.8rem;
+    top: 0.6rem;
+  }
+  /* On mobile the icon acts as a back button; hide the magnifying-glass SVG. */
+  .md-search__form > .md-search__icon svg:first-of-type {
+    display: none;
+  }
+}
+
 .md-header{
   box-shadow: none;
-  border-bottom: 10px solid; 
+  border-bottom: 10px solid;
   border-bottom-color:  #1d70b8;
 }
 
@@ -177,7 +212,7 @@
   font-size: 0.85rem;
   border: 3px solid;
   box-shadow: none;
-  border-radius: 0px;
+  border-radius: 0;
   /* border-width: 0;  */
   /* border-left-width: 4px; */
 }
@@ -193,7 +228,7 @@
   font-size: 30px;
   background-color: #1d70b8;
   color: white;
-  border-radius: 0px;
+  border-radius: 0;
 }
 .md-typeset .banner > .admonition-title::before,
 .md-typeset .banner > summary::before {
@@ -206,13 +241,13 @@
   border-color:  var(--md-typeset-a-color);
   text-decoration: none;
   font-size: 1rem;
-  border-radius: 0px;   
+  border-radius: 0;
   padding: 2px 10px;
 }
 
 /* Configure the tags */
 .md-typeset .md-tag {
-  border-radius: 0px;
+  border-radius: 0;
   font-size: 16px;
   width: 20%;
 }

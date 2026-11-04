@@ -11,29 +11,27 @@
         <link rel="canonical" href="https://defra.github.io/waste-tracking-service/test/api-specification/">
       
       
-        <link rel="prev" href="../api-software-developer-onboarding-process/">
+        <link rel="prev" href="../faq/">
       
-      
-        <link rel="next" href="../receipt-data-definitions/">
       
       
         
       
       
       <link rel="icon" href="../favicons/moj.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
-        <title>Api specification - Defra Digital Waste Tracking Developer Guide</title>
+        <title>Receipt API Specification - Defra Digital Waste Tracking Developer Guide</title>
       
     
     
   
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
   
@@ -119,6 +117,8 @@
     
       <link rel="stylesheet" href="../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -153,10 +153,6 @@
       
     </div>
     
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-      </div>
-    
     
       
 
@@ -183,7 +179,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Api specification
+              Receipt API Specification
             
           </span>
         </div>
@@ -303,7 +299,7 @@
   
     
   
-  About Waste Tracking
+  Receipt of Waste
 
         </a>
       </li>
@@ -321,13 +317,13 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../api-landing-page/" class="md-tabs__link">
+        <a href="./" class="md-tabs__link">
           
   
   
     
   
-  Phase 1 Receipt of Waste
+  API
 
         </a>
       </li>
@@ -406,6 +402,20 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -428,7 +438,7 @@
   <span class="md-ellipsis">
     
   
-    About Waste Tracking
+    Receipt of Waste
   
 
     
@@ -450,7 +460,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    About Waste Tracking
+    Receipt of Waste
   
 
           </label>
@@ -465,14 +475,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../storyboards/" class="md-nav__link">
+      <a href="../api-register-as-a-software-provider/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Storyboards
+    Register and Onboard as a Software Provider
   
 
     
@@ -493,14 +503,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../use-cases/" class="md-nav__link">
+      <a href="../api-receipt-of-waste-getting-started-guide/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Use cases
+    Getting Started Developer Guide
   
 
     
@@ -521,14 +531,210 @@
   
   
     <li class="md-nav__item">
-      <a href="../initial-scope/" class="md-nav__link">
+      <a href="../api-receipt-data-definitions/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial scope
+    Receipt of Waste Data Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-authentication-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-codes-for-testing-and-production/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Codes for testing and production
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-production-approval-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production Approval Tests (PAT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-production-approval-tests-self-verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PAT Self Service Interpretation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-testing-and-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing and examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-terms-of-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terms of service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
   
 
     
@@ -562,28 +768,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -608,7 +792,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 Receipt of Waste
+    API
   
 
     
@@ -624,95 +808,11 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Phase 1 Receipt of Waste
+    API
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-landing-page/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Introduction to Phase 1 the Receipt of Waste API
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../receivers-process-diagram/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Receivers process diagram
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-software-developer-onboarding-process/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api software developer onboarding process
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -737,7 +837,7 @@
   <span class="md-ellipsis">
     
   
-    Api specification
+    Receipt API Specification
   
 
     
@@ -747,230 +847,6 @@
 
       </a>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../receipt-data-definitions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Receipt data definitions
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-authentication-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api authentication guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-codes-for-testing-and-production/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api codes for testing and production
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../production-approval-tests/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Production approval tests
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-testing-and-examples/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api testing and examples
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../roadmap/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Roadmap
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../api-terms-of-service/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Api terms of service
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../faq/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Faq
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1011,9 +887,8 @@
   
 
 
-<p><a class="md-button" href="../">← Back to Top</a></p>
 <h1 id="receipt-of-waste-api-specification">Receipt of Waste - API Specification</h1>
-<p>Are you a waste receiver or software provider and want to get involved? <a href="../api-software-developer-onboarding-process/">Sign up for our Digital Waste Tracking Service</a>. </p>
+<p>Are you a waste receiver or software provider and want to get involved? <a href="../api-register-as-a-software-provider/">Sign up for our Digital Waste Tracking Service</a>. </p>
 <p>These APIs are currently in Public Beta stage. They may be updated to reflect changes to policy, legislation and user feedback.</p>
 <p>We are designing waste tracking APIs to be flexible and accommodate differences in business processes, allowing for:</p>
 <ul>
@@ -1027,12 +902,19 @@
 <li><a href="../apiSpecifications/">receipt of waste API specification</a></li>
 </ul>
 <p><a href="../defra-spec.png"><img alt="image" src="../defra-spec.png" /></a></p>
+<h2 id="recent-and-upcoming-changes">Recent and Upcoming Changes</h2>
+<h3 id="reporting-hazardous-and-pops-concentrations-as-a-threshold">Reporting hazardous and POPs concentrations as a threshold</h3>
+<p>We are soon adding a new <code>concentrationOperator</code> field alongside <code>concentration</code> on the hazardous and POPs components in <code>wasteItems</code>. This change will allow a concentration to be reported as a threshold as well as an exact measured value.</p>
+<p>Where only a limit is known, put the numeric threshold in <code>concentration</code> and the symbol in <code>concentrationOperator</code>. The <code>&gt;</code> symbol is accepted for hazardous components and either <code>&lt;</code> or <code>&gt;</code> for POPs. Concentrations are still recorded in mg/kg, and the value for <code>concentration</code> must be a number greater than zero with no symbol or unit included. Omit <code>concentrationOperator</code> when you are reporting an exact value and do not send it when <code>concentration</code> is null. A null <code>concentration</code> continues to return a 201 response with a warning that a <code>concentration</code> value is recommended when <code>sourceOfComponents</code> is <code>PROVIDED_WITH_WASTE</code>, <code>GUIDANCE</code> or <code>OWN_TESTING</code>.</p>
+<p>This is an enhancement rather than a breaking change, meaning submission via existing integrations can continue without change. This has been introduced in response to user feedback supported by the agency regulators. If your users receive hazardous or POPs waste, we strongly recommend implementing it at your earliest opportunity.</p>
+<p><strong>Known issue:</strong> Sending both <code>concentration</code> and <code>concentrationOperator</code> as null returns a 400 response stating that the concentration must be specified. Omitting <code>concentrationOperator</code> rather than sending it as null, causes the movement to be created with a warning that a value for <code>concentration</code> is recommended. A fix is coming in a later release.</p>
+<p>Full field descriptions and validation rules are in the <a href="../apiSpecifications/">Receipt of waste API specification</a>.</p>
 <h2 id="api-change-log">API Change Log</h2>
 <p>The following page lists all of the changes to the API specification since it was first published:</p>
 <ul>
 <li><a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog">receipt of waste API change log</a></li>
 </ul>
-<p><br/>Page last updated on April 10th 2026.</p>
+<p><br/>Page last updated on October 21st 2026.</p>
 
 
 
@@ -1099,7 +981,7 @@
         Open Government Licence v3.0</a
       >
       , except where otherwise stated <br><br><br>
-      <a href="/waste-tracking-service/api-accessibility-statement" target="_blank" rel="noopener">Accessibility Statement</a>
+      <a href="../api-accessibility-statement/" target="_blank" rel="noopener">Accessibility Statement</a>
     </div>
 
     <div class="md-copyright">
@@ -1130,11 +1012,17 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "search.suggest", "search.share", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "production", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "content.code.copy", "search.suggest", "search.share", "content.action.view", "toc.integrate"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": {"Accepted": "accepted", "Deprecated": "deprecated", "Draft": "draft", "Proposed": "proposed", "Rejected": "rejected", "Superseded": "superseded"}, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
   
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../apiSpecifications/dist/swagger-initializer.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+      
+        <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
       
     
   <script>
@@ -1149,10 +1037,38 @@
           }
         }
 
+        // 1b. Landmarks — the drawer overlay (.md-overlay) is a decorative
+        // click-to-close layer rendered as a direct child of <body>, outside
+        // every landmark. Hide it from assistive technology so all exposed
+        // page content stays within a landmark (AXE "region") and it isn't
+        // announced as a duplicate of the header navigation toggle.
+        document.querySelectorAll('.md-overlay').forEach(function (overlay) {
+          overlay.setAttribute('aria-hidden', 'true');
+        });
+
+        // 1c. Unique landmarks — Material wraps each code block's "Copy to
+        // clipboard" button in <nav class="md-code__nav"> with no accessible
+        // name, so a page with several code blocks exposes multiple identical,
+        // unnamed navigation landmarks (AXE "landmark-unique"). These are
+        // button containers rather than real navigation, so drop the landmark
+        // role; the copy button itself stays in the accessibility tree.
+        document.querySelectorAll('nav.md-code__nav').forEach(function (codeNav) {
+          codeNav.setAttribute('role', 'none');
+        });
+
         // 2. Empty form labels — add visually-hidden text to icon-only labels
+        function labelHasText(label) {
+          var clone = label.cloneNode(true);
+          var els = clone.querySelectorAll('svg, img, .md-icon, .visually-hidden');
+          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
+          return !!clone.textContent.trim();
+        }
+
         function addLabelText(selector, text) {
           document.querySelectorAll(selector).forEach(function (label) {
+            if (label.getAttribute('aria-hidden') === 'true') return;
             if (label.querySelector('.visually-hidden')) return;
+            if (labelHasText(label)) return;
             var span = document.createElement('span');
             span.className = 'visually-hidden';
             span.textContent = text;
@@ -1176,6 +1092,7 @@
         // Navigation section toggle labels
         document.querySelectorAll('label[for^="__nav"], label[for^="nav-"]').forEach(function (label) {
           if (label.querySelector('.visually-hidden')) return;
+          if (labelHasText(label)) return;
           var nav = label.closest('.md-nav__item');
           var link = nav ? nav.querySelector('.md-nav__link') : null;
           var text = link ? 'Toggle ' + link.textContent.trim() : 'Toggle section';
@@ -1187,16 +1104,13 @@
 
         // Catch any remaining labels that only contain SVG/icons
         document.querySelectorAll('label[for]').forEach(function (label) {
+          if (label.getAttribute('aria-hidden') === 'true') return;
           if (label.querySelector('.visually-hidden')) return;
-          var clone = label.cloneNode(true);
-          var els = clone.querySelectorAll('svg, img, .md-icon');
-          for (var i = 0; i < els.length; i++) { els[i].parentNode.removeChild(els[i]); }
-          if (!clone.textContent.trim()) {
-            var span = document.createElement('span');
-            span.className = 'visually-hidden';
-            span.textContent = label.getAttribute('title') || 'Toggle';
-            label.appendChild(span);
-          }
+          if (labelHasText(label)) return;
+          var span = document.createElement('span');
+          span.className = 'visually-hidden';
+          span.textContent = label.getAttribute('title') || 'Toggle';
+          label.appendChild(span);
         });
 
         // Catch any inputs/selects without any label (missing form label)
@@ -1210,10 +1124,21 @@
           input.setAttribute('aria-label', name.charAt(0).toUpperCase() + name.slice(1));
         });
 
-        // 3. Multiple form labels — replace duplicate labels with spans
+        // 3. Multiple form labels — replace duplicate labels with spans.
+        // Skip labels already hidden from assistive technology (e.g. the
+        // decorative .md-overlay) so the visible, functional control keeps its
+        // label instead of being the one demoted to a span.
+        // Also skip Material's CSS-only toggles (.md-toggle), which are driven
+        // by two working labels by design — for a nav section, the open link
+        // and the drawer's back arrow both target the same checkbox — so
+        // demoting either breaks navigation at narrow widths. Those checkboxes
+        // are display:none, so AXE never reports them as multiply-labelled.
         var labelsByFor = {};
         document.querySelectorAll('label[for]').forEach(function (label) {
+          if (label.getAttribute('aria-hidden') === 'true') return;
           var forId = label.getAttribute('for');
+          var target = document.getElementById(forId);
+          if (target && target.classList.contains('md-toggle')) return;
           if (!labelsByFor[forId]) labelsByFor[forId] = [];
           labelsByFor[forId].push(label);
         });
