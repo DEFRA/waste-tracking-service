@@ -874,6 +874,7 @@ components:
                     example: 12.5
                   concentrationOperator:
                     type: string
+                    nullable: true
                     enum:
                     - <
                     - '>'
@@ -974,6 +975,7 @@ components:
                     example: 12.5
                   concentrationOperator:
                     type: string
+                    nullable: true
                     enum:
                     - '>'
                     description: |
