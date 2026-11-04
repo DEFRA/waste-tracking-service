@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+
+{# Google Tag Manager, for pages that set "template: analytics.html". Only
+   builds with GTM_CONTAINER set get it, so other versions have no tag #}
+
+{% block site_meta %}
+  {{ super() }}
+  {% if config.extra.gtm_container %}
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',{{ config.extra.gtm_container | tojson }});</script>
+  <!-- End Google Tag Manager -->
+  {% endif %}
+{% endblock %}
+
+{# Material has no block straight after <body>, so this is the earliest place #}
+{% block header %}
+  {% if config.extra.gtm_container %}
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config.extra.gtm_container | urlencode }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  {% endif %}
+  {{ super() }}
+{% endblock %}

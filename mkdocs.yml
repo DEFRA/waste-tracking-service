@@ -86,6 +86,8 @@ markdown_extensions:
   - toc:
       toc_depth: 1
 extra:
+  # Google Tag Manager; set by the release workflow for test only
+  gtm_container: !ENV [GTM_CONTAINER, '']
   version:
     # provider: mike
     # default: production
