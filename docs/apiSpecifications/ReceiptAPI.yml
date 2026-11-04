@@ -1140,7 +1140,7 @@ components:
             \ EPR/XX9999XX/D99999S</li>\n  </ul>\n  <p><font color=\"blue\"><b>Scotland (SEPA):</b></font></p>\n  <ul>\n \
             \   <li>PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999,\
             \ WML/W/9999999, WML/E/9999999, WML/N/9999999, WML/L/9999999/99, WML/W/9999999/99, \n    WML/N/9999999/99, WML/E/9999999/99,\
-            \ EAS/P/999999</li>\n  </ul>\n  <p><font color=\"blue\"><b>Wales (NRW):</b></font></p>\n  <ul>\n    <li>XX9999XX,\
+            \ EAS/P/9999999</li>\n  </ul>\n  <p><font color=\"blue\"><b>Wales (NRW):</b></font></p>\n  <ul>\n    <li>XX9999XX,\
             \ EPR/XX9999XX</li>\n  </ul>\n  <p><font color=\"blue\"><b>Northern Ireland (NRI):</b></font></p>\n  <ul>\n  \
             \  <li>P9999/99X, P9999/99X/V#, WPPC 99/99, WPPC 99/99/V#<p></p>\n    <font color=\"red\">WML 99/# PAC/9999/WCL999\n\
             \    WML 99/# LN/99/#</font>\n    </li><p></p>\n    Please note the following explanation:<p></p>\n    WML 99/#\
