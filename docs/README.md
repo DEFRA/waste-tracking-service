@@ -1,3 +1,7 @@
+---
+template: analytics.html
+---
+
 # Register for the Digital Waste Tracking Service
 Are you a waste receiver or software provider and want to get involved? [Sign up for our Digital Waste Tracking Service](api-register-as-a-software-provider.md).
 
