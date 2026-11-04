@@ -86,8 +86,7 @@ markdown_extensions:
   - toc:
       toc_depth: 1
 extra:
-  # Google Tag Manager, on pages using tech_docs_template/analytics.html.
-  # The release workflow sets it for the test version only
+  # Google Tag Manager; set by the release workflow for test only
   gtm_container: !ENV [GTM_CONTAINER, '']
   version:
     # provider: mike
