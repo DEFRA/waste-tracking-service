@@ -81,24 +81,18 @@ In the Python scripts under `Test credentials`, replace "YOUR_CLIENT_ID" with yo
 ### Production Environment
 
 ```curl
-curl --request POST \
-  --url "https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token" \
-  --user "$CLIENTID:$CLIENTSECRET" \
-  --header "Content-Type: application/x-www-form-urlencoded" \
-  --data "grant_type=client_credentials"
+curl --request POST --url https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token --user "$CLIENTID:$CLIENTSECRET" --header "Content-Type: application/x-www-form-urlencoded" --data "grant_type=client_credentials"
 
 ```
+<b>Note:</b> For this to work in Windows Powershell, you will need to use ‘curl.exe’ instead of ‘curl’
 
 ### Test Environment
 
 ```curl
-curl --request POST \
---url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token \
---user "$CLIENTID:$CLIENTSECRET" \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data 'grant_type=client_credentials'
+curl --request POST --url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token --user "$CLIENTID:$CLIENTSECRET" --header "Content-Type: application/x-www-form-urlencoded" --data "grant_type=client_credentials"
 
 ```
+<b>Note:</b> For this to work in Windows Powershell, you will need to use ‘curl.exe’ instead of ‘curl’
 
 ### Python Examples
 
@@ -175,4 +169,4 @@ except requests.exceptions.RequestException as e:
     print(f"Request failed: {e}")
 
 ```
-<br>Page last updated on October 21st 2026.
+<br>Page last updated on November 6th 2026.
