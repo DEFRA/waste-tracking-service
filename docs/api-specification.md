@@ -31,11 +31,9 @@ This is an enhancement rather than a breaking change, meaning submission via exi
 
 Full field descriptions and validation rules are in the [Receipt of waste API specification](../apiSpecifications/).
 
-### New EWC Codes and SEPA authorisation number changes
+### New SEPA authorisation number changes
 
 #### Release planned week commencing 16th November 2026.
-
-New EWC codes to be allowed, meeting new EU legislation for Northern Ireland. New codes also to be included in GET ewc-codes method.
 
 New SEPA receiver authorisation number format to be allowed: EAS/P/9999999.
 
