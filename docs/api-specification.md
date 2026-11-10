@@ -31,9 +31,19 @@ This is an enhancement rather than a breaking change, meaning submission via exi
 
 Full field descriptions and validation rules are in the [Receipt of waste API specification](../apiSpecifications/).
 
+### New EWC Codes and SEPA authorisation number changes
+
+#### Release planned week commencing 16th November 2026.
+
+New EWC codes to be allowed, that meet new EU legislation for Northern Ireland. New codes also to be included in GET ewc-codes method.
+
+New SEPA receiver authorisation number format to be allowed: EAS/P/9999999.
+
+New SEPA broker or dealer and carrier authorisation number formats to be allowed: WCR/ZZZZZZ (where ZZZZZZ is a 6 character combination of letters and numbers e.g. WCR/02bd5f), EAS/R/9999999, SCO/999999/B, SCO/999999/CB, SEA/999999/CB, SNO/999999/CB, SWE/999999/CB.
+
 ## API Change Log
 The following page lists all of the changes to the API specification since it was first published:
 
 - [receipt of waste API change log](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog)
 
-<br/>Page last updated on October 21st 2026.
+<br/>Page last updated on November 9th 2026.
