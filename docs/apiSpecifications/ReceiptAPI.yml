@@ -556,8 +556,8 @@ components:
                   numbers, i.e. alphanumeric. <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The
                   first XXXXXX part is made up of six alphanumeric characters and must be followed by a forward slash /<p>
                   The YYYYY part is a five alphanumeric character unique identifier of the users' choice (no spaces or symbols).</p>
-                  <p><font color="red">Scotland</font></p> <p><i>Format-</i>  SA, SB or SC followed by a 7-digit number (e.g.
-                  SB1234567). Also known as Special Waste Consignment Note</p> <p><font color="red">Northern Ireland and Eire:</font></p>
+                  <p><font color="red">Scotland</font></p> <p><i>Format-</i>  SA, SB or SC followed by a 6, 7 or 8 digit number (e.g.
+                  SA123456, SB1234567, SC12345678). Also known as Special Waste Consignment Note</p> <p><font color="red">Northern Ireland and Eire:</font></p>
                   <p><i>Format-</i>  DA, DB or DC followed by a 7-digit number (e.g. DA5301234)</p><p></p> <p><a href="https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code">More
                   information here</a></p> <p><font color="green"><b>Business Rules:</b></font></p> <ul> <li>If receiveMovementRequest.hazardousWasteConsignmentCode
                   is provided it must be in specified format.</li> <li>If all waste.ewcCodes provided are considered “not
@@ -874,6 +874,7 @@ components:
                     example: 12.5
                   concentrationOperator:
                     type: string
+                    nullable: true
                     enum:
                     - <
                     - '>'
@@ -974,6 +975,7 @@ components:
                     example: 12.5
                   concentrationOperator:
                     type: string
+                    nullable: true
                     enum:
                     - '>'
                     description: |
@@ -1011,8 +1013,8 @@ components:
             \ stands for \"Carrier, Broker, Dealer\"</p>              \n <p><font color=\"blue\"><b>England:</b></font></p>\n\
             \     CBDU999 (3+ digits)\n     <p>i.e. CBD<font color=\"red\"><b>U</b></font>999 (Upper Tier) or CBD<font color=\"\
             red\"><b>L</b></font>999 (Lower Tier), where \"CBD\" stands for \"Carrier, Broker, Dealer\"</p>              \
-            \           \n <p><font color=\"blue\"><b>Scotland SEPA:</b></font></p>\n    WCR/R/9999999, SCO/999999, SEA/999999,\
-            \ SNO/999999, SWE/999999, WCR/999999, PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where\
+            \           \n <p><font color=\"blue\"><b>Scotland SEPA:</b></font></p>\n EAS/R/9999999, WCR/ZZZZZZ (where ZZZZZZ is a 6 character combination of letters and numbers e.g. WCR/02bd5f),  WCR/R/9999999,  SCO/999999, SCO/999999/B, SCO/999999/CB, SEA/999999, SEA/999999/CB\
+            \ SNO/999999, SNO/999999/CB, SWE/999999, SWE/999999/CB,  WCR/999999, PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where\
             \ X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).\n    <p>Typically\
             \ starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection\
             \ Agency (SEPA).</p>  \n   <p>Current format – WCR/R/1234567</p>\n   <p>Previous formats – SCO/123456, SEA/123456,\
@@ -1102,12 +1104,12 @@ components:
             \ or CBD<font color=\"red\"><b>L</b></font>999 (Lower Tier), where \"CBD\" stands for \"Carrier, Broker, Dealer\"\
             </p>              \n<p><font color=\"blue\"><b>England:</b></font></p>\n   CBDU999 (3+ digits)\n   <p>i.e. CBD<font\
             \ color=\"red\"><b>U</b></font>999 (Upper Tier) or CBD<font color=\"red\"><b>L</b></font>999 (Lower Tier), where\
-            \ \"CBD\" stands for \"Carrier, Broker, Dealer\"</p>\n<p><font color=\"blue\"><b>Scotland SEPA:</b></font></p>\n\
-            \   WCR/R/9999999, SCO/999999, SEA/999999, SNO/999999, SWE/999999, WCR/999999 and PCT-X-999, PCT-X-9999, PCT-X-99999,\
-            \ PCT-X-999999 and PCT-X-9999999 (where X = a single capital letter and 9 = a single numeral of between 3 and\
-            \ 7 digits in length).\n   <p>Typically starts with WCR followed by numbers and potentially letters according\
-            \ to the Scottish Environment Protection Agency (SEPA).</p>  \n  <p>Current format – WCR/R/1234567</p>\n  <p>Previous\
-            \ formats – SCO/123456, SEA/123456, SNO/123456, SWE/123456, WCR/123456, PCT-E-083, PCT-N-0050000 </p>\n<p><font\
+            \ \"CBD\" stands for \"Carrier, Broker, Dealer\"</p>\n<p><font color=\"blue\"><b>Scotland SEPA:</b></font></p>\n EAS/R/9999999, WCR/ZZZZZZ (where ZZZZZZ is a 6 character combination of letters and numbers e.g. WCR/02bd5f),  WCR/R/9999999,  SCO/999999, SCO/999999/B, SCO/999999/CB, SEA/999999, SEA/999999/CB\
+            \ SNO/999999, SNO/999999/CB, SWE/999999, SWE/999999/CB,  WCR/999999, PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where\
+            \ X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).\n    <p>Typically\
+            \ starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection\
+            \ Agency (SEPA).</p>  \n   <p>Current format – WCR/R/1234567</p>\n   <p>Previous formats – SCO/123456, SEA/123456,\
+            \ SNO/123456, SWE/123456, WCR/123456, PCT-E-083, PCT-N-0050000</p>\n\n<p><font\
             \ color=\"blue\"><b>Northern Ireland (NI)</b></font></p>\n   ROC UT 9,ROC UT 99,ROC UT 999, ROC UT 9999, ROC UT\
             \ 99999, ROC LT 9, ROC LT 99, ROC LT 999, ROC LT 9999, ROC LT 99999<p></p><p></p>\n   Include a prefix like ROC\
             \ followed by UT (Upper Tier) or LT (Lower Tier) and then numbers. Note that spaces are not mandatory.<p></p>\n\
@@ -1140,7 +1142,7 @@ components:
             \ EPR/XX9999XX/D99999S</li>\n  </ul>\n  <p><font color=\"blue\"><b>Scotland (SEPA):</b></font></p>\n  <ul>\n \
             \   <li>PPC/A/9999999, WML/L/9999999, PPC/A/SEPA9999-9999, PPC/W/9999999, PPC/N/9999999, PPC/E/9999999, WML/L/SEPA9999-9999,\
             \ WML/W/9999999, WML/E/9999999, WML/N/9999999, WML/L/9999999/99, WML/W/9999999/99, \n    WML/N/9999999/99, WML/E/9999999/99,\
-            \ EAS/P/999999</li>\n  </ul>\n  <p><font color=\"blue\"><b>Wales (NRW):</b></font></p>\n  <ul>\n    <li>XX9999XX,\
+            \ EAS/P/9999999</li>\n  </ul>\n  <p><font color=\"blue\"><b>Wales (NRW):</b></font></p>\n  <ul>\n    <li>XX9999XX,\
             \ EPR/XX9999XX</li>\n  </ul>\n  <p><font color=\"blue\"><b>Northern Ireland (NRI):</b></font></p>\n  <ul>\n  \
             \  <li>P9999/99X, P9999/99X/V#, WPPC 99/99, WPPC 99/99/V#<p></p>\n    <font color=\"red\">WML 99/# PAC/9999/WCL999\n\
             \    WML 99/# LN/99/#</font>\n    </li><p></p>\n    Please note the following explanation:<p></p>\n    WML 99/#\
