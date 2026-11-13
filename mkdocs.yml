@@ -60,9 +60,11 @@ nav:
     - FAQ: faq.md
   - API:
     - Receipt API Specification: api-specification.md
+    - Upcoming API Changes: api-upcoming-changes.md 
     #- Collections API Specification: api-specification-collections.md
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/css-additions.css
   - https://unpkg.com/swagger-ui-dist/swagger-ui.css
 extra_javascript:
   - apiSpecifications/dist/swagger-initializer.js
@@ -86,8 +88,6 @@ markdown_extensions:
   - toc:
       toc_depth: 1
 extra:
-  # Google Tag Manager; set by the release workflow for test only
-  gtm_container: !ENV [GTM_CONTAINER, '']
   version:
     # provider: mike
     # default: production
