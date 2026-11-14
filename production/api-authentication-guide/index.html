@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../favicons/moj.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -118,6 +118,8 @@
     
     
       <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../stylesheets/css-additions.css">
     
       <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
     
@@ -783,6 +785,8 @@
       
         
       
+        
+      
     
     
     
@@ -841,6 +845,34 @@
     
   
     Receipt API Specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-upcoming-changes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upcoming API Changes
   
 
     
@@ -959,19 +991,13 @@ Test: https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com
 <p>In the cURL scripts replace <code>$CLIENTID</code> with your client ID and replace <code>$CLIENTSECRET</code> with your client secret.
 In the Python scripts under <code>Test credentials</code>, replace "YOUR_CLIENT_ID" with your client ID and replace "YOUR_CLIENT_SECRET" with your client secret.</p>
 <h3 id="production-environment">Production Environment</h3>
-<div class="highlight"><pre><span></span><code>curl --request POST \
-  --url "https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token" \
-  --user "$CLIENTID:$CLIENTSECRET" \
-  --header "Content-Type: application/x-www-form-urlencoded" \
-  --data "grant_type=client_credentials"
+<p><div class="highlight"><pre><span></span><code>curl --request POST --url https://waste-movement-external-api-75ee2.auth.eu-west-2.amazoncognito.com/oauth2/token --user "$CLIENTID:$CLIENTSECRET" --header "Content-Type: application/x-www-form-urlencoded" --data "grant_type=client_credentials"
 </code></pre></div>
+<b>Note:</b> For this to work in Windows Powershell, you will need to use ‘curl.exe’ instead of ‘curl’</p>
 <h3 id="test-environment">Test Environment</h3>
-<div class="highlight"><pre><span></span><code>curl --request POST \
---url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token \
---user "$CLIENTID:$CLIENTSECRET" \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data 'grant_type=client_credentials'
+<p><div class="highlight"><pre><span></span><code>curl --request POST --url https://waste-movement-external-api-8ec5c.auth.eu-west-2.amazoncognito.com/oauth2/token --user "$CLIENTID:$CLIENTSECRET" --header "Content-Type: application/x-www-form-urlencoded" --data "grant_type=client_credentials"
 </code></pre></div>
+<b>Note:</b> For this to work in Windows Powershell, you will need to use ‘curl.exe’ instead of ‘curl’</p>
 <h3 id="python-examples">Python Examples</h3>
 <p><strong>Production Environment</strong></p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
@@ -1141,7 +1167,7 @@ In the Python scripts under <code>Test credentials</code>, replace "YOUR_CLIENT_
     
     
   
-      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../apiSpecifications/dist/swagger-initializer.js"></script>
       
