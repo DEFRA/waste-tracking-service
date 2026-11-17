@@ -2,7 +2,46 @@
 
 This page summarises upcoming changes to the Receipt of Waste API.
 
-Past changes currently live in production are listed in the [Receipt of Waste API changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
+## New nullable value for concentrationOperator
+
+**Type:** <strong class="govuk-tag govuk-tag--green">Non-breaking</strong>
+
+**Status:** Planned
+
+**Test environment date:** 19 November 2026 (estimated)
+
+**Production environment date:**  19 November 2026 (estimated)
+
+**Affects:** Receivers submitting movements that include any POPs or Hazardous concentration Waste items
+
+```yaml
+concentrationOperator:
+  type: string
+  nullable: true
+  enum:
+- <
+- >
+```
+### Known issue
+
+If you send both `concentration` and `concentrationOperator` as null, you'll get a 400 response saying the concentration must be specified. Leave out `concentrationOperator` instead. The movement will be created with a 200, but with a warning that a concentration value is recommended.
+<!--
+
+## New HazardousWasteConsignmentCode 
+
+**Type:** <strong class="govuk-tag govuk-tag--green">Non-breaking</strong>
+
+**Status:** Planned
+
+**Test environment date:** 19 November 2026 (estimated)
+
+**Production environment date:**  19 November 2026 (estimated)
+
+**Affects:** Receivers submitting movements containing hazardous waste items in Scotland.
+
+Following issued raised by users of the service and confirmation from SEPA, the `HazardousWasteConsignmentCode` field now accepts SA, SB or SC followed by a 6, 7 or 8 digit number (e.g. SA123456, SB1234567, SC12345678).
+
+-->
 
 ## New SEPA authorisation numbers
 
@@ -16,6 +55,7 @@ Past changes currently live in production are listed in the [Receipt of Waste AP
 
 **Affects:** Receivers submitting movements that include any permit numbers issued by SEPA
 
+This change allows Scottish Environment Protection Agency (SEPA) authorisation number formats for receivers, carriers, brokers and dealers that were previously rejected.
 
 ### What you need to do
 
@@ -51,13 +91,13 @@ The following SEPA broker or dealer and carrier authorisation number formats are
 
 **Affects:**  Waste receiving sites in Northern Ireland
 
-This change introduces European Waste Catalogue (EWC) codes that meet new EU legislation for Northern Ireland. These new codes will also be included in GET ewc-codes method. 
+This change introduces European Waste Catalogue (EWC) codes that meet new EU legislation for Northern Ireland. These new codes will also be included in GET ewc-codes method.
 
 ## Report hazardous and POPs concentrations as a threshold
 
 **Type:** <strong class="govuk-tag govuk-tag--green">Non-breaking</strong>
 
-**Status:** Planned
+**Status:** Completed
 
 **Test environment date:** 21 October 2026
 
