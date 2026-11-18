@@ -19,8 +19,8 @@ concentrationOperator:
   type: string
   nullable: true
   enum:
-- <
-- >
+    - '<'
+    - '>'
 ```
 ### Known issue
 
