@@ -99,7 +99,6 @@ This change introduces European Waste Catalogue (EWC) codes that meet new EU leg
 **Type:** <strong class="govuk-tag govuk-tag--green">Non-breaking</strong>
 
 **Status:** Completed
-**Status:** Planned
 
 **Test environment date:** 21 October 2026
 
