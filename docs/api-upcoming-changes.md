@@ -25,6 +25,7 @@ concentrationOperator:
 ### Known issue
 
 If you send both `concentration` and `concentrationOperator` as null, you'll get a 400 response saying the concentration must be specified. Leave out `concentrationOperator` instead. The movement will be created with a 200, but with a warning that a concentration value is recommended.
+
 <!--
 
 ## New HazardousWasteConsignmentCode 
@@ -42,7 +43,6 @@ If you send both `concentration` and `concentrationOperator` as null, you'll get
 Following issues raised by users of the service and confirmation from SEPA, the `HazardousWasteConsignmentCode` field now accepts SA, SB or SC followed by a 6, 7 or 8 digit number (e.g. SA123456, SB1234567, SC12345678).
 
 -->
-Past changes currently live in production are listed in the [Receipt of Waste API changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
 
 ## New SEPA authorisation numbers
 
