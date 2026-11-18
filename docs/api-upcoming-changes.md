@@ -39,7 +39,7 @@ If you send both `concentration` and `concentrationOperator` as null, you'll get
 
 **Affects:** Receivers submitting movements containing hazardous waste items in Scotland.
 
-Following issued raised by users of the service and confirmation from SEPA, the `HazardousWasteConsignmentCode` field now accepts SA, SB or SC followed by a 6, 7 or 8 digit number (e.g. SA123456, SB1234567, SC12345678).
+Following issues raised by users of the service and confirmation from SEPA, the `HazardousWasteConsignmentCode` field now accepts SA, SB or SC followed by a 6, 7 or 8 digit number (e.g. SA123456, SB1234567, SC12345678).
 
 -->
 Past changes currently live in production are listed in the [Receipt of Waste API changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
@@ -151,5 +151,5 @@ If you send both `concentration` and `concentrationOperator` as null, you'll get
 
 Past changes currently in production appear in the [Receipt of Waste API changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
 
-<br>Page last updated on November 10th.
+<br>Page last updated on November 18th.
 
