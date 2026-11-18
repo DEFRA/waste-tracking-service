@@ -92,7 +92,6 @@ The following SEPA broker or dealer and carrier authorisation number formats are
 
 **Affects:**  Waste receiving sites in Northern Ireland
 
-This change introduces European Waste Catalogue (EWC) codes that meet new EU legislation for Northern Ireland. These new codes will also be included in GET ewc-codes method.
 This change introduces European Waste Catalogue (EWC) codes that meet new EU legislation for Northern Ireland. These new codes will also be included in GET ewc-codes method. 
 
 ## Report hazardous and POPs concentrations as a threshold
