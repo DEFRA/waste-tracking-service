@@ -556,8 +556,8 @@ components:
                   numbers, i.e. alphanumeric. <p>The consignment note code must follow the format- XXXXXX/YYYYY.</p> <p>The
                   first XXXXXX part is made up of six alphanumeric characters and must be followed by a forward slash /<p>
                   The YYYYY part is a five alphanumeric character unique identifier of the users' choice (no spaces or symbols).</p>
-                  <p><font color="red">Scotland</font></p> <p><i>Format-</i>  SA, SB or SC followed by a 7-digit number (e.g.
-                  SB1234567). Also known as Special Waste Consignment Note</p> <p><font color="red">Northern Ireland and Eire:</font></p>
+                  <p><font color="red">Scotland</font></p> <p><i>Format-</i>  SA, SB or SC followed by a 6, 7 or 8 digit number (e.g.
+                  SA123456, SB1234567, SC12345678). Also known as Special Waste Consignment Note</p> <p><font color="red">Northern Ireland and Eire:</font></p>
                   <p><i>Format-</i>  DA, DB or DC followed by a 7-digit number (e.g. DA5301234)</p><p></p> <p><a href="https://www.gov.uk/guidance/hazardous-waste-consignment-note-supplementary-guidance#a1-consignment-note-code">More
                   information here</a></p> <p><font color="green"><b>Business Rules:</b></font></p> <ul> <li>If receiveMovementRequest.hazardousWasteConsignmentCode
                   is provided it must be in specified format.</li> <li>If all waste.ewcCodes provided are considered “not
