@@ -284,7 +284,7 @@ paths:
                       type: string
                       description: |
                         The EWC code.<br>
-                      example: 4161
+                      example: '010101'
                     isHazardous:
                       type: boolean
                       description: True if the EWC code is for hazardous waste, otherwise False. The full list of valid EWC
@@ -764,6 +764,7 @@ components:
             green\"><b>Business Rules:</b></font></p> \n  - Must be six digits (no spaces) and be in the official wasteItem.ewcCode\
             \ EWC catalog EUR-Lex.<br> \n  - From one to a maximum of five codes per movement can be provided.</p>\n"
           example:
+          - '010101'
           - '200108'
         wasteDescription:
           type: string
