@@ -921,13 +921,46 @@
 
 <h1 id="upcoming-api-changes">Upcoming API changes</h1>
 <p>This page summarises upcoming changes to the Receipt of Waste API.</p>
-<p>Past changes currently live in production are listed in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog">Receipt of Waste API changelog</a>.</p>
+<h2 id="new-nullable-value-for-concentrationoperator">New nullable value for concentrationOperator</h2>
+<p><strong>Type:</strong> <strong class="govuk-tag govuk-tag--green">Non-breaking</strong></p>
+<p><strong>Status:</strong> Planned</p>
+<p><strong>Test environment date:</strong> 19 November 2026 (estimated)</p>
+<p><strong>Production environment date:</strong>  19 November 2026 (estimated)</p>
+<p><strong>Affects:</strong> Receivers submitting movements that include any POPs or Hazardous concentration Waste items</p>
+<div class="highlight"><pre><span></span><code><span class="nt">concentrationOperator</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">nullable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">enum</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'&lt;'</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'&gt;'</span>
+</code></pre></div>
+<h3 id="known-issue">Known issue</h3>
+<p>If you send both <code>concentration</code> and <code>concentrationOperator</code> as null, you'll get a 400 response saying the concentration must be specified. Leave out <code>concentrationOperator</code> instead. The movement will be created with a 200, but with a warning that a concentration value is recommended.</p>
+<!--
+
+## New HazardousWasteConsignmentCode 
+
+**Type:** <strong class="govuk-tag govuk-tag--green">Non-breaking</strong>
+
+**Status:** Planned
+
+**Test environment date:** 19 November 2026 (estimated)
+
+**Production environment date:**  19 November 2026 (estimated)
+
+**Affects:** Receivers submitting movements containing hazardous waste items in Scotland.
+
+Following issues raised by users of the service and confirmation from SEPA, the `HazardousWasteConsignmentCode` field now accepts SA, SB or SC followed by a 6, 7 or 8 digit number (e.g. SA123456, SB1234567, SC12345678).
+
+-->
+
 <h2 id="new-sepa-authorisation-numbers">New SEPA authorisation numbers</h2>
 <p><strong>Type:</strong> <strong class="govuk-tag govuk-tag--green">Non-breaking</strong></p>
 <p><strong>Status:</strong> Planned</p>
 <p><strong>Test environment date:</strong> 19 November 2026 (estimated)</p>
 <p><strong>Production environment date:</strong>  19 November 2026 (estimated)</p>
 <p><strong>Affects:</strong> Receivers submitting movements that include any permit numbers issued by SEPA</p>
+<p>This change allows Scottish Environment Protection Agency (SEPA) authorisation number formats for receivers, carriers, brokers and dealers that were previously rejected.</p>
 <h3 id="what-you-need-to-do">What you need to do</h3>
 <p>This SEPA receiver authorisation number format is now also accepted:</p>
 <ul>
@@ -966,7 +999,7 @@
 <p>This change introduces European Waste Catalogue (EWC) codes that meet new EU legislation for Northern Ireland. These new codes will also be included in GET ewc-codes method. </p>
 <h2 id="report-hazardous-and-pops-concentrations-as-a-threshold">Report hazardous and POPs concentrations as a threshold</h2>
 <p><strong>Type:</strong> <strong class="govuk-tag govuk-tag--green">Non-breaking</strong></p>
-<p><strong>Status:</strong> Planned</p>
+<p><strong>Status:</strong> Completed</p>
 <p><strong>Test environment date:</strong> 21 October 2026</p>
 <p><strong>Production environment date:</strong> 21 October 2026</p>
 <p><strong>Affects:</strong> Receivers who accept hazardous or POPs waste</p>
@@ -980,7 +1013,7 @@
 </ul>
 <p>Leave out concentrationOperator when you're reporting an exact value, or when concentration is null. A null concentration will continue to return a 201 response with a warning that a concentration value is recommended when sourceOfComponents is PROVIDED_WITH_WASTE, GUIDANCE or OWN_TESTING.</p>
 <p><a href="../api-specification/">Field descriptions and validation rules for <code>concentrationOperator</code></a></p>
-<h3 id="known-issue">Known issue</h3>
+<h3 id="known-issue_1">Known issue</h3>
 <p>If you send both <code>concentration</code> and <code>concentrationOperator</code> as null, you'll get a 400 response saying the concentration must be specified. Leave out <code>concentrationOperator</code> instead. The movement will be created with a 200, but with a warning that a concentration value is recommended.</p>
 <!-- Template for a breaking change. Delete this comment and the example when adding real entries.
 
@@ -1005,7 +1038,7 @@
 -->
 
 <p>Past changes currently in production appear in the <a href="https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog">Receipt of Waste API changelog</a>.</p>
-<p><br>Page last updated on November 10th.</p>
+<p><br>Page last updated on November 18th.</p>
 
 
 
