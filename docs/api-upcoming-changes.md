@@ -145,5 +145,5 @@ If you send both `concentration` and `concentrationOperator` as null, you'll get
 
 Past changes currently in production appear in the [Receipt of Waste API changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
 
-<br>Page last updated on November 10th.
+<br>Page last updated on November 20th.
 
