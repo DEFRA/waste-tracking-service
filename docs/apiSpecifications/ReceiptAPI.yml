@@ -1013,7 +1013,7 @@ components:
             \ stands for \"Carrier, Broker, Dealer\"</p>              \n <p><font color=\"blue\"><b>England:</b></font></p>\n\
             \     CBDU999 (3+ digits)\n     <p>i.e. CBD<font color=\"red\"><b>U</b></font>999 (Upper Tier) or CBD<font color=\"\
             red\"><b>L</b></font>999 (Lower Tier), where \"CBD\" stands for \"Carrier, Broker, Dealer\"</p>              \
-            \           \n <p><font color=\"blue\"><b>Scotland SEPA:</b></font></p>\n EAS/R/999999, EAS/R/9999999, WCR/ZZZZZZ (where ZZZZZZ is a 6 or 7 character combination of letters and numbers e.g. WCR/02bd5f),  WCR/R/9999999,  SCO/999999, SCO/999999/B, SCO/999999/CB, SEA/999999, SEA/999999/CB,\
+            \           \n <p><font color=\"blue\"><b>Scotland SEPA:</b></font></p>\n EAS/R/999999, EAS/R/9999999, WCR/ZZZZZZ (where ZZZZZZ is a 6 character combination of letters and numbers e.g. WCR/02bd5f),  WCR/R/9999999,  SCO/999999, SCO/999999/B, SCO/999999/CB, SEA/999999, SEA/999999/CB,\
             \ SNO/999999, SNO/999999/CB, SWE/999999, SWE/999999/CB,  WCR/999999, PCT-X-999, PCT-X-9999, PCT-X-99999, PCT-X-999999 and PCT-X-9999999 (where\
             \ X = a single capital letter and 9 = a single numeral of between 3 and 7 digits in length).\n    <p>Typically\
             \ starts with WCR followed by numbers and potentially letters according to the Scottish Environment Protection\
