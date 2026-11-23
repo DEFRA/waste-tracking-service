@@ -1385,4 +1385,3 @@ components:
       description: Access token supplied in the Authorization header using the Bearer scheme.
 security:
 - bearerAuth: []
-
