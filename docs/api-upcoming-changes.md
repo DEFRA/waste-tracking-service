@@ -2,6 +2,22 @@
 
 This page summarises upcoming changes to the Receipt of Waste API.
 
+## New value for reasonForNoRegistrationNumber in API Specification
+
+**Type:** <strong class="govuk-tag govuk-tag--green">Non-breaking</strong>
+
+**Status:** Planned
+
+**Test environment date:** 24 November 2026 (estimated)
+
+**Production environment date:**  24 November 2026 (estimated)
+
+**Affects:** Receivers submitting movements where receiver does not supply a registrtion number
+
+```yaml
+FIXED_CONVEYANCE - Waste moved by a fixed conveyance system, such as a conveyor, pipeline or similar infrastructure, where a waste carrier registration is not requi
+```
+
 ## New nullable value for concentrationOperator
 
 **Type:** <strong class="govuk-tag govuk-tag--green">Non-breaking</strong>
@@ -150,4 +166,5 @@ If you send both `concentration` and `concentrationOperator` as null, you'll get
 Past changes currently in production appear in the [Receipt of Waste API changelog](https://github.com/DEFRA/waste-tracking-service/wiki/Receipt-of-Waste-API-Changelog).
 
 <br>Page last updated on November 18th.
+
 
