@@ -1032,7 +1032,9 @@ components:
             \ (e.g. individual taking personal or household waste to a HWRC, not for profit)</li>\n<li><b>ONE_OFF - One-off\
             \ or infrequent waste transport</b> (carrier does not normally and regularly transport controlled waste)</li>\n\
             <li><b>MARINE - Marine transport covered by a marine licence/exemption</b> (waste moved by vessel in connection\
-            \ with a licensed marine operation)</li>\n</ul>\n<p><font color=\"green\"><b>Business Rules:</b></font></p> \n\
+            \ with a licensed marine operation)</li>\n
+            <li><b>FIXED_CONVEYANCE - Waste moved by a fixed conveyance system, such as a conveyor, pipeline or similar infrastructure, where a waste carrier registration is not required.
+            </li></ul>\n<p><font color=\"green\"><b>Business Rules:</b></font></p> \n\
             <ul>\n<li>If either “Null” or an empty string are entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber\
             \ is required.</li>\n<li>If a valid string is entered into carrier.registrationNumber then carrier.reasonForNoRegistrationNumber\
             \ should not be provided.</li>\n</ul>\n"
