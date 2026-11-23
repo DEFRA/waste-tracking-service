@@ -59,6 +59,10 @@ jobs:
         run: git checkout ${{ github.event.inputs.ref }}
 
       - name: Deploy to ${{ github.event.inputs.environment }}
+        env:
+          # Google Tag Manager on the test version only (DWTSPI-485), from the
+          # GTM_CONTAINER repository variable. Production builds have no tag
+          GTM_CONTAINER: ${{ github.event.inputs.environment == 'test' && vars.GTM_CONTAINER || '' }}
         run: |
           mike deploy --push --update-aliases ${{ github.event.inputs.environment }}
           if [[ "${{ github.event.inputs.environment }}" == "production" ]]; then

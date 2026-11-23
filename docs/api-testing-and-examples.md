@@ -17,6 +17,8 @@ We provide a comprehensive Bruno collection that includes:
 - **Multiple Test Scenarios** - Success, warning, and error test cases
 - **Environment Configurations** - External test and Production environment configuration
 - **Comprehensive Documentation** - Step-by-step setup and usage instructions
+- **Production Approval Tests** - Test submissions for each [relevant PAT scenario](api-production-approval-tests.md) for [self-certification](api-production-approval-tests-self-verification.md)
+
 
 ## Getting Started with Bruno
 

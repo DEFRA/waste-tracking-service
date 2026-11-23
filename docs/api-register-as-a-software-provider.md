@@ -1,7 +1,7 @@
 # Register and Onboard as a Software Provider for the Receipt of Waste API Service
 
 ## Background
-From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the Report Receipt of Waste Service. In Northern Ireland and Scotland, this comes into effect on 1 January 2027. To enable software developers to integrate with the service and its API, this site provides comprehensive software developer documentation.
+From 1 October 2026, permitted or licenced sites in England and Wales will need to report their waste digitally using the Report Receipt of Waste Service. In Northern Ireland and Scotland, this comes into effect on 1 January 2027. To enable software developers to integrate with the service and its API, this site provides comprehensive software provider documentation.
 
 ## Process
 ### 1. Register for the Receipt of Waste (RoW) API Service
@@ -23,34 +23,33 @@ Developers can use the available GET reference data endpoints to retrieve necess
 
 ### 4. Execute the Production Approval Test (PAT) Scenarios
 
-Once the integration is built, developers must execute Production Approval Test (PAT) scenarios. Refer to the [Production Approval Tests](api-production-approval-tests.md). 
+Once the integration is built, software developers must execute Production Approval Test (PAT) scenarios. Refer to the [Production Approval Tests](api-production-approval-tests.md). 
 
 These scenarios are written in a Gherkin/BDD acceptance criteria format to ensure the software caters to all required API functionality.
 
 Scenarios range from basic waste receipts with a single item to complex mixtures of hazardous and persistent organic pollutants (POPs) components.
 
-### 5. Share WT IDs for Each PAT Scenario with the DWT Team
-Upon successful completion of the tests, the developer must provide the Waste Tracking (WT) ID for each executed PAT scenario to the DWT team.
+### 5. Interpret Your PAT Results and Self-Certification
 
-### 6. The DWT Team Review PAT Scenarios
-The DWT team reviews the submitted IDs for the production approval test scenarios to ensure they satisfy the teams expectations.
+For each scenario you’ve run, check your Pass or Fail result via the PAT results endpoint. Use the [PAT Self-Service Guidance](api-production-approval-tests-self-verification.md) to interpret what your result means — including whether a Fail reflects a genuine gap, an expected outcome for your market segment, or your own software’s validation working as intended — and self-certify, based on your own assessment, that your software meets the requirements. Defra does not review, mark or approve your results at this stage.  
 
-### 7. Receive Acceptance of PATs from the DWT Team
-The software developer receives a formal acceptance from the DWT team once their PAT scenarios have been successfully reviewed.
+### 6. Confirm Self-Certification with the DWT Team  
 
-### 8. Receive Production Credentials from the DWT Team
-Once the terms of service are agreed to, the DWT team issues the production credentials and API Code to the software developer.
+Once you’re satisfied your software meets the requirements, email WasteTracking_Developers@defra.gov.uk to confirm self-certification is complete and request your production credentials.  
 
-### 9. Connect to the Production Environment
-The software developer uses the production credentials to establish a connection to the live production environment.
+### 7. Receive Production Credentials from the DWT Team
+Once the terms of service are agreed to, the DWT team issues the production credentials and API Code to the software provider.
 
-### 10. The DWT Team Onboards Receivers 
-The DWT team then onboards waste receivers of the software developer who have already registered their interest in the service.
+### 8. Connect to the Production Environment
+The software provider uses the production credentials to establish a connection to the live production environment.
+
+### 9. The DWT Team Onboards Receivers 
+The DWT team then onboards waste receivers of the software provider who have already registered their interest in the service.
 
 Receivers accept terms and conditions manually via email, after which they receive their own API codes to share with their software teams to begin submitting real waste movement data.
 
 ### Changelog
 
-You can find the changelog for this document in the [Register and Onboard as a Software Developer](https://github.com/DEFRA/waste-tracking-service/wiki/Sign‐up-as-a-Software-Developer) GitHub wiki page
+You can find the changelog for this document in the [Register and Onboard as a Software Provider](https://github.com/DEFRA/waste-tracking-service/wiki/Sign‐up-as-a-Software-Developer) GitHub wiki page
 
-<br/>Page last updated on September 10th 2026.
+<br/>Page last updated on October 14th 2026.

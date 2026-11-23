@@ -36,18 +36,13 @@ These are the necessary steps:
    ```code
    https://waste-tracking.integration.api.defra.gov.uk/
    ```
-
 3. Using the credentials for the test environment (the client ID and Client Secret) request an OAuth bearer token. See [Authentication](#authentication).
-
 
 4. To begin testing, you also need a Dummy API Code. See [API Codes for Testing and Production](api-codes-for-testing-and-production.md#dummy-test-codes).
 
-5. Begin sending requests and developing the integration with the API. At the same time you will be demonstrating that you have [implemented the specification in its entirety](api-production-approval-tests.md). Ensure that all scenarios have been implemented. Some useful test scripts can [be found here](api-testing-and-examples.md).
+5. Begin sending requests and develop your integration with the API. Follow these links for guidance and information on [Production Approval Tests (PAT](api-production-approval-tests.md) and [self certification](api-production-approval-tests-self-verification.md).  Useful `Bruno` test scripts can [be found here](api-testing-and-examples.md). 
 
-
-      When you’ve completed developing and testing your integration, please email the corresponding Waste Tracking IDs used for each of these scenarios, along with your Client ID (do not include your secret), to: WasteTracking_Developers@defra.gov.uk. You can use the same Waste Tracking ID for multiple scenarios. You won't have a Waste Tracking ID for the error scenarios, so in this case, just advise the time tested. See the support email links listed [below](#getting-help-by-email).
-
-6. Following approval of the test submission and acknowledgement of the [Terms of Service](api-terms-of-service.md), you will receive a client ID and secret for the production environment. 
+6. Following your acknowledgement of self certification of the test submissions, you will receive a client ID and secret for the production environment. 
 
 You can now begin sending waste movements to the Waste Tracking Service.
 

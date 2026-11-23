@@ -1,0 +1,25 @@
+/* DWTSPI-520: add to the end of docs/assets/stylesheets/extra.css in the docs repo.
+   (Or save as its own file and list it under extra_css in mkdocs.yml.) */
+
+/* More space above each h2 (Material default is 1.6em). */
+.md-typeset h2 {
+  margin-top: 2.8em;
+}
+
+/* GOV.UK Design System tag colours (govuk-frontend 6.x: 50% shade text on 80% tint background).
+   Material for MkDocs has no tag colours of its own, so these are added here.
+   The tag text always says what the type is, so colour is never the only signal. */
+.govuk-tag {
+  display: inline-block;
+  padding: 2px 8px 3px;
+  border-radius: 1px;
+  font-size: 0.9em;
+  line-height: 1.25;
+  font-weight: 400;
+  color: #1d4f91;
+  background-color: #d2e2f1;
+}
+.govuk-tag--green { color: #083d29; background-color: #cfe4dc; }
+.govuk-tag--red { color: #651b1b; background-color: #f4d7d7; }
+.govuk-tag--orange { color: #7a3c1c; background-color: #fde4d7; }
+@media screen and (forced-colors: active) { .govuk-tag { font-weight: 700; } }
