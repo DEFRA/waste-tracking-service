@@ -10,6 +10,65 @@
   --md-footer-fg-color--lighter: #505a5f;
 }
 
+/* Cookie consent - bottom banner */
+
+.md-consent {
+  align-items: flex-end !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+/* Remove the background overlay */
+.md-consent__overlay {
+  display: none !important;
+}
+
+/* Make the dialog span the full screen width */
+.md-consent__inner {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Keep the content readable */
+.md-consent__form {
+  width: 100%;
+  max-width: 1200px !important;
+  box-sizing: border-box;
+  margin: 0 auto !important;
+  padding: 20px 24px !important;
+}
+
+.md-consent__form h4 {
+  margin-top: 0;
+}
+
+/* Align the buttons */
+.md-consent__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Mobile */
+@media screen and (max-width: 600px) {
+  .md-consent__form {
+    padding: 16px !important;
+  }
+
+  .md-consent__controls {
+    flex-direction: column;
+  }
+
+  .md-consent__controls .md-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
 /* Configure the fonts */
 .md-typeset {
   font-size: 0.85rem;

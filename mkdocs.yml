@@ -95,6 +95,24 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/defra/waste-tracking-service
       name: "Our DWT service is available here"
+  consent:
+    title: Renwick settings
+    description: >-
+      This website uses browser storage to remember your preferences.
+      We would also like to use optional services to understand how
+      the developer documentation is used and improve it.
+      You can accept or reject optional cookies, or manage your preferences.
+    actions:
+      - accept
+      - reject
+#      - manage
+    cookies:
+      analytics: false
+#        name: Google Analytics -  hello
+#        checked: false
+      github: false
+
+
   tags:
     Draft: draft
     Accepted: accepted
@@ -102,8 +120,7 @@ extra:
     Superseded: superseded
     Deprecated: deprecated
     Rejected: rejected
-#  analytics:
-#    provider: google
-
-#    property: G-SKK1DY4NVV
+  analytics:
+    provider: google
+    property: G-SKK1DY4NVV
 

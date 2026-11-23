@@ -198,10 +198,11 @@
 {% block styles %}
   {{ super() }}
 <link rel="stylesheet" href="{{ 'assets/stylesheets/extra.css' | url }}" />
-{% endblock %} 
+{% endblock %}
 {% block footer %}
   <footer class="md-footer">
     <div class="md-footer-meta__inner md-grid">
+      <br /><br />
        <div class="md-copyright">
       {% if config.extra.social %} {% include "partials/social.html" %} {% endif
       %} Made with
@@ -213,6 +214,18 @@
         Material for MkDocs
       </a>
       <br /><br />
+
+<!--         <a href="#__consent">-->
+<!--           Change cookie settings-->
+<!--         </a>-->
+         <button
+                 type="button"
+                 class="md-button"
+                 onclick="document.querySelector('#__consent').hidden = false">
+           Change cookie settings
+         </button>
+
+         <br /><br />
       <img
         src="{{ 'assets/images/ogl.png' |url }}"
         alt="Open Government Licence logo"
