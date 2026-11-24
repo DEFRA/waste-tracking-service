@@ -12,7 +12,7 @@ This page summarises upcoming changes to the Receipt of Waste API.
 
 **Production environment date:**  24 November 2026 (estimated)
 
-**Affects:** Receivers submitting movements where receiver does not supply a registrtion number
+**Affects:** Receivers submitting movements where carrier does not supply a registration number
 
 ```yaml
 FIXED_CONVEYANCE - Waste moved by a fixed conveyance system, such as a conveyor, pipeline or similar infrastructure, where a waste carrier registration is not requi
