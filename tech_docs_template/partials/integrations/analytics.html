@@ -1,0 +1,79 @@
+{#-
+  Override of Material's partials/integrations/analytics.html.
+
+  Material only honours __md_get("__consent") when `extra.consent` is
+  configured, which would enable Material's own consent banner. This site
+  uses a custom cookie banner instead (partials/cookie-banner.html), so we
+  always gate the analytics call on the consent value it stores:
+  analytics only loads when the visitor explicitly accepted.
+
+  When analytics is NOT consented we also delete any analytics cookies
+  (e.g. _ga set during an earlier "accept", which would otherwise persist
+  for up to 2 years) so they are removed, not just unused. The scrub is
+  re-run on late events (timer, bfcache restore) because trackers that
+  were already running when consent was withdrawn, or a page restored
+  from the back/forward cache, can write cookies after initial page load.
+-#}
+{% if config.extra.analytics %}
+  {% set provider = config.extra.analytics.provider %}
+{% endif %}
+{% if provider %}
+  {% include "partials/integrations/analytics/" ~ provider ~ ".html" %}
+  <script>
+    (function () {
+      var EXPIRED = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
+
+      /* A cookie can only be deleted with the exact domain/path it was set
+         with. Try the host-only form (no Domain attribute) as well as every
+         parent domain, with and without a leading dot. */
+      function eraseCookie(name) {
+        var labels = location.hostname.split('.');
+        var domains = [null, location.hostname];
+        for (var i = 1; i < labels.length - 1; i++)
+          domains.push(labels.slice(i).join('.'));
+        ['/', ''].forEach(function (path) {
+          domains.forEach(function (domain) {
+            var attrs = '; path=' + path + '; ' + EXPIRED;
+            document.cookie = name + '=;' + attrs +
+              (domain ? '; domain=' + domain : '');
+            if (domain)
+              document.cookie = name + '=;' + attrs +
+                '; domain=.' + domain;
+          });
+        });
+      }
+
+      window.__md_scrub_analytics_cookies = function () {
+        document.cookie.split(';').forEach(function (pair) {
+          var name = pair.split('=')[0].trim();
+          /* GA4: _ga, _ga_<measurement id>. GTM/Google Ads: _gaexp, _gcl*.
+             Legacy Universal Analytics: _gid, _gat(_gtag)? */
+          if (/^(_ga|_gid|_gat|_gcl|_gaexp|_opt_)/.test(name))
+            eraseCookie(name);
+        });
+      };
+
+      var consent;
+      try { consent = __md_get('__consent'); } catch (e) {}
+
+      if (consent && consent.analytics) {
+        if (typeof __md_analytics === 'function') __md_analytics();
+        return;
+      }
+
+      /* Covers rejected visitors, undecided visitors, and cookies left
+         over from before analytics became consent-gated. */
+      window.__md_scrub_analytics_cookies();
+
+      /* A tracker already running when consent was withdrawn, or this page
+         being restored from the back/forward cache, can write cookies after
+         the initial scrub — so scrub again on those events. */
+      window.addEventListener('load', function () {
+        setTimeout(window.__md_scrub_analytics_cookies, 1000);
+      });
+      window.addEventListener('pageshow', function (event) {
+        if (event.persisted) window.__md_scrub_analytics_cookies();
+      });
+    })();
+  </script>
+{% endif %}

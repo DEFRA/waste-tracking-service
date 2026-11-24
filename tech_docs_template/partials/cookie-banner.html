@@ -18,10 +18,10 @@
   <div class="md-consent__controls">
     {% for action in actions %}
       {% if action == "accept" %}
-        <button type="button" class="md-button md-button--primary">Accept analytics cookies</button>
+        <button type="button" id="cookie-banner__accept" class="md-button md-button--primary">Accept analytics cookies</button>
       {% endif %}
       {% if action == "reject" %}
-        <button type="button" class="md-button md-button--primary">Reject analytics cookies</button>
+        <button type="button" id="cookie-banner__reject" class="md-button md-button--primary">Reject analytics cookies</button>
       {% endif %}
     {% endfor %}
   </div>
@@ -52,15 +52,20 @@
     }
 
     /* Record the choice in Material's native consent format: nothing is
-       checked on reject ({}), optional analytics on accept ({analytics: true}) */
+       checked on reject ({}), optional analytics on accept ({analytics: true}).
+       Reload afterwards so trackers loaded under a previous choice are not
+       kept running for the rest of the session. */
     function setConsent(accepted) {
       __md_set('__consent', accepted ? { analytics: true } : {});
+      if (!accepted && window.__md_scrub_analytics_cookies)
+        window.__md_scrub_analytics_cookies();
       banner.hidden = true;
+      location.reload();
     }
 
-    var accept = banner.querySelector('.cookie-banner__accept');
+    var accept = banner.querySelector('#cookie-banner__accept');
     if (accept) accept.addEventListener('click', function () { setConsent(true); });
-    var reject = banner.querySelector('.cookie-banner__reject');
+    var reject = banner.querySelector('#cookie-banner__reject');
     if (reject) reject.addEventListener('click', function () { setConsent(false); });
   })();
 </script>
