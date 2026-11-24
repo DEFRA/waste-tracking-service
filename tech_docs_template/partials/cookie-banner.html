@@ -41,6 +41,7 @@
       if (button) {
         button.addEventListener('click', function () {
           banner.hidden = false;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       }
     }
