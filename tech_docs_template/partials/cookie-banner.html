@@ -2,26 +2,26 @@
 {% if not actions %}
   {% set actions = ["accept", "reject"] %}
 {% endif %}
-<div id="cookie-banner" role="region" aria-label="Cookie banner" hidden>
+<div id="cookie-banner" class="md-consent__form md-typeset" role="region" aria-label="Cookie banner" hidden>
   <h4>{{ config.extra.cookie_consent.title }}</h4>
-  <p>We use analytics cookies so we can understand how you use the service and make improvements.</p>
-
+  <p>
+    We use analytics cookies so we can understand how you use the service and make improvements.
+  </p>
   <p>
     We use these cookies to measure:
   </p>
-
   <ul>
     <li>how you got to this site</li>
     <li>the pages you visit and how long you spend on each page</li>
     <li>what you click on while you’re visiting this site</li>
   </ul>
-  <div class="cookie-banner__actions">
+  <div class="md-consent__controls">
     {% for action in actions %}
       {% if action == "accept" %}
-        <button type="button" class="cookie-banner__accept">{{ lang.t("consent.accept") }}</button>
+        <button type="button" class="md-button md-button--primary">Accept analytics cookies</button>
       {% endif %}
       {% if action == "reject" %}
-        <button type="button" class="cookie-banner__reject">{{ lang.t("consent.reject") }}</button>
+        <button type="button" class="md-button md-button--primary">Reject analytics cookies</button>
       {% endif %}
     {% endfor %}
   </div>
