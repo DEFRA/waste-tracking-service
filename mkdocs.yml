@@ -8,7 +8,7 @@ theme:
   logo: logos/moj.png
   favicon: favicons/moj.ico
   features:
-    - announce.dismiss  
+    - announce.dismiss
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.indexes
@@ -34,11 +34,11 @@ theme:
       deprecated: material/sticker-minus-outline
       superseded: material/sticker-alert-outline
       rejected: material/sticker-remove-outline
-  palette: 
+  palette:
     # Palette toggle for light mode
     - scheme: default
       toggle:
-        icon: material/brightness-7 
+        icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
     - scheme: slate
@@ -60,7 +60,7 @@ nav:
     - FAQ: faq.md
   - API:
     - Receipt API Specification: api-specification.md
-    - Upcoming API Changes: api-upcoming-changes.md 
+    - Upcoming API Changes: api-upcoming-changes.md
     #- Collections API Specification: api-specification-collections.md
 extra_css:
   - stylesheets/extra.css
@@ -88,11 +88,17 @@ markdown_extensions:
   - toc:
       toc_depth: 1
 extra:
+  gtm_container: !ENV [GTM_CONTAINER, '']
+  cookie_consent:
+    title: Cookies for Digital waste tracking developer guide
+    actions:
+      - accept
+      - reject
   version:
     # provider: mike
     # default: production
   social:
-    - icon: fontawesome/solid/paper-plane 
+    - icon: fontawesome/solid/paper-plane
       link: mailto:wasteuserresearch@defra.gov.uk
       name: "Contact us here"
     - icon: fontawesome/brands/github
@@ -105,8 +111,6 @@ extra:
     Superseded: superseded
     Deprecated: deprecated
     Rejected: rejected
-#  analytics:
-#    provider: google
-
-#    property: G-SKK1DY4NVV
-
+  analytics:
+    provider: google
+    property: G-SKK1DY4NVV

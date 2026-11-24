@@ -268,3 +268,11 @@
   white-space: nowrap;
   border: 0;
 }
+
+.cookie-button {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+/* Cookie banner */

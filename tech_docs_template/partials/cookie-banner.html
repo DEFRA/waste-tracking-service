@@ -1,0 +1,72 @@
+{% set actions = config.extra.cookie_consent.actions %}
+{% if not actions %}
+  {% set actions = ["accept", "reject"] %}
+{% endif %}
+<div id="cookie-banner" class="md-consent__form md-typeset" role="region" aria-label="Cookie banner" hidden>
+  <h4>{{ config.extra.cookie_consent.title }}</h4>
+  <p>
+    We use analytics cookies so we can understand how you use the service and make improvements.
+  </p>
+  <p>
+    We use these cookies to measure:
+  </p>
+  <ul>
+    <li>how you got to this site</li>
+    <li>the pages you visit and how long you spend on each page</li>
+    <li>what you click on while you’re visiting this site</li>
+  </ul>
+  <div class="md-consent__controls">
+    {% for action in actions %}
+      {% if action == "accept" %}
+        <button type="button" id="cookie-banner__accept" class="md-button md-button--primary">Accept analytics cookies</button>
+      {% endif %}
+      {% if action == "reject" %}
+        <button type="button" id="cookie-banner__reject" class="md-button md-button--primary">Reject analytics cookies</button>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+<script>
+  (function () {
+    var banner = document.getElementById('cookie-banner');
+    if (!banner) return;
+
+    /* Show the banner when the visitor has not yet made a choice */
+    if (!__md_get('__consent')) banner.hidden = false;
+
+    /* Show the banner after pressing 'Change your cookie settings', so the
+       choice can be made again. No scrolling, no page reload. */
+    function bindSettingsButton() {
+      var button = document.getElementById('cookie-settings-button');
+      if (button) {
+        button.addEventListener('click', function () {
+          banner.hidden = false;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bindSettingsButton);
+    } else {
+      bindSettingsButton();
+    }
+
+    /* Record the choice in Material's native consent format: nothing is
+       checked on reject ({}), optional analytics on accept ({analytics: true}).
+       Reload afterwards so trackers loaded under a previous choice are not
+       kept running for the rest of the session. */
+    function setConsent(accepted) {
+      __md_set('__consent', accepted ? { analytics: true } : {});
+      if (!accepted && window.__md_scrub_analytics_cookies)
+        window.__md_scrub_analytics_cookies();
+      banner.hidden = true;
+      location.reload();
+    }
+
+    var accept = banner.querySelector('#cookie-banner__accept');
+    if (accept) accept.addEventListener('click', function () { setConsent(true); });
+    var reject = banner.querySelector('#cookie-banner__reject');
+    if (reject) reject.addEventListener('click', function () { setConsent(false); });
+  })();
+</script>
